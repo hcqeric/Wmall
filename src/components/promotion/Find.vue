@@ -1,0 +1,149 @@
+<template>
+  <div class="find-page">
+    <mt-swipe :auto="4000">
+      <mt-swipe-item class="slide1">1</mt-swipe-item>
+      <mt-swipe-item class="slide2">2</mt-swipe-item>
+      <mt-swipe-item class="slide3">3</mt-swipe-item>
+    </mt-swipe>
+    <div class="tags">
+      <div class="official-search">
+        <div class="search">授权查询</div>
+        <div class="search">防伪查询</div>
+      </div>
+      <div class="introduction">
+        <div v-for="item in arr">
+          <span>{{item.name}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+    export default {
+        name: "Find",
+      data(){
+          return {
+            arr: [
+              {
+                name: "品牌介绍",
+                url: "www.baidu.com"
+              },
+              {
+                name: "品牌介绍",
+                url: "www.baidu.com"
+              },
+              {
+                name: "品牌介绍",
+                url: "www.baidu.com"
+              },
+              {
+                name: "品牌介绍",
+                url: "www.baidu.com"
+              },{
+                name: "品牌介绍",
+                url: "www.baidu.com"
+              },
+              {
+                name: "品牌介绍",
+                url: "www.baidu.com"
+              },{
+                name: "品牌介绍",
+                url: "www.baidu.com"
+              },
+              {
+                name: "品牌介绍",
+                url: "www.baidu.com"
+              },{
+                name: "品牌介绍",
+                url: "www.baidu.com"
+              },
+            ]
+          }
+      }
+    }
+</script>
+
+<style scoped>
+  .mint-swipe {
+    margin-top: 1px;
+    height: 200px;
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+  }
+  .mint-swipe-item {
+    line-height: 200px;
+  }
+  .slide1 {
+    background-color: #0089dc;
+    color: #fff;
+  }
+  .slide2 {
+    background-color: #ffd705;
+    color: #000;
+  }
+  .slide3 {
+    background-color: #ff2d4b;
+    color: #fff;
+  }
+  .find-page{
+    display: flex;
+    flex-direction: column;
+  }
+  .tags{
+    flex: 1;
+    background-color: #fff;
+  }
+  .official-search{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+  }
+
+  .official-search>div{
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    border: 1px solid #1ABC9C;
+    margin: 0 20px;
+    line-height: 60px;
+    text-align: center;
+  }
+
+  .introduction{
+    display:grid;
+    grid-template-columns:repeat(3, auto);
+    grid-template-rows:repeat(3,auto);
+
+  }
+  .introduction>div {
+    padding: 17px 0;
+    text-align: center;
+    border-top: 1px solid rgba(153,153,153,0.5);
+    border-left: 1px solid rgba(153,153,153,0.5);
+  }
+  .introduction>div {
+    padding: 17px 0;
+    text-align: center;
+    border-top: 1px solid rgba(153,153,153,0.5);
+    border-left: 1px solid rgba(153,153,153,0.5);
+  }
+  .introduction>div:nth-child(3n+3) {
+    border-right: 1px solid rgba(153,153,153,0.5);
+  }
+  .introduction>div>span {
+    display: block;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    border: 1px solid #1ABC9C;
+    margin: 0 auto;
+    line-height: 60px;
+    text-align: center;
+  }
+
+
+</style>
