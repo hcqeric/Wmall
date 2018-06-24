@@ -11,6 +11,7 @@ import GoodsDetail from '@/components/mallindex/GoodsDetail'
 import Evaluations from '@/components/mallindex/Evaluations'
 import PostEvaluation from '@/components/mine/PostEvaluation'
 import LogisticsTracing from '@/components/mine/LogisticsTracing'
+import MyScore from '@/components/mine/MyScore'
 
 Vue.use(Router)
 
@@ -70,6 +71,11 @@ export default new Router({
       path: '/logistics/:id',
       name: 'LogisticsTracing',
       component: LogisticsTracing
+    },
+    {
+      path: '/scores/:id',
+      name: 'MyScore',
+      component: MyScore
     }
   ]
 })

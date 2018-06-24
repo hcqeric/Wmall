@@ -79,7 +79,7 @@
       </div>
     </a>
     <!--我的积分-->
-    <a class="item" href="">
+    <router-link class="item" to="/scores/11">
       <div class="item-left">
         <i class="icon-heart"></i>
         <span>我的积分</span>
@@ -87,7 +87,7 @@
       <div class="item-right">
         <i class="el-icon-arrow-right"></i>
       </div>
-    </a>
+    </router-link>
     <!--我的好友-->
     <a class="item" href="">
       <div class="item-left">
