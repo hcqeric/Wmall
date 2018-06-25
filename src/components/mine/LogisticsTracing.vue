@@ -21,7 +21,6 @@
                   <p :id="index">{{item.datetime}}</p>
                 </div>
               </el-step>
-
             </el-steps>
           </div>
         </div>

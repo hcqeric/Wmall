@@ -48,8 +48,8 @@
         </div>
       </div>
       <div class="buttons">
-        <button>积分转赠</button>
-        <button>我要兑换</button>
+        <button @click="turnToScoreTrans">积分转赠</button>
+        <button @click="turnToExchangeScore">我要兑换</button>
       </div>
     </div>
   </div>
@@ -62,6 +62,12 @@
     methods: {
       goBack() {
         this.$router.back()
+      },
+      turnToScoreTrans(){
+        this.$router.push('/scoretrans')
+      },
+      turnToExchangeScore(){
+        this.$router.push('/exchangescore')
       }
     },
     components:{
@@ -188,9 +194,8 @@
     text-align: center;
     color: #fff;
     border-radius: 22px;
-
     width: 140px;
-    font-size: 12px;
+    font-size: 14px;
     height: 44px;
     line-height: 44px;
   }

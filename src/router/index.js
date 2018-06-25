@@ -12,6 +12,12 @@ import Evaluations from '@/components/mallindex/Evaluations'
 import PostEvaluation from '@/components/mine/PostEvaluation'
 import LogisticsTracing from '@/components/mine/LogisticsTracing'
 import MyScore from '@/components/mine/MyScore'
+import ScoreTrans from '@/components/mine/ScoreTrans'
+import ExchangeScore from '@/components/mine/ExchangeScore'
+import ScoreDetail from '@/components/mine/ScoreDetail'
+import ExchangeSuccess from '@/components/mine/ExchangeSuccess'
+import ExchangeStates from '@/components/mine/ExchangeStates'
+import ExchangeDetail from '@/components/mine/ExchangeDetail'
 
 Vue.use(Router)
 
@@ -76,6 +82,36 @@ export default new Router({
       path: '/scores/:id',
       name: 'MyScore',
       component: MyScore
+    },
+    {
+      path: '/scoretrans',
+      name: 'ScoreTrans',
+      component: ScoreTrans
+    },
+    {
+      path: '/exchangescore',
+      name: 'ExchangeScore',
+      component: ExchangeScore
+    },
+    {
+      path: '/scoredetail/:id',
+      name: 'ScoreDetail',
+      component: ScoreDetail
+    },
+    {
+      path: '/exchangesucc',
+      name: 'ExchangeSuccess',
+      component: ExchangeSuccess
+    },
+    {
+      path: '/exchangestates',
+      name: 'ExchangeStates',
+      component: ExchangeStates
+    },
+    {
+      path: '/exchangedetail',
+      name: 'ExchangeDetail',
+      component: ExchangeDetail
     }
   ]
 })
