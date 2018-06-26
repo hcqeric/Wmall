@@ -18,6 +18,11 @@ import ScoreDetail from '@/components/mine/ScoreDetail'
 import ExchangeSuccess from '@/components/mine/ExchangeSuccess'
 import ExchangeStates from '@/components/mine/ExchangeStates'
 import ExchangeDetail from '@/components/mine/ExchangeDetail'
+import UserEvaluations from '@/components/mine/UserEvaluations'
+import MyAccount from '@/components/mine/MyAccount'
+import AddCreditCard from '@/components/mine/AddCreditCard'
+import AddAliPay from '@/components/mine/AddAliPay'
+import Friends from '@/components/mine/Friends'
 
 Vue.use(Router)
 
@@ -112,6 +117,32 @@ export default new Router({
       path: '/exchangedetail',
       name: 'ExchangeDetail',
       component: ExchangeDetail
+    },
+    {
+      path: '/userevaluations',
+      name: 'UserEvaluations',
+      component: UserEvaluations
+    },
+    {
+      path: '/account',
+      name: 'MyAccount',
+      component: MyAccount
+    },
+    {
+      path: '/addcredit',
+      name: 'AddCreditCard',
+      component: AddCreditCard
+    },
+    {
+      path: '/addalipay',
+      name: 'AddAliPay',
+      component: AddAliPay
+    },
+    {
+      path: '/friends',
+      name: 'Friends',
+      component: Friends
     }
+
   ]
 })

@@ -49,7 +49,7 @@
 
     </div>
     <!--我的评价-->
-    <a class="item" href="">
+    <router-link class="item" to="/userevaluations">
       <div class="item-left">
         <i class="icon-heart"></i>
         <span>我的评价</span>
@@ -57,9 +57,9 @@
       <div class="item-right">
         <i class="el-icon-arrow-right"></i>
       </div>
-    </a>
+    </router-link>
     <!--我的账户-->
-    <a class="item" href="">
+    <router-link class="item" to="/account">
       <div class="item-left">
         <i class="icon-heart"></i>
         <span>我的账户</span>
@@ -67,9 +67,9 @@
       <div class="item-right">
         <i class="el-icon-arrow-right"></i>
       </div>
-    </a>
+    </router-link>
     <!--团队业绩-->
-    <a class="item" href="">
+    <div class="item" >
       <div  class="item-left">
         <i class="icon-menu"></i>
         <span>团队业绩</span>
@@ -77,7 +77,7 @@
       <div class="item-right">
         <span>500，000</span>
       </div>
-    </a>
+    </div>
     <!--我的积分-->
     <router-link class="item" to="/scores/11">
       <div class="item-left">
@@ -89,7 +89,7 @@
       </div>
     </router-link>
     <!--我的好友-->
-    <a class="item" href="">
+    <router-link class="item" to="/friends">
       <div class="item-left">
         <i class="icon-heart"></i>
         <span>我的好友</span>
@@ -97,31 +97,76 @@
       <div class="item-right">
         <i class="el-icon-arrow-right"></i>
       </div>
-    </a>
+    </router-link>
 
     <div class="system-service">
       <!--联系客服-->
-      <a class="item" href="">
+      <div class="item"  @click="dialogShow = true">
         <div class="item-left">
           <i class="icon-heart"></i>
           <span>联系客服</span>
         </div>
-      </a>
+      </div>
       <!--系统设置-->
-      <a class="item" href="">
+      <router-link class="item" to="/system">
         <div class="item-left">
           <i class="icon-heart"></i>
           <span>系统设置</span>
         </div>
-      </a>
+      </router-link>
     </div>
+
+
+    <div class="msgbox-wrapper" style="position: absolute; z-index: 2011;display: block;" v-show="dialogShow == true"  ref="msgbox">
+      <div class="mint-msgbox" style="">
+        <div class="mint-msgbox-header">
+          <div class="mint-msgbox-title">联系客服</div>
+        </div>
+        <div class="mint-msgbox-content">
+          <div class="mint-msgbox-message">亲，有任何疑问都可以联系客服哦！我们都会给您耐心详尽的解答~</div>
+          <div class="mint-msgbox-input" style="display: none;"><input placeholder="" type="text">
+            <div class="mint-msgbox-errormsg" style="visibility: hidden;"></div>
+          </div>
+        </div>
+        <div class="mint-msgbox-btns">
+          <button class="mint-msgbox-btn mint-msgbox-cancel" @click="dialogShow = false">取消</button>
+          <button class="mint-msgbox-btn mint-msgbox-cancel" @click="dialogShow = false">确定</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" style="z-index: 2006;"  v-show="dialogShow == true" @click="dialogShow = false" ></div>
   </div>
 </template>
 
 <script>
-    export default {
-        name: "UserCenter"
+  import { MessageBox } from 'mint-ui';
+  export default {
+    name: "UserCenter",
+    data(){
+      return {
+        dialogShow: false
+      }
+    },
+    methods: {
+      contactUs() {
+        console.log("sadfasdfsd")
+        MessageBox({
+          title: '联系客服',
+          message: '亲，有任何疑问都可以联系客服哦！我们都会给您耐心详尽的解答~',
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        }).then(action => {
+          if (action === 'confirm') {
+            console.log("quedingle")
+          } else {
+            console.log("quxiaole")
+          }
+        });
+      }
     }
+  }
 </script>
 
 <style scoped>
@@ -229,5 +274,33 @@
     text-decoration: none;
   }
 
+  /*联系客服弹框*/
+  .modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background: #000;
+  }
+  .msgbox {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+    background-color: #fff;
+    width: 85%;
+    border-radius: 3px;
+    font-size: 16px;
+    -webkit-user-select: none;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transition: .2s;
+    transition: .2s;
+  }
+  /*联系客服弹框*/
 
 </style>

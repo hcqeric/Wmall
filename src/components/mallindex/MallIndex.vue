@@ -22,23 +22,23 @@
 
     <mt-tabbar v-model="selected" fixed  class="bottom-nav">
       <mt-tab-item id="首页">
-        <i class="icon-home2"></i>
+        <i class="iconfont icon-shouye"></i>
         首页
       </mt-tab-item>
       <mt-tab-item id="分类">
-        <i class="icon-menu"></i>
+        <i class="iconfont icon-leimupinleifenleileibie2"></i>
         分类
       </mt-tab-item>
       <mt-tab-item id="推广">
-        <i class="icon-heart"></i>
+        <i class="iconfont icon-fenxiang"></i>
         推广
       </mt-tab-item>
       <mt-tab-item id="购物车">
-        <i class="icon-cart"></i>
+        <i class="iconfont icon-gouwuche"></i>
         购物车
       </mt-tab-item>
       <mt-tab-item id="我的">
-        <i class="icon-user"></i>
+        <i class="iconfont icon-yonghu"></i>
         我的
       </mt-tab-item>
     </mt-tabbar>
@@ -86,7 +86,7 @@
   }
   .mint-tabbar > .mint-tab-item.is-selected {
     background-color: #eaeaea;
-    color: #1ABC9C;
+    color: #bf54f9;
     opacity: 1;
   }
   .mint-tabbar > .mint-tab-item{

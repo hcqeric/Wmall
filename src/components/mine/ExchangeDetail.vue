@@ -6,37 +6,42 @@
     <div class="content">
       <div class="trans">
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
+        <div class="amount">
+          <p>兑换金额 (元)</p>
+          <p>600.00</p>
+        </div>
       </div>
     </div>
     <div class="ex-msg">
       <div class="ex-states">
         <el-steps direction="vertical" :active="1">
-          <el-step ><div slot="title">
-            <div>
-              <p>12:00:00</p>
-              <p>提交兑换申请</p>
+          <el-step>
+            <div slot="title" class="title">
+              <div class="time-state">
+                <p>12:00:00</p>
+                <p>提交兑换申请</p>
+              </div>
+              <p>2017-04-01</p>
             </div>
-            <p>2017-04-01</p>
-          </div>
           </el-step>
-          <el-step ><div slot="title">
-            <div>
-              <p>12:00:00</p>
-              <p>提交兑换申请</p>
+          <el-step>
+            <div slot="title" class="title">
+              <div class="time-state">
+                <p>12:00:00</p>
+                <p>审核通过/审核不通过</p>
+              </div>
+              <p>2017-04-01</p>
             </div>
-            <p>2017-04-01</p>
-          </div>
           </el-step>
-          <el-step ><div slot="title">
-            <div class="time-state">
-              <p>12:00:00</p>
-              <p>提交兑换申请</p>
+          <el-step>
+            <div slot="title" class="title">
+              <div class="time-state">
+                <p>12:00:00</p>
+                <p>兑换成功</p>
+              </div>
+              <p>2017-04-01</p>
             </div>
-            <p>2017-04-01</p>
-          </div>
           </el-step>
-          <!--<el-step title="步骤 2"></el-step>-->
-          <!--<el-step title="步骤 3" description="这是一段很长很长很长的描述性文字"></el-step>-->
         </el-steps>
       </div>
     </div>
@@ -74,13 +79,47 @@
     margin-top: 48px;
     display: flex;
     flex-direction: column;
-
   }
   .trans{
     position: relative;
   }
   .trans img{
     width: 100%;
+  }
+  .amount{
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 16px;
+    color: #fff;
+  }
+  .amount p{
+    padding: 4px 0;
+  }
+  .amount p:first-child{
+    font-size: 16px;
+    position: relative;
+  }
+
+  .amount p:first-child:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    margin-left: -13px;
+    width: 26px;
+    height: 2px;
+    background-color: #ffccd3;
+
+  }
+  .amount p:last-child{
+    padding-top:10px;
+    font-size: 26px;
+    font-weight: 700;
   }
   .ex-msg{
     position: relative;
@@ -92,9 +131,69 @@
     box-sizing: border-box;
     width: 100%;
     background-color: #fff;
-    padding: 16px;
+    padding: 36px 16px 0 16px;
     border-radius: 15px 15px 0 0;
     top: -30px;
     left: 0;
+  }
+  .ex-states .title{
+    display: flex;
+    justify-content: space-between;
+  }
+  .ex-states .title>p{
+    color: #999;
+    font-size:12px;
+  }
+  .ex-states .time-state p{
+    padding: 4px 0;
+  }
+  .ex-states .time-state p:first-child{
+    color: #000;
+    font-size: 14px;
+  }
+  .ex-states .time-state p:last-child{
+    color: #999;
+    font-size: 12px;
+  }
+</style>
+<style>
+  .ex-states .el-step__head.is-success{
+    color: #fff;
+    border-color: #FF659F;
+  }
+
+  .ex-states .el-step__icon {
+    width: 14px;
+    height: 14px;
+  }
+  .ex-states .el-step__head.is-wait {
+    color: #c0c4cc;
+    border: none;
+  }
+  .ex-states .el-step:first-of-type .el-step__icon.is-text{
+    color: #FF8C8A;
+    background-color: #FF8C8A;
+  }
+  .ex-states .el-step:nth-of-type(2) .el-step__icon.is-text{
+    color: #87BBFF;
+    background-color: #87BBFF;
+  }
+  .ex-states .el-step.is-vertical .el-step__main {
+    margin-top: -16px;
+    padding-bottom: 40px;
+  }
+
+  .ex-states .el-step__icon.is-text {
+    border: none;
+    background: #c0c4cc;
+  }
+  .ex-states .el-step__title.is-process{
+    font-weight: normal;
+  }
+  .ex-states .el-step.is-vertical .el-step__line {
+    width: 2px;
+    top: 2px;
+    bottom: -2px;
+    left: 6px;
   }
 </style>

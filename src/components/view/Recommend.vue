@@ -12,10 +12,10 @@
         </div>
         <div class="user-commend">
           <p>这瓶精华露真的好好用，效果杠杠滴~瞬间年轻10岁有木有~这瓶精华露真的好好用，效果杠杠滴~瞬间年轻10岁有木有~</p>
-          <img  v-show="hasReply == true" :src="item.picUrl" alt="" v-for="item in items"/>
+          <img  v-show="hasReply" :src="item.picUrl" alt="" v-for="item in items"/>
         </div>
       </div>
-      <div class="reply"  v-show="hasReply == true">
+      <div class="reply"  v-show="hasReply">
           <p><span>商家回复：</span>谢谢亲的支持~我们会加倍努力提供更好的产品给到您~</p>
       </div>
     </div>

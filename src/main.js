@@ -7,6 +7,7 @@ import ElementUI from 'element-ui'
 import flexible from '../static/js/flexible'
 import 'element-ui/lib/theme-chalk/index.css';
 import '../static/style.css'
+import '../static/iconfont.css'
 import MintUI from 'mint-ui'
 import { Lazyload } from 'mint-ui';
 import { InfiniteScroll } from 'mint-ui';
