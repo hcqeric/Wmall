@@ -23,6 +23,12 @@ import MyAccount from '@/components/mine/MyAccount'
 import AddCreditCard from '@/components/mine/AddCreditCard'
 import AddAliPay from '@/components/mine/AddAliPay'
 import Friends from '@/components/mine/Friends'
+import SystemSetting from '@/components/mine/SystemSetting'
+import ManagePass from '@/components/mine/ManagePass'
+import SystemNotice from '@/components/mine/SystemNotice'
+import UpdatePass from '@/components/mine/UpdatePass'
+import ScoreTypesState from '@/components/mine/ScoreTypesState'
+import ScoreRecord from '@/components/mine/ScoreRecord'
 
 Vue.use(Router)
 
@@ -99,7 +105,7 @@ export default new Router({
       component: ExchangeScore
     },
     {
-      path: '/scoredetail/:id',
+      path: '/scoredetail',
       name: 'ScoreDetail',
       component: ScoreDetail
     },
@@ -117,6 +123,16 @@ export default new Router({
       path: '/exchangedetail',
       name: 'ExchangeDetail',
       component: ExchangeDetail
+    },
+    {
+      path: '/score/:type',
+      name: 'ScoreTypesState',
+      component: ScoreTypesState
+    },
+    {
+      path: '/scorerecord',
+      name: 'ScoreRecord',
+      component: ScoreRecord
     },
     {
       path: '/userevaluations',
@@ -142,6 +158,26 @@ export default new Router({
       path: '/friends',
       name: 'Friends',
       component: Friends
+    },
+    {
+      path: '/system',
+      name: 'SystemSetting',
+      component: SystemSetting
+    },
+    {
+      path: '/managepass',
+      name: 'ManagePass',
+      component: ManagePass
+    },
+    {
+      path: '/sysnotice',
+      name: 'SystemNotice',
+      component: SystemNotice
+    },
+    {
+      path: '/updatepass/:type',
+      name: 'UpdatePass',
+      component: UpdatePass
     }
 
   ]

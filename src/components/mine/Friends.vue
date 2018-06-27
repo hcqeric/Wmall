@@ -17,8 +17,8 @@
       <div class="friends-panel">
         <div class="friends-tab">
           <mt-navbar v-model="selected">
-            <mt-tab-item id="1">一级好友 (4)</mt-tab-item>
-            <mt-tab-item id="2">二级好友 (4)</mt-tab-item>
+            <mt-tab-item id="1">一级好友 (8)</mt-tab-item>
+            <mt-tab-item id="2">二级好友 (16)</mt-tab-item>
             <mt-tab-item id="3">三级好友 (30)</mt-tab-item>
           </mt-navbar>
         </div>
@@ -26,15 +26,13 @@
           <!-- tab-container -->
           <mt-tab-container v-model="selected">
             <mt-tab-container-item id="1">
-              <div v-for="n in 10" class="friends" >
-
-              </div>
+              <FriendItem v-for="n in 8"></FriendItem>
             </mt-tab-container-item>
             <mt-tab-container-item id="2">
-              <mt-cell v-for="n in 4" :title="'测试 ' + n"/>
+              <FriendItem v-for="n in 16"></FriendItem>
             </mt-tab-container-item>
             <mt-tab-container-item id="3">
-              <mt-cell v-for="n in 6" :title="'选项 ' + n"/>
+              <FriendItem v-for="n in 30"></FriendItem>
             </mt-tab-container-item>
           </mt-tab-container>
         </div>
@@ -45,6 +43,7 @@
 
 <script>
   import Notification from '@/components/view/Notification'
+  import FriendItem from '@/components/view/FriendItem.vue'
   export default {
     name: "Friends",
     methods: {
@@ -53,7 +52,8 @@
       }
     },
     components:{
-      Notification
+      Notification,
+      FriendItem
     },
     data() {
       return {
@@ -138,18 +138,21 @@
     left: 0;
     border-radius: 15px 15px 0 0;
   }
-  .friends-tab{
-
+  .friends-content{
+    padding:3px 16px 0 16px;
   }
-.mint-navbar{
+
+  .mint-navbar{
   border-radius: 15px 15px 0 0;
   background-color: #FFEDF9;
 }
 
   .mint-navbar .mint-tab-item.is-selected{
     color: #FF659F;
+    border: none;
     position: relative;
   }
+
   .mint-navbar .mint-tab-item.is-selected:after{
     position: absolute;
     content: '';

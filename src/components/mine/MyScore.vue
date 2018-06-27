@@ -11,7 +11,7 @@
           <p>可兑换积分</p>
           <p>6000</p>
         </div>
-        <button>兑换记录</button>
+        <button @click="turnToScoreRecord">兑换记录</button>
       </div>
       <div class="score-items">
         <div class="score-item">
@@ -22,30 +22,30 @@
             <i class="el-icon-arrow-right"></i>
           </div>
         </div>
-        <div class="score-item">
+        <router-link class="score-item" to="/score/able">
           <img src="http://p90m90efq.bkt.clouddn.com/loudspeaker.png" alt="">
-          <div class="content-score">
+          <div class="content-score" >
             <p>可兑积分</p>
             <p>6000</p>
             <i class="el-icon-arrow-right"></i>
           </div>
-        </div>
-        <div class="score-item">
+        </router-link>
+        <router-link class="score-item" to="/score/unpack">
           <img src="http://p90m90efq.bkt.clouddn.com/loudspeaker.png" alt="">
-          <div class="content-score">
+          <div class="content-score" >
             <p>未结积分</p>
             <p>3000</p>
             <i class="el-icon-arrow-right"></i>
           </div>
-        </div>
-        <div class="score-item">
+        </router-link>
+        <router-link class="score-item" to="/score/recharge">
           <img src="http://p90m90efq.bkt.clouddn.com/loudspeaker.png" alt="">
           <div class="content-score">
             <p>复购积分</p>
             <p>1000</p>
             <i class="el-icon-arrow-right"></i>
           </div>
-        </div>
+        </router-link>
       </div>
       <div class="buttons">
         <button @click="turnToScoreTrans">积分转赠</button>
@@ -68,6 +68,9 @@
       },
       turnToExchangeScore(){
         this.$router.push('/exchangescore')
+      },
+      turnToScoreRecord(){
+        this.$router.push('/scorerecord')
       }
     },
     components:{
