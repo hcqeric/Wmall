@@ -29,6 +29,7 @@ import SystemNotice from '@/components/mine/SystemNotice'
 import UpdatePass from '@/components/mine/UpdatePass'
 import ScoreTypesState from '@/components/mine/ScoreTypesState'
 import ScoreRecord from '@/components/mine/ScoreRecord'
+import Repurchase from '@/components/shopcart/Repurchase'
 
 Vue.use(Router)
 
@@ -178,6 +179,11 @@ export default new Router({
       path: '/updatepass/:type',
       name: 'UpdatePass',
       component: UpdatePass
+    },
+    {
+      path: '/repurchase',
+      name: 'Repurchase',
+      component: Repurchase
     }
 
   ]
