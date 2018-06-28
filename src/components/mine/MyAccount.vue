@@ -17,7 +17,6 @@
       </mt-header>
       <div class="content">
         <div class="account-list">
-          <!--<InputCell></InputCell>-->
           <div class="input-cell">
             <div class="cell-left">
               <i class="iconfont icon-iconset0291"></i>
@@ -44,7 +43,6 @@
 </template>
 
 <script>
-  import InputCell from '@/components/view/InputCell'
     export default {
         name: "MyAccount",
       methods: {
@@ -57,9 +55,6 @@
         turnToAddAliPay(){
           this.$router.push('/addalipay')
         }
-      },
-      components:{
-          InputCell
       }
     }
 </script>

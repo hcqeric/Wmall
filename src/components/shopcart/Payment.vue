@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <mt-header fixed title="确认订单">
-      <router-link to="/mallindex" slot="left">
-        <mt-button icon="back">返回</mt-button>
-      </router-link>
+        <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
       <div v-for="n in 10">
@@ -60,6 +58,9 @@
         setTimeout(() => {
           this.$router.push('paymentsucc')
         }, 2500);
+      },
+      goBack() {
+        this.$router.back()
       }
     }
   }

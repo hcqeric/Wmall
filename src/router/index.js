@@ -30,6 +30,9 @@ import UpdatePass from '@/components/mine/UpdatePass'
 import ScoreTypesState from '@/components/mine/ScoreTypesState'
 import ScoreRecord from '@/components/mine/ScoreRecord'
 import Repurchase from '@/components/shopcart/Repurchase'
+import UserInfo from '@/components/mine/UserInfo'
+import OrderCenter from '@/components/mine/OrderCenter'
+import Refunds from '@/components/mine/Refunds'
 
 Vue.use(Router)
 
@@ -184,6 +187,21 @@ export default new Router({
       path: '/repurchase',
       name: 'Repurchase',
       component: Repurchase
+    },
+    {
+      path: '/userinfo',
+      name: 'UserInfo',
+      component: UserInfo
+    },
+    {
+      path: '/ordercenter/:type',
+      name: 'OrderCenter',
+      component: OrderCenter
+    },
+    {
+      path: '/refunds',
+      name: 'Refunds',
+      component: Refunds
     }
 
   ]

@@ -11,6 +11,10 @@
     <div class="goods-list">
       <GoodsItem v-for="n in 5" class="item"></GoodsItem>
     </div>
+    <div class="confirm">
+      <p>合计: ¥{{totalAmount}} <span>(免运费)</span></p>
+      <button @click="turnToConfirmOrder">去结算</button>
+    </div>
   </div>
 </template>
 
@@ -18,9 +22,17 @@
   import GoodsItem from '@/components/view/GoodsItem'
     export default {
         name: "Repurchase",
+      data() {
+        return {
+          totalAmount: 1234
+        }
+      },
       methods: {
         goBack() {
           this.$router.back()
+        },
+        turnToConfirmOrder(){
+          this.$router.push('/payment')
         }
       },
       components:{
@@ -57,6 +69,7 @@
     box-sizing: border-box;
     width: 100%;
     padding: 8px;
+    margin-bottom: 60px;
   }
   .item:nth-of-type(even){
     margin: 8px;
@@ -65,5 +78,36 @@
   .item:nth-of-type(odd){
     margin: 8px;
     float: left;
+  }
+
+  .confirm{
+    height: 68px;
+    width: 100%;
+    line-height: 68px;
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    border-top: 1px solid #efefef;
+    display: flex;
+    justify-content: space-between;
+    z-index: 99;
+  }
+  .confirm p{
+    font-size: 18px;
+    color: #c053fa;
+    margin-left: 30px;
+  }
+  .confirm p span{
+    color: #999;
+    font-size: 14px;
+  }
+  .confirm button{
+    border: none;
+    background-color:  #1ABC9C;
+    background-image: url(../../assets/img/color-purpose.png);
+    outline-color: transparent;
+    color: #fff;
+    padding: 8px 40px;
+    font-size: 18px;
   }
 </style>

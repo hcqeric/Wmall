@@ -40,13 +40,14 @@
     font-size: 14px;
     color: #000;
   }
-  .goods-item p:last-child{
+  .goods-item p:last-of-type{
     font-size: 18px;
     color: #c053fa;
   }
 
   .goods-item p span{
     color: #999;
+    padding-left: 8px;
     font-size: 14px;
   }
 </style>
