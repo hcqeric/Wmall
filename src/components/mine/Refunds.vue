@@ -13,6 +13,11 @@
   import RefundsItem from '@/components/view/RefundsItem'
     export default {
         name: "Refunds",
+      methods:{
+        goBack() {
+          this.$router.back()
+        }
+      },
       components:{
           RefundsItem
       }

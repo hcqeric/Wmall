@@ -33,6 +33,7 @@ import Repurchase from '@/components/shopcart/Repurchase'
 import UserInfo from '@/components/mine/UserInfo'
 import OrderCenter from '@/components/mine/OrderCenter'
 import Refunds from '@/components/mine/Refunds'
+import RefundSuccess from '@/components/mine/RefundSuccess'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'RecommendReg',
+      component: RecommendReg
+    },
+    {
+      path: '/reg',
       name: 'RecommendReg',
       component: RecommendReg
     },
@@ -202,6 +208,11 @@ export default new Router({
       path: '/refunds',
       name: 'Refunds',
       component: Refunds
+    },
+    {
+      path: '/refundsucc',
+      name: 'RefundSuccess',
+      component: RefundSuccess
     }
 
   ]
