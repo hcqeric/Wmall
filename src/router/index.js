@@ -34,6 +34,8 @@ import UserInfo from '@/components/mine/UserInfo'
 import OrderCenter from '@/components/mine/OrderCenter'
 import Refunds from '@/components/mine/Refunds'
 import RefundSuccess from '@/components/mine/RefundSuccess'
+import ForgetPass from '@/components/ForgetPass'
+import Login from '@/components/Login'
 
 Vue.use(Router)
 
@@ -48,6 +50,16 @@ export default new Router({
       path: '/reg',
       name: 'RecommendReg',
       component: RecommendReg
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/forgetpass',
+      name: 'ForgetPass',
+      component: ForgetPass
     },
     {
       path: '/mallindex',

@@ -119,7 +119,7 @@
           <!--系统设置-->
           <router-link class="item" to="/system">
             <div class="item-left">
-              <i class="icon-heart"></i>
+              <img src="../../assets/img/setting.png" alt="">
               <span>系统设置</span>
             </div>
           </router-link>
@@ -228,10 +228,14 @@
   .list-top{
     background-color: #fff;
     border-radius: 15px 15px 0 0;
+    padding: 0 16px;
+    box-sizing: border-box;
   }
   .list-mid{
     background-color: #fff;
     margin-top: 8px;
+    padding: 0 16px;
+    box-sizing: border-box;
   }
   .item {
     display: flex;
@@ -239,17 +243,20 @@
     align-items: center;
     min-height: 48px;
     width: 100%;
-    background-image: linear-gradient(180deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
-    background-size: 120% 1px;
-    background-repeat: no-repeat;
-    background-position: bottom left;
-    background-origin: content-box;
+    position: relative;
+  }
+  .item:after{
+    position: absolute;
+    content: ' ';
+    height: 1px;
+    width: 100%;
+    background-color: #eee;
+    bottom: -1px;
   }
 
   .item-left {
     display: flex;
     align-items: center;
-    margin-left: 16px;
   }
 
   .item-left img {
@@ -266,7 +273,6 @@
   .item-right {
     display: flex;
     align-items: center;
-    margin-right: 16px;
   }
 
   .item-right i {
@@ -288,11 +294,11 @@
     padding: 8px 10px;
     min-height: 48px;
     width: 100%;
-    background-image: linear-gradient(180deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
-    background-size: 120% 1px;
-    background-repeat: no-repeat;
-    background-position: bottom left;
-    background-origin: border-box;
+    /*background-image: linear-gradient(180deg, #d9d9d9, #d9d9d9 50%, transparent 50%);*/
+    /*background-size: 120% 1px;*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: bottom left;*/
+    /*background-origin: border-box;*/
   }
 
   .order-state-item {
@@ -315,11 +321,8 @@
     margin-top: 8px;
     width: 100%;
     background-color: #fff;
-    background-image: linear-gradient(180deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
-    background-size: 120% 1px;
-    background-repeat: no-repeat;
-    background-position: top left;
-    background-origin: border-box;
+    padding: 0 16px;
+    box-sizing: border-box;
   }
 
   a {

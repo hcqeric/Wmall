@@ -18,6 +18,7 @@ export default {
   }
   a{
     text-decoration: none;
+    color: #000;
   }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
