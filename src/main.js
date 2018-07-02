@@ -12,13 +12,18 @@ import MintUI from 'mint-ui'
 import { Lazyload } from 'mint-ui';
 import { InfiniteScroll } from 'mint-ui';
 import 'mint-ui/lib/style.css'
+import axios from 'axios'
+import url from './http/url.js'
 
 Vue.use(ElementUI)
 Vue.use(MintUI)
 Vue.use(Lazyload);
 Vue.use(InfiniteScroll);
 Vue.config.productionTip = false
-
+Vue.prototype.axios = axios.create({
+  baseURL:url.baseUrl,
+  timeout:5000
+});
 Vue.config.devtools = true;
 
 /* eslint-disable no-new */

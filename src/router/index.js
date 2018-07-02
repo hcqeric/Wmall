@@ -226,6 +226,5 @@ export default new Router({
       name: 'RefundSuccess',
       component: RefundSuccess
     }
-
   ]
 })

@@ -3,134 +3,300 @@
     <el-row class="avatar">
       <img src="../assets/img/register-logo.png" alt="avatar">
     </el-row>
-    <div class="main">
-      <el-row>
-        <el-col :span="6" class="recommend"><img src="../assets/img/register-logo.png" alt="" align="right"></el-col>
-        <el-col :span="18" class="recommend"><span>推荐人：张三</span></el-col>
-      </el-row>
-
-      <el-row class="info">
-        <el-col :span="6" class="msg"><span><i class="icon-mobile"></i></span></el-col>
-        <el-col :span="18" class="msg"><input v-model="input" placeholder="请输入内容" class="imsg" /></el-col>
-      </el-row>
-
-      <el-row class="info">
-        <el-col :span="6" class="msg"><span><i class="icon-bubble"></i></span></el-col>
-        <el-col :span="12" class="msg"><input v-model="input" placeholder="短信验证码" class="imsg" /></el-col>
-        <el-col :span="6" class="msg">
-          <el-button type="text">发送验证码</el-button>
-        </el-col>
-      </el-row>
-      <el-row class="info">
-        <el-col :span="6" class="msg"><span><i class="icon-lock"></i></span></el-col>
-        <el-col :span="18" class="msg"><input v-model="input" placeholder="设置登录密码" class="imsg" /></el-col>
-      </el-row>
-
-      <el-row class="info">
-        <el-col :span="6" class="msg agreement-check"><input type="checkbox" ></el-col>
-        <el-col :span="18" class="msg"><p class="agreement">已阅读并同意《<a href="#">用户服务协议</a>》</p></el-col>
-      </el-row>
-
-      <el-row class="confirm">
-        <el-col :span="16" :offset="4"><el-button type="primary" round >确认</el-button></el-col>
-        <el-col :span="4"></el-col>
-      </el-row>
+    <div class="content">
+      <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-position="left" label-width="100px" :show-message="false" class="demo-ruleForm">
+        <el-form-item prop="recommender" class="item">
+          <div slot="label" class="labels">
+            <img src="../assets/img/tuij.png" alt="">
+            <span>推荐人：张三</span>
+          </div>
+        </el-form-item>
+        <el-form-item prop="mobile" class="item">
+          <div slot="label" class="labels">
+            <img src="../assets/img/shouj.png" alt="" class="phone">
+            <span>手机号码</span>
+          </div>
+          <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" ref="mobile"></el-input>
+        </el-form-item>
+        <el-form-item prop="verify" class="item">
+          <div slot="label" class="labels">
+            <img src="../assets/img/duanx.png" alt="">
+            <span>短信验证</span>
+          </div>
+          <div class="form-content">
+            <el-input v-model="ruleForm.verify" auto-complete="off" placeholder="请输入验证码"></el-input>
+            <button type="text" @click="sendCode('ruleForm')" ref="btnCode">发送验证码</button>
+          </div>
+        </el-form-item>
+        <el-form-item prop="password" class="item">
+          <div slot="label" class="labels">
+            <img src="../assets/img/yaos.png" alt="">
+            <span>设置密码</span>
+          </div>
+          <div class="form-content">
+            <el-input :type="delivery ?  'text' : 'password'" v-model="ruleForm.password" placeholder="请输入密码"></el-input>
+            <el-switch v-model="delivery"></el-switch>
+          </div>
+        </el-form-item>
+        <div class="agreement">
+          <el-checkbox v-model="ruleForm.checked"></el-checkbox>
+          <span>已阅读并同意《用户服务协议》</span>
+        </div>
+        <div class="goto">
+          <button type="primary" @click="submitForm('ruleForm')">注册</button>
+        </div>
+        <div class="behavior">
+          <router-link to="/login">
+            <p>已有账户， <span>直接登录>></span></p>
+          </router-link>
+        </div>
+      </el-form>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'RecommendReg',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+<script type="es6">
+  import * as Constants from '../custom/constants'
+  import { Toast } from 'mint-ui';
+  import url from '../http/url.js'
+  export default {
+    name: "RecommendReg",
+    data() {
+
+      var validateMobile = (rule, value, callback) => {
+        if (value === '') {
+          callback(Toast({
+            message: '手机号不能为空',
+            position: 'middle',
+            duration: 1000}));
+        } else if(!(/^1(3|4|5|7|8)\d{9}$/.test(value))) {
+          callback(Toast('手机号码格式不正确'));
+        } else {
+          callback();
+        }
+      };
+      return {
+        delivery:false,
+        ruleForm: {
+          mobile: '',
+          verify: '',
+          password: '',
+          checked:false
+        },
+        rules: {
+          mobile: [
+            { validator: validateMobile, trigger: 'blur' }
+          ],
+          // password: [
+          //   { validator: validatePass, trigger: 'blur' }
+          // ]
+        }
+      };
+    },
+    methods: {
+      goBack() {
+        this.$router.back()
+      },
+      sendCode(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.$refs.btnCode.disabled=true;
+            this.axios.post(url.verify,{
+              mobile: this.ruleForm.mobile,
+              codeType: "0"
+            }).then( response=> {
+              console.log(response)
+              if (response.data.code === 0){
+                let btnCode = this.$refs.btnCode;
+                let second = 60
+                btnCode.innerHTML =second + 'S后重发'
+                let timer = setInterval(()=>{
+                  second--
+                  btnCode.innerHTML =second + 'S后重发'
+                  if(second<=0){
+                    clearInterval(timer)
+                    btnCode.innerHTML ='重发验证码'
+                    this.$refs.btnCode.disabled=false
+                  }
+                },1000)
+              }else if(response.data.code === 500){
+                Toast(response.data.msg);
+              }
+            }).catch(function (error) {
+              console.log(error);
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            if (this.ruleForm.password === ''){
+              Toast({
+                message: '密码不能为空',
+                position: 'middle',
+                duration: 1000});
+              return false
+            }else{
+              if (!(/^[\w.]{6,20}$/.test(this.ruleForm.password))){
+                Toast({
+                  message: '密码长度需为6-20位',
+                  position: 'middle',
+                  duration: 1000});
+                return false
+              }
+            }
+            if(!this.ruleForm.checked){
+              Toast({
+                message: '您尚未同意用户服务协议',
+                position: 'middle',
+                duration: 1000});
+              return false
+            }
+            this.axios.post(url.reg,{
+              mobile: this.ruleForm.mobile,
+              password:this.ruleForm.password,
+              code:this.ruleForm.verify,
+              recommendUserId:"1",
+              selected: this.ruleForm.checked ? "0" : "1"
+            }).then( response=> {
+              console.log(response)
+              if (response.data.code === 0){
+                let data = response.data
+                console.log("sdfasdf")
+                localStorage.setItem(Constants.TOKEN, data.result.token)
+                this.$router.replace('/mallindex')
+                console.log("redirectto")
+              }else if(response.data.code === 500){
+                Toast(response.data.msg);
+              }
+            }).catch(function (error) {
+              console.log(error);
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      }
     }
   }
-}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .container{
-    width: 100%;
-    height: 100%;
-    padding-top: 40px;
-    padding-left: 16px;
-    padding-right: 16px;
-    box-sizing: border-box;
+  .mint-header{
+    background-color: #000;
+    height: 48px;
   }
   .avatar{
+    margin: 50px 0;
     text-align: center;
   }
   .avatar img{
     width: 80px;
     height: 80px;
   }
-
-  .main{
-    margin-top: 40px;
+  .content{
+    padding: 0 30px;
   }
-
-  .recommend img{
-    width: 40px;
-    height: 40px;
+  .item{
+    position: relative;
   }
-  .recommend span{
-    display: block;
-    height: 40px;
-    line-height: 40px;
-    text-align: left;
+  .item:after{
+    position: absolute;
+    content: '';
+    height: 1px;
+    bottom: -1px;
+    width: 100%;
+    background-color: #eee;
   }
-
-  .info{
-    height: 40px;
-    border-bottom: 1px solid #eee;
+  .item:first-child .labels{
+    width: 120px;
   }
-  .msg input{
-    height: 36px;
-    line-height: 36px;
-    margin-left: 8px;
+  .labels{
+    display: flex;
+    align-items: center;
   }
-  .msg span{
-    display: block;
-    height: 40px;
-    line-height: 40px;
-    text-align: right;
+  .labels img{
+    width: 20px;
+    margin-right: 4px;
   }
-
-  .msg span i{
-    font-size:20px;
-    opacity: 0.7;
+  img.phone{
+    width: 16px;
   }
-
-  .imsg{
+  .form-content{
+    display: flex;
+    align-items: center;
+  }
+  .form-content button{
+    border: none;
+    outline: none;
+    background: #fff;
+    color: #000;
+    width: 100px;
+  }
+  .agreement{
+    margin: 30px 0;
+    text-align: center;
+  }
+  .goto{
+    margin:0 auto 0;
+    text-align: center;
+  }
+  .goto button{
+    border: none;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 17px;
+    background-color: transparent;
+    background-image: url("../assets/img/button-bg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 290px;
+    text-align: center;
+    color: #fff;
+    margin: 0 auto;
+  }
+  .behavior{
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 16px;
+  }
+  .behavior p span{
+    color: #e742b8;
+  }
+</style>
+<style>
+  .item .el-form-item__label{
+    padding: 0;
+  }
+  .item .el-input__inner{
     border: none;
   }
-
-  .agreement-check{
-   text-align: right;
-    height: 40px;
-    line-height: 40px;
+  .item .el-button--text{
+    color: #000;
   }
-
-  .agreement{
-    height:40px;
-    line-height: 40px;
+  .content .el-form-item {
+    margin-bottom: 8px;
   }
-
-  .agreement a{
-    text-decoration: none;
-    color: #1ABC9C;
+  .item .el-input__inner{
+    padding: 0;
   }
-
-  .confirm{
-    margin-top: 40px;
+  .item .el-switch.is-checked .el-switch__core {
+    background-color: #e742b8;
+    border-color: #e742b8;
   }
-
-  .confirm .el-button{
-    width: 100%;
-    background-color: #1ABC9C;
+  .agreement .el-checkbox__inner{
+    border-color: #e742b8;
   }
-
+  .agreement .el-checkbox__inner:hover {
+     border-color: #e742b8;
+  }
+  .agreement .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: #e742b8;
+    border-color: #e742b8;
+  }
 </style>

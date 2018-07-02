@@ -1,26 +1,25 @@
 <template>
   <div class="container">
     <div class="content">
-      <el-form :model="ruleForm2"  :rules="rules2" ref="ruleForm2" label-position="left" label-width="100px" :show-message="false" class="demo-ruleForm">
-        <el-form-item prop="pass" class="item">
+      <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-position="left" label-width="100px" :show-message="false" class="demo-ruleForm">
+        <el-form-item prop="username" class="item">
           <div slot="label" class="labels">
-            <img src="../assets/img/shouj.png" alt="">
+            <img src="../assets/img/shouj.png" alt="" class="phone">
             <span>手机号码</span>
           </div>
-          <el-input type="password" v-model="ruleForm2.pass" auto-complete="off"></el-input>
+          <el-input v-model="ruleForm.username" auto-complete="off" placeholder="请输入手机号码"></el-input>
         </el-form-item>
-        <el-form-item prop="checkPass" class="item">
+        <el-form-item prop="password" class="item">
           <div slot="label" class="labels">
-            <img src="../assets/img/duanx.png" alt="">
-            <span>短信验证</span>
+            <img src="../assets/img/yaos.png" alt="">
+            <span>登录密码</span>
           </div>
           <div class="form-content">
-            <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off"></el-input>
-            <el-button type="text">发送验证码</el-button>
+            <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder="请输入登录密码"></el-input>
           </div>
         </el-form-item>
         <div class="goto">
-          <button type="primary" @click="submitForm('ruleForm2')">登录</button>
+          <button type="primary" @click="submitForm('ruleForm')" ref="btnLogin">登录</button>
         </div>
         <div class="behavior">
           <router-link to="/reg">
@@ -36,61 +35,42 @@
 </template>
 
 <script>
-  import { Toast } from 'mint-ui';
+  import * as Constants from '../custom/constants'
+  import url from '../http/url.js'
+  import { Toast } from 'mint-ui'
   export default {
     name: "Login",
     data() {
-      var checkAge = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('年龄不能为空'));
-        }
-        setTimeout(() => {
-          if (!Number.isInteger(value)) {
-            callback(new Error('请输入数字值'));
-          } else {
-            if (value < 18) {
-              callback(new Error('必须年满18岁'));
-            } else {
-              callback();
-            }
-          }
-        }, 1000);
-      };
       var validatePass = (rule, value, callback) => {
         if (value === '') {
-          callback(Toast('提示信息'));
+          callback(Toast('密码不能为空'));
         } else {
-          if (this.ruleForm2.checkPass !== '') {
-            this.$refs.ruleForm2.validateField('checkPass');
-          }
           callback();
         }
       };
-      var validatePass2 = (rule, value, callback) => {
+      var validateUsername = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm2.pass) {
-          callback(new Error('两次输入密码不一致!'));
+          callback(Toast({
+            message: '手机号不能为空',
+            position: 'middle',
+            duration: 1000}));
+        } else if(!(/^1(3|4|5|7|8)\d{9}$/.test(value))) {
+          callback(Toast('手机号码格式不正确'));
         } else {
           callback();
         }
       };
       return {
-        ruleForm2: {
-          pass: '',
-          checkPass: '',
-          age: '',
-          delivery:false
+        ruleForm: {
+          username: '',
+          password: ''
         },
-        rules2: {
-          pass: [
+        rules: {
+          password: [
             { validator: validatePass, trigger: 'blur' }
           ],
-          checkPass: [
-            { validator: validatePass2, trigger: 'blur' }
-          ],
-          age: [
-            { validator: checkAge, trigger: 'blur' }
+          username: [
+            { validator: validateUsername, trigger: 'blur' }
           ]
         }
       };
@@ -102,7 +82,24 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            this.axios.post(url.login,{
+              mobile: this.ruleForm.username,
+              password: this.ruleForm.password
+            }).then( response=> {
+              console.log(response)
+              if (response.data.code === 0){
+                let data = response.data
+                console.log("sdfasdf")
+                localStorage.setItem(Constants.USERNAME, this.ruleForm.username)
+                localStorage.setItem(Constants.TOKEN, data.result.token)
+                this.$router.replace('/mallindex')
+                console.log("redirectto")
+              }else if(response.data.code === 500){
+                Toast(response.data.msg);
+              }
+            }).catch(function (error) {
+              console.log(error);
+            });
           } else {
             console.log('error submit!!');
             return false;
@@ -141,6 +138,9 @@
     width: 20px;
     margin-right: 4px;
   }
+  img.phone{
+    width: 16px;
+  }
   .form-content{
     display: flex;
     align-items: center;
@@ -158,6 +158,7 @@
     background-image: url("../assets/img/button-bg.png");
     background-repeat: no-repeat;
     background-size: contain;
+    outline: none;
     width: 290px;
     text-align: center;
     color: #fff;
