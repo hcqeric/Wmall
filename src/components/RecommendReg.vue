@@ -255,6 +255,7 @@
     background-image: url("../assets/img/button-bg.png");
     background-repeat: no-repeat;
     background-size: contain;
+    outline: none;
     width: 290px;
     text-align: center;
     color: #fff;

@@ -2,9 +2,7 @@
   <div>
     <Header/>
     <mt-swipe :auto="4000">
-      <mt-swipe-item class="slide1">1</mt-swipe-item>
-      <mt-swipe-item class="slide2">2</mt-swipe-item>
-      <mt-swipe-item class="slide3">3</mt-swipe-item>
+      <mt-swipe-item v-for="item in banner"><img :src="item.url" alt=""></mt-swipe-item>
     </mt-swipe>
 
     <div class="goods-tabs">
@@ -31,6 +29,8 @@
 </template>
 
 <script>
+  import * as Constants from '../../custom/constants'
+  import url from '../../http/url.js'
   import Header from "@/components/mallindex/common/Header";
   export default {
     name: "Home",
@@ -39,8 +39,23 @@
     },
     data() {
       return {
-        selected: '1'
+        selected: '1',
+        banner: []
       };
+    },
+    mounted(){
+      console.log(localStorage.getItem(Constants.TOKEN))
+      this.axios.post(url.banners, {
+        type: "0"
+      }).then( response=> {
+        console.log(response)
+        let imgs = response.data.result
+        imgs.forEach((item)=>{
+          this.banner.push(item)
+        })
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
   }
 
@@ -48,29 +63,39 @@
 
 <style scoped>
   .mint-swipe {
-    height: 200px;
+    height: 140px;
     color: #fff;
     font-size: 30px;
     text-align: center;
-    margin-bottom: 8px;
   }
-  .mint-swipe-item {
-    line-height: 200px;
+  img{
+    width: 100%;
   }
-  .slide1 {
-    background-color: #0089dc;
-    color: #fff;
-  }
-  .slide2 {
-    background-color: #ffd705;
-    color: #000;
-  }
-  .slide3 {
-    background-color: #ff2d4b;
-    color: #fff;
-  }
+
   .goods-tabs{
-    padding: 0px 24px;
+    margin-top: 4px;
+  }
+
+  .mint-navbar{
+    background-color: #FFEDF9;
+  }
+
+  .mint-navbar .mint-tab-item.is-selected{
+    color: #bf54f9;
+    font-weight: bold;
+    border: none;
+    position: relative;
+  }
+
+  .mint-navbar .mint-tab-item.is-selected:after{
+    position: absolute;
+    content: '';
+    bottom: 8px;
+    left: 50%;
+    margin-left: -20px;
+    height: 3px;
+    width: 40px;
+    background-color: #bf54f9;
   }
   .mint-cell-wrapper{
     background-image: none;
@@ -80,21 +105,21 @@
     background-image: none;
   }
 
-  .mint-tab-item{
-    border-bottom:1px solid #1ABC9C;
-    border-top:1px solid #1ABC9C;
-    border-left:1px solid #1ABC9C;
-    color: #1ABC9C;
-  }
-  .mint-navbar .mint-tab-item.is-selected{
-    border-bottom: 1px solid #1ABC9C;
-    margin-bottom: 0;
-    background-color: #1ABC9C;
-    color: #fff;
-  }
+  /*.mint-tab-item{*/
+    /*border-bottom:1px solid #bf54f9;*/
+    /*border-top:1px solid #bf54f9;*/
+    /*border-left:1px solid #bf54f9;*/
+    /*color: #bf54f9;*/
+  /*}*/
+  /*.mint-navbar .mint-tab-item.is-selected{*/
+    /*border-bottom: 1px solid #bf54f9;*/
+    /*margin-bottom: 0;*/
+    /*background-color: #bf54f9;*/
+    /*color: #fff;*/
+  /*}*/
 
-  .mint-navbar .mint-tab-item:last-child {
-    border-right: 1px solid #1ABC9C;
-  }
+  /*.mint-navbar .mint-tab-item:last-child {*/
+    /*border-right: 1px solid #bf54f9;*/
+  /*}*/
 
 </style>

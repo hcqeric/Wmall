@@ -1,10 +1,9 @@
 <template>
   <div class="header">
     <div class="searchbox">
-      <button  @click="visible = true">
-          <i class="mintui mintui-search"></i>
-          搜索
-      </button>
+      <i class="mintui mintui-search" v-show="visible"></i>
+      <input  @click="visible = true"  :placeholder="visible ? '输入搜索内容' : ''">
+      <span v-show="!visible"><i class="mintui mintui-search"></i>搜索</span>
     </div>
     <a href="#" class="searchbar-cancel" @click="visible = false" v-show="visible">取消</a>
     </div>
@@ -26,26 +25,44 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    background-color: #1ABC9C;
-    padding: 8px 40px;
+    background-color: #bf54f9;
+    padding: 12px 40px;
   }
   .searchbox{
     background-color: #fff;
     border-radius: 18px;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex: 1;
-    height: 28px;
+    height: 22px;
     padding: 4px 6px;
+    position: relative;
   }
-  .searchbox button{
+  .searchbox i{
+    font-size: 14px;
+    color: #999;
+    margin-right: 8px;
+  }
+  .searchbox input{
     border: none;
     background-color: #fff;
+    flex: 1;
     outline:none;
   }
-
+  .searchbox span{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    color: #999;
+    font-size: 12px;
+  }
+  .searchbox span i{
+    margin-right: 8px;
+    font-size: 14px;
+    color: #999;
+  }
   .searchbar-cancel{
-     /*color: #1ABC9C;*/
      color: #fff;
      margin-left: 10px;
      text-decoration: none;

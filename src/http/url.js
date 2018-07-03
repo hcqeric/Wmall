@@ -9,5 +9,6 @@ export default {
   login: '/app/login',
   verify: '/app/sendCode',
   reg:'/app/register',
-  forgetpass:'/app/updatePassword'
+  forgetpass:'/app/updatePassword',
+  banners: '/app/file/getFileByType'
 }
