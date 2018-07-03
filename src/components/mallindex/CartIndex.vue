@@ -1,7 +1,7 @@
 <template>
   <div class="page-tabbar">
     <div class="page-wrap">
-      <Home/>
+      <ShopCart/>
     </div>
     <Footer></Footer>
   </div>
@@ -9,12 +9,12 @@
 
 <script>
   import Footer from '@/components/mallindex/common/Footer'
-  import Home from "@/components/mallindex/Home"
+  import ShopCart from "@/components/mallindex/ShopCart"
 
   export default {
-    name: 'MallIndex',
+    name: 'CartIndex',
     components: {
-      Home,
+      ShopCart,
       Footer
     }
   };
@@ -31,3 +31,5 @@
     padding-bottom: 200px;
   }
 </style>
+
+

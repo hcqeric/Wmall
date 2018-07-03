@@ -1,7 +1,7 @@
 <template>
   <div class="page-tabbar">
     <div class="page-wrap">
-      <Home/>
+      <UserCenter/>
     </div>
     <Footer></Footer>
   </div>
@@ -9,12 +9,12 @@
 
 <script>
   import Footer from '@/components/mallindex/common/Footer'
-  import Home from "@/components/mallindex/Home"
+  import UserCenter from "@/components/mallindex/UserCenter"
 
   export default {
-    name: 'MallIndex',
+    name: 'UserIndex',
     components: {
-      Home,
+      UserCenter,
       Footer
     }
   };
@@ -31,3 +31,6 @@
     padding-bottom: 200px;
   }
 </style>
+
+
+

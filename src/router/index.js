@@ -2,6 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import RecommendReg from '@/components/RecommendReg'
 import MallIndex from '@/components/mallindex/MallIndex'
+import CartIndex from '@/components/mallindex/CartIndex'
+import SortIndex from '@/components/mallindex/SortIndex'
+import PromotionIndex from '@/components/mallindex/PromotionIndex'
+import UserIndex from '@/components/mallindex/UserIndex'
 import Payment from '@/components/shopcart/Payment'
 import PaymentSucc from '@/components/shopcart/PaymentSucc'
 import OrderDetail from '@/components/mine/OrderDetail'
@@ -63,8 +67,28 @@ export default new Router({
     },
     {
       path: '/mallindex',
-      name: 'MallIndex',
+      name: 'mallindex',
       component: MallIndex
+    },
+    {
+      path: '/promotion',
+      name: 'promotion',
+      component: PromotionIndex
+    },
+    {
+      path: '/sort',
+      name: 'sort',
+      component: SortIndex
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: UserIndex
+    },
+    {
+      path: '/cart',
+      name: 'cart',
+      component: CartIndex
     },
     {
       path: '/payment',

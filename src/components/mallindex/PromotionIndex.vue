@@ -1,7 +1,7 @@
 <template>
   <div class="page-tabbar">
     <div class="page-wrap">
-      <Home/>
+      <Promotion/>
     </div>
     <Footer></Footer>
   </div>
@@ -9,12 +9,12 @@
 
 <script>
   import Footer from '@/components/mallindex/common/Footer'
-  import Home from "@/components/mallindex/Home"
+  import Promotion from "@/components/mallindex/Promotion"
 
   export default {
-    name: 'MallIndex',
+    name: 'PromotionIndex',
     components: {
-      Home,
+      Promotion,
       Footer
     }
   };
@@ -31,3 +31,4 @@
     padding-bottom: 200px;
   }
 </style>
+
