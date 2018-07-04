@@ -10,5 +10,7 @@ export default {
   verify: '/app/sendCode',
   reg:'/app/register',
   forgetpass:'/app/updatePassword',
-  banners: '/app/file/getFileByType'
+  banners: '/app/file/getFileByType',
+  sort: '/app/goods/getGoodsType',
+  userinfo:'/app/user/userInfo'
 }

@@ -22,12 +22,14 @@
 
 <style>
   .page-tabbar {
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     height: 100vh;
   }
   .page-wrap {
     overflow: auto;
-    height: 100%;
-    padding-bottom: 200px;
+    flex: 1;
+    margin-bottom: 50px;
   }
 </style>

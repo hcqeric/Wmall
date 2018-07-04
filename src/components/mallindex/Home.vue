@@ -1,29 +1,34 @@
 <template>
-  <div>
+  <div class="container">
     <Header/>
+    <keep-alive>
     <mt-swipe :auto="4000">
       <mt-swipe-item v-for="item in banner"><img :src="item.url" alt=""></mt-swipe-item>
     </mt-swipe>
+    </keep-alive>
 
     <div class="goods-tabs">
-      <mt-navbar v-model="selected">
-        <mt-tab-item id="1">推荐商品</mt-tab-item>
-        <mt-tab-item id="2">积分商品</mt-tab-item>
-        <mt-tab-item id="3">全部商品</mt-tab-item>
-      </mt-navbar>
+      <div class="goods-nav">
+        <div :class="selected==1 ? 'is-selected' : ''" @click="changeTab('1')">推荐商品</div>
+        <div :class="selected==2 ? 'is-selected' : ''" @click="changeTab('2')">积分商品</div>
+        <div :class="selected==3 ? 'is-selected' : ''" @click="changeTab('3')">全部商品</div>
+      </div>
+      <!--<mt-navbar v-model="selected">-->
+        <!--<mt-tab-item id="1">推荐商品</mt-tab-item>-->
+        <!--<mt-tab-item id="2">积分商品</mt-tab-item>-->
+        <!--<mt-tab-item id="3">全部商品</mt-tab-item>-->
+      <!--</mt-navbar>-->
+      <div class="goods-list" v-show="selected == 1">
+        <RecommendGoodsList></RecommendGoodsList>
+      </div>
+      <div class="goods-list" v-show="selected == 2">
+        <RecommendGoodsList></RecommendGoodsList>
+      </div>
 
-      <!-- tab-container -->
-      <mt-tab-container v-model="selected">
-        <mt-tab-container-item id="1">
-          <mt-cell v-for="n in 10" :title="'内容 ' + n"/>
-        </mt-tab-container-item>
-        <mt-tab-container-item id="2">
-          <mt-cell v-for="n in 4" :title="'测试 ' + n"/>
-        </mt-tab-container-item>
-        <mt-tab-container-item id="3">
-          <mt-cell v-for="n in 6" :title="'选项 ' + n"/>
-        </mt-tab-container-item>
-      </mt-tab-container>
+      <div class="goods-list" v-show="selected == 3">
+        <RecommendGoodsList></RecommendGoodsList>
+      </div>
+
     </div>
   </div>
 </template>
@@ -32,9 +37,11 @@
   import * as Constants from '../../custom/constants'
   import url from '../../http/url.js'
   import Header from "@/components/mallindex/common/Header";
+  import RecommendGoodsList from "@/components/home/RecommendGoodsList";
   export default {
     name: "Home",
     components:{
+      RecommendGoodsList,
       Header
     },
     data() {
@@ -48,7 +55,7 @@
       this.axios.post(url.banners, {
         type: "0"
       }).then( response=> {
-        console.log(response)
+        console.log(response.data)
         let imgs = response.data.result
         imgs.forEach((item)=>{
           this.banner.push(item)
@@ -56,6 +63,11 @@
       }).catch(function (error) {
         console.log(error);
       });
+    },
+    methods:{
+      changeTab(tab){
+        this.selected = tab
+      }
     }
   }
 
@@ -75,19 +87,34 @@
   .goods-tabs{
     margin-top: 4px;
   }
-
+  .goods-nav{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .goods-nav div{
+    flex: 1;
+    background-color: #FFEDF9;
+    text-align: center;
+    padding: 16px;
+    text-shadow: 0px 0px 1px #FF659F;
+  }
   .mint-navbar{
     background-color: #FFEDF9;
   }
-
-  .mint-navbar .mint-tab-item.is-selected{
+  .mint-navbar .mint-tab-item{
+    text-shadow: 1px 1px 1px #FFEDF9;
+  }
+  .goods-nav div.is-selected{
     color: #bf54f9;
     font-weight: bold;
     border: none;
     position: relative;
+    text-shadow: none;
   }
 
-  .mint-navbar .mint-tab-item.is-selected:after{
+  .goods-nav div.is-selected:after{
     position: absolute;
     content: '';
     bottom: 8px;
@@ -97,6 +124,13 @@
     width: 40px;
     background-color: #bf54f9;
   }
+
+  .goods-tabs .mint-tab-item .mint-tab-item-label{
+
+  }
+  .goods-tabs .mint-tab-item.is-selected .mint-tab-item-label{
+
+  }
   .mint-cell-wrapper{
     background-image: none;
   }
@@ -104,22 +138,10 @@
   .mint-cell:last-child{
     background-image: none;
   }
-
-  /*.mint-tab-item{*/
-    /*border-bottom:1px solid #bf54f9;*/
-    /*border-top:1px solid #bf54f9;*/
-    /*border-left:1px solid #bf54f9;*/
-    /*color: #bf54f9;*/
-  /*}*/
-  /*.mint-navbar .mint-tab-item.is-selected{*/
-    /*border-bottom: 1px solid #bf54f9;*/
-    /*margin-bottom: 0;*/
-    /*background-color: #bf54f9;*/
-    /*color: #fff;*/
-  /*}*/
-
-  /*.mint-navbar .mint-tab-item:last-child {*/
-    /*border-right: 1px solid #bf54f9;*/
-  /*}*/
+  .goods-list{
+    padding: 0 16px;
+  }
+</style>
+<style>
 
 </style>

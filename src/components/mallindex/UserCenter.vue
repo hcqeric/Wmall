@@ -2,9 +2,9 @@
   <div class="container">
     <div class="user-header">
       <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
-      <div class="userinfo">
-        <img src="../../assets/img/avatar.jpg" alt="avatar">
-        <span>张三</span>
+      <div class="userinfo" v-if="userinfo">
+        <img :src="userinfo.logoUrl" alt="avatar">
+        <span>{{userinfo.nickname}}</span>
       </div>
     </div>
     <!--我的信息-->
@@ -152,12 +152,14 @@
 
 <script>
   import {MessageBox} from 'mint-ui';
-
+  import url from '../../http/url.js'
+  import * as Constants from '../../custom/constants'
   export default {
     name: "UserCenter",
     data() {
       return {
-        dialogShow: false
+        dialogShow: false,
+        userinfo: null
       }
     },
     methods: {
@@ -177,6 +179,27 @@
           }
         });
       }
+    },
+    mounted(){
+      let tk = localStorage.getItem(Constants.TOKEN)
+      this.axios.get(url.userinfo, {
+        params: {
+          token: tk
+        }
+      }).then( response=> {
+        console.log(response)
+        if (response.data.code == 0){
+          // let imgs = response.data.result
+          // imgs.forEach((item)=>{
+          //   this.list.push(item)
+          // })
+          this.userinfo = response.data.result
+        }else if(response.data.code == 500){
+          Toast(response.data.msg);
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
   }
 </script>
