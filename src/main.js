@@ -12,6 +12,7 @@ import MintUI from 'mint-ui'
 import { Lazyload } from 'mint-ui';
 import { InfiniteScroll } from 'mint-ui';
 import 'mint-ui/lib/style.css'
+import store from './store'
 import axios from 'axios'
 import url from './http/url.js'
 
@@ -30,6 +31,7 @@ Vue.config.devtools = true;
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
