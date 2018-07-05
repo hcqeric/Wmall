@@ -38,6 +38,7 @@
   import * as Constants from '../custom/constants'
   import url from '../http/url.js'
   import { Toast } from 'mint-ui'
+  import {mapActions} from 'vuex'
   export default {
     name: "Login",
     data() {
@@ -76,6 +77,10 @@
       };
     },
     methods: {
+      ...mapActions([
+        'loginState',
+        'setToken'
+      ]),
       goBack() {
         this.$router.back()
       },
@@ -88,10 +93,11 @@
             }).then( response=> {
               console.log(response)
               if (response.data.code === 0){
-                let data = response.data
+                let token = response.data.result.token
                 console.log("sdfasdf")
-                localStorage.setItem(Constants.USERNAME, this.ruleForm.username)
-                localStorage.setItem(Constants.TOKEN, data.result.token)
+                localStorage.setItem(Constants.TOKEN, token)
+                this.setToken(token)
+                this.loginState(true)
                 this.$router.replace('/mallindex')
                 console.log("redirectto")
               }else if(response.data.code === 500){
