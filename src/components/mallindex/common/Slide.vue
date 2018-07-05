@@ -201,7 +201,7 @@
 <style scoped>
   .slide {
     min-height: 1px;
-    margin-top: 8px;
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
   }
@@ -216,8 +216,8 @@
     box-sizing: border-box;
     overflow: hidden;
     text-align: center;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
   }
 
   .slide  .slide-item  a{
@@ -232,10 +232,14 @@
     flex: 1;
   }
   .slide  .dots {
-
+    display: flex;
+    margin-top: 8px;
     transform: translateZ(1px);
     text-align: center;
     font-size: 0;
+    height: 16px;
+    justify-content: center;
+    align-items: center;
   }
   .slide  .dots  .dot {
     display: inline-block;
@@ -243,11 +247,11 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #1ABC9C;
+    background: #bf54f9;
   }
   .slide .dots .dot.active {
     width: 20px;
     border-radius: 5px;
-    background: #1ABC9C;
+    background: #bf54f9;
   }
 </style>

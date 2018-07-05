@@ -4,17 +4,30 @@
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
-      <div class="recommend-list" v-for="n in 10">
-        <Recommend  hasReply="n%2 == 0 ? true : false"></Recommend>
-      </div>
+      <mt-loadmore  :bottom-all-loaded="allLoaded" ref="loadmore">
+        <div class="recommend-list" v-for="item in commentList">
+          <Recommend :comment="item"></Recommend>
+        </div>
+      </mt-loadmore>
     </div>
   </div>
 </template>
 
 <script>
   import Recommend from '@/components/view/Recommend'
+  import {getUserAppraises} from "../../http/getData";
+  import { getLocalStorage } from '@/custom/mixin';
+  import * as Constants from '../../custom/constants'
   export default {
     name: "UserEvaluations",
+    data(){
+      return {
+        allLoaded: false,
+        commentList:[],
+        limit:10,
+        page:0
+      }
+    },
     components:{
       Recommend
     },
@@ -24,7 +37,15 @@
       }
     },
     mounted(){
+      let tk = getLocalStorage(Constants.TOKEN)
 
+      getUserAppraises({token:tk},{page:this.page.toString(), limit:this.limit.toString()}).then(response=>{
+        console.log(response)
+        response.result.list.map((item)=>{
+          this.commentList.push(item)
+        })
+        this.page++
+      })
     }
   }
 </script>

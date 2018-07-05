@@ -66,7 +66,6 @@
 
 <style scoped>
   .mint-swipe {
-    margin-top: 1px;
     height: 200px;
     color: #fff;
     font-size: 30px;

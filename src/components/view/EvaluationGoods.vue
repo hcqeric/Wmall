@@ -1,9 +1,9 @@
 <template>
   <div class="goods-info">
-    <img src="http://p90m90efq.bkt.clouddn.com/goods.png" alt="">
+    <img :src="comment.goods.goodsImg" alt="">
     <div class="goods">
-      <p>特润修护肌透精华露</p>
-      <p v-show="hasEvaluationTime">发表于 2018/04/13</p>
+      <p>{{comment.goods.name}}</p>
+      <p v-show="hasEvaluationTime">发表于 {{comment.createTime | DateFormat('yyyy-MM-dd')}}</p>
     </div>
   </div>
 </template>
@@ -11,9 +11,10 @@
 <script>
     export default {
         name: "EvaluationGoods",
-      props:{
-        hasEvaluationTime: Boolean
-      }
+        props:{
+          hasEvaluationTime: Boolean,
+          comment:null
+        }
     }
 </script>
 

@@ -13,6 +13,7 @@ import { Lazyload } from 'mint-ui';
 import { InfiniteScroll } from 'mint-ui';
 import 'mint-ui/lib/style.css'
 import store from './store'
+import * as filters from './custom/filters'
 import axios from 'axios'
 import url from './http/url.js'
 

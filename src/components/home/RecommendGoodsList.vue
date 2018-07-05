@@ -3,7 +3,7 @@
     <div class="page-infinite-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
       <ul class="page-infinite-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
         <li v-for="item in list" class="page-infinite-listitem">
-          <RecommendGoods />
+          <RecommendGoods class="goods-item"  />
         </li>
       </ul>
       <p v-show="loading" class="page-infinite-loading">
@@ -58,7 +58,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: #1ABC9C;
+    color: #bf54f9;
     text-align: center;
     padding: 8px 0;
   }
@@ -68,25 +68,22 @@
     text-align: center;
     margin: 0 auto;
   }
-
-  .news-item {
-    box-sizing: border-box;
-    margin: 0 24px;
-    padding-top: 16px;
-    border-bottom: 1px solid #ccc;
-  }
-
-  .news-item img {
-    width: 100%;
-  }
-
-  .news-item p {
-    font-size: 18px;
-    color: #666;
-    text-align: center;
-  }
   li{
     list-style: none;
+  }
+  .goods-item{
+    position: relative;
+  }
+  .goods-item:after{
+    position: absolute;
+    bottom: 1px;
+    height: 1px;
+    background-color: #eee;
+    width: 100%;
+    content: '';
+  }
+  .goods-item:last-of-type:after{
+    height: 0;
   }
 </style>
 

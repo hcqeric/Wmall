@@ -13,7 +13,8 @@
 
 <script>
     import Header from "@/components/mallindex/common/Header"
-    import url from '../../http/url.js'
+    import {getSorts} from "../../http/getData";
+    import { getLocalStorage } from '@/custom/mixin';
     import * as Constants from '../../custom/constants'
     export default {
         name: "Sort",
@@ -23,31 +24,17 @@
           }
       },
       mounted(){
-        // this.list = [
-        //   'http://p90m90efq.bkt.clouddn.com/goods-banner.png',
-        //   'http://p90m90efq.bkt.clouddn.com/goods-banner.png',
-        //   'http://p90m90efq.bkt.clouddn.com/goods-banner.png'
-        // ]
-        let tk = localStorage.getItem(Constants.TOKEN)
-        this.axios.get(url.sort, {
-          params: {
+        let tk = getLocalStorage(Constants.TOKEN)
+        console.log(tk)
+        getSorts({
             token: tk
-          }
-        }).then( response=> {
+        }).then(response=>{
           console.log(response)
-          if (response.data.code == 0){
-            let imgs = response.data.result
-            imgs.forEach((item)=>{
-              this.list.push(item)
-            })
-          }else if(response.data.code == 500){
-            Toast(response.data.msg);
-          }
-
-        }).catch(function (error) {
-          console.log(error);
-        });
-
+          let imgs = response.result
+          imgs.forEach((item)=>{
+            this.list.push(item)
+          })
+        })
       },
       components:{
           Header

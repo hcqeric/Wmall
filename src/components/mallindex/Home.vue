@@ -13,11 +13,7 @@
         <div :class="selected==2 ? 'is-selected' : ''" @click="changeTab('2')">积分商品</div>
         <div :class="selected==3 ? 'is-selected' : ''" @click="changeTab('3')">全部商品</div>
       </div>
-      <!--<mt-navbar v-model="selected">-->
-        <!--<mt-tab-item id="1">推荐商品</mt-tab-item>-->
-        <!--<mt-tab-item id="2">积分商品</mt-tab-item>-->
-        <!--<mt-tab-item id="3">全部商品</mt-tab-item>-->
-      <!--</mt-navbar>-->
+
       <div class="goods-list" v-show="selected == 1">
         <RecommendGoodsList></RecommendGoodsList>
       </div>
@@ -100,12 +96,6 @@
     padding: 16px;
     text-shadow: 0px 0px 1px #FF659F;
   }
-  .mint-navbar{
-    background-color: #FFEDF9;
-  }
-  .mint-navbar .mint-tab-item{
-    text-shadow: 1px 1px 1px #FFEDF9;
-  }
   .goods-nav div.is-selected{
     color: #bf54f9;
     font-weight: bold;
@@ -125,19 +115,6 @@
     background-color: #bf54f9;
   }
 
-  .goods-tabs .mint-tab-item .mint-tab-item-label{
-
-  }
-  .goods-tabs .mint-tab-item.is-selected .mint-tab-item-label{
-
-  }
-  .mint-cell-wrapper{
-    background-image: none;
-  }
-
-  .mint-cell:last-child{
-    background-image: none;
-  }
   .goods-list{
     padding: 0 16px;
   }

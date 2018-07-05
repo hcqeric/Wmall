@@ -152,7 +152,8 @@
 
 <script>
   import {MessageBox} from 'mint-ui';
-  import url from '../../http/url.js'
+  import {getUserInfo} from "../../http/getData";
+  import { getLocalStorage } from '@/custom/mixin';
   import * as Constants from '../../custom/constants'
   export default {
     name: "UserCenter",
@@ -181,25 +182,12 @@
       }
     },
     mounted(){
-      let tk = localStorage.getItem(Constants.TOKEN)
-      this.axios.get(url.userinfo, {
-        params: {
-          token: tk
-        }
-      }).then( response=> {
-        console.log(response)
-        if (response.data.code == 0){
-          // let imgs = response.data.result
-          // imgs.forEach((item)=>{
-          //   this.list.push(item)
-          // })
-          this.userinfo = response.data.result
-        }else if(response.data.code == 500){
-          Toast(response.data.msg);
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
+      let tk = getLocalStorage(Constants.TOKEN)
+      getUserInfo({
+        token: tk
+      }).then(response=>{
+        this.userinfo = response.result
+      })
     }
   }
 </script>

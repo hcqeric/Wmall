@@ -47,8 +47,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'RecommendReg',
-      component: RecommendReg
+      name: 'mallindex',
+      component: MallIndex
     },
     {
       path: '/reg',

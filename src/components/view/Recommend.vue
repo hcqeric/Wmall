@@ -1,22 +1,22 @@
 <template>
-    <div class="recommend">
-      <EvaluationGoods  :hasEvaluationTime="true"></EvaluationGoods>
+    <div class="recommend" v-if="comment">
+      <EvaluationGoods  :hasEvaluationTime="true" :comment="comment"></EvaluationGoods>
       <div class="recommend-info">
         <div class="rating">
           <el-rate
-            v-model="value"
+            v-model="comment.score"
             disabled
             text-color="#ff9900"
             score-template="{value}">
           </el-rate>
         </div>
         <div class="user-commend">
-          <p>这瓶精华露真的好好用，效果杠杠滴~瞬间年轻10岁有木有~这瓶精华露真的好好用，效果杠杠滴~瞬间年轻10岁有木有~</p>
+          <p>{{comment.content}}</p>
           <img  v-show="hasReply" :src="item.picUrl" alt="" v-for="item in items"/>
         </div>
       </div>
-      <div class="reply"  v-show="hasReply">
-          <p><span>商家回复：</span>谢谢亲的支持~我们会加倍努力提供更好的产品给到您~</p>
+      <div class="reply"  v-if="comment.replyContent">
+          <p><span>商家回复：</span>{{comment.replyContent}}</p>
       </div>
     </div>
 </template>
@@ -41,20 +41,25 @@
         name: "Recommend",
       data() {
         return {
-          value: 3,
+          value: 0,
           items: items,
           popupVisible1: true,
-
         }
       },
       components:{
         EvaluationGoods
       },
-      mounted() {
-        this.hasReply = true
+      computed: {
+          // commentItem(){
+          //   return this.props.comment.replyContent == ''
+          // }
       },
       props:{
-          hasReply: Boolean
+          hasReply:{
+            type: Boolean,
+            default: false
+          } ,
+        comment:null
       }
     }
 </script>
