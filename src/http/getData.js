@@ -11,13 +11,17 @@ export const getUserAppraises = (params,datas) => new Request().require({api: ur
 
 export const updateUserInfo = (params,datas) => new Request().require({api: url.updateUserInfo,param: params, data: datas}); //编辑用户信息
 
-export const getAccountList = (params) => new Request().require({api: url.accountList,methods:'GET',param: params}); //获取账户列表
+export const getAccountList = (params) => new Request().require({api: url.accountList,methods:'GET',loadingVisble: true,param: params}); //获取账户列表
 
 export const deleteAccount = (params,datas) => new Request().require({api: url.deleteAccount,param: params, data: datas}); //删除账户
 
-export const addAliPay = (params,datas) => new Request().require({api: url.deleteAccount,param: params, data: datas}); //删除账户
+export const addAliPay = (params,datas) => new Request().require({api: url.addAliPay,param: params, data: datas}); //添加支付寶賬戶
 
-export const addCard = (params,datas) => new Request().require({api: url.deleteAccount,param: params, data: datas}); //删除账户
+export const addCard = (params,datas) => new Request().require({api: url.addCard,param: params, data: datas}); //添加銀行卡賬戶
+
+export const updateUserPass = (params,datas) => new Request().require({api: url.updateUserPass,param: params, data: datas}); //修改登錄密碼
+
+export const updatePayPass = (params,datas) => new Request().require({api: url.updatePayPass,param: params, data: datas}); //修改支付密碼
 
 
 

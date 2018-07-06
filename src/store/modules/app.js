@@ -13,10 +13,10 @@ const app = {
     }
   },
   actions: {
-    loginState([state, commit], currentLoginState){
+    loginState({state, commit}, currentLoginState){
       commit(types.SET_LOGIN_STATE, currentLoginState)
     },
-    setToken([state, commit], token){
+    setToken({state, commit}, token){
       commit(types.SET_TOKEN, token)
     }
   }

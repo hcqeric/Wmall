@@ -3,7 +3,7 @@
     <Header/>
     <ul>
       <li v-for="item in list" class="sort-item">
-        <img  v-lazy="item.url" />
+        <img  :src="item.url" />
         <div class="serial"><span>{{item.name}}</span></div>
       </li>
     </ul>

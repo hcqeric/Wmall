@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <mt-header v-if="pageInfo" fixed :title='"修改" + pageInfo.title'>
+  <div class="container" v-if="pageInfo">
+    <mt-header  fixed :title='"修改" + pageInfo.title'>
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
@@ -9,10 +9,10 @@
         <div class="input-cell">
           <div class="cell-left">
             <i class="iconfont icon-suoding"></i>
-            <p v-if="pageInfo">原{{pageInfo.title}}</p>
+            <p>原{{pageInfo.title}}</p>
           </div>
           <div class="cell-right">
-            <input v-if="pageInfo" type="text" :placeholder='"输入原" + pageInfo.title'>
+            <input  type="password" :placeholder='"输入原" + pageInfo.title' v-model="pageInfo.oldPass">
           </div>
         </div>
         <div class="input-cell">
@@ -21,7 +21,7 @@
             <p>新密码</p>
           </div>
           <div class="cell-right">
-            <input v-if="pageInfo" type="text" :placeholder='"输入新" + pageInfo.title'>
+            <input type="password" :placeholder='"输入新" + pageInfo.title' v-model="pageInfo.newPass">
           </div>
         </div>
         <div class="input-cell">
@@ -30,28 +30,38 @@
             <p>确认密码</p>
           </div>
           <div class="cell-right">
-            <input v-if="pageInfo" type="text" :placeholder='"再次输入新" + pageInfo.title'>
+            <input type="password" :placeholder='"再次输入新" + pageInfo.title' v-model="pageInfo.confirmPass">
           </div>
         </div>
       </div>
       <div class="goto">
-        <button>修改</button>
+        <button @click="updatePassword">修改</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import {Toast} from 'mint-ui';
+  import {updatePayPass, updateUserPass} from "../../http/getData"
+  import {getLocalStorage} from "../../custom/mixin"
+  import * as Constants from '../../custom/constants'
   const page_msg = [
     {
       type:"login",
       title:"登录密码",
-      postUrl:"www.baiodu.com"
+      postUrl:"www.baiodu.com",
+      oldPass:'',
+      newPass:'',
+      confirmPass:''
     },
     {
       type:"trans",
       title: "兑换密码",
-      postUrl:"www.baiodu.com"
+      postUrl:"www.baiodu.com",
+      oldPass:'',
+      newPass:'',
+      confirmPass:''
     }
   ]
   export default {
@@ -59,16 +69,78 @@
     name: "UpdatePass",
     data(){
       return {
+        type:'',
         pageInfo: null
       }
     },
     methods: {
       goBack() {
         this.$router.back()
+      },
+      updatePassword(){
+        if (this.pageInfo.oldPass === '' || this.pageInfo.newPass ==='' || this.pageInfo.confirmPass === ''){
+          Toast({
+            message: '密码不能为空',
+            position: 'middle',
+            duration: 1000});
+          return
+        }else{
+          let reg = /^[\w.]{6,20}$/
+          if (!(reg.test(this.pageInfo.oldPass)) || !(reg.test(this.pageInfo.oldPass)) || !(reg.test(this.pageInfo.oldPass))){
+            Toast({
+              message: '密码长度需为6-20位',
+              position: 'middle',
+              duration: 1000});
+            return
+          }}
+        if(this.pageInfo.oldPass === this.pageInfo.newPass){
+          Toast({
+            message: "輸入的原密碼與新密碼一致，請重新輸入",
+            position: 'middle'
+          });
+          return
+        }
+        if(this.pageInfo.confirmPass !== this.pageInfo.newPass){
+          Toast({
+            message: "輸入的新密碼與確認密碼一致，請重新輸入",
+            position: 'middle'
+          });
+          return
+        }
+        let tk = getLocalStorage(Constants.TOKEN)
+        if(this.type === page_msg[0].type){
+
+          updateUserPass({
+            token: tk
+          },{
+            password: this.pageInfo.oldPass,
+            newPassword: this.pageInfo.newPass
+          }).then(response=>{
+            console.log(response)
+            Toast({
+              message: "修改成功",
+              position: 'middle'
+            });
+          }).catch(error=>{})
+        }else if(this.type == page_msg[1].type){
+          updateUserPass({
+            token: tk
+          },{
+            payPassword: this.pageInfo.oldPass,
+            newPayPassword: this.pageInfo.newPass
+          }).then(response=>{
+            console.log(response)
+            Toast({
+              message: "修改成功",
+              position: 'middle'
+            });
+          }).catch(error=>{})
+        }
       }
     },
     mounted(){
       let {type} = this.$route.params
+      this.type = type
       if (type == page_msg[0].type) {
         this.pageInfo = page_msg[0]
       }else if(type == page_msg[1].type){

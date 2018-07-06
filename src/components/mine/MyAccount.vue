@@ -45,6 +45,7 @@
 
 <script>
   import { MessageBox } from 'mint-ui';
+  import {Toast} from 'mint-ui';
   import {getAccountList,deleteAccount} from "../../http/getData"
   import {isEmptyObject,getLocalStorage} from "../../custom/mixin"
   import * as Constants from '../../custom/constants'
@@ -79,6 +80,10 @@
                 this.myAccount.cardNo = ''
                 this.myAccount.accountName = ''
                 this.myAccount.bankName = ''
+                Toast({
+                  message: "刪除成功",
+                  position: 'middle'
+                });
                 if(isEmptyObject(this.myAccount)){
                   this.showText = true
                 }
@@ -98,6 +103,10 @@
                 console.log(response)
                 this.myAccount.aliPay = ''
                 this.myAccount.aliPayName = ''
+                Toast({
+                  message: "刪除成功",
+                  position: 'middle'
+                });
                 if(isEmptyObject(this.myAccount)){
                   this.showText = true
                 }

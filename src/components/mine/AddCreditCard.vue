@@ -11,7 +11,7 @@
             <p>开户人</p>
           </div>
           <div class="cell-right">
-            <input type="text" placeholder="填写开户人姓名">
+            <input type="text" placeholder="填写开户人姓名" v-model="accountName">
           </div>
         </div>
         <div class="input-cell">
@@ -19,7 +19,7 @@
             <p>卡号</p>
           </div>
           <div class="cell-right">
-            <input type="text" placeholder="输入银行卡号">
+            <input type="text" placeholder="输入银行卡号" v-model="cardNo">
           </div>
         </div>
         <div class="input-cell">
@@ -27,12 +27,12 @@
             <p>开户银行</p>
           </div>
           <div class="cell-right">
-            <input type="text" placeholder="输入开户银行">
+            <input type="text" placeholder="输入开户银行" v-model="bankName">
           </div>
         </div>
       </div>
       <div class="goto">
-        <button>添加</button>
+        <button @click="addAccount">添加</button>
       </div>
     </div>
 
@@ -40,11 +40,37 @@
 </template>
 
 <script>
+  import {Toast} from 'mint-ui';
+  import {addCard} from "../../http/getData"
+  import {getLocalStorage} from "../../custom/mixin"
+  import * as Constants from '../../custom/constants'
   export default {
     name: "AddCreditCard",
+    data(){
+      return {
+        accountName:'',
+        cardNo:'',
+        bankName:''
+      }
+    },
     methods: {
       goBack() {
         this.$router.back()
+      },
+      addAccount() {
+        let tk = getLocalStorage(Constants.TOKEN)
+        addCard({
+          token: tk
+        }, {
+          accountName: this.accountName,
+          cardNo: this.cardNo,
+          bankName: this.bankName
+        }).then(response => {
+          Toast({
+            message: "添加成功",
+            position: 'middle'
+          });
+        })
       }
     }
   }
@@ -136,14 +162,17 @@
     text-align: center;
   }
 
-  .goto button {
+  .goto button{
     border: none;
-    height: 44px;
-    line-height: 44px;
-    border-radius: 22px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 17px;
     background-color: transparent;
-    background-image: url("../../assets/img/color-pink.png");
-    width: 280px;
+    background-image: url("../../assets/img/button-bg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    outline: none;
+    width: 290px;
     text-align: center;
     color: #fff;
     margin: 0 auto;

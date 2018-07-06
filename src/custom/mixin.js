@@ -57,7 +57,7 @@ export function isObjectValueEqual(a, b) {
 
 export function isEmptyObject(obj) {
   for(var key in obj){
-    if(!obj[key] && obj[key] != ''){
+    if(obj[key] != ''){
       return false;
     }
   }

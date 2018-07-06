@@ -18,5 +18,7 @@ export default {
   accountList:'/app/account/list',
   deleteAccount:'/app/account/delete',
   addAliPay:'/app/account/addAliPay',
-  addCard:'/app/account/addCard'
+  addCard:'/app/account/addCard',
+  updateUserPass:'/app/updateUserPassword',
+  updatePayPass:'/app/updatePayPassword'
 }

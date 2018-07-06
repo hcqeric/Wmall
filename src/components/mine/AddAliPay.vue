@@ -32,6 +32,7 @@
 </template>
 
 <script>
+  import {Toast} from 'mint-ui';
   import {addAliPay} from "../../http/getData"
   import {getLocalStorage} from "../../custom/mixin"
   import * as Constants from '../../custom/constants'
@@ -40,7 +41,7 @@
     data(){
       return {
         aliPayName:'',
-        aliPay
+        aliPay:''
       }
     },
     methods: {
@@ -55,8 +56,10 @@
           aliPayName: this.aliPayName,
           aliPay: this.aliPay
         }).then(response=>{
-          console.log(response)
-
+          Toast({
+            message: "添加成功",
+            position: 'middle'
+          });
         })
       }
     }
@@ -149,14 +152,17 @@
     text-align: center;
   }
 
-  .goto button {
+  .goto button{
     border: none;
-    height: 44px;
-    line-height: 44px;
-    border-radius: 22px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 17px;
     background-color: transparent;
-    background-image: url("../../assets/img/color-pink.png");
-    width: 280px;
+    background-image: url("../../assets/img/button-bg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    outline: none;
+    width: 290px;
     text-align: center;
     color: #fff;
     margin: 0 auto;

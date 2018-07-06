@@ -41,9 +41,12 @@ import RefundSuccess from '@/components/mine/RefundSuccess'
 import ForgetPass from '@/components/ForgetPass'
 import Login from '@/components/Login'
 
+import {getLocalStorage} from "../custom/mixin"
+import * as Constants from '../custom/constants'
+
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   routes: [
     {
       path: '/',
@@ -252,3 +255,13 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach( (to, from, next) => {
+  let tk = getLocalStorage(Constants.TOKEN)
+  if (!tk && to.path !== '/login' && to.path !== '/reg' && to.path !== '/forgetpass') {
+    return next({ path: '/login' })
+  }else {
+    next()
+  }
+})
+export default router
