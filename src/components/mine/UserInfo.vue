@@ -4,7 +4,7 @@
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
       <el-button type="text" slot="right" @click="saveInfo">保存</el-button>
     </mt-header>
-    <div class="content">
+    <div class="content" v-if="user">
       <div class="info-list">
         <div class="top">
           <div class="input-cell">
@@ -12,7 +12,7 @@
               <p>我的头像</p>
             </div>
             <div class="cell-right">
-              <img src="../../assets/img/avatar.jpg" alt="">
+              <img :src="user.logoUrl" alt="">
               <i class="el-icon-arrow-right"></i>
             </div>
           </div>
@@ -21,7 +21,7 @@
               <p>我的昵称</p>
             </div>
             <div class="cell-right">
-              <input type="text" placeholder="输入昵称">
+              <input type="text" placeholder="输入昵称" v-model="userinfo.nickname">
             </div>
           </div>
           <div class="input-cell">
@@ -29,7 +29,7 @@
               <p>手机号码</p>
             </div>
             <div class="cell-right">
-              <input type="text" placeholder="输入手机号码">
+              <input type="text" placeholder="输入手机号码" :value="user.mobile">
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@
               <p>性别</p>
             </div>
             <div class="cell-right">
-              <input type="text" placeholder="选择性别">
+              <input type="text" placeholder="选择性别" :value="user.gender | genderFormat(user.gender)">
               <i class="el-icon-arrow-right"></i>
             </div>
           </div>
@@ -48,7 +48,7 @@
               <p>出生日期</p>
             </div>
             <div class="cell-right">
-              <input type="text" placeholder="选择日期">
+              <input type="text" placeholder="选择日期" :value="user.birthday | DateFormat('yyyy/MM/dd')">
               <i class="el-icon-arrow-right"></i>
             </div>
           </div>
@@ -66,7 +66,7 @@
               <p>详细地址</p>
             </div>
             <div class="cell-right">
-              <input type="text" placeholder="输入详细地址">
+              <input type="text" placeholder="输入详细地址" :value="user.address">
             </div>
           </div>
         </div>
@@ -76,17 +76,66 @@
 </template>
 
 <script>
-    export default {
+  import {mapGetters,mapActions} from 'vuex'
+  import {Toast} from 'mint-ui';
+  import {deepCopy,isObjectValueEqual,getLocalStorage} from "../../custom/mixin"
+  import * as Constants from '../../custom/constants'
+  import {updateUserInfo} from "../../http/getData";
+  export default {
       name: "UserInfo",
+      data(){
+        return {
+        }
+      },
+      computed:{
+          ...mapGetters({
+            user: 'userinfo'
+          }),
+          userinfo(){
+            let userinfo = this.$store.state.user.userInfo
+            let myinfo = deepCopy(userinfo)
+            return myinfo
+          }
+      },
       methods: {
         goBack() {
           this.$router.back()
         },
+        ...mapActions([
+          'setUserInfo'
+        ]),
         saveInfo(){
-          console.log("保存")
+          if (!isObjectValueEqual(this.userinfo, this.$store.state.user.userInfo)){
+            let tk = getLocalStorage(Constants.TOKEN)
+            updateUserInfo({
+              token: tk
+            },{
+              nickname:this.userinfo.nickname,
+              mobile:this.userinfo.mobile,
+              province:this.userinfo.province,
+              city:this.userinfo.city,
+              district:this.userinfo.district,
+              address:this.userinfo.address,
+              logoUrl:this.userinfo.logoUrl,
+              gender:this.userinfo.gender,
+              birthday:this.userinfo.birthday
+            }).then(response=>{
+              console.log(response)
+              this.setUserInfo(this.userinfo)
+              Toast({
+                message: "信息保存成功",
+                position: 'middle'
+              });
+            })
+          }else{
+            console.log("meiyougai")
+          }
         }
+      },
+      mounted(){
+
       }
-    }
+  }
 </script>
 
 <style scoped>

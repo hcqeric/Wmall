@@ -26,6 +26,44 @@ export const search = (key) => {
   return null;
 }
 
+export function deepCopy(obj){
+  if(typeof obj != 'object'){
+    return obj;
+  }
+  var newobj = {};
+  for ( var attr in obj) {
+    newobj[attr] = deepCopy(obj[attr]);
+  }
+  return newobj;
+}
+export function isObjectValueEqual(a, b) {
+  var aProps = Object.getOwnPropertyNames(a);
+  var bProps = Object.getOwnPropertyNames(b);
+  var cProps
+  if (aProps.length < bProps.length) {
+    cProps = aProps
+  }else{
+    cProps = bProps
+  }
+
+  for (var i = 0; i < cProps.length; i++) {
+    var propName = cProps[i];
+    if (a[propName] !== b[propName]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+export function isEmptyObject(obj) {
+  for(var key in obj){
+    if(!obj[key] && obj[key] != ''){
+      return false;
+    }
+  }
+  return true;
+}
+
 /**
  * 显示返回顶部按钮，开始、结束、运动 三个过程中调用函数判断是否达到目标点
  */

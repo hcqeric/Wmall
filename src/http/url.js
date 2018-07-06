@@ -13,5 +13,10 @@ export default {
   banners: '/app/file/getFileByType',
   sort: '/app/goods/getGoodsType',
   userinfo:'/app/user/userInfo',
-  comments: '/app/appraises/getUserAppraises'
+  comments: '/app/appraises/getUserAppraises',
+  updateUserInfo:'/app/user/update',
+  accountList:'/app/account/list',
+  deleteAccount:'/app/account/delete',
+  addAliPay:'/app/account/addAliPay',
+  addCard:'/app/account/addCard'
 }

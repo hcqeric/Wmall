@@ -6,13 +6,12 @@
 
 import Vue from 'vue'
 
-Vue.filter('dateFormat', function (json) { //获取第一个文件路径
-  if (json == undefined || json == null) return;
-  try {
-    var fileArr = JSON.parse(json);
-    return fileArr[0].FilePath;
-  } catch (e) {
-    return '';
+Vue.filter('genderFormat', function (type) { //获取第一个文件路径
+  if (type == undefined || type == null) return;
+  if(type === 0){
+    return '男'
+  }else if(type === 1){
+    return '女'
   }
 })
 

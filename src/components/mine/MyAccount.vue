@@ -16,35 +16,46 @@
         </div>
       </mt-header>
       <div class="content">
-        <div class="account-list">
-          <div class="input-cell">
+        <div class="account-list" v-if="myAccount">
+          <div class="input-cell" v-if="myAccount.cardNo">
             <div class="cell-left">
               <i class="iconfont icon-iconset0291"></i>
               <p>银行卡号</p>
             </div>
             <div class="cell-right">
-              <input type="text" value="6217 9211 5647 8987" disabled>
-              <i class="iconfont icon-lajixiang"></i>
+              <input type="text" :value="myAccount.cardNo" disabled>
+              <i class="iconfont icon-lajixiang" @click="deleteBank"></i>
             </div>
           </div>
-          <div class="input-cell">
+          <div class="input-cell" v-if="myAccount.aliPay">
             <div class="cell-left">
               <i class="iconfont icon-iconfontrectangle390"></i>
               <p>支付宝号</p>
             </div>
             <div class="cell-right">
-              <input type="text" value="15899889888" disabled>
-              <i class="iconfont icon-lajixiang"></i>
+              <input type="text" :value="myAccount.aliPay" disabled>
+              <i class="iconfont icon-lajixiang" @click="deleteAlipay"></i>
             </div>
           </div>
         </div>
       </div>
+      <div v-if="showText" class="no-account">您尚未添加账户，请点击“<span>添加</span>”按钮添加您的账户</div>
     </div>
 </template>
 
 <script>
+  import { MessageBox } from 'mint-ui';
+  import {getAccountList,deleteAccount} from "../../http/getData"
+  import {isEmptyObject,getLocalStorage} from "../../custom/mixin"
+  import * as Constants from '../../custom/constants'
     export default {
         name: "MyAccount",
+      data(){
+          return {
+            myAccount:{},
+            showText: false
+          }
+      },
       methods: {
         goBack() {
           this.$router.back()
@@ -54,7 +65,58 @@
         },
         turnToAddAliPay(){
           this.$router.push('/addalipay')
+        },
+        deleteBank(){
+          MessageBox.confirm('确定要删除银行卡账户吗?').then(action => {
+            if(action==="confirm"){
+              let tk = getLocalStorage(Constants.TOKEN)
+              deleteAccount({
+                token: tk
+              },{
+                deleteType:'1'
+              }).then(response=>{
+                console.log(response)
+                this.myAccount.cardNo = ''
+                this.myAccount.accountName = ''
+                this.myAccount.bankName = ''
+                if(isEmptyObject(this.myAccount)){
+                  this.showText = true
+                }
+              })
+            }
+          }).catch(error=>{});
+        },
+        deleteAlipay(){
+          MessageBox.confirm('确定要删除支付宝账户吗?').then(action => {
+            if(action==="confirm"){
+              let tk = getLocalStorage(Constants.TOKEN)
+              deleteAccount({
+                token: tk
+              },{
+                deleteType:'2'
+              }).then(response=>{
+                console.log(response)
+                this.myAccount.aliPay = ''
+                this.myAccount.aliPayName = ''
+                if(isEmptyObject(this.myAccount)){
+                  this.showText = true
+                }
+              })
+            }
+          }).catch(error=>{});
         }
+      },
+      mounted(){
+        let tk = getLocalStorage(Constants.TOKEN)
+        getAccountList({
+          token: tk
+        }).then(response=>{
+          console.log(response)
+          this.myAccount = response.result
+          if(isEmptyObject(this.myAccount)){
+            this.showText = true
+          }
+        })
       }
     }
 </script>
@@ -153,7 +215,16 @@
     font-size: 14px;
     color: #999;
   }
-
+  .no-account{
+    color: #000;
+    font-size: 14px;
+    padding: 16px;
+    background: #fff;
+    margin-top: 64px;
+  }
+  .no-account span{
+    color: #FF659F;
+  }
   .icon-iconset0291{
     color: #e0620d;
   }

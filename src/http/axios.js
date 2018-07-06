@@ -1,10 +1,6 @@
 import axios from 'axios';
 import url from '@/http/url.js'
-import * as Constants from '../custom/constants'
-import {
-  Indicator,
-  Toast
-} from 'mint-ui';
+import {Indicator, Toast} from 'mint-ui';
 import {
   setLocalStorage,
   getLocalStorage,

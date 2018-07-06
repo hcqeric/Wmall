@@ -11,7 +11,7 @@
             <p>开户人</p>
           </div>
           <div class="cell-right">
-            <input type="text" placeholder="填写开户人姓名">
+            <input type="text" placeholder="填写开户人姓名" v-model="aliPayName">
           </div>
         </div>
         <div class="input-cell">
@@ -19,24 +19,45 @@
             <p>支付宝账号</p>
           </div>
           <div class="cell-right">
-            <input type="text" placeholder="输入支付宝账号">
+            <input type="text" placeholder="输入支付宝账号" v-model="aliPay">
           </div>
         </div>
 
       </div>
       <div class="goto">
-        <button>添加</button>
+        <button @click="addAccount">添加</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import {addAliPay} from "../../http/getData"
+  import {getLocalStorage} from "../../custom/mixin"
+  import * as Constants from '../../custom/constants'
   export default {
     name: "AddAliPay",
+    data(){
+      return {
+        aliPayName:'',
+        aliPay
+      }
+    },
     methods: {
       goBack() {
         this.$router.back()
+      },
+      addAccount(){
+        let tk = getLocalStorage(Constants.TOKEN)
+        addAliPay({
+          token: tk
+        },{
+          aliPayName: this.aliPayName,
+          aliPay: this.aliPay
+        }).then(response=>{
+          console.log(response)
+
+        })
       }
     }
   }

@@ -155,6 +155,7 @@
   import {getUserInfo} from "../../http/getData";
   import { getLocalStorage } from '@/custom/mixin';
   import * as Constants from '../../custom/constants'
+  import {mapActions} from 'vuex'
   export default {
     name: "UserCenter",
     data() {
@@ -164,6 +165,9 @@
       }
     },
     methods: {
+      ...mapActions([
+        'setUserInfo'
+      ]),
       contactUs() {
         console.log("sadfasdfsd")
         MessageBox({
@@ -187,6 +191,7 @@
         token: tk
       }).then(response=>{
         this.userinfo = response.result
+        this.setUserInfo(this.userinfo)
       })
     }
   }
