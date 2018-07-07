@@ -23,5 +23,6 @@ export default {
   updatePayPass:'/app/updatePayPassword',
   setupPayPassword:'app/setUpPayPassword',
   getBonus:'app/account/getBonus',
-  expInfo:'/app/order/expInfo'
+  expInfo:'/app/order/expInfo',
+  addressList:'/app/userAds/getAdsList'
 }

@@ -4,8 +4,8 @@
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
-      <div class="info" v-for="n in 10">
-        <AddressWithEditor :isDefault="n == 1 ? true : false"></AddressWithEditor>
+      <div class="info" v-for="item in addressList">
+        <AddressWithEditor :address="item"></AddressWithEditor>
       </div>
     </div>
     <div class="goto">
@@ -16,9 +16,17 @@
 
 <script>
   import AddressWithEditor from '@/components/view/AddressWithEditor'
+  import * as Constants from '../../custom/constants'
+  import {getLocalStorage} from "../../custom/mixin";
+  import {getAdsList} from "../../http/getData";
 
   export default {
     name: "SelectAddress",
+    data(){
+      return {
+        addressList:[]
+      }
+    },
     components: {
       AddressWithEditor
     },
@@ -29,6 +37,15 @@
       gotoEditAddress(){
         this.$router.push('/editAddress')
       }
+    },
+    mounted(){
+      let tk = getLocalStorage(Constants.TOKEN)
+      getAdsList({
+        token: tk
+      }).then(response=>{
+        console.log(response)
+        this.addressList = response.result
+      }).catch(error=>{})
     }
   }
 </script>
@@ -44,7 +61,7 @@
     overflow: scroll;
   }
   .mint-header{
-    background-color: #FF659B;
+    background-color: #000;
     height: 48px;
     z-index: 9999;
   }
@@ -61,19 +78,22 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    padding: 8px 0;
+    padding: 12px 0;
     width: 100%;
     background-color: #fff;
     text-align: center;
   }
   .goto button{
     border: none;
-    height: 44px;
-    line-height: 44px;
-    border-radius: 22px;
+    outline: none;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 17px;
     background-color: transparent;
-    background-image: url("../../assets/img/color-pink.png");
-    width: 280px;
+    background-image: url("../../assets/img/button-bg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 290px;
     text-align: center;
     color: #fff;
     margin: 0 auto;

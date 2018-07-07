@@ -30,5 +30,7 @@ export const getBonus = (params) => new Request().require({api: url.getBonus,met
 
 export const getExpInfo = (params,datas) => new Request().require({api: url.expInfo,param: params, data: datas}); //查看物流
 
+export const getAdsList = (params) => new Request().require({api: url.addressList,methods:'GET',param: params}); //收货地址列表
+
 
 

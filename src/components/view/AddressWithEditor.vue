@@ -1,19 +1,19 @@
 <template>
   <div class="personal-info">
     <div class="left">
-      <i class="icon-home2"></i>
+      <img src="../../assets/img/ditu.png"></img>
     </div>
     <div class="middle">
       <div class="recipient">
-        <p>张三<span>15899889888</span></p>
-        <button v-show="isDefault == true">默认</button>
+        <p>{{address.consignee}}<span>{{address.mobile}}</span></p>
+        <button v-show="address.default_flag == 0">默认</button>
       </div>
       <div class="address">
-        <p>收货地址：<span>广东省深圳市宝安区新安街道幸福花园A栋栋201新安街道幸福花园A栋栋201</span></p>
+        <p>收货地址：<span>{{address.fullAddress}}</span></p>
       </div>
     </div>
     <div class="right">
-      <i class="icon-menu"></i>
+      <img src="../../assets/img/bianj.png"></img>
     </div>
   </div>
 
@@ -28,7 +28,7 @@
           }
       },
       props: {
-          isDefault: Boolean
+        address: Object
       }
     }
 </script>
@@ -40,14 +40,15 @@
     align-items: center;
 
   }
-  .left i{
-    font-size: 26px;
+  .left img{
+    width: 18px;
   }
-  .right i{
-    font-size: 26px;
-    padding-left: 16px;
+  .right img{
+    width: 24px;
+    margin-left: 16px;
   }
   .middle{
+    flex: 1;
     padding:0  8px;
     border-right: 1px solid rgba(239,239,239,0.9);
   }
