@@ -38,6 +38,8 @@ import UserInfo from '@/components/mine/UserInfo'
 import OrderCenter from '@/components/mine/OrderCenter'
 import Refunds from '@/components/mine/Refunds'
 import RefundSuccess from '@/components/mine/RefundSuccess'
+import SetPayPass from '@/components/mine/SetPayPass'
+import SelectTemplate from '@/components/mine/SelectTemplate'
 import ForgetPass from '@/components/ForgetPass'
 import Login from '@/components/Login'
 
@@ -139,7 +141,7 @@ let router = new Router({
       component: LogisticsTracing
     },
     {
-      path: '/scores/:id',
+      path: '/scores',
       name: 'MyScore',
       component: MyScore
     },
@@ -252,6 +254,16 @@ let router = new Router({
       path: '/refundsucc',
       name: 'RefundSuccess',
       component: RefundSuccess
+    },
+    {
+      path: '/setpaypass',
+      name: 'setpaypass',
+      component: SetPayPass
+    },
+    {
+      path: '/template/:type',
+      name: 'template',
+      component: SelectTemplate
     }
   ]
 })

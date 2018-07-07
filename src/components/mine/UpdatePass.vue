@@ -5,7 +5,6 @@
     </mt-header>
     <div class="content">
       <div class="account-list">
-        <!--<InputCell></InputCell>-->
         <div class="input-cell">
           <div class="cell-left">
             <i class="iconfont icon-suoding"></i>
@@ -236,21 +235,24 @@
     text-align: center;
   }
 
-  .goto button {
+  .goto button{
     border: none;
-    height: 44px;
-    line-height: 44px;
-    border-radius: 22px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 17px;
     background-color: transparent;
-    background-image: url("../../assets/img/color-pink.png");
-    width: 280px;
+    background-image: url("../../assets/img/button-bg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    outline: none;
+    width: 290px;
     text-align: center;
     color: #fff;
     margin: 0 auto;
   }
 
   .icon-suoding{
-    color: #ff6d9e;
+    color: #b535fa;
   }
 </style>
 

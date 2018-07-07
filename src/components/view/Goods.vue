@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item">
-    <div class="item-check"  v-show="false">
+    <div class="item-check"  v-show="ableCheck">
       <el-checkbox v-model="checked"></el-checkbox>
     </div>
     <div class="goods-intro">
@@ -27,7 +27,7 @@
 
 <script>
     export default {
-        name: "Goods",
+      name: "Goods",
       data(){
           return {
             goodsCount: 1,
@@ -49,6 +49,12 @@
       },
       computed:{
 
+      },
+      props:{
+        ableCheck: {
+          type: Boolean,
+          default: false
+        }
       }
     }
 </script>
@@ -133,5 +139,17 @@
   }
   .price p span{
     color: #FF659B;
+  }
+</style>
+<style>
+  .item-check .el-checkbox__inner{
+    border-color: #606266;
+  }
+  .item-check .el-checkbox__inner:hover {
+    border-color: #606266;
+  }
+  .item-check .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: #bf54f9;
+    border-color: #bf54f9;
   }
 </style>

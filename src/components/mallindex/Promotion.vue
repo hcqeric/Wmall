@@ -6,7 +6,7 @@
       <div :class="selected==3 ? 'is-selected' : ''" @click="changeTab('3')">新闻动态</div>
     </div>
     <div v-if="selected==1">
-      <div slot="content" class="slid">
+      <div slot="content">
         <SlideRender></SlideRender>
       </div>
     </div>

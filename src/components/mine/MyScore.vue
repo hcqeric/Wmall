@@ -3,46 +3,46 @@
     <mt-header fixed title="我的积分">
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
-    <div class="content">
-      <Notification title="亲，这是兑换积分须知~"></Notification>
+    <div class="content" v-if="scores">
+      <Notification title="亲，这是兑换积分须知~" @click.native="toSelectTemplate"></Notification>
       <div class="scores">
         <img src="http://p90m90efq.bkt.clouddn.com/score.jpg" alt="">
         <div class="score">
           <p>可兑换积分</p>
-          <p>6000</p>
+          <p>{{scores.scoreValid}}</p>
         </div>
         <button @click="turnToScoreRecord">兑换记录</button>
       </div>
       <div class="score-items">
         <div class="score-item">
-          <img src="http://p90m90efq.bkt.clouddn.com/loudspeaker.png" alt="">
+          <img src="../../assets/img/jif1.png" alt="">
           <div class="content-total">
             <p>我的积分</p>
-            <p>10000</p>
+            <p>{{scores.scoreSum}}</p>
             <i class="el-icon-arrow-right"></i>
           </div>
         </div>
         <router-link class="score-item" to="/score/able">
-          <img src="http://p90m90efq.bkt.clouddn.com/loudspeaker.png" alt="">
+          <img src="../../assets/img/duihuajif.png" alt="">
           <div class="content-score" >
             <p>可兑积分</p>
-            <p>6000</p>
+            <p>{{scores.scoreValid}}</p>
             <i class="el-icon-arrow-right"></i>
           </div>
         </router-link>
         <router-link class="score-item" to="/score/unpack">
-          <img src="http://p90m90efq.bkt.clouddn.com/loudspeaker.png" alt="">
+          <img src="../../assets/img/weijjif.png" alt="">
           <div class="content-score" >
             <p>未结积分</p>
-            <p>3000</p>
+            <p>{{scores.scoreUnsettled}}</p>
             <i class="el-icon-arrow-right"></i>
           </div>
         </router-link>
         <router-link class="score-item" to="/score/recharge">
-          <img src="http://p90m90efq.bkt.clouddn.com/loudspeaker.png" alt="">
+          <img src="../../assets/img/fugoujif.png" alt="">
           <div class="content-score">
             <p>复购积分</p>
-            <p>1000</p>
+            <p>{{scores.scoreRepeat}}</p>
             <i class="el-icon-arrow-right"></i>
           </div>
         </router-link>
@@ -57,9 +57,26 @@
 
 <script>
   import Notification from '@/components/view/Notification'
+  import {getBonus} from "../../http/getData";
+  import {mapGetters,mapActions} from 'vuex'
+  import {getLocalStorage,setLocalStorage} from "../../custom/mixin"
+  import * as Constants from '../../custom/constants'
   export default {
     name: "MyScore",
+    data(){
+      return {
+        scores:null
+      }
+    },
+    computed:{
+      ...mapGetters({
+        payPass: 'setPayPass'
+      })
+    },
     methods: {
+      ...mapActions({
+        setPayPass:'setPayPass'
+      }),
       goBack() {
         this.$router.back()
       },
@@ -67,11 +84,29 @@
         this.$router.push('/scoretrans')
       },
       turnToExchangeScore(){
-        this.$router.push('/exchangescore')
+        if(this.payPass || getLocalStorage(Constants.SETUPPAYPASS)){
+          this.setPayPass(true)
+          this.$router.push('/exchangescore')
+        }else{
+          this.setPayPass(false)
+          setLocalStorage(Constants.SETUPPAYPASS, false)
+          this.$router.push('/setpaypass')
+        }
       },
       turnToScoreRecord(){
         this.$router.push('/scorerecord')
+      },
+      toSelectTemplate(){
+        this.$router.push('/template/0')
       }
+    },
+    mounted(){
+      let tk = getLocalStorage(Constants.TOKEN)
+      getBonus({
+        token: tk
+      }).then(response=>{
+        this.scores = response.result
+      })
     },
     components:{
       Notification
@@ -87,7 +122,6 @@
     height: 100%;
     width: 100%;
     background-color: #efefef;
-
   }
   .mint-header{
     background-color: #000;
@@ -98,11 +132,7 @@
     margin-top: 48px;
   }
   .scores{
-    position: relative;
-    /*height: 179px;*/
-    /*background-repeat: no-repeat;*/
-    /*background-image:url("http://p90m90efq.bkt.clouddn.com/score.jpg");*/
-    /*background-size: contain;*/
+    position: relative
   }
   .scores button{
     position: absolute;
@@ -117,7 +147,7 @@
     font-size: 12px;
     height: 22px;
     line-height: 22px;
-    color: #FF659F;
+    color: #b535fa;
   }
   .scores img{
     width: 100%;
@@ -150,6 +180,9 @@
     border-bottom: 1px solid rgba(153,153,153,0.2);
     align-items: center;
 
+  }
+  .score-item img{
+    width: 22px;
   }
   .score-item:last-of-type{
     border-bottom: none;
@@ -193,19 +226,20 @@
     border: none;
     outline: none;
     background-color: transparent;
-    background-image: url("../../assets/img/color-pink.png");
+    background-image: url("../../assets/img/bg-purple.png");
+    height: 35px;
+    line-height: 35px;
+    border-radius: 17px;
     text-align: center;
     color: #fff;
-    border-radius: 22px;
-    width: 140px;
+    width: 145px;
     font-size: 14px;
-    height: 44px;
-    line-height: 44px;
   }
+
   .buttons button:first-child{
     margin-right: 20px;
     background-image: none;
-    border: 1px solid #FF659F;
-    color: #FF659F;
+    border: 1px solid #b535fa;
+    color: #b535fa;
   }
 </style>

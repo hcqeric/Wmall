@@ -14,7 +14,7 @@
             <i class="el-icon-arrow-right"></i>
           </div>
         </div>
-        <div class="input-cell" @click="updateTransPass">
+        <div class="input-cell" @click="updateTransPass" v-if="setPayPass">
           <div class="cell-left">
             <i class="iconfont icon-jinbiduihuan"></i>
             <p>兑换密码</p>
@@ -29,8 +29,15 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+
   export default {
     name: "ManagePass",
+    computed:{
+      ...mapGetters({
+        setPayPass: 'setPayPass'
+      })
+    },
     methods: {
       goBack() {
         this.$router.back()
@@ -120,9 +127,9 @@
   }
 
   .icon-suoding{
-    color: #ff6d9e;
+    color: #b535fa;
   }
   .icon-jinbiduihuan{
-    color: #ff6d9e;
+    color: #b535fa;
   }
 </style>

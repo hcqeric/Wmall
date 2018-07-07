@@ -20,5 +20,8 @@ export default {
   addAliPay:'/app/account/addAliPay',
   addCard:'/app/account/addCard',
   updateUserPass:'/app/updateUserPassword',
-  updatePayPass:'/app/updatePayPassword'
+  updatePayPass:'/app/updatePayPassword',
+  setupPayPassword:'app/setUpPayPassword',
+  getBonus:'app/account/getBonus',
+  expInfo:'/app/order/expInfo'
 }

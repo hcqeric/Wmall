@@ -2,7 +2,8 @@ import * as types from '../mutation-types'
 const app = {
   state: {
     isLogin: false,
-    token: ''
+    token: '',
+    setPayPass: false
   },
   mutations: {
     [types.SET_LOGIN_STATE](state, isLogin){
@@ -10,6 +11,9 @@ const app = {
     },
     [types.SET_TOKEN](state, token){
       state.token = token
+    },
+    [types.SET_PAY_PASS](state, setPayPass){
+      state.setPayPass = setPayPass
     }
   },
   actions: {
@@ -18,6 +22,9 @@ const app = {
     },
     setToken({state, commit}, token){
       commit(types.SET_TOKEN, token)
+    },
+    setPayPass({state, commit}, setPayPass){
+      commit(types.SET_PAY_PASS, setPayPass)
     }
   }
 }

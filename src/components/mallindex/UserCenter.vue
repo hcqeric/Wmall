@@ -88,7 +88,7 @@
           </div>
         </div>
         <!--我的积分-->
-        <router-link class="item" to="/scores/11">
+        <router-link class="item" to="/scores">
           <div class="item-left">
             <img src="../../assets/img/jif.png" alt="">
             <span>我的积分</span>

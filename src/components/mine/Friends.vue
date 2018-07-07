@@ -4,7 +4,7 @@
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
-      <Notification title="亲，这是好友推荐须知~"></Notification>
+      <Notification title="亲，这是好友推荐须知~" @click.native="toSelectTemplate"></Notification>
       <div class="banner">
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
         <div class="amount">
@@ -49,6 +49,9 @@
     methods: {
       goBack() {
         this.$router.back()
+      },
+      toSelectTemplate(){
+        this.$router.push('/template/1')
       }
     },
     components:{

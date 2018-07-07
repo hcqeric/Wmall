@@ -5,7 +5,7 @@
       </mt-header>
       <div class="cart-list">
         <div class="cart-item">
-          <Goods></Goods>
+          <Goods ableCheck="true"></Goods>
         </div>
         <div class="cart">
           <el-checkbox v-model="checked">全选</el-checkbox>
@@ -54,7 +54,7 @@
 
 <style>
   .mint-header{
-    background-color: #1ABC9C;
+    background-color: #bf54f9;
     height: 48px;
   }
   .cart-list{
@@ -83,8 +83,8 @@
   }
   .cart button{
     border: none;
-    background-color:  #1ABC9C;
-    background-image: url(../../assets/img/color.png);
+    background-color:  #bf54f9;
+
     outline-color: transparent;
     color: #fff;
     padding: 8px 24px;
@@ -106,12 +106,19 @@
   .mint-msgbox-confirm{
     color: #FF659B;
   }
-
-  .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-    background-color: #1ABC9C;
-    border-color: #1ABC9C;
+</style>
+<style>
+  .cart .el-checkbox__inner{
+    border-color: #606266;
   }
-  .el-checkbox__input.is-checked+.el-checkbox__label {
-    color: #1ABC9C;
+  .cart .el-checkbox__inner:hover {
+    border-color: #606266;
+  }
+  .cart .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: #bf54f9;
+    border-color: #bf54f9;
+  }
+  .cart .el-checkbox__input.is-checked+.el-checkbox__label {
+    color: #bf54f9;
   }
 </style>

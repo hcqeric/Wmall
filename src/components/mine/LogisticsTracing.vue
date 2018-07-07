@@ -15,10 +15,10 @@
         <div class="tracing" v-if="result">
           <div>
             <el-steps direction="vertical" finish-status="success" process-status="wait" :active="1">
-              <el-step v-for="(item,index) in lists" :key="index">
-                <div slot="description" :id="index">
-                  <p :id="index">{{item.remark}}</p>
-                  <p :id="index">{{item.datetime}}</p>
+              <el-step v-for="(item,index) in expList" :key="index">
+                <div slot="description" >
+                  <p>{{item.context}}</p>
+                  <p>{{item.ftime}}</p>
                 </div>
               </el-step>
             </el-steps>
@@ -30,7 +30,10 @@
 </template>
 
 <script>
-  import { addClass } from '../../custom/js/dom'
+  import * as Constants from '../../custom/constants'
+  import { getLocalStorage } from "../../custom/mixin";
+  import {getExpInfo} from "../../http/getData";
+
   const result = {
       "company":"京东快递",
       "com":"jd",
@@ -79,7 +82,8 @@
     data(){
       return {
         result: result,
-        lists: result.list.reverse()
+        exp:null,
+        expList:[]
       }
     },
     methods: {
@@ -88,10 +92,16 @@
       }
     },
     mounted(){
-      let icons = document.getElementsByClassName('el-step__icon')
-      console.log(icons)
-      addClass(icons[0], 'icon-end')
-      addClass(icons[icons.length-1], 'icon-end last');
+      let {id} = this.$route.params
+      let tk = getLocalStorage(Constants.TOKEN)
+      getExpInfo({
+        token: tk
+      },{
+        id: id
+      }).then(response=>{
+        this.exp = response.result
+        this.expList = response.result.exp
+      }).catch(error=>{})
     }
   }
 </script>
@@ -104,7 +114,6 @@
     height: 100%;
     width: 100%;
     background-color: #efefef;
-
   }
   .mint-header{
     background-color: #000;
@@ -166,7 +175,11 @@
     border: none;
     background: #c0c4cc;
   }
-  .tracing .el-step__icon.is-text.icon-end {
+  .tracing .el-step:first-of-type .el-step__icon.is-text {
+    border: 2px solid #FF659F;
+    background-color: #FF659F;
+  }
+  .tracing .el-step:last-of-type .el-step__icon.is-text {
     border: 2px solid #FF659F;
     background-color: #FF659F;
   }
@@ -176,7 +189,7 @@
     bottom: -2px;
     left: 6px;
   }
-  .tracing .last>div{
+  .tracing .el-step:last-of-type .el-step__icon.is-text>div{
     color:  #FF659F;
   }
   .tracing .el-step__description.is-success {

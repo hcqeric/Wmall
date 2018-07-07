@@ -54,7 +54,10 @@ class Request {
                 position: 'middle'
             });
             return reject()
+        }).catch(error=>{
+          console.log(error.data)
         })
+
     })
   }
 }
