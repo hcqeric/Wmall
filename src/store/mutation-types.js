@@ -9,3 +9,5 @@ export const SET_USERINFO = 'set_userinfo'
 
 export const SET_PAY_PASS = 'set_pay_pass'
 
+export const SET_ADDRESS = 'set_address'
+

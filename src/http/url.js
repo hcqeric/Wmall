@@ -26,5 +26,6 @@ export default {
   expInfo:'/app/order/expInfo',
   addressList:'/app/userAds/getAdsList',
   addAddress:'/app/userAds/save',
-  updateAddress:'/app/userAds/update'
+  updateAddress:'/app/userAds/update',
+  deleteAddress: '/app/userAds/delete'
 }

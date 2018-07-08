@@ -13,13 +13,14 @@
       </div>
     </div>
     <div class="right">
-      <img src="../../assets/img/bianj.png" @click="gotoEditAddress" />
+      <img src="../../assets/img/bianj.png" @click="gotoEditAddress(address)" />
     </div>
   </div>
 
 </template>
 
 <script>
+  import {mapActions} from 'vuex'
     export default {
         name: "AddressWithEditor",
       data(){
@@ -31,7 +32,11 @@
         address: Object
       },
       methods:{
-        gotoEditAddress(){
+        ...mapActions({
+          setAddress: 'setAddress'
+        }),
+        gotoEditAddress(address){
+          this.setAddress(address)
           this.$router.push('/editAddress/2')
         }
       }
@@ -65,6 +70,7 @@
     align-items: center;
   }
   .recipient p{
+    flex: 1;
     color: #000;
     display: flex;
     align-items: center;
@@ -83,6 +89,7 @@
     border-radius: 5px;
     padding: 1px 8px;
     color: #FF659B;
+    width: 42px;
     font-size: 10px;
   }
   .address{

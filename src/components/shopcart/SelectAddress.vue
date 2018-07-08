@@ -36,6 +36,7 @@
       },
       gotoEditAddress(){
         this.$router.push('/editAddress/1')
+        // this.$router.push('/play')
       }
     },
     mounted(){

@@ -45,7 +45,6 @@ export function isObjectValueEqual(a, b) {
   }else{
     cProps = bProps
   }
-
   for (var i = 0; i < cProps.length; i++) {
     var propName = cProps[i];
     if (a[propName] !== b[propName]) {
@@ -53,6 +52,22 @@ export function isObjectValueEqual(a, b) {
     }
   }
   return true;
+}
+
+export function equalParamReplace(a, b) {
+  var aProps = Object.getOwnPropertyNames(a);
+  var bProps = Object.getOwnPropertyNames(b);
+  var cProps
+  if (aProps.length < bProps.length) {
+    cProps = aProps
+  }else{
+    cProps = bProps
+  }
+  for (var i = 0; i < cProps.length; i++) {
+    var propName = cProps[i];
+    a[propName] = b[propName];
+  }
+  return a;
 }
 
 export function isEmptyObject(obj) {

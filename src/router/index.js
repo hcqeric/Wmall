@@ -40,6 +40,7 @@ import Refunds from '@/components/mine/Refunds'
 import RefundSuccess from '@/components/mine/RefundSuccess'
 import SetPayPass from '@/components/mine/SetPayPass'
 import SelectTemplate from '@/components/mine/SelectTemplate'
+import Play from '@/components/mine/Play'
 import ForgetPass from '@/components/ForgetPass'
 import Login from '@/components/Login'
 
@@ -264,6 +265,11 @@ let router = new Router({
       path: '/template/:type',
       name: 'template',
       component: SelectTemplate
+    },
+    {
+      path: '/play',
+      name: 'play',
+      component:Play
     }
   ]
 })
