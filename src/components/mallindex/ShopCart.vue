@@ -5,7 +5,7 @@
       </mt-header>
       <div class="cart-list">
         <div class="cart-item">
-          <Goods ableCheck="true"></Goods>
+          <Goods :ableCheck="true"></Goods>
         </div>
         <div class="cart">
           <el-checkbox v-model="checked">全选</el-checkbox>

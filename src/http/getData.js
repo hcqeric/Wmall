@@ -32,5 +32,9 @@ export const getExpInfo = (params,datas) => new Request().require({api: url.expI
 
 export const getAdsList = (params) => new Request().require({api: url.addressList,methods:'GET',param: params}); //收货地址列表
 
+export const addAddress = (params,datas) => new Request().require({api: url.addressList, data:datas, param: params}); //添加收货地址
+
+export const updateAddress = (params,datas) => new Request().require({api: url.addressList, data:datas, param: params}); //编辑收货地址
+
 
 

@@ -1,19 +1,19 @@
 <template>
   <div class="personal-info">
     <div class="left">
-      <img src="../../assets/img/ditu.png"></img>
+      <img src="../../assets/img/ditu.png" />
     </div>
     <div class="middle">
       <div class="recipient">
         <p>{{address.consignee}}<span>{{address.mobile}}</span></p>
-        <button v-show="address.default_flag == 0">默认</button>
+        <button v-show="address.defaultFlag === 0">默认</button>
       </div>
       <div class="address">
         <p>收货地址：<span>{{address.fullAddress}}</span></p>
       </div>
     </div>
     <div class="right">
-      <img src="../../assets/img/bianj.png"></img>
+      <img src="../../assets/img/bianj.png" @click="gotoEditAddress" />
     </div>
   </div>
 
@@ -29,6 +29,11 @@
       },
       props: {
         address: Object
+      },
+      methods:{
+        gotoEditAddress(){
+          this.$router.push('/editAddress/2')
+        }
       }
     }
 </script>

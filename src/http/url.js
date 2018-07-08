@@ -24,5 +24,7 @@ export default {
   setupPayPassword:'app/setUpPayPassword',
   getBonus:'app/account/getBonus',
   expInfo:'/app/order/expInfo',
-  addressList:'/app/userAds/getAdsList'
+  addressList:'/app/userAds/getAdsList',
+  addAddress:'/app/userAds/save',
+  updateAddress:'/app/userAds/update'
 }

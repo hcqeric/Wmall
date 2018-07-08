@@ -116,7 +116,7 @@ let router = new Router({
       component: SelectAddress
     },
     {
-      path: '/editaddress',
+      path: '/editaddress/:id',
       name: 'EditAddress',
       component: EditAddress
     },

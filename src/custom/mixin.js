@@ -64,6 +64,13 @@ export function isEmptyObject(obj) {
   return true;
 }
 
+export function objectAllEmpty(obj) {
+  for(var key in obj){
+    obj[key] = ''
+  }
+  return obj;
+}
+
 /**
  * 显示返回顶部按钮，开始、结束、运动 三个过程中调用函数判断是否达到目标点
  */

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <mt-header fixed title="订单详情">
+    <mt-header fixed title="选择收货地址">
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
@@ -35,7 +35,7 @@
         this.$router.back()
       },
       gotoEditAddress(){
-        this.$router.push('/editAddress')
+        this.$router.push('/editAddress/1')
       }
     },
     mounted(){
@@ -78,7 +78,7 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    padding: 12px 0;
+    padding: 16px 0;
     width: 100%;
     background-color: #fff;
     text-align: center;
