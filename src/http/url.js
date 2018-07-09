@@ -2,7 +2,8 @@
 // const url = 'http://edu.halopay.cn';
 
 // 开发地址
-const url = 'http://120.79.16.221:8777';
+// const url = 'http://120.79.16.221:8777';
+const url = 'http://192.168.0.147:8080';
 
 export default {
   baseUrl: url,
@@ -14,6 +15,8 @@ export default {
   sort: '/app/goods/getGoodsType',
   userinfo:'/app/user/userInfo',
   comments: '/app/appraises/getUserAppraises',
+  addAppraises:'app/appraises/add',
+  getGoodsAppraises:'/app/appraises/getAppraises',
   updateUserInfo:'/app/user/update',
   accountList:'/app/account/list',
   deleteAccount:'/app/account/delete',
@@ -27,5 +30,7 @@ export default {
   addressList:'/app/userAds/getAdsList',
   addAddress:'/app/userAds/save',
   updateAddress:'/app/userAds/update',
-  deleteAddress: '/app/userAds/delete'
+  deleteAddress: '/app/userAds/delete',
+  orderList:'/app/order/list',
+  getGoodsByGoodsNum:'/app/goods/getGoodsByGoodsNum'
 }

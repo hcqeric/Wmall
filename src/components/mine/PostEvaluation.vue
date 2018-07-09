@@ -5,7 +5,7 @@
     </mt-header>
     <div class="content">
     <div class="posts">
-      <EvaluationGoods></EvaluationGoods>
+      <EvaluationGoods :hasEvaluationTime="false" :comment="comment"></EvaluationGoods>
       <div class="rate">
         <el-rate
           v-model="value"
@@ -15,16 +15,16 @@
       </div>
       <div class="comment">
         <textarea placeholder="商品满足你的期待吗？说说你的使用心得，分享给想买的他们吧" rows="3" :maxlength="max" @input="descInput"
-                v-model="desc"></textarea>
+                v-model="content"></textarea>
         <p class="pay-service-textarea-text"><span>{{remnant}}</span>/{{max}}</p>
       </div>
       <div class="pictures">
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-remove="handleRemove" :on-progress="handleProgress" :limit="3"  ref="upload">
+        <el-upload :action="uploadUrl" :file-list="appraisesImgList" :on-error="uploadError" :on-success="uploadSuccess" list-type="picture-card" :on-remove="handleRemove" :on-progress="handleProgress" :limit="3"  ref="upload">
           <i class="el-icon-plus"></i>
         </el-upload>
       </div>
       <div class="goto">
-        <button>提交评价</button>
+        <button @click="postAppraises">提交评价</button>
       </div>
     </div>
     </div>
@@ -33,15 +33,31 @@
 
 <script>
   import EvaluationGoods from '@/components/view/EvaluationGoods'
-    export default {
+  import {addAppraises} from "../../http/getData";
+  import * as Constants from '../../custom/constants'
+  import {getLocalStorage} from "../../custom/mixin"
+  import {Toast} from 'mint-ui'
+
+  export default {
         name: "PostEvaluation",
       data() {
         return {
+          uploadUrl:'',
+          comment:{
+            goods:{
+              name:"买肾丸",
+              goodsImg:"http://p90m90efq.bkt.clouddn.com/commend1.png"
+            }
+          },
+          orderId:'',
+          goodsId:'',
+          content:'',
           value: 0,
           num: 1,
           remnant:0,
           max: 100,
           dialogImageUrl: '',
+          appraisesImgList:[]
         }
       },
       methods: {
@@ -52,7 +68,7 @@
           console.log(value);
         },
         descInput() {
-          var txtVal = this.desc.length;
+          var txtVal = this.content.length;
           this.remnant = txtVal;
         },
         handleRemove(file, fileList) {
@@ -63,13 +79,54 @@
         },
         hidePictureCardUpload() {
           document.getElementsByClassName('el-upload el-upload--picture-card')[0].style.display = 'none';
+        },
+        uploadSuccess (response) {
+          this.appraisesImgList.push(response.result)
+          console.log('上传文件', response)
+        },
+        // 上传错误
+        uploadError (response) {
+          console.log('上传失败，请重试！',response)
+        },
+        postAppraises(){
+          let fileList = []
+          console.log(this.appraisesImgList)
+          this.appraisesImgList.forEach(item=>{
+            let order = item.order
+            let type = item.type
+            let url = item.url
+            fileList.push({order:order, type: type, url: url})
+          })
+          console.log(fileList)
+          let tk = getLocalStorage(Constants.TOKEN)
+          addAppraises({
+            token: tk
+          },{
+            orderId:'0',
+            goodsId:'2',
+            content:this.content,
+            score:this.value,
+            fileList: fileList
+          }).then(response=>{
+            console.log(response)
+            Toast({
+              message: '评论发表成功',
+              position:'middle'
+            })
+            this.$router.replace('/ordercenter/all')
+          }).catch(error=>{})
         }
       },
       components:{
         EvaluationGoods
       },
       mounted(){
+        let tk = getLocalStorage(Constants.TOKEN)
+        // this.uploadUrl = `http://120.79.16.221:8777/v1/file/ftpUpload/appraisesImg/0?token=44d61a8bc5fb050e44d4857a2e9f2265`
+        this.uploadUrl = `http://192.168.0.147:8080/app/file/ftpUpload/appraisesImg/0?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyNSIsImlhdCI6MTUzMTEwMTQ2NiwiZXhwIjoxNTMxNzA2MjY2fQ.In0xprJoYh6mePqJk9E0IGVSiQpiznhehyYCSZa1GqmpGjdSrylun9DPgPwTfWFGNmDtQVao7ynD4P4SBDWfcQ`
+        console.log(this.uploadUrl)
         this.$refs.upload.hidePictureCardUpload();
+
       }
     }
 </script>
@@ -133,12 +190,15 @@
   }
   .goto button{
     border: none;
-    height: 44px;
-    line-height: 44px;
-    border-radius: 22px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 17px;
     background-color: transparent;
-    background-image: url("../../assets/img/color-pink.png");
-    width: 280px;
+    background-image: url("../../assets/img/button-bg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    outline: none;
+    width: 290px;
     text-align: center;
     color: #fff;
     margin: 0 auto;

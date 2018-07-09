@@ -10,6 +10,10 @@ export const getSorts = (params) => new Request().require({api: url.sort,methods
 
 export const getUserAppraises = (params,datas) => new Request().require({api: url.comments,methods: 'POST', param: params, data: datas}); //我的评价
 
+export const addAppraises = (params,datas) => new Request().require({api: url.addAppraises, param: params, data: datas}); //添加评论
+
+export const getGoodsAppraises = (datas) => new Request().require({api: url.getGoodsAppraises, data: datas}); //商品评价
+
 export const updateUserInfo = (params,datas) => new Request().require({api: url.updateUserInfo,param: params, data: datas}); //编辑用户信息
 
 export const getAccountList = (params) => new Request().require({api: url.accountList,methods:'GET',loadingVisble: true,param: params}); //获取账户列表
@@ -38,5 +42,8 @@ export const updateAddress = (params,datas) => new Request().require({api: url.u
 
 export const deleteAddress = (params,datas) => new Request().require({api: url.deleteAddress, data:datas, param: params}); //删除收货地址
 
+export const getOrderList = (params,datas) => new Request().require({api: url.orderList, data:datas, param: params}); //订单列表
+
+export const getGoodsByGoodsNum = (datas) => new Request().require({api: url.getGoodsByGoodsNum, data:datas}); //商品详情
 
 

@@ -11,3 +11,5 @@ export const SET_PAY_PASS = 'set_pay_pass'
 
 export const SET_ADDRESS = 'set_address'
 
+export const SET_POST_APPRAISES_INFO = 'set_post_appraises_info'
+

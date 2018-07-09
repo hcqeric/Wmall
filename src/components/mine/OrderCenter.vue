@@ -5,31 +5,28 @@
       </mt-header>
       <div class="content">
         <div class="order-nav">
-          <mt-navbar v-model="selected">
-            <mt-tab-item id="1">全部</mt-tab-item>
-            <mt-tab-item id="2">待付款</mt-tab-item>
-            <mt-tab-item id="3">待发货</mt-tab-item>
-            <mt-tab-item id="4">待收货</mt-tab-item>
-            <mt-tab-item id="5">待评价</mt-tab-item>
-          </mt-navbar>
+          <div :class="type=='all' ? 'is-selected' : ''" @click="changeTab('all')">全部</div>
+          <div :class="type==0 ? 'is-selected' : ''" @click="changeTab('0')">待付款</div>
+          <div :class="type==1 ? 'is-selected' : ''" @click="changeTab('1')">待发货</div>
+          <div :class="type==2 ? 'is-selected' : ''" @click="changeTab('2')">待收货</div>
+          <div :class="type==3 ? 'is-selected' : ''" @click="changeTab('3')">待评价</div>
         </div>
         <div class="order-list">
-          <!-- tab-container -->
-          <mt-tab-container v-model="selected">
-            <mt-tab-container-item id="1">
+          <mt-tab-container v-model="type">
+            <mt-tab-container-item id="all">
               <OrderItem v-for="n in 2" class="item"></OrderItem>
             </mt-tab-container-item>
-            <mt-tab-container-item id="2">
+            <mt-tab-container-item id="0">
               <OrderItem v-for="n in 5" class="item"></OrderItem>
             </mt-tab-container-item>
-            <mt-tab-container-item id="3">
+            <mt-tab-container-item id="1">
               <OrderItem v-for="n in 8" class="item"></OrderItem>
             </mt-tab-container-item>
-            <mt-tab-container-item id="4">
+            <mt-tab-container-item id="2">
               <OrderItem v-for="n in 1" class="item"></OrderItem>
             </mt-tab-container-item>
-            <mt-tab-container-item id="5">
-              <OrderItem v-for="n in 1" class="item"></OrderItem>
+            <mt-tab-container-item id="3">
+              <OrderItem v-for="n in 2" class="item"></OrderItem>
             </mt-tab-container-item>
           </mt-tab-container>
         </div>
@@ -39,22 +36,52 @@
 
 <script>
   import OrderItem from '@/components/view/OrderItem'
-    export default {
-        name: "OrderCenter",
-      methods: {
-        goBack() {
-          this.$router.back()
+
+  export default {
+    name: "OrderCenter",
+    methods: {
+      goBack() {
+        this.$router.back()
+      },
+      changeTab(tab) {
+        if(this.type == tab){
+          return
         }
-      },
-      data() {
-        return {
-          selected: '1'
-        };
-      },
-      components:{
-          OrderItem
+        this.type = tab
+        switch (tab){
+          case 'all':
+            this.$router.replace('/ordercenter/all')
+                break
+          case '0':
+            this.$router.replace('/ordercenter/0')
+                break
+          case '1':
+            this.$router.replace('/ordercenter/1')
+                break
+          case '2':
+            this.$router.replace('/ordercenter/2')
+                break
+          case '3':
+            this.$router.replace('/ordercenter/3')
+                break
+        }
       }
+    },
+    data() {
+      return {
+
+        type: 'all'
+      };
+    },
+    components: {
+      OrderItem
+    },
+    mounted() {
+      let {type} = this.$route.params
+      this.type = type
+      this.changeTab(type)
     }
+  }
 </script>
 
 <style scoped>
@@ -79,6 +106,37 @@
     margin-top: 48px;
   }
 
+  .order-nav{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .order-nav div{
+    flex: 1;
+    background-color: #FFEDF9;
+    text-align: center;
+    padding: 16px;
+    text-shadow: 0px 0px 1px #FF659F;
+  }
+  .order-nav div.is-selected{
+    color: #bf54f9;
+    font-weight: bold;
+    border: none;
+    position: relative;
+    text-shadow: none;
+  }
+
+  .order-nav div.is-selected:after{
+    position: absolute;
+    content: '';
+    bottom: 8px;
+    left: 50%;
+    margin-left: -20px;
+    height: 3px;
+    width: 40px;
+    background-color: #bf54f9;
+  }
   .mint-navbar{
     background-color: #FFEDF9;
   }

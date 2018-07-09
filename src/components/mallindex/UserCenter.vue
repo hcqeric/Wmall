@@ -33,19 +33,19 @@
           </div>
         </router-link>
         <div class="order-state-row">
-          <router-link to="/ordercenter/topay" class="order-state-item">
+          <router-link to="/ordercenter/0" class="order-state-item">
             <img src="../../assets/img/daifuk.png" alt="">
             <span>待付款</span>
           </router-link>
-          <router-link to="/ordercenter/tosend" class="order-state-item">
+          <router-link to="/ordercenter/1" class="order-state-item">
             <img src="../../assets/img/daifahuo.png" alt="">
             <span>待发货</span>
           </router-link>
-          <router-link to="/ordercenter/toreceive" class="order-state-item">
+          <router-link to="/ordercenter/2" class="order-state-item">
             <img src="../../assets/img/daishouhuo.png" alt="">
             <span>待收货</span>
           </router-link>
-          <router-link to="/ordercenter/tocomment" class="order-state-item">
+          <router-link to="/ordercenter/3" class="order-state-item">
             <img src="../../assets/img/daipingj.png" alt="">
             <span>待评价</span>
           </router-link>

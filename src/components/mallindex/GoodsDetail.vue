@@ -4,15 +4,15 @@
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
       <mt-button slot="right" @click="gotoEvaluation">查看评价</mt-button>
     </mt-header>
-    <div class="content">
+    <div class="content" v-if="goodsInfo">
       <mt-swipe :auto="0" class="swipe">
         <mt-swipe-item v-for="item in items"><img :src="item.picUrl" alt=""></mt-swipe-item>
       </mt-swipe>
       <div class="goods-info">
-        <p>特润修护透肌精华露</p>
-        <p>创新两段式亲水凝胶基质，马油等净化添加，滋润补水。</p>
+        <p>{{goodsInfo.name}}</p>
+        <p>{{goodsInfo.introduce}}</p>
         <div class="price-info">
-          <p><span>会员价￥590.00/瓶</span> <span>原价：<s>￥680.00/瓶</s></span></p><button>包邮</button>
+          <p><span>会员价￥{{goodsInfo.sellPrice}}/瓶</span> <span>原价：<s>￥{{goodsInfo.bdanPrice}}/瓶</s></span></p><button>包邮</button>
         </div>
       </div>
       <div class="goods-ad">
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+  import {getGoodsByGoodsNum} from "../../http/getData";
+
   const items = [
       {
         linkUrl: 'http://y.qq.com/w/album.html?albummid=0044K2vN1sT5mE',
@@ -50,8 +52,9 @@
     name: "GoodsDetail",
     data(){
       return {
-        id: 1,
-        items: items
+        id: "",
+        items: items,
+        goodsInfo: null
       }
     },
     methods: {
@@ -65,6 +68,12 @@
     mounted(){
       let {id} = this.$route.params
       this.id = id
+      getGoodsByGoodsNum({
+        goodsNum: this.id
+      }).then(response=>{
+        console.log(response)
+        this.goodsInfo = response.result
+      }).catch(error=>{})
     }
   }
 </script>
@@ -150,7 +159,7 @@
     height: 44px;
     line-height: 44px;
     background-color: transparent;
-    background-image: url("../../assets/img/color-pink.png");
+    background-image: url("../../assets/img/bg-purple.png");
     width: 100%;
     text-align: center;
     color: #fff;

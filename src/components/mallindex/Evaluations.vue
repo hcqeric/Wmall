@@ -4,8 +4,8 @@
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
-      <div class="recommend-list" v-for="n in 10">
-            <Recommend  :hasReply="n%2 == 0 ? true : false"></Recommend>
+      <div class="recommend-list" v-for="item in appraisesList">
+            <Recommend  :comment="item"></Recommend>
       </div>
     </div>
   </div>
@@ -13,8 +13,18 @@
 
 <script>
   import Recommend from '@/components/view/Recommend'
+  import {getGoodsAppraises} from "../../http/getData"
+
   export default {
     name: "Evaluations",
+    data(){
+      return {
+        page:0,
+        limit: '15',
+        goodsNum:'',
+        appraisesList:[]
+      }
+    },
     components:{
       Recommend
     },
@@ -24,7 +34,20 @@
       }
     },
     mounted(){
-
+      let {id} = this.$route.params
+      this.goodsNum = id
+      console.log(this.goodsNum)
+      getGoodsAppraises({
+        page: this.page.toString(),
+        limit: this.limit,
+        goodsNum:this.goodsNum
+      }).then(response=>{
+        console.log(response)
+        response.result.list.map((item)=>{
+          this.appraisesList.push(item)
+        })
+        this.page++
+      })
     }
   }
 </script>

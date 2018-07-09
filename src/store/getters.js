@@ -4,7 +4,8 @@ const getters = {
     token: state => state.app.token,
     userinfo: state=> state.user.userInfo,
     setPayPass: state => state.app.setPayPass,
-    address: state => state.user.address
+    address: state => state.user.address,
+    postAppraises: state=> state.user.postAppraises
 }
 export default getters
 

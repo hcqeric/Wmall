@@ -6,7 +6,7 @@
     <div class="content">
       <div class="logistics">
         <div class="logistics-info">
-          <img src="http://p90m90efq.bkt.clouddn.com/logistics-logo.png" alt="">
+
           <div class="express" v-if="result">
             <p>快递公司： <span>{{result.company}}</span></p>
             <p>运单编号： <span>{{result.no}}</span></p>
