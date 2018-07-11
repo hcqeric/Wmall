@@ -1,8 +1,8 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="orderInfo">
     <mt-header fixed title="订单详情">
         <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
-        <mt-button slot="right" v-show="orderState>1 && orderState< 4">退款</mt-button>
+        <mt-button slot="right" v-show="orderState>1 && orderState< 4">订单详情</mt-button>
     </mt-header>
     <div class="content">
       <div class="order-state">
@@ -13,24 +13,26 @@
           <el-step title="完成评价" icon="icon-menu"></el-step>
         </el-steps>
       </div>
-      <div class="info">
-        <Address></Address>
+      <div class="info" >
+        <Address :address="orderInfo.userAds"></Address>
       </div>
       <div class="order-msg">
-        <div class="goods" v-for="n in 2">
-          <OrderGoods></OrderGoods>
+        <div class="goods" v-for="goodsItem in orderInfo.orderDetailList">
+          <OrderGoods :goods="goodsItem"></OrderGoods>
         </div>
         <div class="payment-msg">
           <div class="payment-item">
             <p>下单时间</p>
-            <p>2018-04-12  17:00:23</p>
+            <p>{{orderInfo.createTime | DateFormat("yyyy-MM-dd hh:mm:ss")}}</p>
           </div>
           <div class="payment-item">
             <p>订单编号</p>
-            <p>132559275960683</p>
+            <p>{{orderInfo.orderNum}}</p>
           </div>
           <div class="payment-item">
             <p>支付方式</p>
+            <p v-if="orderInfo.payType == 1">微信</p>
+            <p v-else-if="orderInfo.payType == 2">支付宝</p>
             <p>支付宝</p>
           </div>
           <div class="payment-item">
@@ -39,13 +41,16 @@
           </div>
           <div class="payment-item">
             <p>实际金额合计</p>
-            <p class="total-amount">¥ 1430.00</p>
+            <p class="total-amount">¥ {{orderInfo.payAmt}}</p>
           </div>
         </div>
       </div>
 
       <div class="goto">
-        <button>{{goto}}</button>
+        <button v-if="orderState == 0">去支付</button>
+        <button v-else-if="orderState == 1">提醒发货</button>
+        <button v-else-if="orderState == 2">确认收货</button>
+        <button v-else-if="orderState == 3">发表评价</button>
       </div>
     </div>
   </div>
@@ -54,24 +59,37 @@
 <script>
   import Address from '@/components/view/Address'
   import OrderGoods from '@/components/view/OrderConfirmGoods'
-    export default {
-        name: "OrderDetail",
+  import {getOrderByOrderNum} from "../../http/getData"
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
+  export default {
+      name: "OrderDetail",
       data(){
         return {
-          orderState:1,
-          goto:"去支付"
+          orderState:0,
+          orderInfo: null
         }
       },
       components:{
         Address,
         OrderGoods
       },
-      methods:{
-        goBack(){
-          this.$router.back()
-        }
+    methods: {
+      goBack() {
+        this.$router.back()
       }
+    },
+    mounted(){
+        let {orderid} = this.$route.params
+        let tk = getLocalStorage(Constants.TOKEN)
+        getOrderByOrderNum({token: tk},{orderNum: orderid}).then(response=>{
+          this.orderInfo = response.result
+          this.orderState = response.result.tradeStatus
+          console.log(this.orderState)
+          console.log(response)
+        })
     }
+  }
 </script>
 
 <style scoped>
@@ -85,7 +103,7 @@
     overflow: scroll;
   }
   .mint-header{
-    background-color: #FF659B;
+    background-color: #bf54f9;
     height: 48px;
     z-index: 9999;
   }
@@ -128,27 +146,38 @@
   }
   .goto button{
     border: none;
-    height: 44px;
-    line-height: 44px;
-    border-radius: 22px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 17px;
     background-color: transparent;
-    background-image: url("../../assets/img/color-pink.png");
-    width: 280px;
+    background-image: url("../../assets/img/button-bg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    outline: none;
+    width: 290px;
     text-align: center;
     color: #fff;
+    margin: 0 auto;
   }
 </style>
 <style>
+  .order-state .el-step__title.is-process {
+    color: #bf54f9;
+  }
   .order-state .el-step__title.is-finish {
-    color: #FF659B;
+    color: #bf54f9;
   }
   .order-state .el-step__title {
     font-size: 12px;
     line-height: 30px;
   }
+  .order-state .el-step__head.is-process {
+    color: #bf54f9;
+    border-color: #bf54f9;
+  }
   .order-state .el-step__head.is-finish {
-    color: #FF659B;
-    border-color: #FF659B;
+    color: #bf54f9;
+    border-color: #bf54f9;
   }
   .order-state .el-step__icon.is-icon {
     width: 36px;

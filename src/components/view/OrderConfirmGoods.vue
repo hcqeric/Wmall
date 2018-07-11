@@ -1,11 +1,11 @@
 <template>
   <div class="goods-item">
-    <img src="http://p90m90efq.bkt.clouddn.com/goods.png" alt=""/>
+    <img :src="goods.goodsImg" alt=""/>
     <div class="intro">
-      <p>特润修护肌透精华露</p>
+      <p>{{goods.goodsName}}</p>
       <div class="price">
-        <p>¥590</p>
-        <p>×{{confirmCount}}</p>
+        <p>¥{{goods.sellPrice}}</p>
+        <p>×{{goods.number}}</p>
       </div>
     </div>
   </div>
@@ -16,14 +16,13 @@
     name: "OrderConfirmGoods",
     data(){
       return {
-        confirmCount: 1,
-        isFirst:true
       }
     },
     methods:{
-
     },
-
+    props:{
+      goods: null
+    }
   }
 </script>
 

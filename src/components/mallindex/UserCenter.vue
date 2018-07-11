@@ -224,6 +224,7 @@
     height: 46px;
     width: 46px;
     border-radius: 25px;
+    background: #fff;
   }
 
   .user-header span {

@@ -46,4 +46,6 @@ export const getOrderList = (params,datas) => new Request().require({api: url.or
 
 export const getGoodsByGoodsNum = (datas) => new Request().require({api: url.getGoodsByGoodsNum, data:datas}); //商品详情
 
+export const getOrderByOrderNum = (params, datas) => new Request().require({api: url.getOrderByOrderNum,param: params, data:datas}); //商品详情
+
 

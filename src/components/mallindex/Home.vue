@@ -14,14 +14,14 @@
         <div :class="selected==3 ? 'is-selected' : ''" @click="changeTab('3')">全部商品</div>
       </div>
 
-      <div class="goods-list" v-show="selected == 1">
+      <div class="goods-list" v-if="selected == 1">
         <RecommendGoodsList></RecommendGoodsList>
       </div>
-      <div class="goods-list" v-show="selected == 2">
+      <div class="goods-list" v-if="selected == 2">
         <RecommendGoodsList></RecommendGoodsList>
       </div>
 
-      <div class="goods-list" v-show="selected == 3">
+      <div class="goods-list" v-if="selected == 3">
         <RecommendGoodsList></RecommendGoodsList>
       </div>
 

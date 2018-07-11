@@ -1,15 +1,15 @@
 <template>
   <div class="personal-info">
     <div class="left">
-      <i class="icon-home2"></i>
+      <img src="../../assets/img/ditu.png" />
     </div>
     <div class="right">
       <div class="recipient">
-        <p>收货人名：<span>张三</span></p>
-        <p>15899889888</p>
+        <p>收货人名：<span>{{address.consignee}}</span></p>
+        <p>{{address.mobile}}</p>
       </div>
       <div class="address">
-        <p>收货地址：<span>广东省深圳市宝安区新安街道幸福花园A栋栋201新安街道幸福花园A栋栋201</span></p>
+        <p>收货地址：<span>{{address.fullAddress}}</span></p>
       </div>
     </div>
   </div>
@@ -17,7 +17,10 @@
 
 <script>
     export default {
-        name: "Address"
+        name: "Address",
+      props:{
+          address: null
+      }
     }
 </script>
 
@@ -28,8 +31,8 @@
     align-items: center;
 
   }
-  .left i{
-    font-size: 26px;
+  .left img{
+    width: 18px;
   }
   .right{
     margin-left: 8px;

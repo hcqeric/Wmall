@@ -3,6 +3,8 @@
 
 // 开发地址
 // const url = 'http://120.79.16.221:8777';
+
+//强哥本地IP
 const url = 'http://192.168.0.147:8080';
 
 export default {
@@ -32,5 +34,6 @@ export default {
   updateAddress:'/app/userAds/update',
   deleteAddress: '/app/userAds/delete',
   orderList:'/app/order/list',
-  getGoodsByGoodsNum:'/app/goods/getGoodsByGoodsNum'
+  getGoodsByGoodsNum:'/app/goods/getGoodsByGoodsNum',
+  getOrderByOrderNum:'/app/order/getOrderByOrderNum'
 }

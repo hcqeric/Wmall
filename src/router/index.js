@@ -107,7 +107,7 @@ let router = new Router({
       component: PaymentSucc
     },
     {
-      path: '/orderdetail',
+      path: '/orderdetail/:orderid',
       name: 'OrderDetail',
       component: OrderDetail
     },

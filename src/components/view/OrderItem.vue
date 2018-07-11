@@ -1,30 +1,39 @@
 <template>
-    <div class="order-item">
+    <div class="order-item" v-if="orderItem"  @click="gotoDetail(orderItem.orderNum.toString())">
       <div class="order-number">
-        <p>订单号：12345678901</p>
-        <p>待付款</p>
+        <p>订单号：{{orderItem.orderNum}}</p>
+        <p v-if="orderItem.tradeStatus == 0">待付款</p>
+        <p v-else-if="orderItem.tradeStatus == 1">待发货</p>
+        <p v-else-if="orderItem.tradeStatus == 2">待收货</p>
+        <p v-else-if="orderItem.tradeStatus == 3">已完成</p>
       </div>
-      <div class="order-info">
+      <div class="order-info" v-if="orderItem.orderDetailList != undefined">
         <div class="order-imgs">
-          <img v-for="n in goodsCount" src="http://p90m90efq.bkt.clouddn.com/goods.png" alt="">
+          <img v-for="item in orderItem.orderDetailList" :src="item.goodsImg" alt="">
         </div>
-        <div v-if="goodsCount <= 1">
-          <p>特润修护透肌精华露</p>
-          <p>单价：￥590.00/瓶</p>
+        <div v-if="orderItem.orderDetailList.length == 1">
+          <p>{{orderItem.orderDetailList[0].goodsName}}</p>
+          <p>单价：{{orderItem.orderDetailList[0].sellPrice}}/{{orderItem.orderDetailList[0].unit}}</p>
         </div>
       </div>
       <div class="item-bottom">
       <div class="order-price">
-        <div class="count">
-        <p>数量：x {{goodsCount}}</p>
-        <p>￥590.00</p>
+        <div class="count" v-if="orderItem.orderDetailList != undefined">
+        <p>数量：x {{orderItem.orderDetailList.length}}</p>
+        <p>{{orderItem.totalAmt}}</p>
         </div>
       </div>
       <div class="order-state">
-        <p>广东省深圳市宝安区新安街道幸福花园A栋201</p>
+        <p v-if="orderItem.tradeStatus == 0">订单10分钟后即将关闭</p>
+        <p v-if="orderItem.tradeStatus == 1">亲,你的商品正在配货中，请耐心等待~</p>
+        <p v-if="orderItem.tradeStatus == 2">亲,你的商品正在配送中，请耐心等待~</p>
+        <p v-if="orderItem.tradeStatus == 3"></p>
         <div class="buttons">
-        <button>取消订单</button>
-        <button>去支付</button>
+        <button v-if="orderItem.tradeStatus == 0">取消订单</button>
+        <button v-if="orderItem.tradeStatus == 0">去支付</button>
+        <button v-if="orderItem.tradeStatus == 1">提醒发货</button>
+        <button v-if="orderItem.tradeStatus == 2">确认收货</button>
+        <button v-if="orderItem.tradeStatus == 3">评价</button>
         </div>
       </div>
       </div>
@@ -32,12 +41,25 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
     export default {
-        name: "OrderItem",
+      name: "OrderItem",
       data(){
           return {
             goodsCount: 1
           }
+      },
+      props:{
+        orderItem:null
+      },
+      methods:{
+        ...mapActions({
+          setOrderNum: 'setOrderNum'
+        }),
+        gotoDetail(orderNum){
+          this.setOrderNum(orderNum)
+          this.$router.push('/orderdetail/'+ orderNum)
+        }
       }
     }
 </script>
@@ -138,7 +160,7 @@
 .order-price .count{
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
 }
 .order-price .count p:first-child{
   font-size: 13px;
