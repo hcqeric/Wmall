@@ -2,7 +2,7 @@
   <div class="page-infinite">
     <div class="page-infinite-wrapper" ref="wrapper" >
       <ul class="page-infinite-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
-        <li v-for="item in recGoodsList" class="page-infinite-listitem">
+        <li v-for="item in allGoodsList" class="page-infinite-listitem">
           <RecommendGoods class="goods-item" :goodsInfo="item" />
         </li>
       </ul>
@@ -17,13 +17,13 @@
 
 <script>
   import RecommendGoods from "@/components/view/RecommendGoods";
-  import {getRecGoods} from "../../http/getData";
+  import {getAllGoods} from "../../http/getData";
 
   export default {
-    name: "RecommendGoodsList",
+    name: "AllGoodsList",
     data(){
       return {
-        recGoodsList:[],
+        allGoodsList:[],
         loading: false,
         allLoaded: false,
         wrapperHeight: 0,
@@ -36,8 +36,8 @@
       RecommendGoods
     },
     mounted(){
-      // this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top;
-      this.recGoodsList = []
+      this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top;
+      this.allGoodsList = []
       // this.loadData()
     },
     methods:{
@@ -48,16 +48,14 @@
         }
       },
       loadData(){
-        getRecGoods({
+        getAllGoods({
           page: this.page.toString(),
           limit: this.limit
         }).then(response=>{
           console.log(response)
           this.loading = false;
-          if (response.result.totalCount < response.result.currPage) {
-            this.info = "~~数据已全部加载完毕了~~"
+          if (response.result.totalCount <= response.result.currPage) {
             this.allLoaded = true
-            this.loading = false
             return
           }
           this.page++

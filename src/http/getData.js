@@ -48,4 +48,12 @@ export const getGoodsByGoodsNum = (datas) => new Request().require({api: url.get
 
 export const getOrderByOrderNum = (params, datas) => new Request().require({api: url.getOrderByOrderNum,param: params, data:datas}); //商品详情
 
+export const cancelOrder = (params, datas) => new Request().require({api: url.cancelOrder,param: params, data:datas}); //商品详情
+
+export const getRecGoods = (datas) => new Request().require({api: url.recGoodsList, data:datas}); //推荐商品
+
+export const getAllGoods = (datas) => new Request().require({api: url.allGoodsList, data:datas}); //所有商品
+
+export const getBonusGoods = (datas) => new Request().require({api: url.bonusGoodsList, data:datas}); //积分商品
+
 

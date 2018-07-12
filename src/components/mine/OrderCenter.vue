@@ -16,7 +16,7 @@
             <div class="page-infinite-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
               <ul class="page-infinite-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
                 <li v-for="item in orderList" class="page-infinite-listitem">
-                  <OrderItem :orderItem="item" class="oitem" />
+                  <OrderItem :orderItem="item" class="oitem"  @orderItem="getOrderItem" />
                 </li>
               </ul>
               <p v-show="loading" class="page-infinite-loading">
@@ -111,6 +111,13 @@
         //   }
         //   this.loading = false;
         // }, 2500);
+      },
+      getOrderItem(item){
+        this.orderList.forEach(((orderItem,index)=>{
+          if (orderItem.id == item.id) {
+            this.orderList.splice(index)
+          }
+        }))
       }
     },
     computed:{

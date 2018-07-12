@@ -2,7 +2,10 @@
   <div class="container" v-if="orderInfo">
     <mt-header fixed title="订单详情">
         <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
-        <mt-button slot="right" v-show="orderState>1 && orderState< 4">订单详情</mt-button>
+        <mt-button slot="right" v-if="orderState == 0"></mt-button>
+        <mt-button slot="right" v-else-if="orderState == 1" @click="turnToRefunds(orderInfo, 0)">退款</mt-button>
+        <mt-button slot="right" v-else-if="orderState == 2" @click="viewLogisticsTracing(orderInfo.id)">查看物流</mt-button>
+        <mt-button slot="right" v-else-if="orderState == 3" @click="turnToRefunds(orderInfo, 1)">退货退款</mt-button>
     </mt-header>
     <div class="content">
       <div class="order-state">
@@ -21,25 +24,25 @@
           <OrderGoods :goods="goodsItem"></OrderGoods>
         </div>
         <div class="payment-msg">
-          <div class="payment-item">
+          <div class="payment-item" v-if="orderInfo.createTime != undefined && orderInfo.createTime">
             <p>下单时间</p>
             <p>{{orderInfo.createTime | DateFormat("yyyy-MM-dd hh:mm:ss")}}</p>
           </div>
-          <div class="payment-item">
+          <div class="payment-item" v-if="orderInfo.orderNum != undefined && orderInfo.orderNum">
             <p>订单编号</p>
             <p>{{orderInfo.orderNum}}</p>
           </div>
-          <div class="payment-item">
+          <div class="payment-item" v-if="orderInfo.payType != undefined && orderInfo.payType">
             <p>支付方式</p>
             <p v-if="orderInfo.payType == 1">微信</p>
             <p v-else-if="orderInfo.payType == 2">支付宝</p>
             <p>支付宝</p>
           </div>
-          <div class="payment-item">
+          <div class="payment-item" v-if="orderInfo.upOrderNum != undefined && orderInfo.upOrderNum">
             <p>交易流水号</p>
-            <p>2018349375237893789658962123</p>
+            <p>{{orderInfo.upOrderNum}}</p>
           </div>
-          <div class="payment-item">
+          <div class="payment-item" v-if="orderInfo.payAmt != undefined && orderInfo.payAmt">
             <p>实际金额合计</p>
             <p class="total-amount">¥ {{orderInfo.payAmt}}</p>
           </div>
@@ -62,6 +65,7 @@
   import {getOrderByOrderNum} from "../../http/getData"
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
+  import {mapActions} from 'vuex'
   export default {
       name: "OrderDetail",
       data(){
@@ -75,9 +79,20 @@
         OrderGoods
       },
     methods: {
+      ...mapActions({
+        setBackRefunds:'setBackRefunds'
+      }),
       goBack() {
         this.$router.back()
+      },
+      viewLogisticsTracing(orderNum){
+        this.$router.push('/logistics/'+ orderNum)
+      },
+      turnToRefunds(orderInfo, type){
+        this.setBackRefunds(orderInfo)
+        this.$router.push('/applyrefunds/' + type)
       }
+
     },
     mounted(){
         let {orderid} = this.$route.params

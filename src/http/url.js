@@ -2,10 +2,10 @@
 // const url = 'http://edu.halopay.cn';
 
 // 开发地址
-// const url = 'http://120.79.16.221:8777';
+const url = 'http://120.79.16.221:8777';
 
 //强哥本地IP
-const url = 'http://192.168.0.147:8080';
+// const url = 'http://192.168.0.147:8080';
 
 export default {
   baseUrl: url,
@@ -14,6 +14,9 @@ export default {
   reg:'/app/register',
   forgetpass:'/app/updatePassword',
   banners: '/app/file/getFileByType',
+  recGoodsList:'/app/goods/recommendGoods',
+  allGoodsList:'/app/goods/getGoods',
+  bonusGoodsList:'/app/goods/getBonusGoods',
   sort: '/app/goods/getGoodsType',
   userinfo:'/app/user/userInfo',
   comments: '/app/appraises/getUserAppraises',
@@ -35,5 +38,6 @@ export default {
   deleteAddress: '/app/userAds/delete',
   orderList:'/app/order/list',
   getGoodsByGoodsNum:'/app/goods/getGoodsByGoodsNum',
-  getOrderByOrderNum:'/app/order/getOrderByOrderNum'
+  getOrderByOrderNum:'/app/order/getOrderByOrderNum',
+  cancelOrder:'app/order/cancelOrder'
 }

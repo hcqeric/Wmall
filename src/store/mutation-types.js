@@ -15,3 +15,5 @@ export const SET_POST_APPRAISES_INFO = 'set_post_appraises_info'
 
 export const SET_ORDER_NUM = 'set_order_num'
 
+export const BACK_REFUNDS = 'back_refunds'
+

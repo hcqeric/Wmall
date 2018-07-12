@@ -29,7 +29,7 @@
         <p v-if="orderItem.tradeStatus == 2">亲,你的商品正在配送中，请耐心等待~</p>
         <p v-if="orderItem.tradeStatus == 3"></p>
         <div class="buttons">
-        <button v-if="orderItem.tradeStatus == 0">取消订单</button>
+        <button v-if="orderItem.tradeStatus == 0" @click.stop="cancelOrder(orderItem.id)">取消订单</button>
         <button v-if="orderItem.tradeStatus == 0">去支付</button>
         <button v-if="orderItem.tradeStatus == 1">提醒发货</button>
         <button v-if="orderItem.tradeStatus == 2">确认收货</button>
@@ -41,12 +41,16 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
-    export default {
+  import { mapActions} from 'vuex'
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
+  import {cancelOrder} from "../../http/getData";
+
+  export default {
       name: "OrderItem",
       data(){
           return {
-            goodsCount: 1
+            token:''
           }
       },
       props:{
@@ -59,8 +63,22 @@
         gotoDetail(orderNum){
           this.setOrderNum(orderNum)
           this.$router.push('/orderdetail/'+ orderNum)
+        },
+        cancelOrder(id){
+          cancelOrder({
+            token:this.token
+          },{
+            id:id
+          }).then(response=>{
+            this.$emit('orderItem', this.orderItem)
+            console.log(response)
+          })
         }
-      }
+      },
+    mounted(){
+        let tk = getLocalStorage(Constants.TOKEN)
+      this.token = tk
+    }
     }
 </script>
 

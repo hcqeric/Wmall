@@ -2,8 +2,8 @@
   <div class="page-infinite">
     <div class="page-infinite-wrapper" ref="wrapper" >
       <ul class="page-infinite-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
-        <li v-for="item in recGoodsList" class="page-infinite-listitem">
-          <RecommendGoods class="goods-item" :goodsInfo="item" />
+        <li v-for="item in bonusGoodsList" class="page-infinite-listitem">
+          <RecommendGoods class="goods-item" :goodsInfo="item"  />
         </li>
       </ul>
       <p v-show="loading" class="page-infinite-loading">
@@ -17,13 +17,13 @@
 
 <script>
   import RecommendGoods from "@/components/view/RecommendGoods";
-  import {getRecGoods} from "../../http/getData";
+  import {getBonusGoods} from "../../http/getData";
 
   export default {
-    name: "RecommendGoodsList",
+    name: "BonusGoodsList",
     data(){
       return {
-        recGoodsList:[],
+        bonusGoodsList:[],
         loading: false,
         allLoaded: false,
         wrapperHeight: 0,
@@ -36,8 +36,8 @@
       RecommendGoods
     },
     mounted(){
-      // this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top;
-      this.recGoodsList = []
+      this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top;
+      this.bonusGoodsList = []
       // this.loadData()
     },
     methods:{
@@ -48,21 +48,20 @@
         }
       },
       loadData(){
-        getRecGoods({
+        getBonusGoods({
           page: this.page.toString(),
           limit: this.limit
         }).then(response=>{
           console.log(response)
           this.loading = false;
-          if (response.result.totalCount < response.result.currPage) {
-            this.info = "~~数据已全部加载完毕了~~"
+          if (response.result.totalPage <= response.result.currPage -1) {
             this.allLoaded = true
-            this.loading = false
+            console.log(this.allLoaded.toString())
             return
           }
           this.page++
           response.result.list.map(item=>{
-            this.recGoodsList.push(item)
+            this.bonusGoodsList.push(item)
           })
         }).catch(error=>{
           console.log(error);

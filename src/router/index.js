@@ -37,6 +37,7 @@ import Repurchase from '@/components/shopcart/Repurchase'
 import UserInfo from '@/components/mine/UserInfo'
 import OrderCenter from '@/components/mine/OrderCenter'
 import Refunds from '@/components/mine/Refunds'
+import ApplyForRefunds from '@/components/mine/ApplyForRefunds'
 import RefundSuccess from '@/components/mine/RefundSuccess'
 import SetPayPass from '@/components/mine/SetPayPass'
 import SelectTemplate from '@/components/mine/SelectTemplate'
@@ -250,6 +251,11 @@ let router = new Router({
       path: '/refunds',
       name: 'Refunds',
       component: Refunds
+    },
+    {
+      path: '/applyrefunds/:type',
+      name: 'applyrefunds',
+      component: ApplyForRefunds
     },
     {
       path: '/refundsucc',

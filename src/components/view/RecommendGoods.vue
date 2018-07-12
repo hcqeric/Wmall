@@ -1,10 +1,10 @@
 <template>
-  <div class="info">
+  <div class="info" v-if="goodsInfo" @click="gotoGoodsDetail(goodsInfo.goodsNum)">
     <img src="http://p90m90efq.bkt.clouddn.com/recommendgoods.png" alt="">
     <div class="goods">
       <div class="intro">
         <p>特润修护透肌精华露</p>
-        <p>创新两段式亲水凝胶基质，马油等净化添加，滋润补水。sdfsadfsadf</p>
+        <p>创新两段式亲水凝胶基质，马油等净化添加，滋润补水。</p>
         <div>
           <el-tag size="mini">会员价</el-tag>
           <el-tag size="mini">今日</el-tag>
@@ -23,7 +23,15 @@
 
 <script>
     export default {
-        name: "RecommendGoods"
+        name: "RecommendGoods",
+        props:{
+          goodsInfo: null
+        },
+        methods:{
+          gotoGoodsDetail(goodsNum){
+            this.$router.push('/goods/' + goodsNum)
+          }
+        }
     }
 </script>
 

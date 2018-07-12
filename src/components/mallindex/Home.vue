@@ -18,11 +18,11 @@
         <RecommendGoodsList></RecommendGoodsList>
       </div>
       <div class="goods-list" v-if="selected == 2">
-        <RecommendGoodsList></RecommendGoodsList>
+        <AllGoodsList></AllGoodsList>
       </div>
 
       <div class="goods-list" v-if="selected == 3">
-        <RecommendGoodsList></RecommendGoodsList>
+        <BonusGoodsList></BonusGoodsList>
       </div>
 
     </div>
@@ -34,9 +34,13 @@
   import url from '../../http/url.js'
   import Header from "@/components/mallindex/common/Header";
   import RecommendGoodsList from "@/components/home/RecommendGoodsList";
+  import AllGoodsList from "../home/AllGoodsList";
+  import BonusGoodsList from "../home/BonusGoodsList";
   export default {
     name: "Home",
     components:{
+      BonusGoodsList,
+      AllGoodsList,
       RecommendGoodsList,
       Header
     },
