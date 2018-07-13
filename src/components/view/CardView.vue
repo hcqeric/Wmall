@@ -3,12 +3,12 @@
     <div class="count">
       <div class="trans-count">
         <p>{{countTitle}}:</p>
-        <input type="text">
+        <input type="text"  @change="transBonus" v-model="bonus">
       </div>
       <img src="http://p90m90efq.bkt.clouddn.com/money.png" alt="">
     </div>
     <div class="score-total">
-      <p>{{totalTitle}}：<span>6000</span></p>
+      <p>{{totalTitle}}：<span>{{scores}}</span></p>
     </div>
   </el-card>
 </template>
@@ -16,9 +16,20 @@
 <script>
     export default {
         name: "CardView",
+      data(){
+          return {
+            bonus:''
+          }
+      },
       props:{
           countTitle:String,
-        totalTitle:String
+          totalTitle:String,
+          scores:String
+      },
+      methods:{
+        transBonus(){
+          this.$emit("changeBonus", this.bonus)
+        }
       }
     }
 </script>

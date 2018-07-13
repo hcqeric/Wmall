@@ -8,7 +8,7 @@
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
         <div class="amount">
           <p>已兑换金额 (元)</p>
-          <p>600.00</p>
+          <p>{{this.score}}</p>
         </div>
       </div>
     </div>
@@ -18,11 +18,19 @@
             <p>兑换明细</p>
             <p>兑换金额（元）</p>
         </div>
-        <div class="record-content">
-          <router-link v-for="n in 5" :key="n" to="/exchangedetail">
-            <ScoreItem   class="item"></ScoreItem>
-          </router-link>
-
+        <div class="page-infinite">
+          <div class="page-infinite-wrapper" ref="wrapper" >
+            <div class="record-content" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
+              <div class="list" v-for="item in records">
+                <ScoreItem class="item" :exchangeItem="item"></ScoreItem>
+              </div>
+            </div>
+            <p v-show="loading" class="page-infinite-loading">
+              <mt-spinner type="fading-circle"></mt-spinner>
+              加载中...
+            </p>
+            <p v-show="allLoaded" class="nodata">{{info}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -31,15 +39,67 @@
 
 <script>
   import ScoreItem from '@/components/view/ScoreItem'
-    export default {
+  import {getScoreRecord} from "../../http/getData";
+  import * as Constants from '../../custom/constants'
+  import {getLocalStorage} from "../../custom/mixin";
+
+  export default {
       name: "ScoreRecord",
+    data(){
+        return {
+          page: 1,
+          limit: '10',
+          allLoaded: false,
+          loading: false,
+          score:0,
+          records:[],
+          token:'',
+          info:''
+        }
+    },
       methods: {
         goBack() {
           this.$router.back()
+        },
+        loadMore() {
+          if(!this.allLoaded){
+            this.loading = true;
+             this.loadData()
+          }
+        },
+        loadData(){
+          getScoreRecord({
+            token: this.token
+          },{
+            limit: this.limit,
+            page: this.page.toString()
+          }).then(response=>{
+            this.score = response.result.scoreSum
+            this.loading = false;
+            if (response.result.list.totalCount < response.result.list.currPage) {
+              // this.info = "~~数据已全部加载完毕了~~"
+              this.allLoaded = true
+              return
+            }
+            response.result.list.list.map(item=>{
+              this.records.push(item)
+            })
+            this.page++
+            console.log(response)
+          }).catch(error=>{
+            console.log(error);
+            this.loading = false
+            this.allLoaded = true
+            this.info = "~~数据加载异常，请稍后再试~~"
+          })
         }
       },
       components:{
         ScoreItem
+      },
+      mounted(){
+        let tk = getLocalStorage(Constants.TOKEN)
+        this.token = tk
       }
     }
 </script>
@@ -153,7 +213,46 @@
     background-color: rgba(239,239,239,0.9);
     content: '';
   }
-  .item:last-of-type:after{
+  .list:last-child>.item::after{
     height: 0;
+  }
+  /*.item:last-of-type:after{*/
+    /*height: 0;*/
+  /*}*/
+
+  .page-infinite-loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #bf54f9;
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  .page-infinite-loading span {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+  }
+  li{
+    list-style: none;
+  }
+  .goods-item{
+    position: relative;
+  }
+  .goods-item:after{
+    position: absolute;
+    bottom: 1px;
+    height: 1px;
+    background-color: #eee;
+    width: 100%;
+    content: '';
+  }
+  .goods-item:last-of-type:after{
+    height: 0;
+  }
+  .nodata{
+    padding:16px 0;
+    text-align: center;
   }
 </style>

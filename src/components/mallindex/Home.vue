@@ -18,11 +18,11 @@
         <RecommendGoodsList></RecommendGoodsList>
       </div>
       <div class="goods-list" v-if="selected == 2">
-        <AllGoodsList></AllGoodsList>
-      </div>
+        <BonusGoodsList></BonusGoodsList>
+        </div>
 
       <div class="goods-list" v-if="selected == 3">
-        <BonusGoodsList></BonusGoodsList>
+        <AllGoodsList></AllGoodsList>
       </div>
 
     </div>

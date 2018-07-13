@@ -75,7 +75,10 @@
     },
     methods: {
       ...mapActions({
-        setPayPass:'setPayPass'
+        setPayPass:'setPayPass',
+        setAbleScore:'setAbleScore',
+        setUnpackScore: 'setUnpackScore',
+        setRechargeScore:'setRechargeScore'
       }),
       goBack() {
         this.$router.back()
@@ -84,7 +87,9 @@
         this.$router.push('/scoretrans')
       },
       turnToExchangeScore(){
-        if(this.payPass || getLocalStorage(Constants.SETUPPAYPASS)){
+        console.log(this.payPass)
+        console.log(getLocalStorage(Constants.SETUPPAYPASS))
+        if(this.payPass || getLocalStorage(Constants.SETUPPAYPASS) != 'false'){
           this.setPayPass(true)
           this.$router.push('/exchangescore')
         }else{
@@ -105,7 +110,14 @@
       getBonus({
         token: tk
       }).then(response=>{
+        console.log(response)
         this.scores = response.result
+        // if(response.result.cardNo == ''){
+        //   this.setPayPass(false)
+        // }
+        this.setAbleScore(response.result.scoreValid)
+        this.setUnpackScore(response.result.scoreUnsettled)
+        this.setRechargeScore(response.result.scoreRepeat)
       })
     },
     components:{

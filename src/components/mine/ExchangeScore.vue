@@ -13,7 +13,7 @@
       </div>
       <div class="trans-detail">
         <div class="card">
-          <CardView countTitle="兑换积分" totalTitle="可兑积分"></CardView>
+          <CardView countTitle="兑换积分" totalTitle="可兑积分" @changeBonus="getBonus" :scores="ableScore.toString()"></CardView>
           <div class="exchange-rules">
             <p>10积分可以兑换人民币1元，单笔兑换最高限2万分，积分低于500分不可兑换。</p>
             <p>服务费：20分/笔。</p>
@@ -29,19 +29,49 @@
 
 <script>
   import CardView from '@/components/view/CardView'
+  import {convertBounds,getBonus} from "../../http/getData";
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
 
   export default {
     name: "ExchangeScore",
+    data(){
+      return {
+        token: '',
+        score:'',
+        ableScore: 0,
+        cardNo: ''
+      }
+    },
     methods: {
+      getBonus(bonus){
+        this.score = bonus
+      },
       goBack() {
         this.$router.back()
       },
       turnToExchangeStates(){
-        this.$router.push('/exchangestates')
+        convertBounds({
+          token: this.token
+        },{
+          score: this.score
+        }).then(response=>{
+          console.log(response)
+          this.$router.push('/exchangestates')
+        })
       }
     },
     components: {
       CardView
+    },
+    mounted(){
+      let tk = getLocalStorage(Constants.TOKEN)
+      this.token = tk
+      getBonus({token: tk}).then(response=>{
+        console.log(response)
+        this.ableScore = response.result.scoreValid
+        this.cardNo = response.result.cardNo
+      })
     }
   }
 </script>
@@ -98,7 +128,6 @@
     top: -38px;
     left: 0;
     width: 100%;
-    z-index: 9999;
   }
   .goto{
     position: absolute;
@@ -110,17 +139,18 @@
   }
   .goto button{
     border: none;
-    height: 44px;
-    line-height: 44px;
-    border-radius: 22px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 17px;
     background-color: transparent;
-    background-image: url("../../assets/img/color-pink.png");
-    width: 280px;
+    background-image: url("../../assets/img/button-bg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    outline: none;
+    width: 290px;
     text-align: center;
-    font-size: 14px;
     color: #fff;
     margin: 0 auto;
-    outline: none;
   }
   .exchange-rules{
     margin-top: 8px;

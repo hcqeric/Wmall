@@ -1,21 +1,36 @@
 <template>
-    <div class="score-item">
+    <div class="score-item" @click="gotoExchangedetail(exchangeItem)">
       <div class="left">
         <div>
-        <p>提交兑换申请<span> (审核中)</span></p>
-        <p>2018-04-10  12:00:00</p>
+        <p v-if="exchangeItem.status == 0">提交兑换申请<span> (审核通过)</span></p>
+        <p v-if="exchangeItem.status == 1">提交兑换申请<span> (审核中)</span></p>
+        <p v-if="exchangeItem.status == 2">提交兑换申请<span> (审核失败)</span></p>
+        <p>{{exchangeItem.createTime}}</p>
         </div>
       </div>
       <div class="right">
-        <p>￥100.00</p>
+        <p>￥{{exchangeItem.scoreAmount}}</p>
       </div>
       <i class="el-icon-arrow-right"></i>
     </div>
 </template>
 
 <script>
+  import {mapActions} from 'vuex'
     export default {
-        name: "ScoreItem"
+        name: "ScoreItem",
+      props:{
+          exchangeItem:null
+      },
+      methods:{
+        ...mapActions({
+          setExchangeInfo: 'setExchangeInfo'
+        }),
+        gotoExchangedetail(){
+          this.setExchangeInfo(this.exchangeItem)
+          this.$router.push('/exchangedetail')
+        }
+      }
     }
 </script>
 

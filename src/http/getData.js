@@ -56,4 +56,12 @@ export const getAllGoods = (datas) => new Request().require({api: url.allGoodsLi
 
 export const getBonusGoods = (datas) => new Request().require({api: url.bonusGoodsList, data:datas}); //积分商品
 
+export const transBonus = (params, datas) => new Request().require({api: url.transBonus,param: params, data:datas}); //积分转赠
+
+export const getMobileUser = (params, datas) => new Request().require({api: url.mobileUser,param: params, data:datas}); //查询用户
+
+export const getScoreRecord = (params, datas) => new Request().require({api: url.scoreRecord,param: params, data:datas}); //兑换记录
+
+export const convertBounds = (params, datas) => new Request().require({api: url.convertBounds,param: params, data:datas}); //积分转赠
+
 

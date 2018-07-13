@@ -17,3 +17,11 @@ export const SET_ORDER_NUM = 'set_order_num'
 
 export const BACK_REFUNDS = 'back_refunds'
 
+export const SET_ABLE_SCORE = 'set_able_score'
+
+export const SET_UNPACK_SCORE = 'set_unpack_score'
+
+export const SET_RECHARGE_SCORE = 'set_recharge_score'
+
+export const SET_EXCHANGE_INFO = 'set_exchange_info'
+

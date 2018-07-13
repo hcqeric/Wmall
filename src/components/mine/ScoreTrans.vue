@@ -10,19 +10,19 @@
           <div class="item">
             <p>受让人手机：</p>
             <div class="info">
-              <input type="text">
-              <button>查询</button>
+              <input type="text" v-model="mobile">
+              <button @click="getUserInfo">查询</button>
             </div>
           </div>
-          <div class="item">
+          <div class="item" v-if="userId">
             <p>受让人名称：</p>
-            <p>张三</p>
+            <p>{{username}}</p>
           </div>
         </div>
       </div>
       <div class="trans-detail">
         <div class="card">
-        <CardView countTitle="赠送积分" totalTitle="可赠积分"></CardView>
+        <CardView countTitle="赠送积分" totalTitle="可赠积分" @changeBonus="getBonus" :scores="ableScore.toString()"></CardView>
         </div>
       </div>
       <div class="goto">
@@ -34,18 +34,96 @@
 
 <script>
   import CardView from '@/components/view/CardView'
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
+  import {Toast} from 'mint-ui'
+  import {transBonus, getMobileUser} from "../../http/getData";
+
   export default {
     name: "ScoreTrans",
+    data(){
+      return {
+        mobile:'',
+        score:'',
+        token:'',
+        userId:'',
+        username:'',
+        ableScore: 0
+      }
+    },
     methods: {
+      getBonus(bonus){
+        console.log(bonus)
+        this.score = bonus
+      },
+      getUserInfo(){
+        if (this.mobile === '') {
+          Toast({
+            message: '手机号不能为空',
+            position: 'middle',
+            duration: 1000})
+          return
+        } else if(!(/^1(3|4|5|7|8)\d{9}$/.test(this.mobile))) {
+          Toast('手机号码格式不正确')
+          return
+        }
+        getMobileUser({
+          token:this.token
+        },{
+          mobile: this.mobile
+        }).then(response=>{
+          console.log(response)
+          if (response.result == ''){
+            Toast({
+              message: "该用户不存在"
+            })
+          }
+          this.userId = response.result.userId
+          this.username = response.result.username
+        })
+      },
       goBack() {
         this.$router.back()
       },
       turnToExchangeSuccess(){
-        this.$router.push('/exchangesucc')
+        if(this.userId == ''){
+          Toast({
+            message:"请填写转赠人"
+          })
+          return
+        }
+        if (this.score > 6000){
+          Toast({
+              message:"您的可转积分不足"
+          })
+          return
+        }else if(this.score == ''){
+          Toast({
+            message:"请输入转增金额"
+          })
+          return
+        }
+
+        transBonus({
+          token:this.token
+        },{
+          userId: this.userId,
+          score: this.score
+        }).then(response=>{
+          console.log(response)
+          this.$router.push('/exchangesucc')
+        })
+
       }
     },
     components:{
       CardView
+    },
+    mounted(){
+      let tk = getLocalStorage(Constants.TOKEN)
+      this.token = tk
+      let ableScore = this.$store.state.user.ableScore
+      this.ableScore =ableScore
     }
   }
 </script>
@@ -104,6 +182,7 @@
     background-color: transparent;
     outline: none;
     border: 1px solid #fff;
+    color: #fff;
   }
   .item .info button{
     outline: none;
@@ -126,7 +205,6 @@
     top: -38px;
     left: 0;
     width: 100%;
-    z-index: 9999;
   }
   .goto{
     position: fixed;
@@ -138,14 +216,16 @@
   }
   .goto button{
     border: none;
-    height: 44px;
-    line-height: 44px;
-    border-radius: 22px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 17px;
     background-color: transparent;
-    background-image: url("../../assets/img/color-pink.png");
-    width: 280px;
+    background-image: url("../../assets/img/button-bg.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    outline: none;
+    width: 290px;
     text-align: center;
-    font-size: 14px;
     color: #fff;
     margin: 0 auto;
   }

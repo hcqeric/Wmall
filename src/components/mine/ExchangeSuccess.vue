@@ -18,7 +18,7 @@
           this.$router.back()
         },
         turnToScorePage(){
-          this.$router.push('scores/11')
+          this.$router.push('scores')
         }
       }
     }
