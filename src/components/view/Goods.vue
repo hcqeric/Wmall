@@ -11,9 +11,9 @@
           <p>¥590</p>
         </div>
         <div class="goods-counter">
-          <span class="minus" @click="minusGoodsCount">-</span>
-          <input type="text" module="goodsCount" :value="goodsCount">
-          <span class="add" @click="addGoodsCount">+</span>
+          <span :class="goodsCount <= 1 ? 'btn-disable' : ''" @click="minusGoodsCount">-</span>
+          <input type="text" module="goodsCount" v-model="goodsCount">
+          <span @click="addGoodsCount">+</span>
         </div>
       </div>
       <div class="price">
@@ -116,6 +116,9 @@
   .goods-counter span{
     display: inline-block;
     font-size: 30px;
+  }
+  .btn-disable{
+    color: #999;
   }
   .goods-counter input{
     outline-color: transparent;

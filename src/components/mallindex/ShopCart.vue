@@ -18,12 +18,20 @@
 
 <script>
   import Goods from '@/components/view/Goods'
+  import {getCartList, deleteCart} from "../../http/getData";
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
   import { MessageBox } from 'mint-ui';
     export default {
       name: "ShopCart",
       data(){
         return {
+          id:'',
+          token:'',
           checked: true,
+          page: 1,
+          limit: '10',
+          cartList:[]
         }
       },
       components:{
@@ -39,7 +47,11 @@
             cancelButtonText:'再想想'
           }).then(action=>{
             if (action === 'confirm'){
-              console.log("quedingle")
+              deleteCart({
+                token: this.token
+              },{
+                id:this.id
+              })
             }else{
               console.log("quxiaole")
             }
@@ -48,6 +60,25 @@
         gotoPayment(){
           console.log(this.$router.push('/payment'))
         }
+      },
+      mounted(){
+        this.cartList = []
+        let tk = getLocalStorage(Constants.TOKEN)
+        this.token = tk
+        getCartList({
+          token: tk
+        }, {
+          page: this.page.toString(),
+          limit: this.limit
+        }).then(response=>{
+          console.log(response)
+          if(response.result.totalPage < response.result.currPage){
+            return
+          }
+          response.result.list.map(item=>{
+            this.cartList.push(item)
+          })
+        })
       }
     }
 </script>

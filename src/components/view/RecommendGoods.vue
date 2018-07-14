@@ -1,10 +1,10 @@
 <template>
   <div class="info" v-if="goodsInfo" @click="gotoGoodsDetail(goodsInfo.goodsNum)">
-    <img src="http://p90m90efq.bkt.clouddn.com/recommendgoods.png" alt="">
+    <img :src="goodsInfo.goodsImg" alt="">
     <div class="goods">
       <div class="intro">
-        <p>特润修护透肌精华露</p>
-        <p>创新两段式亲水凝胶基质，马油等净化添加，滋润补水。</p>
+        <p>{{goodsInfo.name}}</p>
+        <p>{{goodsInfo.introduce}}</p>
         <div>
           <el-tag size="mini">会员价</el-tag>
           <el-tag size="mini">今日</el-tag>
@@ -12,10 +12,10 @@
       </div>
       <div class="price">
         <div>
-        <p>已售388件</p>
-        <p><span>￥590.00</span><span><s>￥600.00</s></span></p>
+        <p>已售{{goodsInfo.sellCount}}件</p>
+        <p><span v-if="goodsInfo.sellPrice">{{goodsInfo.sellPrice| moneyFormat}}/{{goodsInfo.unit}}</span><span v-if="goodsInfo.bdanPrice"><s>{{goodsInfo.bdanPrice|moneyFormat}}/{{goodsInfo.unit}}</s></span></p>
         </div>
-        <div class="score"><span>积分:10000</span>/套</div>
+        <div class="score" v-if="goodsInfo.type == 2"><span>积分:{{goodsInfo.bonusPrice}}</span>/套</div>
       </div>
     </div>
   </div>

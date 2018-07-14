@@ -12,7 +12,7 @@
         <p>{{goodsInfo.name}}</p>
         <p>{{goodsInfo.introduce}}</p>
         <div class="price-info">
-          <p><span>会员价￥{{goodsInfo.sellPrice}}/瓶</span> <span>原价：<s>￥{{goodsInfo.bdanPrice}}/瓶</s></span></p><button>包邮</button>
+          <p><span>会员价{{goodsInfo.sellPrice|moneyFormat}}/瓶</span> <span>原价：<s>{{goodsInfo.bdanPrice|moneyFormat}}/瓶</s></span></p><button>包邮</button>
         </div>
       </div>
       <div class="goods-ad">
@@ -23,13 +23,17 @@
       </div>
     </div>
     <div class="goto">
-      <button>加入购物车</button>
+      <button @click="addToShopCart">加入购物车</button>
     </div>
   </div>
 </template>
 
 <script>
   import {getGoodsByGoodsNum} from "../../http/getData";
+  import {addCart} from "../../http/getData";
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
+  import {Toast} from 'mint-ui'
 
   const items = [
       {
@@ -63,6 +67,20 @@
       },
       gotoEvaluation() {
         this.$router.push(`/evaluation/${this.id}`)
+      },
+      addToShopCart(){
+        let tk = getLocalStorage(Constants.TOKEN)
+        addCart({
+          token: tk
+        },{
+          goodsId:'2',
+          goodsNum: '1'
+        }).then(response=>{
+          console.log(response)
+          Toast({
+            message: "添加购物车成功"
+          })
+        })
       }
     },
     mounted(){
@@ -161,6 +179,7 @@
     background-color: transparent;
     background-image: url("../../assets/img/bg-purple.png");
     width: 100%;
+    outline: none;
     text-align: center;
     color: #fff;
   }

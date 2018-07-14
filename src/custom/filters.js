@@ -40,6 +40,29 @@ Vue.filter('DateFormat', function (date, fmt) { //格式化时间   DateFormat('
   return fmt
 })
 
+Vue.filter('moneyFormat', function (value, currency, decimals) {
+  const digitsRE = /(\d{3})(?=\d)/g
+  value = parseFloat(value)
+  if (!isFinite(value) || (!value && value !== 0)) return ''
+  currency = currency != null ? currency : '￥'
+  decimals = decimals != null ? decimals : 2
+  var stringified = Math.abs(value).toFixed(decimals)
+  var _int = decimals
+    ? stringified.slice(0, -1 - decimals)
+    : stringified
+  var i = _int.length % 3
+  var head = i > 0
+    ? (_int.slice(0, i) + (_int.length > 3 ? ',' : ''))
+    : ''
+  var _float = decimals
+    ? stringified.slice(-1 - decimals)
+    : ''
+  var sign = value < 0 ? '-' : ''
+  return sign + currency + head +
+    _int.slice(i).replace(digitsRE, '$1,') +
+    _float
+})
+
 Vue.filter('firstFilePath', function (json) { //获取第一个文件路径
   if (json == undefined || json == null) return;
   try {

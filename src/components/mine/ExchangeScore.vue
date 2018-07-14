@@ -6,9 +6,9 @@
     <div class="content">
       <div class="trans">
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
-        <div class="trans-content">
+        <div class="trans-content" v-if="cardNo">
           <p>兑换账户：</p>
-          <p>6235 **** **** 918</p>
+          <p>{{cardNo}}</p>
         </div>
       </div>
       <div class="trans-detail">
@@ -32,6 +32,7 @@
   import {convertBounds,getBonus} from "../../http/getData";
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
+  import { MessageBox } from 'mint-ui';
 
   export default {
     name: "ExchangeScore",
@@ -58,6 +59,21 @@
         }).then(response=>{
           console.log(response)
           this.$router.push('/exchangestates')
+        }).catch(error=>{
+          if (error.code == 10000){
+            console.log(error.msg)
+            MessageBox({
+              title: '添加银行卡',
+              message: '您还没有添加银行卡，是否前往添加',
+              showCancelButton: true,
+              confirmButtonText:'立即前往',
+              cancelButtonText:'稍后添加'
+            }).then(action=>{
+              if (action === 'confirm'){
+                this.$router.push('/addcredit')
+              }
+            }).catch(error=>{});
+          }
         })
       }
     },
@@ -71,6 +87,7 @@
         console.log(response)
         this.ableScore = response.result.scoreValid
         this.cardNo = response.result.cardNo
+        console.log(this.cardNo)
       })
     }
   }

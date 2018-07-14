@@ -19,7 +19,7 @@
     name: "Evaluations",
     data(){
       return {
-        page:0,
+        page:1,
         limit: '15',
         goodsNum:'',
         appraisesList:[]
@@ -43,6 +43,12 @@
         goodsNum:this.goodsNum
       }).then(response=>{
         console.log(response)
+        if (response.result.totalCount < response.result.currPage) {
+          // this.info = "~~数据已全部加载完毕了~~"
+          // this.allLoaded = true
+          // this.loading = false
+          return
+        }
         response.result.list.map((item)=>{
           this.appraisesList.push(item)
         })

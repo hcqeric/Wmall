@@ -44,6 +44,8 @@ import SelectTemplate from '@/components/mine/SelectTemplate'
 import Play from '@/components/mine/Play'
 import ForgetPass from '@/components/ForgetPass'
 import Login from '@/components/Login'
+import PromotionDetail from '@/components/promotion/PromotionDetail'
+import SortDetail from '@/components/sort/SortDetail'
 
 import {getLocalStorage} from "../custom/mixin"
 import * as Constants from '../custom/constants'
@@ -276,6 +278,16 @@ let router = new Router({
       path: '/play',
       name: 'play',
       component:Play
+    },
+    {
+      path: '/share/:id',
+      name: 'share',
+      component:PromotionDetail
+    },
+    {
+      path: '/serial/:id',
+      name: 'serials',
+      component:SortDetail
     }
   ]
 })

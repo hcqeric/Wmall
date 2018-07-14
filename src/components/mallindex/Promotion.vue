@@ -39,6 +39,9 @@
         SlideRender,
         Find,
         News
+      },
+      mounted(){
+
       }
     }
 </script>

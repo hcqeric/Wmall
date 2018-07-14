@@ -2,10 +2,11 @@
   <div class="slide-content">
     <slide ref="slide" :autoPlay="isAutoPlay" :loop="isLoop" :showDot="isShowDot" :interval="interval"
            :threshold="threshold" :speed="speed">
-      <div v-for="item in data">
-        <a :href="item.linkUrl">
-          <img :src="item.picUrl">
-        </a>
+      <div v-for="(item,index) in datas">
+          <div class="select">
+            <img :src="item.picUrl">
+            <button @click="gotoDetail(index)">选择模板</button>
+          </div>
       </div>
     </slide>
   </div>
@@ -35,7 +36,7 @@
   export default {
     name: 'SlideRender',
     computed: {
-      data() {
+      datas() {
         return items[this.index]
       }
     },
@@ -97,6 +98,9 @@
         if (val) {
           this.speed = +val
         }
+      },
+      gotoDetail(index){
+        this.$router.push('share/'+ (index+1))
       }
     },
     watch: {
@@ -124,5 +128,31 @@
     left: 0;
     width: 100%;
     height: 100%;
+  }
+  .select{
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  .select img{
+    height: 76vh;
+  }
+  .select button{
+    position:absolute;
+    bottom: 8vh;
+    left: 50%;
+    border: none;
+    height: 44px;
+    line-height: 44px;
+    border-radius: 5px;
+    background-color: transparent;
+    background-image: url("../../../assets/img/bg-purple.png");
+    width: 70%;
+    margin-left: -35%;
+    outline: none;
+    text-align: center;
+    color: #fff;
   }
 </style>
