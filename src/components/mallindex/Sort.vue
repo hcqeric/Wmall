@@ -2,7 +2,7 @@
   <div>
     <Header/>
     <ul>
-      <li v-for="item in list" class="sort-item">
+      <li v-for="item in list" class="sort-item" @click="gotoDetail(item)">
         <img  :src="item.url" />
         <div class="serial"><span>{{item.name}}</span></div>
       </li>
@@ -21,6 +21,11 @@
       data(){
           return {
             list: []
+          }
+      },
+      methods:{
+          gotoDetail(item){
+            this.$router.push('/serial/'+ item.proId + "/" + item.parentId + "/" + item.name)
           }
       },
       mounted(){

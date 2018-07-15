@@ -285,7 +285,7 @@ let router = new Router({
       component:PromotionDetail
     },
     {
-      path: '/serial/:id',
+      path: '/serial/:proid/:id/:name',
       name: 'serials',
       component:SortDetail
     }

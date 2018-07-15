@@ -74,6 +74,9 @@
 </script>
 
 <style scoped>
+  .container{
+    min-height: 100vh;
+  }
   .mint-swipe {
     height: 140px;
     color: #fff;

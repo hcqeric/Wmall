@@ -18,6 +18,8 @@ export default {
   allGoodsList:'/app/goods/getAllGoods',
   bonusGoodsList:'/app/goods/getBonusGoods',
   sort: '/app/goods/getGoodsType',
+  serials:'/app/goods/getGoodsSecondType',
+  serialGoods:'/app/goods/getGoodsByTypeId',
   userinfo:'/app/user/userInfo',
   comments: '/app/appraises/getUserAppraises',
   addAppraises:'app/appraises/add',

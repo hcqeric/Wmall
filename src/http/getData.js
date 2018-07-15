@@ -8,6 +8,10 @@ export const getUserInfo = (params) => new Request().require({api: url.userinfo,
 
 export const getSorts = (params) => new Request().require({api: url.sort,methods:'GET', param: params}); //获取一级分类
 
+export const getSerials = (datas) => new Request().require({api: url.serials, data: datas}); //获取二级分类
+
+export const getSerialGoods = (datas) => new Request().require({api: url.serialGoods, data: datas}); //获取系列商品
+
 export const getUserAppraises = (params,datas) => new Request().require({api: url.comments,methods: 'POST', param: params, data: datas}); //我的评价
 
 export const addAppraises = (params,datas) => new Request().require({api: url.addAppraises, param: params, data: datas}); //添加评论

@@ -1,6 +1,7 @@
 <template>
     <div class="goods-item">
-      <img src="../../assets/img/goods-big.png" alt="">
+      <img v-if="goodsType == 1" src="../../assets/img/goods-big.png" alt="">
+      <img v-if="goodsType == 2" src="../../assets/img/goods-small.png" alt="">
       <p>特润修护肌透精华露</p>
       <p>￥590<span><s>￥980</s></span></p>
       <el-input-number size="small" v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
@@ -19,6 +20,9 @@
         handleChange(value) {
           console.log(value);
         }
+      },
+      props:{
+          goodsType:''
       }
     }
 </script>
