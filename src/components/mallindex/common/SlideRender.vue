@@ -2,10 +2,10 @@
   <div class="slide-content">
     <slide ref="slide" :autoPlay="isAutoPlay" :loop="isLoop" :showDot="isShowDot" :interval="interval"
            :threshold="threshold" :speed="speed">
-      <div v-for="(item,index) in datas">
+      <div v-for="(item,index) in templateList">
           <div class="select">
-            <img :src="item.picUrl">
-            <button @click="gotoDetail(index)">选择模板</button>
+            <img :src="item.url">
+            <button @click="gotoDetail(item.id)">选择模板</button>
           </div>
       </div>
     </slide>
@@ -14,35 +14,10 @@
 
 <script type="text/ecmascript-6">
   import Slide from '@/components/mallindex/common/Slide'
-  const items = [
-    [
-      {
-        linkUrl: 'http://y.qq.com/w/album.html?albummid=0044K2vN1sT5mE',
-        picUrl: 'http://p90m90efq.bkt.clouddn.com/moban.jpg',
-        id: 11351
-      },
-      {
-        linkUrl: 'https://y.qq.com/m/digitalbum/gold/index.html?_video=true&id=2197820&g_f=shoujijiaodian',
-        picUrl: 'http://p90m90efq.bkt.clouddn.com/moban.jpg',
-        id: 11372
-      },
-      {
-        linkUrl: 'http://y.qq.com/w/album.html?albummid=001tftZs2RX1Qz',
-        picUrl: 'http://p90m90efq.bkt.clouddn.com/moban.jpg',
-        id: 11378
-      }
-    ]
-  ]
   export default {
     name: 'SlideRender',
-    computed: {
-      datas() {
-        return items[this.index]
-      }
-    },
     data() {
       return {
-        index: 0,
         turnToPrev: false,
         turnToNext: false,
         isAutoPlay: false,
@@ -100,7 +75,7 @@
         }
       },
       gotoDetail(index){
-        this.$router.push('share/'+ (index+1))
+        this.$router.push('share/'+ index)
       }
     },
     watch: {
@@ -110,6 +85,10 @@
     },
     components: {
       Slide
+    },
+    props:{
+      templateList:[],
+      type:''
     }
   }
 </script>

@@ -38,17 +38,17 @@
             <i class="el-icon-arrow-right"></i>
           </div>
         </router-link>
-        <router-link class="score-item" to="/score/recharge">
-          <img src="../../assets/img/fugoujif.png" alt="">
-          <div class="content-score">
-            <p>复购积分</p>
-            <p>{{scores.scoreRepeat}}</p>
-            <i class="el-icon-arrow-right"></i>
-          </div>
-        </router-link>
+        <!--<router-link class="score-item" to="/score/recharge">-->
+          <!--<img src="../../assets/img/fugoujif.png" alt="">-->
+          <!--<div class="content-score">-->
+            <!--<p>复购积分</p>-->
+            <!--<p>{{scores.scoreRepeat}}</p>-->
+            <!--<i class="el-icon-arrow-right"></i>-->
+          <!--</div>-->
+        <!--</router-link>-->
       </div>
       <div class="buttons">
-        <button @click="turnToScoreTrans">积分转赠</button>
+        <button @click="turnToScoreTrans">积分转增</button>
         <button @click="turnToExchangeScore">我要兑换</button>
       </div>
     </div>

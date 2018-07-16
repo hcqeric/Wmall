@@ -1,15 +1,21 @@
 <template>
     <div class="score-item" @click="gotoExchangedetail(exchangeItem)">
       <div class="left">
-        <div>
-        <p v-if="exchangeItem.status == 0">提交兑换申请<span> (审核通过)</span></p>
-        <p v-if="exchangeItem.status == 1">提交兑换申请<span> (审核中)</span></p>
-        <p v-if="exchangeItem.status == 2">提交兑换申请<span> (审核失败)</span></p>
-        <p>{{exchangeItem.createTime}}</p>
+        <div v-if="exchangeItem.status !== undefined">
+          <p v-if="exchangeItem.status == 0">提交兑换申请<span> (审核通过)</span></p>
+          <p v-if="exchangeItem.status == 1">提交兑换申请<span> (审核中)</span></p>
+          <p v-if="exchangeItem.status == 2">提交兑换申请<span> (审核失败)</span></p>
+          <p>{{exchangeItem.createTime}}</p>
+        </div>
+        <div v-if="exchangeItem.tradeStatus !== undefined">
+          <p v-if="type == 2">{{exchangeItem.userName}}的订单 (已确认)</p>
+          <p v-if="type == 1">{{exchangeItem.userName}}李四的订单 (确认中)</p>
+          <p>{{exchangeItem.updateTime}}</p>
         </div>
       </div>
       <div class="right">
-        <p>￥{{exchangeItem.scoreAmount}}</p>
+        <p v-if="exchangeItem.status !== undefined">￥{{exchangeItem.scoreAmount}}</p>
+        <p v-if="exchangeItem.tradeStatus !== undefined">+ {{exchangeItem.score}}</p>
       </div>
       <i class="el-icon-arrow-right"></i>
     </div>
@@ -20,15 +26,19 @@
     export default {
         name: "ScoreItem",
       props:{
-          exchangeItem:null
+        exchangeItem:null,
+        type: String
       },
       methods:{
         ...mapActions({
           setExchangeInfo: 'setExchangeInfo'
         }),
         gotoExchangedetail(){
-          this.setExchangeInfo(this.exchangeItem)
-          this.$router.push('/exchangedetail')
+          if (this.type == 0) {
+            this.$router.push('/exchangedetail/' + this.exchangeItem.id)
+          }else if (this.type == 2 || this.type == 1){
+            this.$router.push('/scoredetail')
+          }
         }
       }
     }

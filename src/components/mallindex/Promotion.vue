@@ -7,7 +7,7 @@
     </div>
     <div v-if="selected==1">
       <div slot="content">
-        <SlideRender></SlideRender>
+        <SlideRender :templateList="templateList"></SlideRender>
       </div>
     </div>
     <div v-if="selected==2">
@@ -23,11 +23,16 @@
   import SlideRender from '@/components/mallindex/common/SlideRender'
   import Find from '@/components/promotion/Find'
   import News from '@/components/promotion/News'
-    export default {
+  import {getShareList} from "../../http/getData";
+  import * as Constants from '../../custom/constants'
+  import {getLocalStorage} from "../../custom/mixin";
+
+  export default {
       name: "Promotion",
       data() {
         return {
-          selected: '1'
+          selected: '',
+          templateList:[]
         };
       },
       methods: {
@@ -41,7 +46,16 @@
         News
       },
       mounted(){
-
+        let tk = getLocalStorage(Constants.TOKEN)
+        getShareList({
+          token: tk
+        }).then(response=>{
+          console.log(response)
+          response.result.map(item=>{
+            this.templateList.push(item)
+          })
+          this.changeTab('1')
+        })
       }
     }
 </script>

@@ -46,6 +46,7 @@ import ForgetPass from '@/components/ForgetPass'
 import Login from '@/components/Login'
 import PromotionDetail from '@/components/promotion/PromotionDetail'
 import SortDetail from '@/components/sort/SortDetail'
+import SearchList from '@/components/home/SearchList'
 
 import {getLocalStorage} from "../custom/mixin"
 import * as Constants from '../custom/constants'
@@ -175,7 +176,7 @@ let router = new Router({
       component: ExchangeStates
     },
     {
-      path: '/exchangedetail',
+      path: '/exchangedetail/:id',
       name: 'ExchangeDetail',
       component: ExchangeDetail
     },
@@ -288,6 +289,11 @@ let router = new Router({
       path: '/serial/:proid/:id/:name',
       name: 'serials',
       component:SortDetail
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component:SearchList
     }
   ]
 })

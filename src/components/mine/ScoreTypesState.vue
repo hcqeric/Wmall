@@ -8,7 +8,7 @@
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
         <div class="amount">
           <p v-if="stateInfo">{{stateInfo.title}}</p>
-          <p>6000</p>
+          <p>{{score}}</p>
         </div>
       </div>
     </div>
@@ -18,11 +18,21 @@
           <p>订单明细</p>
           <p v-if="stateInfo">{{stateInfo.subTitle}}</p>
         </div>
-        <div class="record-content">
-          <router-link v-for="n in 5" :key="n" to="/scoredetail">
-            <ScoreItem class="item"></ScoreItem>
-          </router-link>
-        </div>
+
+          <div class="page-infinite">
+            <div class="page-infinite-wrapper" ref="wrapper" >
+              <div class="record-content" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
+                <div class="list" v-for="item in orderScoreList">
+                  <ScoreItem class="item" :exchangeItem="item" :type="stateInfo.tradeStatus"></ScoreItem>
+                </div>
+              </div>
+              <p v-show="loading" class="page-infinite-loading">
+                <mt-spinner type="fading-circle"></mt-spinner>
+                加载中...
+              </p>
+              <p v-show="allLoaded" class="nodata">{{info}}</p>
+            </div>
+          </div>
       </div>
     </div>
   </div>
@@ -30,16 +40,21 @@
 
 <script>
   import ScoreItem from '@/components/view/ScoreItem'
+  import {getOrderScoreListByType} from "../../http/getData";
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
 
   const state_msg = [
     {
       type:"able",
+      tradeStatus: "2",
       title:"可兑积分",
       subTitle:"获得积分",
       postUrl:"www.baiodu.com"
     },
     {
       type:"unpack",
+      tradeStatus: "1",
       title: "未结积分",
       subTitle:"预计可获积分",
       postUrl:"www.baiodu.com"
@@ -55,18 +70,61 @@
     name: "ScoreTypesState",
     data(){
       return {
-        stateInfo:null
+        stateInfo:null,
+        page: 1,
+        limit: '10',
+        allLoaded: false,
+        loading: false,
+        orderScoreList:[],
+        score: 0,
+        token:'',
+        info:''
       }
     },
     methods: {
       goBack() {
         this.$router.back()
+      },
+      loadMore() {
+        if(!this.allLoaded){
+          this.loading = true;
+          this.loadData()
+        }
+      },
+      loadData(){
+        getOrderScoreListByType({
+          token: this.token
+        },{
+          limit: this.limit,
+          page: this.page.toString(),
+          tradeStatus: this.stateInfo.tradeStatus
+        }).then(response=>{
+          this.score = response.result.score
+          this.loading = false;
+          if (response.result.list.totalPage < response.result.list.currPage) {
+            // this.info = "~~数据已全部加载完毕了~~"
+            this.allLoaded = true
+            return
+          }
+          response.result.list.list.map(item=>{
+            this.orderScoreList.push(item)
+          })
+          this.page++
+          console.log(response)
+        }).catch(error=>{
+          console.log(error);
+          this.loading = false
+          this.allLoaded = true
+          // this.info = "~~数据加载异常，请稍后再试~~"
+        })
       }
     },
     components:{
       ScoreItem
     },
     mounted(){
+      let tk = getLocalStorage(Constants.TOKEN)
+      this.token = tk
       let {type} = this.$route.params
       if (type == state_msg[0].type) {
         this.stateInfo = state_msg[0]
@@ -188,7 +246,7 @@
     background-color: rgba(239,239,239,0.9);
     content: '';
   }
-  .item:last-of-type:after{
+  .list:last-child>.item::after{
     height: 0;
   }
 </style>

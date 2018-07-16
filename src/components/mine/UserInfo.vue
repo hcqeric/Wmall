@@ -39,8 +39,11 @@
               <p>性别</p>
             </div>
             <div class="cell-right">
-              <input type="text" placeholder="选择性别" :value="user.gender | genderFormat(user.gender)">
+              <div @click="sexVisible = true">
+              <input type="text" readonly="readonly" :value="userinfo.gender|genderFormat" placeholder="选择性别" >
               <i class="el-icon-arrow-right"></i>
+              </div>
+              <mt-actionsheet :actions="sexs" v-model="sexVisible" cancel-text="取消"></mt-actionsheet>
             </div>
           </div>
           <div class="input-cell">
@@ -48,8 +51,18 @@
               <p>出生日期</p>
             </div>
             <div class="cell-right">
-              <input type="text" placeholder="选择日期" :value="user.birthday | DateFormat('yyyy/MM/dd')">
-              <i class="el-icon-arrow-right"></i>
+              <div @click="open('datepicker')">
+                <input type="text" placeholder="选择日期" readonly="readonly" v-model="userbirthday">
+                <i class="el-icon-arrow-right"></i>
+              </div>
+              <mt-datetime-picker
+                ref="datepicker"
+                type="date"
+                :startDate="startDate"
+                :endDate="endDate"
+                v-model="birthday"
+                @confirm="handleChange">
+              </mt-datetime-picker>
             </div>
           </div>
           <div class="input-cell">
@@ -78,13 +91,19 @@
 <script>
   import {mapGetters,mapActions} from 'vuex'
   import {Toast} from 'mint-ui';
-  import {deepCopy,isObjectValueEqual,getLocalStorage} from "../../custom/mixin"
+  import {deepCopy,isObjectValueEqual,getLocalStorage,GMTToStr} from "../../custom/mixin"
   import * as Constants from '../../custom/constants'
   import {updateUserInfo} from "../../http/getData";
   export default {
       name: "UserInfo",
       data(){
         return {
+          sexs: [],
+          birthday:new Date('1903-03-03'),
+          startDate: new Date('1900-01-01'),
+          endDate: new Date(),
+          userbirthday:new Date(),
+          sexVisible:false
         }
       },
       computed:{
@@ -98,6 +117,24 @@
           }
       },
       methods: {
+        open(picker) {
+          if(this.userinfo.birthday){
+            this.birthday = this.userinfo.birthday
+          }
+          this.$refs[picker].open();
+        },
+        handleChange(value) {
+          console.log(GMTToStr(value))
+          // this.userinfo.birthday = window.moment(value).format('YYYY/MM/DD')
+          this.userbirthday = GMTToStr(value)
+          this.userinfo.birthday = GMTToStr(value)
+        },
+        selectMan: function () {
+          this.userinfo.gender = 0
+        },
+        selectWoman: function () {
+          this.userinfo.gender = 1
+        },
         goBack() {
           this.$router.back()
         },
@@ -105,6 +142,9 @@
           'setUserInfo'
         ]),
         saveInfo(){
+          console.log(this.userinfo.gender)
+          console.log(this.userinfo.birthday)
+          return
           if (!isObjectValueEqual(this.userinfo, this.$store.state.user.userInfo)){
             let tk = getLocalStorage(Constants.TOKEN)
             updateUserInfo({
@@ -133,7 +173,13 @@
         }
       },
       mounted(){
-
+        this.sexs = [{
+          name: '男',
+          method: this.selectMan
+        }, {
+          name: '女',
+          method: this.selectWoman
+        }]
       }
   }
 </script>

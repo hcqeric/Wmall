@@ -8,7 +8,7 @@
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
         <div class="amount">
           <p>兑换金额 (元)</p>
-          <p>600.00</p>
+          <p>{{scoreAmount | moneyFormat("")}}</p>
         </div>
       </div>
     </div>
@@ -18,28 +18,31 @@
           <el-step>
             <div slot="title" class="title">
               <div class="time-state">
-                <p>12:00:00</p>
+                <p>{{createTime | DateFormat("hh:mm:ss")}}</p>
                 <p>提交兑换申请</p>
               </div>
-              <p>2017-04-01</p>
+              <p>{{createTime | DateFormat("yyyy-MM-dd")}}</p>
             </div>
           </el-step>
           <el-step>
             <div slot="title" class="title">
               <div class="time-state">
-                <p>12:00:00</p>
-                <p>审核通过/审核不通过</p>
+                <p>{{auditTime | DateFormat("hh:mm:ss")}}</p>
+                <p v-if="detailObj.auditStatus == 0">审核中</p>
+                <p v-if="detailObj.auditStatus == 1">审核通过</p>
+                <p v-if="detailObj.auditStatus == 2">审核不通过 <span v-if="detailObj.remarks">（原因：{{detailObj.remarks}}）</span></p>
               </div>
-              <p>2017-04-01</p>
+              <p>{{auditTime | DateFormat("yyyy-MM-dd")}}</p>
             </div>
           </el-step>
-          <el-step>
-            <div slot="title" class="title">
+          <el-step v-if="detailObj.status == 0 || detailObj.status == 2">
+            <div slot="title" class="title" >
               <div class="time-state">
-                <p>12:00:00</p>
-                <p>兑换成功</p>
+                <p>{{finalTime | DateFormat("hh:mm:ss")}}</p>
+                <p v-if="detailObj.status == 0">兑换成功</p>
+                <p v-if="detailObj.status == 2">兑换失败</p>
               </div>
-              <p>2017-04-01</p>
+              <p>{{finalTime | DateFormat("yyyy-MM-dd")}}</p>
             </div>
           </el-step>
         </el-steps>
@@ -49,12 +52,41 @@
 </template>
 
 <script>
-    export default {
-      name: "ExchangeDetail",
+  import{getScoreDetail} from "../../http/getData";
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
+
+  export default {
+    name: "ExchangeDetail",
+    data(){
+        return {
+          createTime:'',
+          auditTime:'',
+          finalTime:'',
+          scoreAmount:'',
+          detailObj:null
+        }
+    },
       methods: {
         goBack() {
           this.$router.back()
         }
+      },
+      mounted(){
+        let {id} = this.$route.params
+        let tk = getLocalStorage(Constants.TOKEN)
+        getScoreDetail({
+          token: tk
+        },{
+          id: id
+        }).then(response=>{
+          console.log(response)
+          this.detailObj = response.result
+          this.createTime = response.result.createTime
+          this.auditTime = response.result.auditTime
+          this.finalTime = response.result.finalTime
+          this.scoreAmount = response.result.scoreAmount
+        })
       }
     }
 </script>

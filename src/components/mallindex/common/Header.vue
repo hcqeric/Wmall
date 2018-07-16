@@ -1,8 +1,8 @@
 <template>
   <div class="header">
-    <div class="searchbox">
+    <div class="searchbox"  @click="gotoSearch">
       <i class="mintui mintui-search" v-show="visible"></i>
-      <input  @click="visible = true"  :placeholder="visible ? '输入搜索内容' : ''">
+      <button   :placeholder="visible ? '输入搜索内容' : ''"></button>
       <span v-show="!visible"><i class="mintui mintui-search"></i>搜索</span>
     </div>
     <a href="#" class="searchbar-cancel" @click="visible = false" v-show="visible">取消</a>
@@ -15,6 +15,12 @@
       data(){
         return {
           visible: false
+        }
+      },
+      methods:{
+        gotoSearch(){
+          console.log("ssss")
+          this.$router.push('/search')
         }
       }
     }
@@ -44,7 +50,7 @@
     color: #999;
     margin-right: 8px;
   }
-  .searchbox input{
+  .searchbox button{
     border: none;
     background-color: #fff;
     flex: 1;

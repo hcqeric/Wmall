@@ -86,6 +86,17 @@ export function objectAllEmpty(obj) {
   return obj;
 }
 
+export function GMTToStr(time){
+  let date = new Date(time)
+  let Str=date.getFullYear() + '-' +
+    (date.getMonth() + 1) + '-' +
+    date.getDate() + ' ' +
+    date.getHours() + ':' +
+    date.getMinutes() + ':' +
+    date.getSeconds()
+  return Str
+}
+
 /**
  * 显示返回顶部按钮，开始、结束、运动 三个过程中调用函数判断是否达到目标点
  */

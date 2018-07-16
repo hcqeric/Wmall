@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <mt-header fixed title="转赠成功">
+    <mt-header fixed title="转增成功">
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">

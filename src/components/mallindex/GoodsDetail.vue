@@ -73,7 +73,7 @@
         addCart({
           token: tk
         },{
-          goodsId:'2',
+          goodsId:this.goodsInfo.id,
           goodsNum: '1'
         }).then(response=>{
           console.log(response)

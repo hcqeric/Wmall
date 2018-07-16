@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <mt-header fixed title="积分转赠">
+    <mt-header fixed title="积分转增">
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
@@ -111,6 +111,9 @@
           score: this.score
         }).then(response=>{
           console.log(response)
+          Toast({
+            message:"转赠成功"
+          })
           this.$router.push('/exchangesucc')
         })
 

@@ -8,7 +8,7 @@
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
         <div class="amount">
           <p>已兑换金额 (元)</p>
-          <p>{{this.score}}</p>
+          <p>{{score}}</p>
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
           <div class="page-infinite-wrapper" ref="wrapper" >
             <div class="record-content" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
               <div class="list" v-for="item in records">
-                <ScoreItem class="item" :exchangeItem="item"></ScoreItem>
+                <ScoreItem class="item" :exchangeItem="item" type="0"></ScoreItem>
               </div>
             </div>
             <p v-show="loading" class="page-infinite-loading">
@@ -76,7 +76,7 @@
           }).then(response=>{
             this.score = response.result.scoreSum
             this.loading = false;
-            if (response.result.list.totalCount < response.result.list.currPage) {
+            if (response.result.list.totalPage < response.result.list.currPage) {
               // this.info = "~~数据已全部加载完毕了~~"
               this.allLoaded = true
               return
@@ -90,7 +90,7 @@
             console.log(error);
             this.loading = false
             this.allLoaded = true
-            this.info = "~~数据加载异常，请稍后再试~~"
+            // this.info = "~~数据加载异常，请稍后再试~~"
           })
         }
       },

@@ -37,12 +37,11 @@
       let token = getLocalStorage(Constants.TOKEN)
       getShareInfo({
         token: token,
-
       },{
         id: this.id
       }).then(response=>{
         console.log(response)
-        this.imgUrl = response.result.userShare.url
+        this.imgUrl = response.result.url
       })
     }
   }

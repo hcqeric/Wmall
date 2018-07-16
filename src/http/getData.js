@@ -68,7 +68,13 @@ export const getScoreRecord = (params, datas) => new Request().require({api: url
 
 export const convertBounds = (params, datas) => new Request().require({api: url.convertBounds,param: params, data:datas}); //积分转赠
 
+export const getScoreDetail = (params, datas) => new Request().require({api: url.scoreDetail,param: params, data:datas}); //积分转赠
+
+export const getOrderScoreListByType = (params, datas) => new Request().require({api: url.typescorelist,param: params, data:datas}); //积分转赠
+
 export const getShareInfo = (params,datas) => new Request().require({api: url.share, param: params, data:datas}); //推广详情
+
+export const getShareList = (params) => new Request().require({api: url.shareList,methods:'GET', param: params}); //推广详情
 
 export const addCart = (params, datas) => new Request().require({api: url.addCart,param: params, data:datas}); //加入购物车
 

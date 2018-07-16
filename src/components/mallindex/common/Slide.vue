@@ -205,11 +205,12 @@
     display: flex;
     flex-direction: column;
   }
-  .slide  .slide-group {
+  .slide-group {
     position: relative;
     overflow: hidden;
     white-space: nowrap;
     flex: 1;
+    min-height: 76vh;
   }
   .slide  .slide-item {
     float: left;
