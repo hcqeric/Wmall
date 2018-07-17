@@ -37,7 +37,6 @@ import Repurchase from '@/components/shopcart/Repurchase'
 import UserInfo from '@/components/mine/UserInfo'
 import OrderCenter from '@/components/mine/OrderCenter'
 import Refunds from '@/components/mine/Refunds'
-import ApplyForRefunds from '@/components/mine/ApplyForRefunds'
 import RefundSuccess from '@/components/mine/RefundSuccess'
 import SetPayPass from '@/components/mine/SetPayPass'
 import SelectTemplate from '@/components/mine/SelectTemplate'
@@ -47,6 +46,7 @@ import Login from '@/components/Login'
 import PromotionDetail from '@/components/promotion/PromotionDetail'
 import SortDetail from '@/components/sort/SortDetail'
 import SearchList from '@/components/home/SearchList'
+import RefundApply from '@/components/mine/RefundApply'
 
 import {getLocalStorage} from "../custom/mixin"
 import * as Constants from '../custom/constants'
@@ -161,7 +161,7 @@ let router = new Router({
       component: ExchangeScore
     },
     {
-      path: '/scoredetail',
+      path: '/scoredetail/:type',
       name: 'ScoreDetail',
       component: ScoreDetail
     },
@@ -256,9 +256,9 @@ let router = new Router({
       component: Refunds
     },
     {
-      path: '/applyrefunds/:type',
-      name: 'applyrefunds',
-      component: ApplyForRefunds
+      path: '/refundapply/:type',
+      name: 'refundapply',
+      component:RefundApply
     },
     {
       path: '/refundsucc',

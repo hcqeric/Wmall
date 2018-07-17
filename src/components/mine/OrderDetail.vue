@@ -3,9 +3,9 @@
     <mt-header fixed title="订单详情">
         <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
         <mt-button slot="right" v-if="orderState == 0"></mt-button>
-        <mt-button slot="right" v-else-if="orderState == 1" @click="turnToRefunds(orderInfo, 0)">退款</mt-button>
+        <mt-button slot="right" v-else-if="orderState == 1" @click="turnToRefunds(orderInfo, 5)">退款</mt-button>
         <mt-button slot="right" v-else-if="orderState == 2" @click="viewLogisticsTracing(orderInfo.id)">查看物流</mt-button>
-        <mt-button slot="right" v-else-if="orderState == 3" @click="turnToRefunds(orderInfo, 1)">退货退款</mt-button>
+        <mt-button slot="right" v-else-if="orderState == 3" @click="turnToRefunds(orderInfo, 6)">退货退款</mt-button>
     </mt-header>
     <div class="content">
       <div class="order-state">
@@ -51,7 +51,7 @@
 
       <div class="goto">
         <button v-if="orderState == 0">去支付</button>
-        <button v-else-if="orderState == 1">提醒发货</button>
+        <!--<button v-else-if="orderState == 1">提醒发货</button>-->
         <button v-else-if="orderState == 2">确认收货</button>
         <button v-else-if="orderState == 3">发表评价</button>
       </div>
@@ -90,7 +90,7 @@
       },
       turnToRefunds(orderInfo, type){
         this.setBackRefunds(orderInfo)
-        this.$router.push('/applyrefunds/' + type)
+        this.$router.push('/refundapply/' + type)
       }
 
     },
@@ -118,7 +118,7 @@
     overflow: scroll;
   }
   .mint-header{
-    background-color: #bf54f9;
+    background-color: #000;
     height: 48px;
     z-index: 9999;
   }

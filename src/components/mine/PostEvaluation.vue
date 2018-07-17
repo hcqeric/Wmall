@@ -122,8 +122,8 @@
       },
       mounted(){
         let tk = getLocalStorage(Constants.TOKEN)
-        // this.uploadUrl = `http://120.79.16.221:8777/v1/file/ftpUpload/appraisesImg/0?token=44d61a8bc5fb050e44d4857a2e9f2265`
-        this.uploadUrl = `http://192.168.0.147:8080/app/file/ftpUpload/appraisesImg/0?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyNSIsImlhdCI6MTUzMTEwMTQ2NiwiZXhwIjoxNTMxNzA2MjY2fQ.In0xprJoYh6mePqJk9E0IGVSiQpiznhehyYCSZa1GqmpGjdSrylun9DPgPwTfWFGNmDtQVao7ynD4P4SBDWfcQ`
+        this.uploadUrl = `http://120.79.16.221:8777/app/file/ftpUpload/appraisesImg/0?token=` + tk
+        //this.uploadUrl = `http://192.168.0.147:8080/app/file/ftpUpload/appraisesImg/0?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyNSIsImlhdCI6MTUzMTEwMTQ2NiwiZXhwIjoxNTMxNzA2MjY2fQ.In0xprJoYh6mePqJk9E0IGVSiQpiznhehyYCSZa1GqmpGjdSrylun9DPgPwTfWFGNmDtQVao7ynD4P4SBDWfcQ`
         console.log(this.uploadUrl)
         this.$refs.upload.hidePictureCardUpload();
 

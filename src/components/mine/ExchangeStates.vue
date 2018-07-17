@@ -15,14 +15,20 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
     export default {
         name: "ExchangeStates",
+      computed:{
+        ...mapGetters({
+          scoreExchangeId:'scoreExchangeId'
+        })
+      },
       methods:{
         goBack() {
           this.$router.back()
         },
         turnToExStates(){
-          this.$router.push('/exchangedetail')
+          this.$router.push('/exchangedetail/'+ this.scoreExchangeId)
         }
       }
     }

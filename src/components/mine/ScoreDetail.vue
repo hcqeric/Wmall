@@ -8,7 +8,7 @@
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
         <div class="amount">
           <p>订单积分</p>
-          <p>+ 60</p>
+          <p>+60</p>
         </div>
       </div>
     </div>
@@ -24,7 +24,7 @@
                 <p>订单金额：</p>
               </div>
               <div class="cell-right">
-                <input type="text" value="￥180.00" disabled>
+                <input type="text" :value="orderScoreDetail.payAmt" disabled>
               </div>
             </div>
             <div class="input-cell">
@@ -32,7 +32,7 @@
                 <p>购买人：</p>
               </div>
               <div class="cell-right">
-                <input type="text" value="李四" disabled>
+                <input type="text" :value="orderScoreDetail.userName" disabled>
               </div>
             </div>
             <div class="input-cell">
@@ -48,7 +48,8 @@
                 <p>订单状态：</p>
               </div>
               <div class="cell-right">
-                <input type="text" value="已确认/确认中" disabled>
+                <input v-if="type == 1" type="text" value="确认中" disabled>
+                <input v-if="type == 2" type="text" value="已确认" disabled>
               </div>
             </div>
             <div class="input-cell">
@@ -56,21 +57,21 @@
                 <p>下单时间：</p>
               </div>
               <div class="cell-right">
-                <input type="text" value="2018-04-12  15:30:30" disabled>
+                <input type="text" :value="orderScoreDetail.createTime" disabled>
               </div>
             </div><div class="input-cell">
             <div class="cell-left">
               <p>确认时间：</p>
             </div>
             <div class="cell-right">
-              <input type="text" value="2018-04-15  15:30:30" disabled>
+              <input type="text" :value="orderScoreDetail.updateTime" disabled>
             </div>
           </div><div class="input-cell">
             <div class="cell-left">
               <p>订单编号：</p>
             </div>
             <div class="cell-right">
-              <input type="text" value="2018041511235670" disabled>
+              <input type="text" :value="orderScoreDetail.orderNum" disabled>
             </div>
           </div>
           </div>
@@ -82,8 +83,19 @@
 
 <script>
   import ScoreItem from '@/components/view/ScoreItem'
+  import {mapGetters} from 'vuex'
   export default {
     name: "ScoreRecord",
+    data(){
+      return {
+        type:''
+      }
+    },
+    computed:{
+      ...mapGetters({
+        orderScoreDetail:'orderScoreDetail'
+      })
+    },
     methods: {
       goBack() {
         this.$router.back()
@@ -91,6 +103,10 @@
     },
     components:{
       ScoreItem
+    },
+    mounted(){
+      let{type} = this.$route.params
+      this.type = type
     }
   }
 </script>

@@ -9,7 +9,7 @@
         </div>
         <div v-if="exchangeItem.tradeStatus !== undefined">
           <p v-if="type == 2">{{exchangeItem.userName}}的订单 (已确认)</p>
-          <p v-if="type == 1">{{exchangeItem.userName}}李四的订单 (确认中)</p>
+          <p v-if="type == 1">{{exchangeItem.userName}}的订单 (确认中)</p>
           <p>{{exchangeItem.updateTime}}</p>
         </div>
       </div>
@@ -31,13 +31,15 @@
       },
       methods:{
         ...mapActions({
-          setExchangeInfo: 'setExchangeInfo'
+          setExchangeInfo: 'setExchangeInfo',
+          setOrderScoreDetail: 'setOrderScoreDetail'
         }),
         gotoExchangedetail(){
           if (this.type == 0) {
             this.$router.push('/exchangedetail/' + this.exchangeItem.id)
           }else if (this.type == 2 || this.type == 1){
-            this.$router.push('/scoredetail')
+            this.setOrderScoreDetail(this.exchangeItem)
+            this.$router.push('/scoredetail/'+ this.type)
           }
         }
       }

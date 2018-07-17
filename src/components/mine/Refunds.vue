@@ -11,8 +11,12 @@
 
 <script>
   import RefundsItem from '@/components/view/RefundsItem'
-    export default {
-        name: "Refunds",
+  import {getRefundList} from "../../http/getData";
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
+
+  export default {
+      name: "Refunds",
       methods:{
         goBack() {
           this.$router.back()
@@ -20,6 +24,14 @@
       },
       components:{
           RefundsItem
+      },
+      mounted(){
+        let tk = getLocalStorage(Constants.TOKEN)
+        getRefundList({
+          token: tk
+        }).then(response=>{
+          console.log(response)
+        })
       }
     }
 </script>

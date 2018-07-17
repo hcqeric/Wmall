@@ -6,13 +6,13 @@
     <div class="content">
       <div class="logistics">
         <div class="logistics-info">
-
-          <div class="express" v-if="result">
-            <p>快递公司： <span>{{result.company}}</span></p>
-            <p>运单编号： <span>{{result.no}}</span></p>
+          <div class="express" v-if="exp">
+            <p>快递公司： <span>{{exp.trafficName}}</span></p>
+            <p>运单编号： <span>{{exp.trafficNum}}</span></p>
           </div>
+          <p v-if="msg">{{msg}}</p>
         </div>
-        <div class="tracing" v-if="result">
+        <div class="tracing" v-if="exp">
           <div>
             <el-steps direction="vertical" finish-status="success" process-status="wait" :active="1">
               <el-step v-for="(item,index) in expList" :key="index">
@@ -34,56 +34,13 @@
   import { getLocalStorage } from "../../custom/mixin";
   import {getExpInfo} from "../../http/getData";
 
-  const result = {
-      "company":"京东快递",
-      "com":"jd",
-      "no":"76340477822",
-      "status":"1",
-      "list":[
-        {
-          "datetime":"2018-06-14 14:23:27",
-          "remark":"货物已交付京东物流",
-          "zone":""
-        },
-        {
-          "datetime":"2018-06-14 14:23:57",
-          "remark":"货物已完成分拣，离开【东莞麻涌分拣中心】 分拣中心发货",
-          "zone":""
-        },
-        {
-          "datetime":"2018-06-14 20:52:12",
-          "remark":"货物已到达【深圳松岗分拨中心】 分拣中心验货",
-          "zone":""
-        },
-        {
-          "datetime":"2018-06-14 20:54:38",
-          "remark":"货物已完成分拣，离开【深圳松岗分拨中心】 分拣中心发货",
-          "zone":""
-        },
-        {
-          "datetime":"2018-06-15 07:32:14",
-          "remark":"货物已分配，等待配送 站点验货",
-          "zone":""
-        },
-        {
-          "datetime":"2018-06-15 08:29:55",
-          "remark":"配送员开始配送，请您准备收货，配送员，周美生，手机号，18027661793 配送员收货",
-          "zone":""
-        },
-        {
-          "datetime":"2018-06-15 12:11:30",
-          "remark":"订单已由本人签收，感谢您在京东购物，欢迎您再次光临！ 妥投",
-          "zone":""
-        }
-      ]
-  }
   export default {
     name: "LogisticsTracing",
     data(){
       return {
-        result: result,
         exp:null,
-        expList:[]
+        expList:[],
+        msg:''
       }
     },
     methods: {
@@ -101,7 +58,9 @@
       }).then(response=>{
         this.exp = response.result
         this.expList = response.result.exp
-      }).catch(error=>{})
+      }).catch(error=>{
+        this.msg = error.msg
+      })
     }
   }
 </script>

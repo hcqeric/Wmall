@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="ex-msg">
-      <div class="ex-states">
+      <div class="ex-states" v-if="detailObj">
         <el-steps direction="vertical" :active="1">
           <el-step>
             <div slot="title" class="title">
@@ -26,7 +26,7 @@
           </el-step>
           <el-step>
             <div slot="title" class="title">
-              <div class="time-state">
+              <div class="time-state" >
                 <p>{{auditTime | DateFormat("hh:mm:ss")}}</p>
                 <p v-if="detailObj.auditStatus == 0">审核中</p>
                 <p v-if="detailObj.auditStatus == 1">审核通过</p>

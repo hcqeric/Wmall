@@ -6,7 +6,9 @@ const getters = {
     setPayPass: state => state.app.setPayPass,
     address: state => state.user.address,
     postAppraises: state=> state.user.postAppraises,
-    orderNum: state=> state.shop.orderNum
+    orderNum: state=> state.shop.orderNum,
+    orderScoreDetail: state=>state.user.orderScoreDetail,
+    scoreExchangeId: state=>state.user.scoreExchangeId
 }
 export default getters
 

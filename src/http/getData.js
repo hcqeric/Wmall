@@ -68,9 +68,9 @@ export const getScoreRecord = (params, datas) => new Request().require({api: url
 
 export const convertBounds = (params, datas) => new Request().require({api: url.convertBounds,param: params, data:datas}); //积分转赠
 
-export const getScoreDetail = (params, datas) => new Request().require({api: url.scoreDetail,param: params, data:datas}); //积分转赠
+export const getScoreDetail = (params, datas) => new Request().require({api: url.scoreDetail,param: params, data:datas}); //积分详情
 
-export const getOrderScoreListByType = (params, datas) => new Request().require({api: url.typescorelist,param: params, data:datas}); //积分转赠
+export const getOrderScoreListByType = (params, datas) => new Request().require({api: url.typescorelist,param: params, data:datas}); //可兑积分、未兑积分
 
 export const getShareInfo = (params,datas) => new Request().require({api: url.share, param: params, data:datas}); //推广详情
 
@@ -81,5 +81,11 @@ export const addCart = (params, datas) => new Request().require({api: url.addCar
 export const getCartList = (params, datas) => new Request().require({api: url.shopCart,param: params, data:datas}); //获取购物车列表
 
 export const deleteCart = (params, datas) => new Request().require({api: url.shopCart,param: params, data:datas}); //删除购物车
+
+export const getFriends = (params) => new Request().require({api: url.friends,methods: 'GET', param: params}); //好友列表
+
+export const refundApply = (params, datas) => new Request().require({api: url.refundApply, param: params, data:datas}); //申请退货（退款）
+
+export const getRefundList = (params) => new Request().require({api: url.refundList, methods: 'GET', param: params}); // 退货退款列表
 
 

@@ -1,16 +1,19 @@
 <template>
   <div class="friends" >
-    <img src="../../assets/img/avatar.jpg" alt="">
+    <img :src="friendItem.logoUrl" alt="">
     <div class="friend-info">
-      <p>Windir</p>
-      <p><img src="../../assets/img/flower.png" alt=""> 5</p>
+      <p>{{friendItem.nickname}}</p>
+      <p><!--<img src="../../assets/img/flower.png" alt=""> 5--></p>
     </div>
   </div>
 </template>
 
 <script>
     export default {
-        name: "FreiendItem"
+      name: "FreiendItem",
+      props:{
+         friendItem:Object
+      }
     }
 </script>
 

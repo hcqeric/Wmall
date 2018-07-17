@@ -32,6 +32,7 @@
   import {convertBounds,getBonus} from "../../http/getData";
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
+  import {mapActions} from 'vuex'
   import { MessageBox } from 'mint-ui';
 
   export default {
@@ -45,6 +46,9 @@
       }
     },
     methods: {
+      ...mapActions({
+        setScoreExchangeId: 'setScoreExchangeId'
+      }),
       getBonus(bonus){
         this.score = bonus
       },
@@ -58,6 +62,7 @@
           score: this.score
         }).then(response=>{
           console.log(response)
+          this.setScoreExchangeId(response.result)
           this.$router.push('/exchangestates')
         }).catch(error=>{
           if (error.code == 10000){

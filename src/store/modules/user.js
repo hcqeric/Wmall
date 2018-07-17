@@ -8,7 +8,9 @@ const user = {
     ableScore: 0,  //可兑积分
     unpackScore:0,  //未结积分
     rechargeScore:0, //复购积分
-    exchangeItemInfo:null //兑换记录信息
+    exchangeItemInfo:null, //兑换记录信息
+    orderScoreDetail:null, //兑换详情
+    scoreExchangeId:''
   },
   mutations: {
     [types.SET_USERINFO](state, userInfo) {
@@ -31,6 +33,12 @@ const user = {
     },
     [types.SET_EXCHANGE_INFO](state, info){
       state.exchangeItemInfo = info
+    },
+    [types.SET_ORDER_SCORE_DETAIL](state, orderScore){
+      state.orderScoreDetail = orderScore
+    },
+    [types.SET_SCORE_EXCHANGE_ID](state, exchangeId){
+      state.scoreExchangeId = exchangeId
     }
   },
   actions: {
@@ -54,6 +62,12 @@ const user = {
     },
     setExchangeInfo({state, commit}, info){
       commit(types.SET_EXCHANGE_INFO, info)
+    },
+    setOrderScoreDetail({state, commit}, orderScore){
+      commit(types.SET_ORDER_SCORE_DETAIL, orderScore)
+    },
+    setScoreExchangeId({state,commit}, id){
+      commit(types.SET_SCORE_EXCHANGE_ID, id)
     }
   }
 }

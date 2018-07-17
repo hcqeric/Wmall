@@ -52,5 +52,8 @@ export default {
   shareList:'/app/share/list',
   addCart:'/app/cart/saveOrUpdate',
   shopCart:'/app/cart/list',
-  deleteCart:'/app/cart/delete'
+  deleteCart:'/app/cart/delete',
+  friends: 'app/user/selectByParentId',
+  refundApply: 'app/order/refundApply',
+  refundList: 'app/order/refundApplyList'
 }

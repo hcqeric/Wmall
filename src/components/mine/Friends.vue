@@ -9,7 +9,7 @@
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
         <div class="amount">
           <p>好友总人数 (人)</p>
-          <p>54</p>
+          <p>{{userSum}}</p>
         </div>
       </div>
     </div>
@@ -17,22 +17,28 @@
       <div class="friends-panel">
         <div class="friends-tab">
           <mt-navbar v-model="selected">
-            <mt-tab-item id="1">一级好友 (8)</mt-tab-item>
-            <mt-tab-item id="2">二级好友 (16)</mt-tab-item>
-            <mt-tab-item id="3">三级好友 (30)</mt-tab-item>
+            <mt-tab-item id="1" v-if="userList1">一级好友 ({{userList1.userSum}})</mt-tab-item>
+            <mt-tab-item id="2" v-if="userList2">二级好友 ({{userList2.userSum}})</mt-tab-item>
+            <mt-tab-item id="3" v-if="userList3">三级好友 ({{userList3.userSum}})</mt-tab-item>
           </mt-navbar>
         </div>
         <div class="friends-content">
           <!-- tab-container -->
           <mt-tab-container v-model="selected">
-            <mt-tab-container-item id="1">
-              <FriendItem v-for="n in 8"></FriendItem>
+            <mt-tab-container-item id="1" v-if="userList1">
+              <div  v-for="item in userList1.list">
+                <FriendItem :friendItem="item"></FriendItem>
+              </div>
             </mt-tab-container-item>
-            <mt-tab-container-item id="2">
-              <FriendItem v-for="n in 16"></FriendItem>
+            <mt-tab-container-item id="2" v-if="userList2">
+              <div  v-for="item in userList2.list">
+                <FriendItem :friendItem="item"></FriendItem>
+              </div>
             </mt-tab-container-item>
-            <mt-tab-container-item id="3">
-              <FriendItem v-for="n in 30"></FriendItem>
+            <mt-tab-container-item id="3" v-if="userList3">
+              <div v-for="item in userList3.list">
+                <FriendItem :friendItem="item"></FriendItem>
+              </div>
             </mt-tab-container-item>
           </mt-tab-container>
         </div>
@@ -44,6 +50,10 @@
 <script>
   import Notification from '@/components/view/Notification'
   import FriendItem from '@/components/view/FriendItem.vue'
+  import {getFriends} from "../../http/getData";
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
+
   export default {
     name: "Friends",
     methods: {
@@ -60,8 +70,26 @@
     },
     data() {
       return {
-        selected: '1'
+        selected: '1',
+        userSum:0,
+        userList1:null,
+        userList2:null,
+        userList3:null
       };
+    },
+    mounted(){
+      let tk = getLocalStorage(Constants.TOKEN)
+      getFriends({
+        token: tk
+      }).then(response=>{
+        this.userSum = response.result.userSum
+        this.userList1 = response.result.userList1
+        this.userList2 = response.result.userList2
+        this.userList3 = response.result.userList3
+        console.log(this.userList1)
+        console.log(this.userList2)
+        console.log(this.userList3)
+      })
     }
   }
 </script>

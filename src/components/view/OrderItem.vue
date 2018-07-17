@@ -17,25 +17,24 @@
         </div>
       </div>
       <div class="item-bottom">
-      <div class="order-price">
-        <div class="count" v-if="orderItem.orderDetailList != undefined">
-        <p>数量：x {{orderItem.orderDetailList.length}}</p>
-        <p>{{orderItem.totalAmt}}</p>
+        <div class="order-price">
+          <div class="count" v-if="orderItem.orderDetailList != undefined">
+            <p>数量：x {{orderItem.orderDetailList.length}}</p>
+            <p>{{orderItem.totalAmt}}</p>
+          </div>
         </div>
-      </div>
-      <div class="order-state">
-        <p v-if="orderItem.tradeStatus == 0">订单10分钟后即将关闭</p>
-        <p v-if="orderItem.tradeStatus == 1">亲,你的商品正在配货中，请耐心等待~</p>
-        <p v-if="orderItem.tradeStatus == 2">亲,你的商品正在配送中，请耐心等待~</p>
-        <p v-if="orderItem.tradeStatus == 3"></p>
-        <div class="buttons">
-        <button v-if="orderItem.tradeStatus == 0" @click.stop="cancelOrder(orderItem.id)">取消订单</button>
-        <button v-if="orderItem.tradeStatus == 0">去支付</button>
-        <button v-if="orderItem.tradeStatus == 1">提醒发货</button>
-        <button v-if="orderItem.tradeStatus == 2">确认收货</button>
-        <button v-if="orderItem.tradeStatus == 3">评价</button>
+        <div class="order-state">
+          <p v-if="orderItem.tradeStatus == 0">订单10分钟后即将关闭</p>
+          <p v-if="orderItem.tradeStatus == 1">亲,你的商品正在配货中，请耐心等待~</p>
+          <p v-if="orderItem.tradeStatus == 2">亲,你的商品正在配送中，请耐心等待~</p>
+          <p v-if="orderItem.tradeStatus == 3"></p>
+          <div class="buttons">
+            <button v-if="orderItem.tradeStatus == 0" @click.stop="cancelOrder(orderItem.id)">取消订单</button>
+            <button v-if="orderItem.tradeStatus == 0">去支付</button>
+            <button v-if="orderItem.tradeStatus == 2">确认收货</button>
+            <button v-if="orderItem.tradeStatus == 3">评价</button>
+          </div>
         </div>
-      </div>
       </div>
     </div>
 </template>
@@ -165,7 +164,6 @@
     padding:16px 0;
     align-items: center;
     position: relative;
-
   }
   .order-price:after{
     position: absolute;

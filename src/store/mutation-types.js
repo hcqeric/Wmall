@@ -25,3 +25,7 @@ export const SET_RECHARGE_SCORE = 'set_recharge_score'
 
 export const SET_EXCHANGE_INFO = 'set_exchange_info'
 
+export const SET_ORDER_SCORE_DETAIL = 'set_order_score_detail'
+
+export const SET_SCORE_EXCHANGE_ID = 'set_score_exchange_id'
+
