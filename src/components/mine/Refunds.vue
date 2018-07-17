@@ -4,7 +4,21 @@
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
-      <RefundsItem v-for="n in 3" class="item"></RefundsItem>
+      <div class="page-infinite">
+        <div class="page-infinite-wrapper" ref="wrapper" >
+          <div class="record-content" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
+            <div class="list" v-for="item in refundList">
+              <RefundsItem class="item" :refundInfo="item"></RefundsItem>
+            </div>
+          </div>
+          <p v-show="loading" class="page-infinite-loading">
+            <mt-spinner type="fading-circle"></mt-spinner>
+            加载中...
+          </p>
+          <p v-show="allLoaded" class="nodata">{{info}}</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -16,10 +30,53 @@
   import * as Constants from '../../custom/constants'
 
   export default {
-      name: "Refunds",
+    name: "Refunds",
+    data(){
+        return {
+          refundList:[],
+          page: 1,
+          limit: '10',
+          token:'',
+          info:'',
+          allLoaded: false,
+          loading: false
+        }
+    },
       methods:{
         goBack() {
           this.$router.back()
+        },
+        loadMore() {
+          if(!this.allLoaded){
+            this.loading = true;
+            this.loadData()
+          }
+        },
+        loadData(){
+          getRefundList({
+            token: this.token
+          },{
+            limit: this.limit,
+            page: this.page.toString()
+          }).then(response=>{
+            console.log(response)
+            this.loading = false;
+            if (response.result.totalPage < response.result.currPage) {
+              // this.info = "~~数据已全部加载完毕了~~"
+              this.allLoaded = true
+              return
+            }
+            response.result.list.map(item=>{
+              this.refundList.push(item)
+            })
+            this.page++
+
+          }).catch(error=>{
+            console.log(error);
+            this.loading = false
+            this.allLoaded = true
+            // this.info = "~~数据加载异常，请稍后再试~~"
+          })
         }
       },
       components:{
@@ -27,11 +84,15 @@
       },
       mounted(){
         let tk = getLocalStorage(Constants.TOKEN)
-        getRefundList({
-          token: tk
-        }).then(response=>{
-          console.log(response)
-        })
+        this.token = tk
+        // getRefundList({
+        //   token: tk
+        // },{
+        //   page:this.page.toString(),
+        //   limit:this.limit
+        // }).then(response=>{
+        //   console.log(response)
+        // })
       }
     }
 </script>

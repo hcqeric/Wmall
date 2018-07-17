@@ -9,13 +9,21 @@
         <p>数量：x 1</p>
       </div>
     </div>
-    <p>仅退款/退货退款 <span>申请中</span></p>
+    <p >仅退款/退货退款
+      <span v-if="refundInfo.refundStatus == 0">待申请</span>
+      <span v-if="refundInfo.refundStatus == 1">申请中</span>
+      <span v-if="refundInfo.refundStatus == 2" class="refund-succ">申请成功</span>
+      <span v-if="refundInfo.refundStatus == 3">申请失败</span>
+    </p>
   </div>
 </template>
 
 <script>
     export default {
-        name: "RefundsItem"
+      name: "RefundsItem",
+      props: {
+          refundInfo:Object
+      }
     }
 </script>
 

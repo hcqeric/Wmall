@@ -86,6 +86,6 @@ export const getFriends = (params) => new Request().require({api: url.friends,me
 
 export const refundApply = (params, datas) => new Request().require({api: url.refundApply, param: params, data:datas}); //申请退货（退款）
 
-export const getRefundList = (params) => new Request().require({api: url.refundList, methods: 'GET', param: params}); // 退货退款列表
+export const getRefundList = (params, datas) => new Request().require({api: url.refundList,  param: params, data:datas}); // 退货退款列表
 
 
