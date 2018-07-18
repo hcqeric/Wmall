@@ -5,7 +5,7 @@
     </mt-header>
     <div class="content">
     <div class="posts">
-      <EvaluationGoods :hasEvaluationTime="false" :comment="comment"></EvaluationGoods>
+      <EvaluationGoods :hasEvaluationTime="false" :comment="goodsItem"></EvaluationGoods>
       <div class="rate">
         <el-rate
           v-model="value"
@@ -43,6 +43,7 @@
       data() {
         return {
           uploadUrl:'',
+          goodsItem: {},
           comment:{
             goods:{
               name:"买肾丸",
@@ -75,7 +76,9 @@
           console.log(file, fileList);
         },
         handleProgress(event, file, fileList) {
-          document.getElementsByClassName('.el-progress .el-progress--circle')[0].style.display = 'none';
+          if(document.getElementsByClassName('.el-progress .el-progress--circle') != undefined) {
+            document.getElementsByClassName('.el-progress .el-progress--circle').style = 'display: none';
+          }
         },
         hidePictureCardUpload() {
           document.getElementsByClassName('el-upload el-upload--picture-card')[0].style.display = 'none';
@@ -102,8 +105,8 @@
           addAppraises({
             token: tk
           },{
-            orderId:'0',
-            goodsId:'2',
+            orderId:this.orderId,
+            goodsId:this.goodsItem.goodsId,
             content:this.content,
             score:this.value,
             fileList: fileList
@@ -123,9 +126,14 @@
       mounted(){
         let tk = getLocalStorage(Constants.TOKEN)
         this.uploadUrl = `http://120.79.16.221:8777/app/file/ftpUpload/appraisesImg/0?token=` + tk
-        //this.uploadUrl = `http://192.168.0.147:8080/app/file/ftpUpload/appraisesImg/0?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyNSIsImlhdCI6MTUzMTEwMTQ2NiwiZXhwIjoxNTMxNzA2MjY2fQ.In0xprJoYh6mePqJk9E0IGVSiQpiznhehyYCSZa1GqmpGjdSrylun9DPgPwTfWFGNmDtQVao7ynD4P4SBDWfcQ`
-        console.log(this.uploadUrl)
-        this.$refs.upload.hidePictureCardUpload();
+        this.backRefunds = this.$store.state.shop.backRefunds
+        let {id} = this.$route.params
+        if(this.backRefunds.orderDetailList != undefined) {
+          this.goodsItem = this.backRefunds.orderDetailList[id]
+
+        }
+        this.orderId = this.backRefunds.id
+
 
       }
     }

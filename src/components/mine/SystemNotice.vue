@@ -4,15 +4,25 @@
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
-      <NoticeCard v-for="n in 3" :key="n" class="item"></NoticeCard>
+      <div v-for="(item,index)  in notificationList" :key="index">
+        <NoticeCard class="item"  :notificationItem="item"></NoticeCard>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
   import NoticeCard from '@/components/view/NoticeCard'
-    export default {
-        name: "SystemNotice",
+  import {getNotificationList} from "../../http/getData";
+
+  export default {
+    name: "SystemNotice",
+    data() {
+      return {
+        notificationList:[]
+      }
+    },
       methods: {
         goBack() {
           this.$router.back()
@@ -20,6 +30,16 @@
       },
       components:{
           NoticeCard
+      },
+      mounted(){
+        getNotificationList({
+          notificationType:'1'
+        }).then(response=>{
+          console.log(response)
+          response.result.map(item=>{
+            this.notificationList.push(item)
+          })
+        })
       }
     }
 </script>

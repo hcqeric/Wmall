@@ -9,56 +9,39 @@
     <button @click="searchContent" >搜索</button>
   </div>
   <div class="content">
-    <RecommendGoods class="goods-item" v-for="n in 5" :goodsInfo="item" />
+    <div class="page-infinite">
+      <div class="page-infinite-wrapper" ref="wrapper" >
+        <ul class="page-infinite-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
+          <li v-for="item in searchGoodsList" class="page-infinite-listitem">
+            <RecommendGoods class="goods-item" :goodsInfo="item" />
+          </li>
+        </ul>
+        <p v-show="loading" class="page-infinite-loading">
+          <mt-spinner type="fading-circle"></mt-spinner>
+          加载中...
+        </p>
+        <p v-show="allLoaded" class="nodata">{{info}}</p>
+      </div>
+    </div>
   </div>
 </div>
 </template>
 
 <script>
     import RecommendGoods from "@/components/view/RecommendGoods";
-    const item = {
-      "id": 1,
-      "goodsTypeId": 1,
-      "proId": 1,
-      "goodsNum": 231232131,
-      "name": "买肾丸",
-      "introduce": "只要998",
-      "keywords": "丸",
-      "unit": "颗",
-      "goodsImg": "fasdsadas.jpg",
-      "bdanPrice": 22,
-      "sellPrice": 23,
-      "repeatPrice": 222,
-      "bonusPoints": 1,
-      "bonusPrice": 2,
-      "clickCount": 333,
-      "sellCount": 2222,
-      "order": 11,
-      "initQty": 222,
-      "remainQty": 2222,
-      "warningQty": 222,
-      "rewardConsumer1": 1,
-      "rewardConsumer2": 2,
-      "rewardConsumer3": 3,
-      "rewardPartner": 11,
-      "goodsDetal": "222",
-      "status": 1,
-      "delFlag": 1,
-      "createTime": "2018-06-25 15:14:46",
-      "updateTime": "2018-06-25 15:14:46",
-      "sowingUrl": [
-        "http://fd.topitme.com/d/a8/1d/11315383988791da8do.jpg"
-      ],
-      "detailsUrl": [
-        "http://fd.topitme.com/d/a8/1d/11315383988791da8do.jpg"
-      ]
-    }
+    import {getSearchList} from "../../http/getData";
+
     export default {
       name: "SearchList",
       data(){
         return {
-          item: item,
-          keywords:''
+          searchGoodsList:[],
+          loading: false,
+          allLoaded: true,
+          keywords:'',
+          info:'',
+          page:1,
+          limit:'10'
         }
       },
       methods:{
@@ -66,7 +49,40 @@
           this.$router.back()
         },
         searchContent(){
-          console.log(this.keywords)
+          this.loading = true;
+          this.loadData()
+        },
+        loadMore() {
+          if(!this.allLoaded){
+            this.loading = true;
+            this.loadData()
+          }
+        },
+        loadData(){
+          getSearchList({
+            query:this.keywords,
+            page: this.page.toString(),
+            limit: this.limit
+          }).then(response=>{
+            console.log(response)
+            this.loading = false;
+            if (response.result.totalPage < response.result.currPage) {
+              this.info = "~~数据已全部加载完毕了~~"
+              this.allLoaded = true
+              return
+            }else{
+              this.allLoaded = false
+            }
+            response.result.list.map(item=>{
+              this.searchGoodsList.push(item)
+            })
+            this.page++
+          }).catch(error=>{
+            console.log(error);
+            this.loading = false
+            this.allLoaded = true
+            this.info = "~~数据加载异常，请稍后再试~~"
+          })
         }
       },
       components:{
@@ -127,4 +143,40 @@
     background-color: transparent;
     color: #fff;
   }
+
+.page-infinite-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #bf54f9;
+  text-align: center;
+  padding: 8px 0;
+}
+
+.page-infinite-loading span {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+}
+li{
+  list-style: none;
+}
+.goods-item{
+  position: relative;
+}
+.goods-item:after{
+  position: absolute;
+  bottom: 1px;
+  height: 1px;
+  background-color: #eee;
+  width: 100%;
+  content: '';
+}
+.goods-item:last-of-type:after{
+  height: 0;
+}
+.nodata{
+  padding:16px 0;
+  text-align: center;
+}
 </style>

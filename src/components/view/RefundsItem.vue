@@ -1,19 +1,19 @@
 <template>
   <div class="refunds-item">
-    <p>订单号：12345678901</p>
-    <div class="item-info">
-      <img src="http://p90m90efq.bkt.clouddn.com/goods.png" alt="">
+    <p>订单号：{{refundInfo.order.orderNum}}</p>
+    <div class="item-info" v-for="item in refundInfo.order.orderDetailList">
+      <img :src="item.goodsImg" alt="">
       <div class="goods">
-        <p>肌透修复眼部密集精华露</p>
-        <p>单价：￥560.00/瓶</p>
-        <p>数量：x 1</p>
+        <p>{{item.goodsName}}</p>
+        <p>单价：{{item.sellPrice| moneyFormat}}/{{item.unit}}</p>
+        <p>数量：x {{item.number}}</p>
       </div>
     </div>
-    <p >仅退款/退货退款
-      <span v-if="refundInfo.refundStatus == 0">待申请</span>
-      <span v-if="refundInfo.refundStatus == 1">申请中</span>
+    <p >{{renderType}}
+      <span v-if="refundInfo.refundStatus == 0" class="refund-fail">待申请</span>
+      <span v-if="refundInfo.refundStatus == 1" class="refund-fail">申请中</span>
       <span v-if="refundInfo.refundStatus == 2" class="refund-succ">申请成功</span>
-      <span v-if="refundInfo.refundStatus == 3">申请失败</span>
+      <span v-if="refundInfo.refundStatus == 3" class="refund-fail">申请失败</span>
     </p>
   </div>
 </template>
@@ -21,6 +21,16 @@
 <script>
     export default {
       name: "RefundsItem",
+      computed:{
+        renderType(){
+          if (this.refundInfo.order.tradeStatus == 5){
+            return "仅退款"
+          }else if(this.refundInfo.order.tradeStatus == 6){
+            return "退货退款"
+          }
+        }
+
+      },
       props: {
           refundInfo:Object
       }
@@ -87,4 +97,10 @@
   color: #000;
   font-size: 14px;
 }
+  .refund-fail{
+    color: #f00;
+  }
+  .refund-succ{
+    color: #00cc99;
+  }
 </style>

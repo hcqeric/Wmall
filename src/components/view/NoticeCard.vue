@@ -5,17 +5,20 @@
         <i class="el-icon-bell"></i>
         <span>小公告</span>
       </div>
-      <span>2018-04-12  17:00:23</span>
+      <span>{{notificationItem.updateTime | DateFormat("yyyy-MM-dd hh:mm:ss")}}</span>
     </div>
     <div class="text-content">
-      推荐好友升级会员用户，由奖励200积分调整为300积分,还不赶紧邀请你的好友加入，一起赚大钱~
+      {{notificationItem.content}}
     </div>
   </el-card>
 </template>
 
 <script>
     export default {
-        name: "NoticeCard"
+      name: "NoticeCard",
+      props:{
+        notificationItem: Object
+      }
     }
 </script>
 
@@ -32,7 +35,7 @@
   }
   .title i{
     font-size: 22px;
-    color: #ff6d9e;
+    color: #bf54f9;
     font-weight: 700;
     margin-right: 8px;
   }

@@ -102,7 +102,7 @@
           this.score = response.result.score
           this.loading = false;
           if (response.result.list.totalPage < response.result.list.currPage) {
-            // this.info = "~~数据已全部加载完毕了~~"
+            this.info = "~~所有明细都在这里了~~"
             this.allLoaded = true
             return
           }
@@ -248,6 +248,10 @@
   }
   .list:last-child>.item::after{
     height: 0;
+  }
+  .nodata{
+    padding:16px 0;
+    text-align: center;
   }
 </style>
 

@@ -88,4 +88,10 @@ export const refundApply = (params, datas) => new Request().require({api: url.re
 
 export const getRefundList = (params, datas) => new Request().require({api: url.refundList,  param: params, data:datas}); // 退货退款列表
 
+export const getNotificationList = (datas) => new Request().require({api: url.notification,  data:datas}); // 系统通知
+
+export const getSearchList = (datas) => new Request().require({api: url.searchList,  data:datas}); // 搜索
+
+export const orderReceipt = (params, datas) => new Request().require({api: url.orderReceipt, param: params, data:datas}); // 确认收货
+
 

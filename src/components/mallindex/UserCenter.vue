@@ -78,13 +78,13 @@
           </div>
         </router-link>
         <!--团队业绩-->
-        <div class="item">
+        <div class="item" v-if="userinfo">
           <div class="item-left">
             <img src="../../assets/img/yeji.png" alt="">
             <span>团队业绩</span>
           </div>
           <div class="item-right">
-            <span>500，000</span>
+            <span>{{userinfo.orderAmount}}</span>
           </div>
         </div>
         <!--我的积分-->

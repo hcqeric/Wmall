@@ -24,6 +24,9 @@
       turnToExStates(){
         this.$router.push('/mallindex')
       }
+    },
+    mounted(){
+
     }
   }
 </script>

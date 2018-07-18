@@ -85,14 +85,6 @@
       mounted(){
         let tk = getLocalStorage(Constants.TOKEN)
         this.token = tk
-        // getRefundList({
-        //   token: tk
-        // },{
-        //   page:this.page.toString(),
-        //   limit:this.limit
-        // }).then(response=>{
-        //   console.log(response)
-        // })
       }
     }
 </script>

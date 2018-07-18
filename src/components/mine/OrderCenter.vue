@@ -16,7 +16,12 @@
             <div class="page-infinite-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
               <ul class="page-infinite-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
                 <li v-for="item in orderList" class="page-infinite-listitem">
-                  <OrderItem :orderItem="item" class="oitem"  @orderItem="getOrderItem" />
+                  <div v-if="item.tradeStatus <= 3 && item.tradeStatus != 3 ">
+                    <OrderItem :orderItem="item" class="oitem"  @orderItem="getOrderItem" />
+                  </div>
+                  <div v-else-if="item.tradeStatus == 3" v-for="(goodsItem,index) in item.orderDetailList">
+                    <OrderEvaluationItem  :goodsIndex="index" class="oitem" :orderItem="item"></OrderEvaluationItem>
+                  </div>
                 </li>
               </ul>
               <p v-show="loading" class="page-infinite-loading">
@@ -36,6 +41,7 @@
 
 <script>
   import OrderItem from '@/components/view/OrderItem'
+  import OrderEvaluationItem from '@/components/view/OrderEvaluationItem'
   import {getOrderList} from "../../http/getData";
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
@@ -115,7 +121,7 @@
       getOrderItem(item){
         this.orderList.forEach(((orderItem,index)=>{
           if (orderItem.id == item.id) {
-            this.orderList.splice(index)
+            this.orderList.splice(index, 1)
           }
         }))
       }
@@ -147,7 +153,8 @@
       };
     },
     components: {
-      OrderItem
+      OrderItem,
+      OrderEvaluationItem
     },
     mounted() {
 
@@ -165,7 +172,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    height: 100%;
+    min-height: 100vh;
     width: 100%;
     background-color: #efefef;
     display: flex;
@@ -180,6 +187,7 @@
 
   .content {
     margin-top: 48px;
+    background: #efefef;
   }
 
   .order-nav{
@@ -261,5 +269,8 @@
     text-align: center;
     font-size: 20px;
     color: #999;
+  }
+  .page-infinite-list{
+    background: #efefef;
   }
 </style>

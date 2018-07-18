@@ -14,7 +14,7 @@
             <i class="el-icon-arrow-right"></i>
           </div>
         </div>
-        <div class="input-cell" @click="updateTransPass" v-if="setPayPass">
+        <div class="input-cell" @click="updateTransPass" v-if="setPayPass||hasPayPass">
           <div class="cell-left">
             <i class="iconfont icon-jinbiduihuan"></i>
             <p>兑换密码</p>
@@ -30,9 +30,16 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
 
   export default {
     name: "ManagePass",
+    data(){
+      return{
+        hasPayPass: false
+      }
+    },
     computed:{
       ...mapGetters({
         setPayPass: 'setPayPass'
@@ -47,6 +54,12 @@
       },
       updateTransPass(){
         this.$router.push('/updatepass/trans')
+      }
+    },
+    mounted(){
+      let paypass = getLocalStorage(Constants.SETUPPAYPASS)
+      if (paypass == 'true'){
+        this.hasPayPass = true
       }
     }
   }

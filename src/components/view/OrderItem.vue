@@ -31,8 +31,8 @@
           <div class="buttons">
             <button v-if="orderItem.tradeStatus == 0" @click.stop="cancelOrder(orderItem.id)">取消订单</button>
             <button v-if="orderItem.tradeStatus == 0">去支付</button>
-            <button v-if="orderItem.tradeStatus == 2">确认收货</button>
-            <button v-if="orderItem.tradeStatus == 3">评价</button>
+            <button v-if="orderItem.tradeStatus == 2" @click.stop="orderReceipt(orderItem.id)">确认收货</button>
+            <button v-if="orderItem.tradeStatus == 3" @click.stop="postEvaluation(orderItem)">评价</button>
           </div>
         </div>
       </div>
@@ -43,7 +43,7 @@
   import { mapActions} from 'vuex'
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
-  import {cancelOrder} from "../../http/getData";
+  import {cancelOrder,orderReceipt} from "../../http/getData";
 
   export default {
       name: "OrderItem",
@@ -57,7 +57,8 @@
       },
       methods:{
         ...mapActions({
-          setOrderNum: 'setOrderNum'
+          setOrderNum: 'setOrderNum',
+          setBackRefunds: 'setBackRefunds'
         }),
         gotoDetail(orderNum){
           this.setOrderNum(orderNum)
@@ -72,6 +73,20 @@
             this.$emit('orderItem', this.orderItem)
             console.log(response)
           })
+        },
+        orderReceipt(id){
+          orderReceipt({
+            token: this.token
+          },{
+            id: id
+          }).then(response=>{
+            this.$emit('orderItem', this.orderItem)
+            console.log(response)
+          })
+        },
+        postEvaluation(orderItem){
+          this.setBackRefunds(orderItem)
+          this.$router.push('postevaluation')
         }
       },
     mounted(){

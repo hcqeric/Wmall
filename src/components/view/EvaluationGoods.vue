@@ -1,8 +1,8 @@
 <template>
   <div class="goods-info">
-    <img :src="comment.goods.goodsImg" alt="">
+    <img :src="comment.goodsImg" alt="">
     <div class="goods">
-      <p>{{comment.goods.name}}</p>
+      <p>{{comment.goodsName}}</p>
       <p v-show="hasEvaluationTime">发表于 {{comment.createTime | DateFormat('yyyy-MM-dd')}}</p>
     </div>
   </div>

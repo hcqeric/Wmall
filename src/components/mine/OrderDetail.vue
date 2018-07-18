@@ -20,8 +20,13 @@
         <Address :address="orderInfo.userAds"></Address>
       </div>
       <div class="order-msg">
-        <div class="goods" v-for="goodsItem in orderInfo.orderDetailList">
-          <OrderGoods :goods="goodsItem"></OrderGoods>
+        <div class="goods" v-for="(goodsItem,index) in orderInfo.orderDetailList">
+          <div v-if="orderInfo.tradeStatus <= 3 && orderInfo.tradeStatus != 3">
+            <OrderGoods :goods="goodsItem"></OrderGoods>
+          </div>
+          <div v-else-if="orderInfo.tradeStatus == 3">
+            <OrderEvaluationGoods :goodsIndex="index" class="oitem" :orderItem="orderInfo"></OrderEvaluationGoods>
+          </div>
         </div>
         <div class="payment-msg">
           <div class="payment-item" v-if="orderInfo.createTime != undefined && orderInfo.createTime">
@@ -53,7 +58,7 @@
         <button v-if="orderState == 0">去支付</button>
         <!--<button v-else-if="orderState == 1">提醒发货</button>-->
         <button v-else-if="orderState == 2">确认收货</button>
-        <button v-else-if="orderState == 3">发表评价</button>
+        <!--<button v-else-if="orderState == 3" @click="turnToPostEva">发表评价</button>-->
       </div>
     </div>
   </div>
@@ -62,6 +67,7 @@
 <script>
   import Address from '@/components/view/Address'
   import OrderGoods from '@/components/view/OrderConfirmGoods'
+  import OrderEvaluationGoods from '@/components/view/OrderEvaluationGoods'
   import {getOrderByOrderNum} from "../../http/getData"
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
@@ -76,7 +82,8 @@
       },
       components:{
         Address,
-        OrderGoods
+        OrderGoods,
+        OrderEvaluationGoods
       },
     methods: {
       ...mapActions({
@@ -91,8 +98,11 @@
       turnToRefunds(orderInfo, type){
         this.setBackRefunds(orderInfo)
         this.$router.push('/refundapply/' + type)
+      },
+      turnToPostEva(){
+        this.setBackRefunds(this.orderInfo)
+        this.$router.push('postevaluation')
       }
-
     },
     mounted(){
         let {orderid} = this.$route.params

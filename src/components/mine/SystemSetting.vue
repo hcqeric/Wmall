@@ -131,13 +131,13 @@
     width: 8px;
     left: -12px;
     top: -4px;
-    background-color: #b535fa;
+    background-color: #bf54f9;
     border-radius: 50%;
   }
   .el-icon-view{
-    color: #b535fa;
+    color: #bf54f9;
   }
   .el-icon-bell{
-    color: #b535fa;
+    color: #bf54f9;
   }
 </style>
