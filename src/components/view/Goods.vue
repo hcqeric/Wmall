@@ -1,24 +1,24 @@
 <template>
   <div class="goods-item">
-    <div class="item-check"  v-show="ableCheck">
-      <el-checkbox v-model="checked"></el-checkbox>
+    <div class="item-check" v-show="ableCheck">
+      <el-checkbox v-model="itemChecked" @change="handleCheckItem(cartGoodsItem)"></el-checkbox>
     </div>
     <div class="goods-intro">
       <div class="goods">
-        <img src="http://p90m90efq.bkt.clouddn.com/goods.png" alt="">
+        <img :src="cartGoodsItem.goods.goodsImg" alt="">
         <div class="intro">
-          <p>特润修护肌透精华露</p>
-          <p>¥590</p>
+          <p>{{cartGoodsItem.goods.name}}</p>
+          <p>{{cartGoodsItem.goods.sellPrice | moneyFormat}}</p>
         </div>
         <div class="goods-counter">
-          <span :class="goodsCount <= 1 ? 'btn-disable' : ''" @click="minusGoodsCount">-</span>
-          <input type="text" module="goodsCount" v-model="goodsCount">
+          <span :class="cartGoodsItem.goodsNum <= 1 ? 'btn-disable' : ''" @click="minusGoodsCount">-</span>
+          <input type="text" module="goodsCount" v-model="cartGoodsItem.goodsNum">
           <span @click="addGoodsCount">+</span>
         </div>
       </div>
       <div class="price">
         <p>
-          合计：<span>¥ 590.00</span>
+          合计：<span>{{cartGoodsItem.goods.sellPrice * cartGoodsItem.goodsNum|moneyFormat}}</span>
         </p>
       </div>
     </div>
@@ -26,49 +26,84 @@
 </template>
 
 <script>
-    export default {
-      name: "Goods",
-      data(){
-          return {
-            goodsCount: 1,
-            checked: true
-          }
-      },
-      methods:{
-        addGoodsCount(){
-          this.goodsCount += 1;
-        },
-        minusGoodsCount(){
-          if(this.goodsCount <= 1){
-            this.goodsCount = 1
-          }else{
-            this.goodsCount -= 1
-          }
+  import {addCart} from "../../http/getData";
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
 
+  export default {
+    name: "Goods",
+    data() {
+      return {
+        goodsCount: 1,
+        checked: true
+      }
+    },
+    methods: {
+      handleCheckItem(item) {
+        if (item.checked == undefined) {
+          this.$set(item, "checked", true)
+        } else {
+          item.checked = !item.checked
+        }
+        console.log(item)
+      },
+      addGoodsCount() {
+        this.newGoodsCount(this.cartGoodsItem.goodsNum + 1)
+      },
+      minusGoodsCount() {
+        if (this.cartGoodsItem.goodsNum <= 1) {
+          this.cartGoodsItem.goodsNum = 1
+        } else {
+          this.newGoodsCount(this.cartGoodsItem.goodsNum - 1)
         }
       },
-      computed:{
-
-      },
-      props:{
-        ableCheck: {
-          type: Boolean,
-          default: false
+      newGoodsCount(count) {
+        let tk = getLocalStorage(Constants.TOKEN)
+        addCart({
+          token: tk
+        }, {
+          goodsId: this.cartGoodsItem.goodsId,
+          goodsNum: count
+        }).then(response => {
+          console.log(response)
+          this.cartGoodsItem.goodsNum = count
+        })
+      }
+    },
+    computed: {
+      itemChecked() {
+        if (this.cartGoodsItem.check == undefined) {
+          // this.checked = true
+          return true
+        } else {
+          console.log(this.cartGoodsItem.checked + "  sdfdsfsdfdsfa")
+          // this.checked = this.cartGoodsItem.checked
+          return this.cartGoodsItem.checked
         }
       }
+    },
+    props: {
+      ableCheck: {
+        type: Boolean,
+        default: false
+      },
+      cartGoodsItem: Object,
+      cardIndex: Number
     }
+  }
 </script>
 
 <style scoped>
-.goods-item{
-  box-sizing: border-box;
-  height: 160px;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-  .goods-intro{
+  .goods-item {
+    box-sizing: border-box;
+    height: 160px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .goods-intro {
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
@@ -79,48 +114,57 @@
     margin: 0 8px;
 
   }
-  .goods{
+
+  .goods {
     display: flex;
     flex-direction: row;
     position: relative;
     margin: 8px;
   }
-  .goods img{
+
+  .goods img {
     height: 90px;
     width: 100px;
   }
-  .goods .intro{
+
+  .goods .intro {
     margin-left: 8px;
 
   }
-.goods .intro p:first-child{
-  font-size: 16px;
-}
-.goods .intro p:last-child{
-  margin-top: 8px;
-  font-size: 14px;
-}
-  .goods-counter{
+
+  .goods .intro p:first-child {
+    font-size: 16px;
+  }
+
+  .goods .intro p:last-child {
+    margin-top: 8px;
+    font-size: 14px;
+  }
+
+  .goods-counter {
     position: absolute;
     bottom: 8px;
     right: 0;
   }
 
-  .goods-counter{
+  .goods-counter {
     height: 36px;
     line-height: 36px;
     display: flex;
     flex-direction: row;
     align-items: center;
   }
-  .goods-counter span{
+
+  .goods-counter span {
     display: inline-block;
     font-size: 30px;
   }
-  .btn-disable{
+
+  .btn-disable {
     color: #999;
   }
-  .goods-counter input{
+
+  .goods-counter input {
     outline-color: transparent;
     background-color: #efefef;
     border: none;
@@ -130,27 +174,32 @@
     margin: 0 8px;
     text-align: center;
   }
-  .price{
+
+  .price {
     border-top: 1px solid #efefef;
     height: 40px;
     line-height: 40px;
   }
-  .price p{
+
+  .price p {
     text-align: end;
     margin-right: 8px;
     font-size: 18px;
   }
-  .price p span{
+
+  .price p span {
     color: #FF659B;
   }
 </style>
 <style>
-  .item-check .el-checkbox__inner{
+  .item-check .el-checkbox__inner {
     border-color: #606266;
   }
+
   .item-check .el-checkbox__inner:hover {
     border-color: #606266;
   }
+
   .item-check .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
     background-color: #bf54f9;
     border-color: #bf54f9;

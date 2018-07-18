@@ -85,6 +85,7 @@
         this.$router.back()
       },
       submitForm(formName) {
+        console.log("denglu")
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.axios.post(url.login,{
@@ -95,11 +96,10 @@
               if (response.data.code === 0){
                 let token = response.data.result.token
                 console.log("sdfasdf")
-                localStorage.setItem(Constants.TOKEN, token)
-                this.setToken(token)
-                this.loginState(true)
-                this.$router.replace('/mallindex')
-                console.log("redirectto")
+                this.storeState(token).then(()=>{
+                  this.$router.replace('/mallindex')
+                  console.log("redirectto")
+                })
               }else if(response.data.code === 500){
                 Toast(response.data.msg);
               }
@@ -111,6 +111,13 @@
             return false;
           }
         });
+      },
+      async storeState(token){
+        console.log('start store');
+        await localStorage.setItem(Constants.TOKEN, token)
+        await  this.setToken(token)
+        await  this.loginState(true)
+        console.log('end store');
       }
     }
   }

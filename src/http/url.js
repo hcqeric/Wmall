@@ -2,10 +2,10 @@
 // const url = 'http://edu.halopay.cn';
 
 // 开发地址
-// const url = 'http://120.79.16.221:8777';
+const url = 'http://120.79.16.221:8777';
 
 //强哥本地IP
-const url = 'http://192.168.0.147:8080';
+// const url = 'http://192.168.0.147:8080';
 
 export default {
   baseUrl: url,
