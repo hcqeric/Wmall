@@ -81,7 +81,7 @@
             </div>
             <div class="cell-right">
               <div @click="choiceArea">
-                <input type="text" placeholder="选择所在区域" readonly="readonly" v-model="addressProvince">
+                <input type="text" placeholder="选择所在区域" readonly="readonly" v-model="fullLevelAddress">
                 <i class="el-icon-arrow-right"></i>
               </div>
               <mt-popup v-model="popupAddressVisible" position="bottom" class="mint-popup-address">
@@ -89,7 +89,7 @@
                   <span class="mint-datetime-action mint-datetime-cancel" @click="cancleaddress">取消</span>
                   <span class="mint-datetime-action mint-datetime-confirm" @click="selectaddress">确定</span>
                 </div>
-                <mt-picker :slots="addressSlots" @change="onAddressChange" :visible-item-count="5"></mt-picker>
+                <mt-picker :slots="addressSlots" @change="onAddressChange" :visible-item-count="5" value-key="name"></mt-picker>
               </mt-popup>
             </div>
           </div>
@@ -113,6 +113,7 @@
   import {deepCopy,isObjectValueEqual,getLocalStorage,GMTToDateStr} from "../../custom/mixin"
   import * as Constants from '../../custom/constants'
   import {updateUserInfo} from "../../http/getData";
+  import threeLevelAddress from '../../assets/json/threeLevelAddress.json'
 
   const address = {
     '北京': ['北京'],
@@ -163,10 +164,12 @@
           uploadUrl:'',
           imageUrl:'',
           popupAddressVisible: false,
+          regionInit:false,
+          fullLevelAddress:'',
           addressSlots: [
             {
               flex: 1,
-              values: Object.keys(address),
+              values: this.getProvinceArr(),
               className: 'slot1',
               textAlign: 'center'
             }, {
@@ -175,12 +178,22 @@
               className: 'slot2'
             }, {
               flex: 1,
-              values: ['北京'],
+              values: this.getCityArr("北京市"),
               className: 'slot3',
+              textAlign: 'center'
+            }, {
+              divider: true,
+              content: '-',
+              className: 'slot4'
+            }, {
+              flex: 1,
+              values: this.getCountyArr("北京市","直辖区"),
+              className: 'slot5',
               textAlign: 'center'
             }],
           addressProvince: '北京',
-          addressCity: '北京'
+          addressCity: '北京',
+          addressCount:'北京'
         }
       },
       computed:{
@@ -194,6 +207,52 @@
           }
       },
       methods: {
+        //遍历json，返回省级对象数组
+        getProvinceArr() {
+          let provinceArr = [];
+          threeLevelAddress.forEach(function (item) {
+            let obj = {};
+            obj.name = item.name;
+            obj.areaCode = item.areaCode;
+            provinceArr.push(obj);
+          });
+          return provinceArr;
+        },
+        //遍历json，返回市级对象数组
+        getCityArr(province) {
+          // console.log("省：" + province);
+          let cityArr = [];
+          threeLevelAddress.forEach(function (item) {
+            if (item.name === province) {
+              item.children.forEach(function (args) {
+                let obj = {};
+                obj.name = args.name;
+                obj.areaCode = args.areaCode;
+                cityArr.push(obj);
+              });
+            }
+          });
+          return cityArr;
+        },
+        //遍历json，返回县级对象数组
+        getCountyArr(province, city) {
+          let countyArr = [];
+          threeLevelAddress.forEach(function (item) {
+            if (item.name === province) {
+              item.children.forEach(function (args) {
+                if (args.name === city) {
+                  args.children.forEach(function (param) {
+                    let obj = {};
+                    obj.name = param.name;
+                    obj.areaCode = param.areaCode;
+                    countyArr.push(obj);
+                  })
+                }
+              });
+            }
+          });
+          return countyArr;
+        },
         choiceArea: function () {
           this.popupAddressVisible = true
           // // 设置默认选中
@@ -208,15 +267,35 @@
           // this.areaPicker.setSlotValue(0, this.data.privinceName)
           // this.areaPicker.setSlotValue(1, this.data.cityName)
         },
-        selectaddress: function () {
+        selectaddress(values) {
           this.popupAddressVisible = false
+          // this.fullLevelAddress = values[0]["name"] + values[1]["name"] + values[2]["name"];
           // this.data.privinceName = this.addressProvince
           // this.data.cityName = this.addressCity
           // this.data.provinceId = this.addressProvinceId
           // this.data.cityId = this.addressCityId
           // this.data.areaText = this.data.privinceName + this.data.cityName
         },
-        onAddressChange(){
+        onAddressChange(picker, values){
+          if (this.regionInit){
+            //取值并赋值
+            // this.region = values[0]["name"] + values[1]["name"] + values[2]["name"];
+            // this.province = values[0]["name"];
+            // this.city = values[1]["name"];
+            // this.county = values[2]["name"];
+            // this.provinceCode = values[0]["code"];
+            // this.cityCode = values[1]["code"];
+            // this.countyCode = values[2]["code"];
+            this.fullLevelAddress = values[0]["name"] + values[1]["name"] + values[2]["name"];
+            console.log(picker.getSlotValue(0));
+            console.table(picker.getSlotValues(0));
+            console.table(picker.getValues());
+            //给市、县赋值
+            picker.setSlotValues(1, this.getCityArr(values[0]["name"]));
+            picker.setSlotValues(2, this.getCountyArr(values[0]["name"], values[1]["name"]));
+          }else {
+            this.regionInit = true;
+          }
 
         },
         handleAvatarSuccess(res,file){
