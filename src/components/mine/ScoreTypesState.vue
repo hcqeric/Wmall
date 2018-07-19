@@ -47,14 +47,14 @@
   const state_msg = [
     {
       type:"able",
-      tradeStatus: "2",
+      tradeStatus: "1",
       title:"可兑积分",
       subTitle:"获得积分",
       postUrl:"www.baiodu.com"
     },
     {
       type:"unpack",
-      tradeStatus: "1",
+      tradeStatus: "2",
       title: "未结积分",
       subTitle:"预计可获积分",
       postUrl:"www.baiodu.com"

@@ -5,7 +5,7 @@
     </mt-header>
     <div class="content">
       <div v-for="n in 10">
-        <OrderGoods></OrderGoods>
+        <OrderGoods :goods="goods"></OrderGoods>
       </div>
     </div>
     <div class="confirm">
@@ -19,7 +19,8 @@
         </div>
         <div class="mint-msgbox-content">
           <div class="mint-msgbox-message">亲，确定要付款吗？</div>
-          <div class="mint-msgbox-input" style="display: none;"><input placeholder="" type="text">
+          <div class="mint-msgbox-input" style="display: none;">
+            <input placeholder="" type="text">
             <div class="mint-msgbox-errormsg" style="visibility: hidden;"></div>
           </div>
         </div>
@@ -36,7 +37,12 @@
 
 <script>
   import OrderGoods from '@/components/view/OrderConfirmGoods'
-
+  const goods = {
+    goodsImg: "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1494680278,1097395667&fm=27&gp=0.jpg",
+    name: "笔记本电脑",
+    sellPrice: 23,
+    number: 30
+  }
   export default {
     name: "Payment",
     data() {

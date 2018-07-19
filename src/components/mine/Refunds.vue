@@ -7,7 +7,7 @@
       <div class="page-infinite">
         <div class="page-infinite-wrapper" ref="wrapper" >
           <div class="record-content" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
-            <div class="list" v-for="item in refundList">
+            <div class="list page-infinite-listitem" v-for="item in refundList">
               <RefundsItem class="item" :refundInfo="item"></RefundsItem>
             </div>
           </div>
@@ -110,5 +110,7 @@
   .item{
     margin-top: 8px;
   }
-
+  .page-infinite-list{
+    background: #efefef;
+  }
 </style>

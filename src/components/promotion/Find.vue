@@ -6,10 +6,10 @@
       <mt-swipe-item class="slide3">3</mt-swipe-item>
     </mt-swipe>
     <div class="tags">
-      <div class="official-search">
-        <div class="search">授权查询</div>
-        <div class="search">防伪查询</div>
-      </div>
+      <!--<div class="official-search">-->
+        <!--<div class="search">授权查询</div>-->
+        <!--<div class="search">防伪查询</div>-->
+      <!--</div>-->
       <div class="introduction">
         <div v-for="item in arr">
           <span>{{item.name}}</span>
@@ -30,32 +30,32 @@
                 url: "www.baidu.com"
               },
               {
-                name: "品牌介绍",
+                name: "品牌荣誉",
                 url: "www.baidu.com"
               },
               {
-                name: "品牌介绍",
+                name: "科研实力",
                 url: "www.baidu.com"
               },
               {
-                name: "品牌介绍",
+                name: "公司资质",
                 url: "www.baidu.com"
               },{
-                name: "品牌介绍",
+                name: "精彩视频",
                 url: "www.baidu.com"
               },
               {
-                name: "品牌介绍",
+                name: "代理加盟",
                 url: "www.baidu.com"
               },{
-                name: "品牌介绍",
+                name: "产品介绍A",
                 url: "www.baidu.com"
               },
               {
-                name: "品牌介绍",
+                name: "产品介绍B",
                 url: "www.baidu.com"
               },{
-                name: "品牌介绍",
+                name: "代理风采",
                 url: "www.baidu.com"
               },
             ]
@@ -87,36 +87,33 @@
     color: #fff;
   }
   .find-page{
+    position: absolute;
+    width: 100%;
+    top: 48px;
+    bottom: 0;
     display: flex;
     flex-direction: column;
+    background: #fff;
   }
   .tags{
     flex: 1;
     background-color: #fff;
-  }
-  .official-search{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 0;
-  }
-
-  .official-search>div{
-    border-radius: 50%;
-    height: 60px;
-    width: 60px;
-    border: 1px solid #1ABC9C;
-    margin: 0 20px;
-    line-height: 60px;
-    text-align: center;
   }
 
   .introduction{
     display:grid;
     grid-template-columns:repeat(3, auto);
     grid-template-rows:repeat(3,auto);
-
+    position: relative;
+  }
+  .introduction:after{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content:'';
+    height: 1px;
+    width: 100%;
+    background: rgba(153,153,153,0.5);
   }
   .introduction>div {
     padding: 17px 0;
@@ -138,7 +135,8 @@
     border-radius: 50%;
     height: 60px;
     width: 60px;
-    border: 1px solid #1ABC9C;
+    color: #bf54f9;
+    border: 1px solid #bf54f9;
     margin: 0 auto;
     line-height: 60px;
     text-align: center;

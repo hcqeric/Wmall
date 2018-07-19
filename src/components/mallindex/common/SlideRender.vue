@@ -2,7 +2,7 @@
   <div class="slide-content">
     <slide ref="slide" :autoPlay="isAutoPlay" :loop="isLoop" :showDot="isShowDot" :interval="interval"
            :threshold="threshold" :speed="speed">
-      <div v-for="(item,index) in templateList">
+      <div v-for="(item,index) in templateList" :key="index">
           <div class="select">
             <img :src="item.url">
             <button @click="gotoDetail(item.id)">选择模板</button>
@@ -87,8 +87,8 @@
       Slide
     },
     props:{
-      templateList:[],
-      type:''
+      templateList:Array,
+      type:String
     }
   }
 </script>

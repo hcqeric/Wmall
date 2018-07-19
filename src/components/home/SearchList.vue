@@ -4,7 +4,7 @@
     <i @click="back" class="el-icon-back"></i>
     <div class="search">
       <i class="mintui mintui-search"></i>
-      <input type="text" v-model="keywords">
+      <input type="text" v-model="keywords" placeholder="请输入关键字">
     </div>
     <button @click="searchContent" >搜索</button>
   </div>
