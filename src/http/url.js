@@ -5,7 +5,7 @@
 const url = 'http://120.79.16.221:8777';
 
 //强哥本地IP
-// const url = 'http://192.168.0.147:8080';
+// const url = 'http://192.168.0.138:8080';
 
 export default {
   baseUrl: url,
@@ -58,5 +58,6 @@ export default {
   refundList: 'app/order/refundApplyList',
   notification:'app/notification/list',
   searchList:'app/goods/selectGoodsByLike',
-  orderReceipt:'app/order/receipt'
+  orderReceipt:'app/order/receipt',
+  bankList:'app/account/getBankList'
 }

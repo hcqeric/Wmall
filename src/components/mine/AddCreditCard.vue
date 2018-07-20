@@ -27,7 +27,14 @@
             <p>开户银行</p>
           </div>
           <div class="cell-right">
-            <input type="text" placeholder="输入开户银行" v-model="bankName">
+            <el-select v-model="bankName" clearable placeholder="请选择开户银行" @change="handleChange">
+              <el-option
+                v-for="item in bankOptions"
+                :key="item.id"
+                :label="item.bankName"
+                :value="item.id">
+              </el-option>
+            </el-select>
           </div>
         </div>
       </div>
@@ -41,7 +48,7 @@
 
 <script>
   import {Toast} from 'mint-ui';
-  import {addCard} from "../../http/getData"
+  import {addCard, getBankList} from "../../http/getData"
   import {getLocalStorage} from "../../custom/mixin"
   import * as Constants from '../../custom/constants'
   export default {
@@ -50,10 +57,16 @@
       return {
         accountName:'',
         cardNo:'',
-        bankName:''
+        bankName:'',
+        bankOptions: [],
+        id:-1
       }
     },
     methods: {
+      handleChange(value){
+        console.log(value)
+        this.id = value
+      },
       goBack() {
         this.$router.back()
       },
@@ -64,14 +77,23 @@
         }, {
           accountName: this.accountName,
           cardNo: this.cardNo,
-          bankName: this.bankName
+          id: this.id
         }).then(response => {
+          console.log(response)
           Toast({
             message: "添加成功",
             position: 'middle'
           });
         })
       }
+    },
+    mounted(){
+      getBankList().then(response=>{
+        console.log(response)
+        response.result.map(item=>{
+          this.bankOptions.push(item)
+        })
+      })
     }
   }
 </script>
@@ -176,5 +198,11 @@
     text-align: center;
     color: #fff;
     margin: 0 auto;
+  }
+
+</style>
+<style>
+  .cell-right  .el-input__inner{
+    border: none;
   }
 </style>

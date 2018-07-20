@@ -94,4 +94,6 @@ export const getSearchList = (datas) => new Request().require({api: url.searchLi
 
 export const orderReceipt = (params, datas) => new Request().require({api: url.orderReceipt, param: params, data:datas}); // 确认收货
 
+export const getBankList = () => new Request().require({api: url.bankList, methods: 'GET'}); // 代付银行列表
+
 

@@ -133,7 +133,7 @@
     top: 0;
     height: 100%;
     width: 100%;
-    background-color: #efefef;
+    background-color: #fff;
   }
   .mint-header{
     background-color: #000;
@@ -229,8 +229,11 @@
     font-weight: 500;
   }
   .buttons{
-    margin-top: 80px;
+    margin: 80px 40px 0 40px;
     text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 
   }
 
@@ -238,13 +241,15 @@
     border: none;
     outline: none;
     background-color: transparent;
-    background-image: url("../../assets/img/bg-purple.png");
+    background-image: url("../../assets/img/bg-jianbian.png");
+    background-repeat: no-repeat;
+    background-size: contain;
     height: 35px;
     line-height: 35px;
     border-radius: 17px;
     text-align: center;
     color: #fff;
-    width: 145px;
+    width: 115px;
     font-size: 14px;
   }
 

@@ -4,7 +4,8 @@
         <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
-      <div v-for="n in 10">
+      <Address class="address" :address="address"></Address>
+      <div v-for="n in 1">
         <OrderGoods :goods="goods"></OrderGoods>
       </div>
     </div>
@@ -37,18 +38,26 @@
 
 <script>
   import OrderGoods from '@/components/view/OrderConfirmGoods'
+  import Address from '@/components/view/Address'
+  const address={
+    consignee:"好乐付",
+    mobile:13825497563,
+    fullAddress:"广东省深圳市宝安区新安街道幸福花园A栋201"
+  }
   const goods = {
     goodsImg: "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1494680278,1097395667&fm=27&gp=0.jpg",
-    name: "笔记本电脑",
-    sellPrice: 23,
-    number: 30
+    goodsName: "笔记本电脑",
+    sellPrice: 5900,
+    number: 1
   }
   export default {
     name: "Payment",
     data() {
       return {
         dialogShow: false,
-        totalAmount: 0
+        totalAmount: 0,
+        goods:goods,
+        address:address
       }
     },
     mounted() {
@@ -56,7 +65,8 @@
       this.dialogShow = false
     },
     components: {
-      OrderGoods
+      OrderGoods,
+      Address
     },
     methods:{
       gotoPay(){
@@ -147,5 +157,9 @@
   background-color: #FF659B;
   height: 48px;
 }
+  .address{
+    background: #fff;
+    padding: 16px;
+  }
 </style>
 
