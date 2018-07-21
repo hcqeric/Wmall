@@ -6,7 +6,7 @@
       <div :class="selected==3 ? 'is-selected' : ''" @click="changeTab('3')">新闻动态</div>
     </div>
     <div v-if="selected==1">
-      <div slot="content">
+      <div>
         <SlideRender :templateList="templateList"></SlideRender>
       </div>
     </div>
@@ -14,7 +14,7 @@
       <Find></Find>
     </div>
     <div v-if="selected==3">
-      <News></News>
+      <router-view to="/news"></router-view>
     </div>
   </div>
 </template>
@@ -38,6 +38,11 @@
       methods: {
         changeTab(tab) {
           this.selected = tab
+          if (tab == 3) {
+            this.$router.push('/promotion/news')
+          }else{
+            this.$router.push('/promotion')
+          }
         }
       },
       components: {

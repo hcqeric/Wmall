@@ -47,6 +47,7 @@ import PromotionDetail from '@/components/promotion/PromotionDetail'
 import SortDetail from '@/components/sort/SortDetail'
 import SearchList from '@/components/home/SearchList'
 import RefundApply from '@/components/mine/RefundApply'
+import News from '@/components/promotion/News'
 
 import {getLocalStorage} from "../custom/mixin"
 import * as Constants from '../custom/constants'
@@ -61,7 +62,7 @@ let router = new Router({
       component: MallIndex
     },
     {
-      path: '/reg',
+      path: '/reg/:id?',
       name: 'RecommendReg',
       component: RecommendReg
     },
@@ -83,7 +84,13 @@ let router = new Router({
     {
       path: '/promotion',
       name: 'promotion',
-      component: PromotionIndex
+      component: PromotionIndex,
+      children: [
+        {
+          path: ':news',
+          component: News
+        }
+      ]
     },
     {
       path: '/sort',

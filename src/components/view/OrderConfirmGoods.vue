@@ -1,11 +1,11 @@
 <template>
   <div class="goods-item">
-    <img :src="goods.goodsImg" alt=""/>
+    <img :src="goods.goods.goodsImg" alt=""/>
     <div class="intro">
-      <p>{{goods.goodsName}}</p>
-      <div class="price">
-        <p>¥{{goods.sellPrice}}</p>
-        <p>×{{goods.number}}</p>
+      <p>{{goods.goods.name}}</p>
+      <div class="goods-price">
+        <p>{{goods.goods.sellPrice | moneyFormat}}</p>
+        <p>×{{goods.goodsNum}}</p>
       </div>
     </div>
   </div>
@@ -54,21 +54,21 @@
   .intro p{
     font-size: 16px;
   }
-  .price{
+  .goods-price{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
   }
-  .price p:first-child{
+  .goods-price p:first-child{
     font-size: 16px;
     color: #FF659B;
   }
-  .price p:last-child{
+  .goods-price p:last-child{
     font-size: 14px;
     color: #999;
   }
 
-  .price p span{
+  .goods-price p span{
     color: #FF659B;
   }
 </style>

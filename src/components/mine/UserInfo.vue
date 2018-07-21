@@ -39,7 +39,7 @@
               <p>手机号码</p>
             </div>
             <div class="cell-right">
-              <input type="text" placeholder="输入手机号码" :value="user.mobile">
+              <input type="text" placeholder="输入手机号码" v-model="userinfo.mobile">
             </div>
           </div>
         </div>
@@ -100,7 +100,7 @@
               <p>详细地址</p>
             </div>
             <div class="cell-right">
-              <input type="text" placeholder="输入详细地址" :value="user.address">
+              <input type="text" placeholder="输入详细地址" v-model="userinfo.address">
             </div>
           </div>
         </div>
@@ -133,11 +133,11 @@
           regionInit:false,
 
           fullLevelAddress:'',
+          addressPicker:'',
           addressSlots: [
             {
               flex: 1,
               values: this.getProvinceArr(),
-              defaultIndex: 0,
               className: 'slot1',
               textAlign: 'center'
             }, {
@@ -146,8 +146,7 @@
               className: 'slot2'
             }, {
               flex: 1,
-              values: this.getCityArr("110000000000"),
-              defaultIndex: 0,
+              values: this.getCityArr("北京市"),
               className: 'slot3',
               textAlign: 'center'
             }, {
@@ -156,8 +155,7 @@
               className: 'slot4'
             }, {
               flex: 1,
-              values: this.getCountyArr("110000000000","110100000000"),
-              defaultIndex: 0,
+              values: this.getCountyArr("北京市","直辖区"),
               className: 'slot5',
               textAlign: 'center'
             }],
@@ -188,12 +186,20 @@
           });
           return provinceArr;
         },
+        getCurrProvince(provinceCode) {
+          let arr = threeLevelAddress.filter(item => item.areaCode === provinceCode)
+          console.log(arr)
+          let obj = {};
+          obj.name = arr[0].name;
+          obj.areaCode = arr[0].areaCode;
+          return obj
+        },
         //遍历json，返回市级对象数组
         getCityArr(province) {
           // console.log("省：" + province);
           let cityArr = [];
           threeLevelAddress.forEach(function (item) {
-            if (item.areaCode == province) {
+            if (item.name == province) {
               item.children.forEach(function (args) {
                 let obj = {};
                 obj.name = args.name;
@@ -204,13 +210,25 @@
           });
           return cityArr;
         },
+        getCurrCity(provinceCode, cityCode) {
+          let arr = threeLevelAddress.filter(
+            item => item.areaCode == provinceCode
+          )[0].children.filter(
+            item => item.areaCode == cityCode
+          )
+          let obj = {};
+          obj.name = arr[0].name;
+          obj.areaCode = arr[0].areaCode;
+          console.log(obj)
+          return obj
+        },
         //遍历json，返回县级对象数组
         getCountyArr(province, city) {
           let countyArr = [];
           threeLevelAddress.forEach(function (item) {
-            if (item.areaCode == province) {
+            if (item.name == province) {
               item.children.forEach(function (args) {
-                if (args.areaCode == city) {
+                if (args.name == city) {
                   args.children.forEach(function (param) {
                     let obj = {};
                     obj.name = param.name;
@@ -223,94 +241,69 @@
           });
           return countyArr;
         },
-        getDefaultIndexes(index1, index2, index3){
-          let indexes = [];
-          threeLevelAddress.forEach((proItem,index)=>{
-            if(proItem.areaCode == index1){
-              indexes.push(index)
-              proItem.children.forEach((cityItem,index)=>{
-                if(cityItem.areaCode == index2){
-                  indexes.push(index)
-                  cityItem.children.forEach((countyItem, index)=>{
-                    if(countyItem.areaCode == index3){
-                      indexes.push(index)
-                    }
-                  })
-                }
-              })
-            }
-          })
-
-          return indexes
+        getCurrCounty(provinceCode, cityCode, countyCode){
+          let arr = threeLevelAddress.filter(
+            item => item.areaCode == provinceCode
+          )[0].children.filter(
+            item => item.areaCode == cityCode
+          )[0].children.filter(
+            item => item.areaCode == countyCode
+          )
+          let obj = {};
+          obj.name = arr[0].name;
+          obj.areaCode = arr[0].areaCode;
+          console.log(obj)
+          return obj
         },
-        choiceArea: function () {
+        choiceArea () {
+
           this.popupAddressVisible = true
-          // // 设置默认选中
-          if (this.userinfo.province !== '' && this.userinfo.city !== '' && this.userinfo.county != '') {
-            // this.areaPicker.setSlotValue(0, this.data.privinceName)
-            // this.areaPicker.setSlotValue(1, this.data.cityName)
-            // console.log(this.data.privinceName + '-' + this.data.cityName)
+          // 设置默认选中
+          if (this.userinfo.province != '' && this.userinfo.city != '' && this.userinfo.district != '') {
+            let proItem = this.getCurrProvince(this.addressProvinceCode)
+            let cityItem = this.getCurrCity(this.addressProvinceCode, this.addressCityCode)
+            let countyItem = this.getCurrCounty(this.addressProvinceCode, this.addressCityCode, this.addressCountCode)
+            console.log(proItem, cityItem, countyItem)
+
+            console.log("***********************************************")
+            this.addressPicker.setSlotValues(0, this.getProvinceArr())
+            this.addressPicker.setSlotValues(1, this.getCityArr(proItem["name"]));
+            this.addressPicker.setSlotValues(2, this.getCountyArr(proItem["name"], cityItem["name"]));
           }
+
         },
         cancleaddress: function () {
+
           this.popupAddressVisible = false
-          // this.areaPicker.setSlotValue(0, this.data.privinceName)
-          // this.areaPicker.setSlotValue(1, this.data.cityName)
         },
         selectaddress() {
+          this.addressPicker.getSlotValues(1).forEach(item => {
+            if (item.name == this.addressPicker.getSlotValue(1).name && item.areaCode != this.addressPicker.getSlotValue(1).areaCode) {
+              this.addressPicker.setSlotValue(1, item)
+            }
+          })
+          this.addressPicker.getSlotValues(2).forEach(item => {
+              if (item.name == this.addressPicker.getSlotValue(2).name && item.areaCode != this.addressPicker.getSlotValue(2).areaCode) {
+                this.addressPicker.setSlotValue(2, item)
+              }
+            })
+
+          this.addressProvinceCode = this.addressPicker.getSlotValue(0)["areaCode"]
+          this.addressCityCode = this.addressPicker.getSlotValue(1)["areaCode"]
+          this.addressCountCode = this.addressPicker.getSlotValue(2)["areaCode"]
+          this.userinfo.province = this.addressProvinceCode
+          this.userinfo.city = this.addressCityCode
+          this.userinfo.district =  this.addressCountCode
+          console.log(this.addressProvinceCode,this.addressCityCode,this.addressCountCode)
+          this.fullLevelAddress = this.addressPicker.getSlotValue(0)["name"] + this.addressPicker.getSlotValue(1)["name"] + this.addressPicker.getSlotValue(2)["name"];
+
           this.popupAddressVisible = false
-          let [index1, index2, index3 ] = this.getDefaultIndexes(this.addressProvinceCode,this.addressCityCode,this.addressCountCode)
-          console.log(index1, index2, index3)
-          this.addressSlots[0].defaultIndex = index1
-          this.addressSlots[2].defaultIndex = index2
-          this.addressSlots[4].defaultIndex = index3
-          this.fullLevelAddress = this.addressSlots[0].values[index1]["name"] + this.addressSlots[2].values[index2]["name"] + this.addressSlots[4].values[index3]["name"];
-          // this.fullLevelAddress = values[0]["name"] + values[1]["name"] + values[2]["name"];
-          // this.data.privinceName = this.addressProvince
-          // this.data.cityName = this.addressCity
-          // this.data.provinceId = this.addressProvinceId
-          // this.data.cityId = this.addressCityId
-          // this.data.areaText = this.data.privinceName + this.data.cityName
         },
         onAddressChange(picker, values){
-
-          // console.log(this.addressProvinceCode)
-          // console.log(this.addressCityCode)
-          // console.log(this.addressCountCode)
-          //
-          // let [index1, index2, index3 ] = this.getDefaultIndexes(this.addressProvinceCode,this.addressCityCode,this.addressCountCode)
-          // this.addressSlots[0].defaultIndex = index1
-          // this.addressSlots[2].defaultIndex = index2
-          // this.addressSlots[4].defaultIndex = index3
+          this.addressPicker = picker
           //给市、县赋值
-          // picker.setSlotValues(1, this.getCityArr(values[0]["name"]));
-          // picker.setSlotValues(2, this.getCountyArr(values[0]["name"], values[1]["name"]));
-          if (this.regionInit){
-            //取值并赋值
-            // this.region = values[0]["name"] + values[1]["name"] + values[2]["name"];
-            // this.province = values[0]["name"];
-            // this.city = values[1]["name"];
-            // this.county = values[2]["name"];
-            // this.provinceCode = values[0]["code"];
-            // this.cityCode = values[1]["code"];
-            // this.countyCode = values[2]["code"];
-            // this.fullLevelAddress = values[0]["name"] + values[1]["name"] + values[2]["name"];
-            // console.log(picker.getSlotValue(0));
-            // console.table(picker.getSlotValues(0));
-            // console.table(picker.getValues());
-
-
-            //给市、县赋值
-            picker.setSlotValues(1, this.getCityArr(values[0]["areaCode"]));
-            picker.setSlotValues(2, this.getCountyArr(values[0]["areaCode"], values[1]["areaCode"]));
-            this.addressProvinceCode = values[0]["areaCode"]
-            this.addressCityCode = values[1]["areaCode"]
-            this.addressCountCode = values[2]["areaCode"]
-
-            console.log(this.addressProvinceCode,this.addressCityCode,this.addressCountCode)
-          }else {
-            this.regionInit = true;
-          }
+          picker.setSlotValues(1, this.getCityArr(values[0]["name"]));
+          picker.setSlotValues(2, this.getCountyArr(values[0]["name"], values[1]["name"]));
 
         },
         handleAvatarSuccess(res,file){
@@ -335,7 +328,9 @@
         },
         handleChange(value) {
           this.userbirth = GMTToDateStr(value)
-          this.userinfo.birthday = GMTToDateStr(value)
+          console.log()
+          let timestamp = Date.parse(new Date(value))
+          this.userinfo.birthday = timestamp
         },
         selectMan: function () {
           this.userinfo.gender = 0
@@ -361,9 +356,9 @@
             },{
               nickname:this.userinfo.nickname,
               mobile:this.userinfo.mobile,
-              province:this.userinfo.province,
-              city:this.userinfo.city,
-              district:this.userinfo.district,
+              province:this.addressProvinceCode.toString(),
+              city:this.addressCityCode.toString(),
+              district:this.addressCountCode.toString(),
               address:this.userinfo.address,
               logoUrl:this.userinfo.logoUrl,
               gender:this.userinfo.gender,
@@ -382,25 +377,32 @@
         }
       },
       mounted(){
-        this.sexs = [{
-          name: '男',
-          method: this.selectMan
-        }, {
-          name: '女',
-          method: this.selectWoman
-        }]
-        this.userbirth = GMTToDateStr(this.userinfo.birthday)
-        let tk = getLocalStorage(Constants.TOKEN)
-        this.uploadUrl = `http://120.79.16.221:8777/app/file/ftpUpload/headImg/0?token=` + tk
-        this.imageUrl = this.userinfo.logoUrl
 
-        let {province, city, district} = this.userinfo
-        console.log(province, city, district)
-        let [index1, index2, index3] = this.getDefaultIndexes(province, city, district)
-        this.addressSlots[0].defaultIndex = index1
-        this.addressSlots[2].defaultIndex = index2
-        this.addressSlots[4].defaultIndex = index3
-        this.fullLevelAddress = this.addressSlots[0].values[index1]["name"] + this.addressSlots[2].values[index2]["name"] + this.addressSlots[4].values[index3]["name"];
+          this.sexs = [{
+            name: '男',
+            method: this.selectMan
+          }, {
+            name: '女',
+            method: this.selectWoman
+          }]
+          this.userbirth = GMTToDateStr(this.userinfo.birthday)
+          let tk = getLocalStorage(Constants.TOKEN)
+          this.uploadUrl = `http://120.79.16.221:8777/app/file/ftpUpload/headImg/0?token=` + tk
+          this.imageUrl = this.userinfo.logoUrl
+
+          if (this.userinfo.province != '' && this.userinfo.city != '' && this.userinfo.district != '') {
+
+            this.addressProvinceCode = this.userinfo.province
+            this.addressCityCode = this.userinfo.city
+            this.addressCountCode = this.userinfo.district
+
+            let proItem = this.getCurrProvince(this.addressProvinceCode)
+            let cityItem = this.getCurrCity(this.addressProvinceCode, this.addressCityCode)
+            let countyItem = this.getCurrCounty(this.addressProvinceCode, this.addressCityCode, this.addressCountCode)
+
+            this.fullLevelAddress = proItem["name"] + cityItem["name"] + countyItem["name"];
+          }
+
       }
   }
 </script>

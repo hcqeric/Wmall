@@ -17,16 +17,36 @@
         </div>
         <div class="goods-right">
           <div class="goods-list">
-            <div class="masonry">
-            <div class="column">
-              <GoodsItem goodsType="2" v-for="n in 5" class="item"></GoodsItem><!-- more items -->
+            <div class="page-infinite">
+              <div class="page-infinite-wrapper" ref="wrapper" >
+                <div class="page-infinite-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
+                  <div class="masonry">
+                    <div class="column">
+                      <div v-for="item in oddGoodsList">
+                        <GoodsItem goodsType="2" :goodsItem="item"  class="item"></GoodsItem><!-- more items -->
+                      </div>
+                    </div>
+                    <div class="column">
+                      <div v-for="item in evenGoodsList">
+                        <GoodsItem goodsType="2" :goodsItem="item"   class="item"></GoodsItem> <!-- more items -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p v-show="loading" class="page-infinite-loading">
+                  <mt-spinner type="fading-circle"></mt-spinner>
+                  加载中...
+                </p>
+                <p v-show="allLoaded" class="nodata">{{info}}</p>
+              </div>
             </div>
-            <div class="column">
-              <GoodsItem goodsType="2" v-for="n in 5" class="item"></GoodsItem> <!-- more items -->
-            </div>
-            </div>
+
           </div>
         </div>
+      </div>
+      <div class="nolist" v-if="isNoList">
+        <img src="../../assets/img/nolist.png" />
+        <p>该系列下暂无商品</p>
       </div>
     </div>
 </template>
@@ -39,6 +59,7 @@
     name: "SortDetail",
     data(){
       return {
+        goods: goods,
         selected: 1,
         parentId: '',
         serialName:'',
@@ -46,26 +67,82 @@
         serials:[],
         page:1,
         limit:'10',
-        goodsTypeId:''
+        goodsTypeId:'',
+        isNoList: false,
+        loading: false,
+        allLoaded: true,
+        info:'',
+        categoryId:'',
+        oddGoodsList:[],
+        evenGoodsList:[]
       }
     },
     methods: {
+      loadMore() {
+        if(!this.allLoaded){
+          this.loading = true;
+          this.getCategoryGoods()
+        }
+      },
       goBack() {
         this.$router.back()
       },
       changeItem(n){
         this.selected = n
-        // // let nav = this.$refs.nav
-        // let nav = document.getElementById("nav")
-        // let items = document.getElementsByClassName("nav-item")
-        // let itemHeight = items[0].offsetHeight
-        // console.log(nav)
-        // if(n >= 2 && n < 10){
-        //   let a = (n-1) * itemHeight
-        //   // nav.setAttribute("style","transform: translateY("+ -a + "vh);" + "transition: 0.2s ease 0s")
-        //   console.log(a)
-        //  nav.scrollTo(0, a)
-        // }
+        if(this.serials[n].proId != undefined){
+          this.categoryId = this.serials[n].proId
+        }
+        this.loading = true
+        this.oddGoodsList = []
+        this.evenGoodsList = []
+        this.getCategoryGoods()
+      },
+      async getSerialList() {
+        await getSerials({
+          projectId: this.proId,
+          parentId: this.parentId
+        }).then(response => {
+          if(response.result.length == 0){
+            this.isNoList = true
+          }
+          response.result.map(item => {
+            this.serials.push(item)
+          })
+        })
+      },
+      async getCategoryGoods() {
+        if (this.serials.length > 0) {
+          await getSerialGoods({
+            page: this.page.toString(),
+            limit: this.limit,
+            goodsTypeId: this.categoryId
+          }).then(response => {
+            this.loading = false;
+            if(response.result.currPage == 1 && response.result.totalPage < response.result.currPage) {
+              this.isNoList = true
+              this.allLoaded = true
+              return
+            }else if(response.result.currPage == 1 && response.result.totalCount < response.result.currPage * 10){
+              this.info = "~~数据已全部加载完毕了~~"
+              this.allLoaded = true
+            }
+            else if (response.result.currPage != 1 && response.result.totalPage < response.result.currPage) {
+              this.info = "~~数据已全部加载完毕了~~"
+              this.allLoaded = true
+              return
+            }else{
+              this.allLoaded = false
+            }
+            response.result.list.map((item,index)=>{
+              if(index % 2 == 0){
+                this.oddGoodsList.push(item)
+              }else{
+                this.evenGoodsList.push(item)
+              }
+            })
+            this.page++
+          })
+        }
       }
     },
     mounted(){
@@ -73,24 +150,10 @@
       this.proId = proid
       this.parentId = id
       this.serialName = name
-      getSerials({
-        projectId: this.proId,
-        parentId: this.parentId
-      }).then(response=>{
-        console.log(response)
-        response.result.map(item=>{
-          this.serials.push(item)
-        })
-        if(this.serials.length > 0){
-          getSerialGoods({
-            page: this.page.toString(),
-            limit: this.limit,
-            goodsTypeId: serials[0].proId
-          }).then(response=>{
-            console.log(response)
-          })
-        }
-      })
+      this.getSerialList()
+      if(this.serials.length > 0){
+        this.changeItem(0)
+      }
     },
     components:{
       GoodsItem
@@ -218,4 +281,29 @@
   background: rgba(0, 0, 0, 0.1);
 }
 /*去除滚动条样式*/
+
+.nolist{
+  position: fixed;
+  top:48px;
+  width: 100%;
+  bottom:0px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #efefef
+}
+.nolist img{
+  width: 80px;
+}
+.nolist p{
+  margin-top: 20px;
+  text-align: center;
+  font-size: 20px;
+  color: #999;
+}
+.page-infinite-loading{
+  background: #fff;
+}
 </style>

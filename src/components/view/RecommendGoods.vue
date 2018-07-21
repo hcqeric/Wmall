@@ -1,7 +1,7 @@
 <template>
   <div class="info" v-if="goodsInfo" @click="gotoGoodsDetail(goodsInfo.goodsNum)">
     <img :src="goodsInfo.goodsImg" alt="">
-    <div class="goods">
+    <div class="rec-goods">
       <div class="intro">
         <p>{{goodsInfo.name}}</p>
         <p>{{goodsInfo.introduce}}</p>
@@ -10,7 +10,7 @@
           <el-tag size="mini">今日</el-tag>
         </div>
       </div>
-      <div class="price">
+      <div class="rec-price">
         <div>
         <p>已售{{goodsInfo.sellCount}}件</p>
         <p><span v-if="goodsInfo.sellPrice">{{goodsInfo.sellPrice| moneyFormat}}/{{goodsInfo.unit}}</span><span v-if="goodsInfo.bdanPrice"><s>{{goodsInfo.bdanPrice|moneyFormat}}/{{goodsInfo.unit}}</s></span></p>
@@ -57,11 +57,11 @@
     flex-direction: column;
     justify-content: space-between;
   }
-  .goods .intro p:first-child{
+  .rec-goods .intro p:first-child{
     font-size: 14px;
     color: #000;
   }
-  .goods .intro p:last-of-type{
+  .rec-goods .intro p:last-of-type{
     font-size: 12px;
     color: #a7a7a7;
     overflow: hidden;
@@ -70,21 +70,21 @@
     width: 6rem;
     padding: 4px 0;
   }
-  .goods .price{
+  .rec-goods .rec-price{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
   }
-  .goods .price p:first-child{
+  .rec-goods .rec-price p:first-child{
     color: #999;
     font-size: 12px;
   }
-  .goods .price p:last-of-type{
+  .rec-goods .rec-price p:last-of-type{
     color: #FF659F;
     font-size: 16px;
   }
-  .goods .price p span:last-of-type{
+  .rec-goods .rec-price p span:last-of-type{
     color: #999;
     font-size: 12px;
     margin-left: 8px;

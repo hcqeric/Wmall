@@ -29,3 +29,5 @@ export const SET_ORDER_SCORE_DETAIL = 'set_order_score_detail'
 
 export const SET_SCORE_EXCHANGE_ID = 'set_score_exchange_id'
 
+export const SET_CONFIRM_ORDER_GOODS = 'set_confirm_order_goods'
+

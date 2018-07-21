@@ -1,28 +1,51 @@
 <template>
-    <div class="goods-item">
-      <img v-if="goodsType == 1" src="../../assets/img/goods-big.png" alt="">
-      <img v-if="goodsType == 2" src="../../assets/img/goods-small.png" alt="">
-      <p>特润修护肌透精华露</p>
-      <p>￥590<span><s>￥980</s></span></p>
-      <el-input-number size="small" v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+    <div class="goods-item" v-if="goodsItem" >
+      <div  @click="gotoGoodsDetail">
+      <img v-if="goodsType == 1" :src="goodsItem.goodsImg" alt="">
+      <img v-if="goodsType == 2" :src="goodsItem.goodsImg" alt="">
+      <p>{{goodsItem.name}}</p>
+      <p>{{goodsItem.sellPrice|moneyFormat}}<span v-if="goodsItem.bdanPrice != undefined || goodsItem.bdanPrice != ''"><s>{{goodsItem.bdanPrice | moneyFormat}}</s></span></p>
+      </div>
+      <el-input-number size="small" v-model="goodsItem.buyNum" @change.capture="handleChange" :min="0" label="描述文字"></el-input-number>
     </div>
 </template>
 
 <script>
+  import {addCart} from "../../http/getData";
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
+  import {Toast} from 'mint-ui'
     export default {
         name: "GoodsItem",
         data() {
           return {
-            num1: 1
+            num1: 0
           };
         },
       methods: {
         handleChange(value) {
-          console.log(value);
+          let tk = getLocalStorage(Constants.TOKEN)
+          addCart({
+            token: tk
+          },{
+            goodsId:this.goodsItem.id,
+            goodsNum: value
+          }).then(response=>{
+            Toast({
+              message: "添加购物车成功"
+            })
+          })
+        },
+        gotoGoodsDetail(){
+          this.$router.push('/goods/' + this.goodsItem.goodsNum)
         }
       },
       props:{
-          goodsType:''
+          goodsType:'',
+          goodsItem:null
+      },
+      mounted(){
+          this.$set(this.goodsItem, "buyNum", 0)
       }
     }
 </script>

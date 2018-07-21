@@ -182,6 +182,10 @@
           }
         });
       }
+    },
+    mounted(){
+      let {id} = this.$route.params
+
     }
   }
 </script>

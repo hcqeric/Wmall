@@ -80,7 +80,7 @@ export const addCart = (params, datas) => new Request().require({api: url.addCar
 
 export const getCartList = (params, datas) => new Request().require({api: url.shopCart,param: params, data:datas}); //获取购物车列表
 
-export const deleteCart = (params, datas) => new Request().require({api: url.shopCart,param: params, data:datas}); //删除购物车
+export const deleteCart = (params, datas) => new Request().require({api: url.deleteCart,param: params, data:datas}); //删除购物车
 
 export const getFriends = (params) => new Request().require({api: url.friends,methods: 'GET', param: params}); //好友列表
 
@@ -95,5 +95,17 @@ export const getSearchList = (datas) => new Request().require({api: url.searchLi
 export const orderReceipt = (params, datas) => new Request().require({api: url.orderReceipt, param: params, data:datas}); // 确认收货
 
 export const getBankList = () => new Request().require({api: url.bankList, methods: 'GET'}); // 代付银行列表
+
+export const getNewsList = (datas) => new Request().require({api: url.newsList, data:datas}); // 新闻列表
+
+export const orderSave = (params, datas) => new Request().require({api: url.orderSave, param: params, data:datas}); // 提交订单
+
+export const getDefaultAddress = (params) => new Request().require({api: url.getDefaultAddress, methods: 'GET', param: params}); // 默认地址
+
+export const pointPay = (datas) => new Request().require({api: url.pointPay,  data:datas}); // 默认地址
+
+export const wxPay = (datas) => new Request().require({api: url.wxPay,  data:datas}); // 默认地址
+
+export const payResult = (params, datas) => new Request().require({api: url.getDefaultAddress, param: params, data:datas}); // 默认地址
 
 
