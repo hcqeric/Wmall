@@ -24,12 +24,20 @@
         },
       methods: {
         handleChange(value) {
+          let count = 0
+          if (value > this.num1){
+            count = 1
+          } else{
+            count = -1
+          }
+          this.num1 = value
+
           let tk = getLocalStorage(Constants.TOKEN)
           addCart({
             token: tk
           },{
             goodsId:this.goodsItem.id,
-            goodsNum: value
+            goodsNum: count
           }).then(response=>{
             Toast({
               message: "添加购物车成功"
@@ -76,5 +84,8 @@
     color: #999;
     padding-left: 8px;
     font-size: 14px;
+  }
+  .goods-item img{
+    width: 100px;
   }
 </style>

@@ -2,9 +2,9 @@
   <div class="container">
     <Header/>
     <keep-alive>
-    <mt-swipe :auto="4000">
-      <mt-swipe-item v-for="item in banner"><img :src="item.url" alt=""></mt-swipe-item>
-    </mt-swipe>
+      <mt-swipe :auto="4000">
+        <mt-swipe-item v-for="item in banner"><img :src="item.url" alt=""></mt-swipe-item>
+      </mt-swipe>
     </keep-alive>
 
     <div class="goods-tabs">
@@ -75,7 +75,9 @@
 
 <style scoped>
   .container{
-    min-height: 100vh;
+    height: 100vh;
+    overflow-y: scroll;
+    margin-bottom: 50px;
   }
   .mint-swipe {
     height: 140px;

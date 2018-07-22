@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sort-container">
     <Header/>
     <ul>
       <li v-for="item in list" class="sort-item" @click="gotoDetail(item)">
@@ -48,6 +48,9 @@
 </script>
 
 <style scoped>
+  .sort-container{
+    background: #efefef;
+  }
   .sort-item{
     margin-top: 8px;
     position: relative;
@@ -64,7 +67,10 @@
     background-size: cover;
   }
   img{
+    height: 200px;
     width: 100%;
+    object-fit: cover;
+    object-position: center;
     display: block;
   }
 </style>

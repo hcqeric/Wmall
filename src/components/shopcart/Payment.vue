@@ -41,13 +41,24 @@
     </div>
 
     <div class="modal" style="z-index: 2006;"  v-show="dialogShow == true" @click="dialogShow = false" ></div>
-
+    <!--<vue-pay-keyboard-->
+      <!--ref="pay"-->
+      <!--:is-pay='isPay'-->
+      <!--@pas-end='pasEnd'-->
+      <!--@close='isPay=false'>-->
+      <!--&lt;!&ndash;&lt;!&ndash; 自定义支付动画 &ndash;&gt;&ndash;&gt;-->
+      <!--&lt;!&ndash;<div slot="loading-ani">&ndash;&gt;-->
+        <!--&lt;!&ndash;<svg></svg>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--</vue-pay-keyboard>-->
+    <PayKeyBoard :isPay="isPay" @pas-end='pasEnd'></PayKeyBoard>
   </div>
 </template>
 
 <script>
   import OrderGoods from '@/components/view/OrderConfirmGoods'
   import Address from '@/components/view/Address'
+  import PayKeyBoard from '@/components/view/PayKeyBoard'
   import {getDefaultAddress, orderSave, wxPay, pointPay} from "../../http/getData";
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
@@ -69,7 +80,7 @@
         payPassword:'',
         payType: 0,
         buyType: 0,
-
+        isPay:false
       }
     },
     mounted() {
@@ -78,9 +89,21 @@
     },
     components: {
       OrderGoods,
-      Address
+      Address,
+      PayKeyBoard
     },
     methods:{
+      pasEnd(val) {
+        console.log(val);
+        console.log(typeof val);
+        pointPay({
+          orderId: this.orderId,
+          payPassword: val
+        }).then(response=>{
+          console.log(response)
+        })
+        this.isPay = false
+      },
       createOrder(){
         if(this.buyType == 3){
           Toast({
@@ -118,12 +141,8 @@
             window.location.href = response.result.mweb_url
           })
         }else if(this.radio == 2){
-          pointPay({
-            orderId: this.orderId,
-            payPassword: this.payPassword
-          }).then(response=>{
-            console.log(response)
-          })
+          this.dialogShow = false
+          this.isPay = true
         }
         this.dialogShow = false
         setTimeout(() => {
@@ -148,7 +167,6 @@
         this.buyType = 2
       }else{
         this.buyType = 3
-
       }
       this.totalAmount = 0
       this.totalScore = 0

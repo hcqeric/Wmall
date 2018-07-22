@@ -110,4 +110,6 @@ export const payResult = (params, datas) => new Request().require({api: url.getD
 
 export const getUserInfoById = (datas) => new Request().require({api: url.getUserInfoById, data:datas}); // 获取用户信息
 
+export const getFileByType = (datas) => new Request().require({api: url.getFileByType, data:datas}); // 获取文件
+
 

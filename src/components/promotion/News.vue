@@ -123,6 +123,9 @@
 
   .news-item img {
     width: 100%;
+    height: 140px;
+    object-fit: cover;
+    object-position: center;
   }
 
   .news-item p {

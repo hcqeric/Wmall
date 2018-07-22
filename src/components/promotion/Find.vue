@@ -1,17 +1,19 @@
 <template>
   <div class="find-page">
-    <mt-swipe :auto="4000">
-      <mt-swipe-item class="slide1">1</mt-swipe-item>
-      <mt-swipe-item class="slide2">2</mt-swipe-item>
-      <mt-swipe-item class="slide3">3</mt-swipe-item>
-    </mt-swipe>
+    <keep-alive>
+      <mt-swipe :auto="4000" class="promotion-banner">
+        <mt-swipe-item><img src="../../assets/img/promotion-banner1.jpg" alt=""></mt-swipe-item>
+        <mt-swipe-item><img src="../../assets/img/promotion-banner2.jpg" alt=""></mt-swipe-item>
+        <mt-swipe-item><img src="../../assets/img/promotion-banner3.png" alt=""></mt-swipe-item>
+      </mt-swipe>
+    </keep-alive>
     <div class="tags">
       <!--<div class="official-search">-->
         <!--<div class="search">授权查询</div>-->
         <!--<div class="search">防伪查询</div>-->
       <!--</div>-->
       <div class="introduction">
-        <div v-for="item in arr">
+        <div v-for="(item, index) in arr" :key="index" @click="gotoDetail(index)">
           <span>{{item.name}}</span>
         </div>
       </div>
@@ -20,46 +22,48 @@
 </template>
 
 <script>
+
     export default {
         name: "Find",
       data(){
           return {
+            banners:[],
             arr: [
               {
-                name: "品牌介绍",
-                url: "www.baidu.com"
+                name: "品牌介绍"
               },
               {
-                name: "品牌荣誉",
-                url: "www.baidu.com"
+                name: "品牌荣誉"
               },
               {
-                name: "科研实力",
-                url: "www.baidu.com"
+                name: "科研实力"
               },
               {
-                name: "公司资质",
-                url: "www.baidu.com"
+                name: "公司资质"
               },{
-                name: "精彩视频",
-                url: "www.baidu.com"
+                name: "精彩视频"
               },
               {
-                name: "代理加盟",
-                url: "www.baidu.com"
+                name: "代理加盟"
               },{
-                name: "产品介绍A",
-                url: "www.baidu.com"
+                name: "产品介绍A"
               },
               {
-                name: "产品介绍B",
-                url: "www.baidu.com"
+                name: "产品介绍B"
               },{
-                name: "代理风采",
-                url: "www.baidu.com"
-              },
+                name: "代理风采"
+              }
             ]
           }
+      },
+      methods:{
+        gotoDetail(index){
+          console.log(index)
+          if(index == 4){
+            this.$router.push('/company/'+ index)
+          }
+
+        }
       }
     }
 </script>
@@ -74,17 +78,9 @@
   .mint-swipe-item {
     line-height: 200px;
   }
-  .slide1 {
-    background-color: #0089dc;
-    color: #fff;
-  }
-  .slide2 {
-    background-color: #ffd705;
-    color: #000;
-  }
-  .slide3 {
-    background-color: #ff2d4b;
-    color: #fff;
+  .promotion-banner img{
+    width: 100%;
+    height: 200px;
   }
   .find-page{
     position: absolute;

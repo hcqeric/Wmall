@@ -3,7 +3,7 @@
       <mt-header :title="serialName">
         <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
         <mt-button slot="right">
-          <div class="shopcart">
+          <div class="shopcart" @click="gotoCart">
             <i class="iconfont icon-gouwuche"></i>
             <mt-badge type="error" size="small">10</mt-badge>
           </div>
@@ -86,6 +86,9 @@
       goBack() {
         this.$router.back()
       },
+      gotoCart(){
+        this.$router.push('/cart')
+      },
       changeItem(n){
         this.selected = n
         if(this.serials[n].proId != undefined){
@@ -97,16 +100,21 @@
         this.getCategoryGoods()
       },
       getSerialList() {
-        getSerials({
-          projectId: this.proId,
-          parentId: this.parentId
-        }).then(response => {
-          console.log(response)
-          if(response.result.length == 0){
-            this.isNoList = true
-          }
-          response.result.map(item => {
-            this.serials.push(item)
+        return new Promise((resolve, reject) => {
+          getSerials({
+            projectId: this.proId,
+            parentId: this.parentId
+          }).then(response => {
+            console.log(response)
+            if(response.result.length == 0){
+              this.isNoList = true
+            }
+            response.result.map(item => {
+              this.serials.push(item)
+            })
+            resolve(response)
+          },error=>{
+            reject(error)
           })
         })
       },
@@ -151,10 +159,11 @@
       this.parentId = id
       this.serialName = name
       console.log(this.proId, this.parentId)
-      this.getSerialList()
-      if(this.serials.length > 0){
-        this.changeItem(0)
-      }
+      this.getSerialList().then(response=>{
+        if(this.serials.length > 0){
+          this.changeItem(0)
+        }
+      })
     },
     components:{
       GoodsItem
@@ -230,6 +239,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  background: #fff;
 }
 
 .goods-list {
@@ -306,5 +316,9 @@
 }
 .page-infinite-loading{
   background: #fff;
+}
+.nodata{
+  padding:16px 0;
+  text-align: center;
 }
 </style>

@@ -48,6 +48,7 @@ import SortDetail from '@/components/sort/SortDetail'
 import SearchList from '@/components/home/SearchList'
 import RefundApply from '@/components/mine/RefundApply'
 import News from '@/components/promotion/News'
+import CompanyIntro from '@/components/promotion/CompanyIntro'
 
 import {getLocalStorage} from "../custom/mixin"
 import * as Constants from '../custom/constants'
@@ -301,6 +302,11 @@ let router = new Router({
       path: '/search',
       name: 'search',
       component:SearchList
+    },
+    {
+      path: '/company/:id',
+      name: 'company',
+      component: CompanyIntro
     }
   ]
 })

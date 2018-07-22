@@ -66,5 +66,6 @@ export default {
   pointPay:'app/pay/pointPay',
   wxPay:'app/pay/wxPay',
   payResult:'/app/order/getById',
-  getUserInfoById:'/app/user/userShareInfo'
+  getUserInfoById:'/app/user/userShareInfo',
+  getFileByType:'/app/file/getFileByType'
 }

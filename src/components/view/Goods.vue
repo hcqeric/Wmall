@@ -1,5 +1,5 @@
 <template>
-  <div class="goods-item">
+  <div class="shop-goods-item">
     <div class="item-check" v-show="ableCheck">
       <el-checkbox v-model="itemChecked" @change="handleCheckItem(cartGoodsItem)"></el-checkbox>
     </div>
@@ -94,7 +94,7 @@
 </script>
 
 <style scoped>
-  .goods-item {
+  .shop-goods-item {
     box-sizing: border-box;
     height: 160px;
     width: 100%;

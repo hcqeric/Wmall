@@ -28,7 +28,7 @@
         allLoaded: false,
         wrapperHeight: 0,
         page: 1,
-        limit: '1',
+        limit: '10',
         info:''
       }
     },

@@ -28,7 +28,7 @@
         allLoaded: false,
         wrapperHeight: 0,
         page: 1,
-        limit: '1',
+        limit: '10',
         info:''
       }
     },
@@ -54,7 +54,7 @@
         }).then(response=>{
           console.log(response)
           this.loading = false;
-          if (response.result.totalCount < response.result.currPage) {
+          if (response.result.totalPage < response.result.currPage) {
             this.info = "~~数据已全部加载完毕了~~"
             this.allLoaded = true
             this.loading = false
@@ -101,7 +101,7 @@
     position: absolute;
     bottom: 1px;
     height: 1px;
-    background-color: #eee;
+    background: #ececec;
     width: 100%;
     content: '';
   }

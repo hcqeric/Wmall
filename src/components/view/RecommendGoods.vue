@@ -40,9 +40,17 @@
     box-sizing: border-box;
     overflow: hidden;
     display: flex;
-
     width: 100%;
-    padding: 16px 0;
+    padding: 8px 0;
+    position: relative;
+  }
+  .info:after{
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    content: '';
+    background: #ececec;
+    bottom: 0;
   }
   .info img{
     width: 110px;
