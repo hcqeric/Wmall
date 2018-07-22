@@ -4,7 +4,8 @@
     <div class="intro">
       <p>{{goods.goods.name}}</p>
       <div class="goods-price">
-        <p>{{goods.goods.sellPrice | moneyFormat}}</p>
+        <p v-if="goods.goods.type == 1">{{goods.goods.sellPrice | moneyFormat}}</p>
+        <p v-if="goods.goods.type == 2">{{goods.goods.bonusPrice}}积分</p>
         <p>×{{goods.goodsNum}}</p>
       </div>
     </div>

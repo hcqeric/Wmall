@@ -63,7 +63,8 @@ export default {
   newsList:'app/news/list',
   orderSave:'/app/order/save',
   getDefaultAddress:'/app/userAds/getAdsByDefaultFlag',
-  pointPay:'v1/pay/pointPay',
-  wxPay:'v1/pay/wxPay',
-  payResult:'/app/order/getById'
+  pointPay:'app/pay/pointPay',
+  wxPay:'app/pay/wxPay',
+  payResult:'/app/order/getById',
+  getUserInfoById:'/app/user/userShareInfo'
 }

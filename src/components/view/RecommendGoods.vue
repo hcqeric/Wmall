@@ -13,7 +13,7 @@
       <div class="rec-price">
         <div>
         <p>已售{{goodsInfo.sellCount}}件</p>
-        <p><span v-if="goodsInfo.sellPrice">{{goodsInfo.sellPrice| moneyFormat}}/{{goodsInfo.unit}}</span><span v-if="goodsInfo.bdanPrice"><s>{{goodsInfo.bdanPrice|moneyFormat}}/{{goodsInfo.unit}}</s></span></p>
+        <p><span v-if="goodsInfo.type == 1">{{goodsInfo.sellPrice| moneyFormat}}/{{goodsInfo.unit}}</span><span v-if="goodsInfo.bdanPrice"><s>{{goodsInfo.bdanPrice|moneyFormat}}/{{goodsInfo.unit}}</s></span></p>
         </div>
         <div class="score" v-if="goodsInfo.type == 2"><span>积分:{{goodsInfo.bonusPrice}}</span>/套</div>
       </div>

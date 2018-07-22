@@ -30,7 +30,7 @@
           <p v-if="orderItem.tradeStatus == 3"></p>
           <div class="buttons">
             <button v-if="orderItem.tradeStatus == 0" @click.stop="cancelOrder(orderItem.id)">取消订单</button>
-            <button v-if="orderItem.tradeStatus == 0">去支付</button>
+            <button v-if="orderItem.tradeStatus == 0" >去支付</button>
             <button v-if="orderItem.tradeStatus == 2" @click.stop="orderReceipt(orderItem.id)">确认收货</button>
             <button v-if="orderItem.tradeStatus == 3" @click.stop="postEvaluation(orderItem)">评价</button>
           </div>
@@ -87,6 +87,9 @@
         postEvaluation(orderItem){
           this.setBackRefunds(orderItem)
           this.$router.push('postevaluation')
+        },
+        gotoPay(){
+
         }
       },
     mounted(){

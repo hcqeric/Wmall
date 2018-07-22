@@ -41,7 +41,8 @@
         commentList:[],
         limit:'10',
         page:0,
-        token:''
+        token:'',
+        isNoList:false
       }
     },
     components:{

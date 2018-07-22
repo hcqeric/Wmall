@@ -25,7 +25,7 @@
       },
       methods:{
           gotoDetail(item){
-            this.$router.push('/serial/'+ item.proId + "/" + item.parentId + "/" + item.name)
+            this.$router.push('/serial/'+ item.proId + "/" + item.id + "/" + item.name)
           }
       },
       mounted(){

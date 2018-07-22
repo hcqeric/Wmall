@@ -62,7 +62,7 @@ let router = new Router({
       component: MallIndex
     },
     {
-      path: '/reg/:id?',
+      path: '/register/:id?',
       name: 'RecommendReg',
       component: RecommendReg
     },
@@ -307,7 +307,10 @@ let router = new Router({
 
 router.beforeEach( (to, from, next) => {
   let tk = getLocalStorage(Constants.TOKEN)
-  if (!tk && to.path !== '/login' && to.path !== '/reg' && to.path !== '/forgetpass') {
+  console.log("tk === " + tk)
+  console.log(!tk)
+  console.log(to.path)
+  if (!tk && (to.path != '/login' && !to.path.startsWith('/register') && to.path != '/forgetpass')) {
     return next({ path: '/login' })
   }else {
     next()

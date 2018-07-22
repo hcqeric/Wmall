@@ -22,7 +22,7 @@
           <button type="primary" @click="submitForm('ruleForm')" ref="btnLogin">登录</button>
         </div>
         <div class="behavior">
-          <router-link to="/reg">
+          <router-link to="/register">
           <span>注册账户</span>
           </router-link>
           <router-link to="/forgetpass">

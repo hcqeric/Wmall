@@ -64,7 +64,6 @@
             page: this.page.toString(),
             limit: this.limit
           }).then(response=>{
-            console.log(response)
             this.loading = false;
             if (response.result.totalPage < response.result.currPage) {
               this.info = "~~数据已全部加载完毕了~~"

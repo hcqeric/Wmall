@@ -266,7 +266,7 @@
     width: 100%;
     height: 100vh;
   }
-  .mint-header{
+  .mint-header.is-fixed{
     background-color: #bf54f9;
     height: 48px;
     z-index:999

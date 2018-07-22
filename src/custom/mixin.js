@@ -8,7 +8,7 @@ export const setLocalStorage = (key, value) => {
 }
 
 export const getLocalStorage = (key) => {
-  if (!key) return;
+  if (!key) return '';
   return window.localStorage.getItem(key);
 }
 

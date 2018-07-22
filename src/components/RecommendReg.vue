@@ -8,7 +8,7 @@
         <el-form-item prop="recommender" class="item">
           <div slot="label" class="labels">
             <img src="../assets/img/tuij.png" alt="">
-            <span>推荐人：张三</span>
+            <span>推荐人：{{recommender.nickname}}</span>
           </div>
         </el-form-item>
         <el-form-item prop="mobile" class="item">
@@ -59,6 +59,8 @@
   import * as Constants from '../custom/constants'
   import { Toast } from 'mint-ui';
   import url from '../http/url.js'
+  import {getUserInfoById} from "../http/getData";
+
   export default {
     name: "RecommendReg",
     data() {
@@ -76,6 +78,8 @@
         }
       };
       return {
+        recommendUserId:'',
+        recommender:{},
         delivery:false,
         ruleForm: {
           mobile: '',
@@ -160,7 +164,7 @@
               mobile: this.ruleForm.mobile,
               password:this.ruleForm.password,
               code:this.ruleForm.verify,
-              recommendUserId:"1",
+              recommendUserId:this.recommendUserId,
               selected: this.ruleForm.checked ? "0" : "1"
             }).then( response=> {
               console.log(response)
@@ -185,7 +189,13 @@
     },
     mounted(){
       let {id} = this.$route.params
-
+      this.recommendUserId = id
+      getUserInfoById({
+        id: id
+      }).then(response=>{
+        console.log(response)
+        this.recommender = response.result
+      })
     }
   }
 </script>

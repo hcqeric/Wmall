@@ -1,8 +1,6 @@
 <template>
   <div class="page-tabbar">
-    <div class="page-wrap">
-      <Home/>
-    </div>
+    <Home/>
     <Footer></Footer>
   </div>
 </template>

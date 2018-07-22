@@ -13,10 +13,10 @@
         </div>
         <div class="order-list">
           <div class="page-infinite">
-            <div class="page-infinite-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
+            <div class="page-infinite-wrapper" ref="wrapper">
               <ul class="page-infinite-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
                 <li v-for="item in orderList" class="page-infinite-listitem">
-                  <div v-if="item.tradeStatus <= 3 && item.tradeStatus != 3 ">
+                  <div v-if="item.tradeStatus < 3 ">
                     <OrderItem :orderItem="item" class="oitem"  @orderItem="getOrderItem" />
                   </div>
                   <div v-else-if="item.tradeStatus == 3" v-for="(goodsItem,index) in item.orderDetailList">
@@ -28,6 +28,7 @@
                 <mt-spinner type="fading-circle"></mt-spinner>
                 加载中...
               </p>
+              <p v-show="allLoaded" class="nodata">{{info}}</p>
             </div>
           </div>
         </div>
@@ -36,6 +37,31 @@
         <img src="../../assets/img/nolist.png" />
         <p>您还没有相关订单</p>
       </div>
+
+      <div class="msgbox-wrapper" style="position: absolute; z-index: 2011;display: block;" v-show="dialogShow == true"  ref="msgbox">
+        <div class="mint-msgbox" style="">
+          <div class="mint-msgbox-header">
+            <div class="mint-msgbox-title">选择支付方式</div>
+          </div>
+          <div class="mint-msgbox-content">
+            <div class="pay-list">
+              <div class="pay-item">
+                <el-radio v-model="radio" :label="1">微信支付</el-radio>
+                <i class="iconfont icon-weixinzhifu"></i>
+              </div>
+              <div class="pay-item">
+                <el-radio v-model="radio" :label="2">积分支付</el-radio>
+                <img src="../../assets/img/jif1.png" alt="">
+              </div>
+            </div>
+          </div>
+          <div class="mint-msgbox-btns">
+            <button class="mint-msgbox-btn mint-msgbox-cancel" @click="gotoPay">去支付</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" style="z-index: 2006;"  v-show="dialogShow == true" @click="dialogShow = false" ></div>
     </div>
 </template>
 
@@ -48,7 +74,29 @@
 
   export default {
     name: "OrderCenter",
+    data() {
+      return {
+        wrapperHeight:0,
+        showNoList: false,
+        loading: false,
+        allLoaded: true,
+        type: '',
+        tk:'',
+        page: 1,
+        limit: '10',
+        tradeStatus:'',
+        orderList:[],
+        radio:1,
+        dialogShow:false,
+        isNoList: false,
+        datas:{},
+        info:''
+      }
+    },
     methods: {
+      gotoPay(){
+
+      },
       goBack() {
         this.$router.back()
       },
@@ -57,35 +105,41 @@
           return
         }
         this.type = tab
-        this.page = 0
+        this.page = 1
         this.orderList = []
+        this.loading = true
         let datas = {
           page: this.page.toString(),
           limit: this.limit
         }
         switch (tab) {
           case 'all':
-            this.$router.replace('/ordercenter/all')
-            this.loadData(datas)
-            break
+                this.$router.replace('/ordercenter/all')
+                this.datas = datas
+                this.loadData(datas)
+                break
           case '0':
-            this.$router.replace('/ordercenter/0')
+                this.$router.replace('/ordercenter/0')
                 this.$set(datas,'tradeStatus', this.type)
+                this.datas = datas
                 this.loadData(datas)
                 break
           case '1':
                 this.$router.replace('/ordercenter/1')
                 this.$set(datas,'tradeStatus', this.type)
+                this.datas = datas
                 this.loadData(datas)
                 break
           case '2':
                 this.$router.replace('/ordercenter/2')
                 this.$set(datas,'tradeStatus', this.type)
+                this.datas = datas
                 this.loadData(datas)
                 break
           case '3':
                 this.$router.replace('/ordercenter/3')
                 this.$set(datas,'tradeStatus', this.type)
+                this.datas = datas
                 this.loadData(datas)
                 break
         }
@@ -94,29 +148,31 @@
         getOrderList({
           token: this.tk
         },datas).then(response=>{
-          console.log(response)
-          this.allLoaded = true
-          this.loading = false
-
-          if(response.result.list != undefined){
-            response.result.list.map(item=>{
-              this.orderList.push(item)
-            })
+          this.loading = false;
+          if(response.result.currPage == 1 && response.result.totalPage < response.result.currPage) {
+            this.isNoList = true
+            this.allLoaded = true
+            return
           }
+          else if (response.result.totalPage < response.result.currPage) {
+            this.info = "~~数据已全部加载完毕了~~"
+            this.allLoaded = true
+            return
+          } else {
+            this.allLoaded = false
+          }
+          response.result.list.map(item => {
+            this.orderList.push(item)
+          })
           this.page++
+          this.datas.page = this.page.toString()
         })
       },
       loadMore() {
-        // this.allLoaded = true;
-        // this.loading = true;
-
-        // setTimeout(() => {
-        //   let last = this.list[this.list.length - 1];
-        //   for (let i = 1; i <= 5; i++) {
-        //     this.list.push(last + i);
-        //   }
-        //   this.loading = false;
-        // }, 2500);
+        if (!this.allLoaded) {
+          this.loading = true;
+          this.loadData(this.datas)
+        }
       },
       getOrderItem(item){
         this.orderList.forEach(((orderItem,index)=>{
@@ -125,32 +181,6 @@
           }
         }))
       }
-    },
-    computed:{
-      isNoList(){
-        if (this.orderList.length > 0){
-          console.log("aaaaa")
-          this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top;
-          return false
-        }else{
-          console.log("sdssdsdsdds")
-          return true
-        }
-      }
-    },
-    data() {
-      return {
-        wrapperHeight:0,
-        showNoList: false,
-        allLoaded: false,
-        loading:false,
-        type: '',
-        tk:'',
-        page: 0,
-        limit: '10',
-        tradeStatus:'',
-        orderList:[]
-      };
     },
     components: {
       OrderItem,
@@ -269,6 +299,10 @@
     text-align: center;
     font-size: 20px;
     color: #999;
+  }
+  .nodata{
+    padding:16px 0;
+    text-align: center;
   }
   .page-infinite-list{
     background: #efefef;

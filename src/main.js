@@ -28,7 +28,6 @@ Vue.prototype.axios = axios.create({
 });
 Vue.config.devtools = true;
 
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,

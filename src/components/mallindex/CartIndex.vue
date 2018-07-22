@@ -1,8 +1,6 @@
 <template>
   <div class="page-tabbar">
-    <div class="page-wrap">
-      <ShopCart/>
-    </div>
+    <ShopCart/>
     <Footer></Footer>
   </div>
 </template>
@@ -24,11 +22,6 @@
   .page-tabbar {
     overflow: hidden;
     height: 100vh;
-  }
-  .page-wrap {
-    overflow: auto;
-    height: 100%;
-    padding-bottom: 200px;
   }
 </style>
 

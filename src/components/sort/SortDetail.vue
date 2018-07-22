@@ -59,7 +59,6 @@
     name: "SortDetail",
     data(){
       return {
-        goods: goods,
         selected: 1,
         parentId: '',
         serialName:'',
@@ -90,18 +89,19 @@
       changeItem(n){
         this.selected = n
         if(this.serials[n].proId != undefined){
-          this.categoryId = this.serials[n].proId
+          this.categoryId = this.serials[n].id
         }
         this.loading = true
         this.oddGoodsList = []
         this.evenGoodsList = []
         this.getCategoryGoods()
       },
-      async getSerialList() {
-        await getSerials({
+      getSerialList() {
+        getSerials({
           projectId: this.proId,
           parentId: this.parentId
         }).then(response => {
+          console.log(response)
           if(response.result.length == 0){
             this.isNoList = true
           }
@@ -115,7 +115,7 @@
           await getSerialGoods({
             page: this.page.toString(),
             limit: this.limit,
-            goodsTypeId: this.categoryId
+            goodsTypeId: this.categoryId.toString()
           }).then(response => {
             this.loading = false;
             if(response.result.currPage == 1 && response.result.totalPage < response.result.currPage) {
@@ -150,6 +150,7 @@
       this.proId = proid
       this.parentId = id
       this.serialName = name
+      console.log(this.proId, this.parentId)
       this.getSerialList()
       if(this.serials.length > 0){
         this.changeItem(0)
