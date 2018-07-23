@@ -5,10 +5,22 @@
     </mt-header>
     <div class="content">
       <div class="posts">
-        <div class="goods">
+        <div class="refund-goods">
           <RefundApplyGoods :orderItem="backRefunds"></RefundApplyGoods>
         </div>
+        <div class="reasons" v-if="type == 6">
+          <p>退货原因：</p>
+          <el-select v-model="reason" clearable placeholder="请选择退货理由" @change="handleChange">
+            <el-option
+              v-for="item in reasonOptions"
+              :key="item.id"
+              :label="item.reason"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </div>
         <div class="comment">
+
         <textarea placeholder="请说明您的原因" rows="3" :maxlength="max" @input="descInput"
                   v-model="content"></textarea>
           <p class="pay-service-textarea-text"><span>{{remnant}}</span>/{{max}}</p>
@@ -29,7 +41,7 @@
 <script>
 
   import RefundApplyGoods from '@/components/view/RefundApplyGoods'
-  import {refundApply} from "../../http/getData";
+  import {refundApply,getReasonList} from "../../http/getData";
   import * as Constants from '../../custom/constants'
   import {getLocalStorage} from "../../custom/mixin"
   import {Toast} from 'mint-ui'
@@ -49,15 +61,18 @@
         remnant:0,
         max: 100,
         dialogImageUrl: '',
-        appraisesImgList:[]
+        appraisesImgList:[],
+        reasonOptions:[],
+        reason:'',
+        reasonid: -1
       }
     },
     methods: {
       goBack() {
         this.$router.back()
       },
-      handleChange(value) {
-        console.log(value);
+      handleChange(value){
+        this.reasonid = value
       },
       descInput() {
         var txtVal = this.content.length;
@@ -88,14 +103,18 @@
         })
         let imgs = fileList.join(',')
         let tk = getLocalStorage(Constants.TOKEN)
-        refundApply({
-          token: tk
-        },{
+        let datas = {
           id:this.id,
           tradeStatus:this.type,
           remarks:this.content,
           imgString: imgs
-        }).then(response=>{
+        }
+        if (this.type == 6){
+          this.$set(datas, "reasonId", this.reasonid.toString())
+        }
+        refundApply({
+          token: tk
+        },datas).then(response=>{
           console.log(response)
           Toast({
             message: '提交申请成功',
@@ -117,6 +136,11 @@
         this.title = "退款"
       }else if(type == 6){
         this.title = "退货退款"
+        getReasonList().then(response=>{
+          response.result.map(item=>{
+            this.reasonOptions.push(item)
+          })
+        })
       }
       this.backRefunds = this.$store.state.shop.backRefunds
       this.id = this.backRefunds.id
@@ -149,7 +173,7 @@
   .posts{
     padding: 16px;
   }
-  .goods{
+  .refund-goods{
     margin-bottom: 16px;
   }
   .comment{
@@ -197,6 +221,16 @@
     color: #fff;
     margin: 0 auto;
   }
+  .reasons{
+    display: flex;
+    align-items: center;
+    margin-bottom:16px;
+  }
+  .reasons p{
+    font-size:15px;
+    color: #000;
+  }
+
 </style>
 <style>
   .rate .el-rate__icon{
@@ -215,6 +249,11 @@
     height: 100px;
     width: 100px;
   }
-
+  .reasons .el-input__inner{
+    border: none;
+  }
+  .reasons .el-select{
+    flex: 1;
+  }
 </style>
 

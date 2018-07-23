@@ -31,3 +31,5 @@ export const SET_SCORE_EXCHANGE_ID = 'set_score_exchange_id'
 
 export const SET_CONFIRM_ORDER_GOODS = 'set_confirm_order_goods'
 
+export const SET_PAY_SUCE_ORDER_ID = 'set_pay_suce_order_id'
+

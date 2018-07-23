@@ -9,7 +9,8 @@ const getters = {
     orderNum: state=> state.shop.orderNum,
     orderScoreDetail: state=>state.user.orderScoreDetail,
     scoreExchangeId: state=>state.user.scoreExchangeId,
-    confirmGoods: state => state.shop.confirmGoods
+    confirmGoods: state => state.shop.confirmGoods,
+    paySuccOrderId: state => state.shop.paySuccOrderId
 }
 export default getters
 

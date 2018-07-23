@@ -85,7 +85,6 @@
                 <i class="el-icon-arrow-right"></i>
               </div>
               <mt-popup v-model="popupAddressVisible" position="bottom" class="mint-popup-address">
-
                 <mt-picker :slots="addressSlots" @change="onAddressChange" :visible-item-count="5" value-key="name" :show-toolbar="true">
                   <div class="picker-toolbar">
                     <span class="mint-datetime-action mint-datetime-cancel" @click="cancleaddress">取消</span>

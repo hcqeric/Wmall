@@ -10,6 +10,10 @@
                         :playsinline="true"
                         @ready="playerReadied($event)"></video-player>
         </div>
+        <div class="copyright">
+          <p>	Copyright&copy;2018-2019</p>
+          <p>由好乐付提供技术支持</p>
+        </div>
       </div>
     </div>
 </template>
@@ -68,7 +72,7 @@
             console.log('the player is readied', player)
           }
         },
-        mounted(){
+        created(){
           let {id} = this.$route.params
           this.title = arr[id].name
           if (id == 4){
@@ -76,6 +80,9 @@
               type:'video'
             }).then(response=>{
               console.log(response)
+              console.log(response.result.url)
+              this.playerOptions.sources[0].src = response.result[0].url
+              console.log(this.playerOptions)
             })
           }
         },
@@ -106,8 +113,18 @@
   }
 </style>
 <style>
-  .mvideo #vjs_video_3 {
+  .mvideo .video-js.vjs-v6 {
     width: 100%;
     height: 180px;
+  }
+  .copyright{
+    display: flex;
+    margin-top: 40px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .copyright p{
+    padding: 2px 0;
   }
 </style>

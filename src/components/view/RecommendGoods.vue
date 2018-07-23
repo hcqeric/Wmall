@@ -5,10 +5,10 @@
       <div class="intro">
         <p>{{goodsInfo.name}}</p>
         <p>{{goodsInfo.introduce}}</p>
-        <div>
-          <el-tag size="mini">会员价</el-tag>
-          <el-tag size="mini">今日</el-tag>
-        </div>
+        <!--<div>-->
+          <!--<el-tag size="mini">会员价</el-tag>-->
+          <!--<el-tag size="mini">今日</el-tag>-->
+        <!--</div>-->
       </div>
       <div class="rec-price">
         <div>

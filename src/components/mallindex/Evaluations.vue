@@ -61,7 +61,7 @@
         getGoodsAppraises({
           page: this.page.toString(),
           limit: this.limit,
-          goodsNum:this.goodsNum
+          goodsId:this.goodsNum
         }).then(response=>{
           console.log(response)
           this.loading = false;

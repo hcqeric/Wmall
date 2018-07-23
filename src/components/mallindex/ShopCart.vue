@@ -19,7 +19,8 @@
                       <img :src="item.goods.goodsImg" alt="">
                       <div class="intro">
                         <p>{{item.goods.name}}</p>
-                        <p>{{item.goods.sellPrice | moneyFormat}}</p>
+                        <p v-if="item.goods.type == 1">{{item.goods.sellPrice | moneyFormat}}</p>
+                        <p v-if="item.goods.type == 2">{{item.goods.bonusPrice}}积分</p>
                       </div>
                       <div class="goods-counter">
                         <span :class="item.goodsNum <= 1 ? 'btn-disable' : ''" @click="minusGoodsCount(item)">-</span>
@@ -28,8 +29,11 @@
                       </div>
                     </div>
                     <div class="price">
-                      <p>
+                      <p v-if="item.goods.type == 1">
                         合计：<span>{{item.goods.sellPrice * item.goodsNum|moneyFormat}}</span>
+                      </p>
+                      <p v-if="item.goods.type == 2">
+                        合计：<span>{{item.goods.bonusPrice * item.goodsNum}}积分</span>
                       </p>
                     </div>
                   </div>
@@ -46,7 +50,10 @@
 
         <div class="cart">
           <el-checkbox v-model="checkAll" @change="selectedAllGoods">全选</el-checkbox>
-          <p>应付款：<span>{{totalFee | moneyFormat}}</span>(免运费)</p>
+          <div>
+            <p>应付款：<span>{{totalFee | moneyFormat}}</span></p>
+            <p>应付积分：<span>{{totalScore}}</span></p>
+          </div>
           <button @click="gotoPayment">去结算</button>
         </div>
       </div>
@@ -73,13 +80,16 @@
           checkAll: false,
           itemChecked: false,
           totalFee:0,
+          totalScore: 0,
           page: 1,
           limit: '10',
           loading: false,
           allLoaded: true,
           info:'',
           isNoList:false,
-          cartList:[]
+          cartList:[],
+          scoreGoodsCount:0,
+          moneyGoodsCount:0
         }
       },
       components:{
@@ -90,15 +100,27 @@
           setConfirmGoods: 'setConfirmGoods'
         }),
         computedTotalFee() {
-          let computedFee = 0,
-            selectedCounter = 0;
+          let computedFee = 0, computeScore = 0,
+            selectedMoneyCounter = 0, selectedScoreCounter = 0;
+
           this.cartList.map(item => {
             if (item.checked) {
-              computedFee += parseFloat(item.goods.sellPrice * item.goodsNum)
-              selectedCounter++
+              if (item.goods.type == 1){
+                computedFee += parseFloat(item.goods.sellPrice * item.goodsNum)
+                selectedMoneyCounter++
+
+              }else if(item.goods.type == 2){
+                computeScore += parseFloat(item.goods.bonusPrice * item.goodsNum)
+                selectedScoreCounter++
+              }
             }
           })
-          this.totalFee = computedFee;
+          this.scoreGoodsCount = selectedScoreCounter
+          this.moneyGoodsCount = selectedMoneyCounter
+          console.log(this.scoreGoodsCount)
+          console.log(this.moneyGoodsCount)
+          this.totalScore = computeScore
+          this.totalFee = computedFee
         },
 
         deleteAllGoods() {
@@ -110,43 +132,39 @@
             cancelButtonText:'再想想'
           }).then(action=>{
             if (action === 'confirm'){
-              this.deleteGoods()
+              let checkedList = []
+              this.cartList.map((item, index)=>{
+                if (item.checked == true){
+                  checkedList.push(item)
+                }
+              })
+              let ids = []
+              checkedList.map(item=>{
+                ids.push(item.id)
+              })
+              console.log(ids)
+              deleteCart({
+                token: this.token
+              },ids).then(response=>{
+                ids.forEach(id=>{
+                  this.cartList.forEach((item, index)=>{
+                    if (item.id == id){
+                      this.cartList.splice(index, 1)
+                    }
+                  })
+                })
+                console.log(this.cartList)
+                if(this.cartList.length == 0){
+                  this.isNoList = true
+                }
+                this.computedTotalFee()
+              })
             }else{
               console.log("quxiaole")
             }
           });
         },
-        async deleteGoods(){
-          let checkedList = []
-          let indexes = []
-          this.cartList.map((item, index)=>{
-            if (item.checked == true){
-              checkedList.push(item)
-              indexes.push(index)
-            }
-          })
-          console.log(indexes)
-          let ids = []
-          checkedList.map(item=>{
-            ids.push(item.id)
-          })
-          console.log(ids)
-          await deleteCart({
-            token: this.token
-          },ids).then(response=>{
-            this.cleanDate(indexes)
-          })
-        },
-        async cleanDate(indexes){
-          await indexes.map(item=>{
-            this.cartList.splice(0, 1)
-          })
-          console.log(this.cartList)
-          if(this.cartList.length == 0){
-            this.isNoList = true
-          }
-          await this.computedTotalFee()
-        },
+
         gotoPayment(){
           let selectedGoodsList = [];
           this.cartList.map(item => {
@@ -222,6 +240,8 @@
           })
           if (count === this.cartList.length) {
             this.checkAll = true
+          }else{
+            this.checkAll = false
           }
           this.computedTotalFee();
         },
@@ -285,12 +305,12 @@
     position: fixed;
     left: 0;
     bottom: 50px;
-    height: 46px;
-    line-height: 46px;
+    height: 58px;
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     background-color: white;
     z-index:99;
   }
@@ -300,14 +320,14 @@
   .cart button{
     border: none;
     background-color:  #bf54f9;
-
     outline-color: transparent;
     color: #fff;
+    height: 100%;
     padding: 8px 24px;
 
   }
   .cart p{
-    font-size: 16px;
+    font-size: 14px;
   }
   .cart p span{
     color: #FF659B;

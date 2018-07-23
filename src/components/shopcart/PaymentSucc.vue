@@ -3,20 +3,21 @@
     <mt-header fixed title="支付成功">
     </mt-header>
     <div class="content">
-      <img src="http://p90m90efq.bkt.clouddn.com/paysucc.png" alt="">
+      <img src="../../assets/img/pay-succ.png" alt="">
       <div class="payment-info">
-        <Address></Address>
+        <Address :address="address"></Address>
         <div class="amount">
-          <p>¥{{amount}}</p>
-          <p>{{state}}</p>
+          <p v-if="totalAmt != 0">{{totalAmt | moneyFormat}}</p>
+          <p v-if="totalAmt == 0">{{payBonus}}积分</p>
+          <p>{{orderState}}</p>
         </div>
         <div class="links">
-          <el-button size="medium" type="danger" plain @click="gotoHomePage">返回首页</el-button>
-          <el-button size="medium" plain @click="gotoOrderDetail">查看订单</el-button>
+          <button @click="gotoHomePage">返回首页</button>
+          <button @click="gotoOrderDetail">查看订单</button>
         </div>
       </div>
       <div class="promotion">
-        <img src="http://p90m90efq.bkt.clouddn.com/tuiguang.png" alt="">
+        <img :src="shareImg" alt="">
       </div>
     </div>
   </div>
@@ -24,12 +25,21 @@
 
 <script>
   import Address from '@/components/view/Address'
-    export default {
+  import {getPaySuccInfo} from "../../http/getData";
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
+
+  export default {
         name: "PaymentSucc",
       data(){
           return {
-          amount: 599.00,
-            state:"支付成功"
+            amount: 599.00,
+            orderState:"支付成功",
+            orderId:'',
+            address: {},
+            totalAmt: 0,
+            shareImg:'',
+            payBonus:0
           }
       },
       methods:{
@@ -42,6 +52,23 @@
       },
       components:{
         Address
+      },
+      mounted(){
+        this.orderId = this.$store.state.shop.paySuccOrderId
+        console.log(this.orderId)
+        let tk = getLocalStorage(Constants.TOKEN)
+
+        getPaySuccInfo({
+          token: tk
+        },{
+          id: this.orderId.toString(),
+        }).then(response=>{
+          console.log(response)
+          this.address = response.result.userAds
+          this.totalAmt = response.result.payAmt
+          this.shareImg = response.result.shareImg
+          this.payBonus = response.result.payBonus
+        })
       }
     }
 </script>
@@ -57,7 +84,7 @@
     overflow: scroll;
   }
   .mint-header{
-    background-color: #FF659B;
+    background-color: #000;
     height: 48px;
   }
   .content{
@@ -82,7 +109,7 @@
   }
   .amount p:first-child{
     font-size: 30px;
-    color: #FF659B;
+    color: #bf54f9;
   }
   .amount p:last-child{
     font-size: 12px;
@@ -93,8 +120,26 @@
     flex-direction: row;
     justify-content: center;
   }
-  .el-button+.el-button {
-    margin-left: 30px;
+  .links button {
+    border: 1px solid #efefef;
+    outline: none;
+    background-color: transparent;
+    background-image: url("../../assets/img/bg-white.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 5px;
+    text-align: center;
+    color: #a3a3a3;
+    width: 115px;
+    font-size: 14px;
+  }
+  .links button:first-child{
+    margin-right: 40px;
+    background-image: none;
+    border: 1px solid #b535fa;
+    color: #b535fa;
   }
   .promotion{
     margin: 8px 16px 0 16px;

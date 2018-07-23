@@ -112,4 +112,10 @@ export const getUserInfoById = (datas) => new Request().require({api: url.getUse
 
 export const getFileByType = (datas) => new Request().require({api: url.getFileByType, data:datas}); // 获取文件
 
+export const getPaySuccInfo = (params, datas) => new Request().require({api: url.orderPaySucc, param: params, data:datas}); // 支付成功
+
+export const getReasonList = () => new Request().require({api: url.returnReason}); // 获取退货原因列表
+
+
+
 

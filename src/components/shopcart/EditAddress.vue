@@ -6,8 +6,16 @@
     </mt-header>
     <div class="content">
       <div class="address-info">
-          <div class="info-item" @click="">
-            <span>收货地址</span><input type="text" placeholder="请选择收货地址" v-model="addressInfo.province+addressInfo.city+addressInfo.district" :disabled="true"><span><i class="el-icon-arrow-right"></i></span>
+          <div class="info-item" @click="choiceArea">
+            <span>收货地址</span><input type="text" placeholder="请选择收货地址" v-model="fullLevelAddress" readonly="readonly"><span><i class="el-icon-arrow-right"></i></span>
+            <mt-popup v-model="popupAddressVisible" position="bottom" class="mint-popup-address">
+              <mt-picker :slots="addressSlots" @change="onAddressChange" :visible-item-count="5" value-key="name" :show-toolbar="true">
+                <div class="picker-toolbar">
+                  <span class="mint-datetime-action mint-datetime-cancel" @click="cancleaddress">取消</span>
+                  <span class="mint-datetime-action mint-datetime-confirm" @click="selectaddress">确定</span>
+                </div>
+              </mt-picker>
+            </mt-popup>
           </div>
         <div class="info-item">
           <span>详细地址</span><input placeholder="例：6号楼108室" type="text" v-model="addressInfo.address">
@@ -39,6 +47,8 @@
         token:null,
         title:null,
         id:null,
+        fullLevelAddress:'',
+        popupAddressVisible: false,
         addressInfo:{
           id:'',
           consignee: '',

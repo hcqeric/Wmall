@@ -42,7 +42,7 @@ Vue.filter('DateFormat', function (date, fmt) { //格式化时间   DateFormat('
 
 Vue.filter('moneyFormat', function (value, currency, decimals) {
   const digitsRE = /(\d{3})(?=\d)/g
-  value = parseFloat(value)
+  value = parseFloat(value) / 100
   if (!isFinite(value) || (!value && value !== 0)) return ''
   currency = currency != null ? currency : '￥'
   decimals = decimals != null ? decimals : 2

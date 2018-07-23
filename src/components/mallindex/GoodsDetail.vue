@@ -66,7 +66,7 @@
         this.$router.back()
       },
       gotoEvaluation() {
-        this.$router.push(`/evaluation/${this.id}`)
+        this.$router.push(`/evaluation/${this.goodsInfo.id}`)
       },
       addToShopCart(){
         let tk = getLocalStorage(Constants.TOKEN)

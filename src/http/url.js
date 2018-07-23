@@ -67,5 +67,7 @@ export default {
   wxPay:'app/pay/wxPay',
   payResult:'/app/order/getById',
   getUserInfoById:'/app/user/userShareInfo',
-  getFileByType:'/app/file/getFileByType'
+  getFileByType:'/app/file/getFileByType',
+  orderPaySucc:'/app/order/getById',
+  returnReason:'app/order/returnReasonList'
 }

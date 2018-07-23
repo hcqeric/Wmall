@@ -24,11 +24,11 @@
         </div>
         <div class="mint-msgbox-content">
           <div class="pay-list">
-            <div class="pay-item" v-if="payType == 0">
+            <div class="pay-item" v-if="buyType == 0">
               <el-radio v-model="radio" :label="0">微信支付</el-radio>
               <i class="iconfont icon-weixinzhifu"></i>
             </div>
-            <div class="pay-item" v-if="payType == 2">
+            <div class="pay-item" v-if="buyType == 2">
               <el-radio v-model="radio" :label="2">积分支付</el-radio>
               <img src="../../assets/img/jif1.png" alt="">
             </div>
@@ -51,7 +51,7 @@
         <!--&lt;!&ndash;<svg></svg>&ndash;&gt;-->
       <!--&lt;!&ndash;</div>&ndash;&gt;-->
     <!--</vue-pay-keyboard>-->
-    <PayKeyBoard :isPay="isPay" @pas-end='pasEnd'></PayKeyBoard>
+    <PayKeyBoard :isPay="isPay" @pas-end='pasEnd' @close='isPay=false'></PayKeyBoard>
   </div>
 </template>
 
@@ -60,6 +60,7 @@
   import Address from '@/components/view/Address'
   import PayKeyBoard from '@/components/view/PayKeyBoard'
   import {getDefaultAddress, orderSave, wxPay, pointPay} from "../../http/getData";
+  import {mapActions} from 'vuex'
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
   import {Toast} from 'mint-ui'
@@ -93,14 +94,18 @@
       PayKeyBoard
     },
     methods:{
+      ...mapActions({
+        setPaySuccOrderId:'setPaySuccOrderId'
+      }),
       pasEnd(val) {
         console.log(val);
         console.log(typeof val);
         pointPay({
-          orderId: this.orderId,
+          orderId: this.orderId.toString(),
           payPassword: val
         }).then(response=>{
-          console.log(response)
+          this.setPaySuccOrderId(response.orderId)
+          this.$router.push('paymentsucc')
         })
         this.isPay = false
       },
@@ -120,9 +125,7 @@
           ids:this.ids,
           buyType: this.buyType
         }).then(response=>{
-          console.log(response)
-          this.payType = response.result.order.payType
-          this.radio = response.result.order.payType
+          this.radio = response.result.order.buyType
           this.orderId = response.result.order.id
           this.$refs.btnConfirm.disabled=true;
           Toast({
@@ -137,17 +140,16 @@
           wxPay({
             orderId: this.orderId
           }).then(response=>{
-            console.log(response)
-            window.location.href = response.result.mweb_url
+            window.location.href = response.result.mweb_url + `&redirect_url=` + redirUrl
+            setTimeout(()=>{
+
+            },5000)
           })
         }else if(this.radio == 2){
           this.dialogShow = false
           this.isPay = true
         }
         this.dialogShow = false
-        setTimeout(() => {
-          // this.$router.push('paymentsucc')
-        }, 2500);
       },
       goBack() {
         this.$router.back()
@@ -161,6 +163,7 @@
       let  scoreGoodsArr = selectedGoodsList.filter(item=>{
         return item.goods.type == 2
       })
+
       if (scoreGoodsArr.length == 0){
         this.buyType = 0
       }else if(scoreGoodsArr.length ==  selectedGoodsList.length){
@@ -168,6 +171,7 @@
       }else{
         this.buyType = 3
       }
+      console.log(this.buyType)
       this.totalAmount = 0
       this.totalScore = 0
       selectedGoodsList.map(item=>{
