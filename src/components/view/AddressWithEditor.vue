@@ -8,7 +8,7 @@
         <p>{{address.consignee}}<span>{{address.mobile}}</span></p>
         <button v-show="address.defaultFlag === 0">默认</button>
       </div>
-      <div class="address">
+      <div class="address" @click="setDefaultAddress(address.id)">
         <p>收货地址：<span>{{address.fullAddress}}</span></p>
       </div>
     </div>
@@ -21,7 +21,11 @@
 
 <script>
   import {mapActions} from 'vuex'
-    export default {
+  import {setDefaultAddress} from "../../http/getData";
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
+
+  export default {
         name: "AddressWithEditor",
       data(){
           return{
@@ -38,6 +42,16 @@
         gotoEditAddress(address){
           this.setAddress(address)
           this.$router.push('/editAddress/2')
+        },
+        setDefaultAddress(id){
+          let tk = getLocalStorage(Constants.TOKEN)
+          setDefaultAddress({
+            token: tk
+          },{
+            id:id
+          }).then(response=>{
+            console.log(response)
+          })
         }
       }
     }

@@ -263,7 +263,6 @@
             let cityItem = this.getCurrCity(this.addressProvinceCode, this.addressCityCode)
             let countyItem = this.getCurrCounty(this.addressProvinceCode, this.addressCityCode, this.addressCountCode)
             console.log(proItem, cityItem, countyItem)
-
             console.log("***********************************************")
             this.addressPicker.setSlotValues(0, this.getProvinceArr())
             this.addressPicker.setSlotValues(1, this.getCityArr(proItem["name"]));

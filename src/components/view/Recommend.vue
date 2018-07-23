@@ -12,7 +12,7 @@
         </div>
         <div class="user-commend">
           <p>{{comment.content}}</p>
-          <img  v-show="hasReply" :src="item.picUrl" alt="" v-for="item in items"/>
+          <img  :src="item.url" alt="" v-for="item in comment.fileList"/>
         </div>
       </div>
       <div class="reply"  v-if="comment.replyContent">

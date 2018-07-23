@@ -69,5 +69,6 @@ export default {
   getUserInfoById:'/app/user/userShareInfo',
   getFileByType:'/app/file/getFileByType',
   orderPaySucc:'/app/order/getById',
-  returnReason:'app/order/returnReasonList'
+  returnReason:'app/order/returnReasonList',
+  defaultAddress: 'app/userAds/updateDefaultFlag'
 }

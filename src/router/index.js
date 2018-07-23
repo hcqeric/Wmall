@@ -60,7 +60,8 @@ let router = new Router({
     {
       path: '/',
       name: 'mallindex',
-      component: MallIndex
+      component: MallIndex,
+      meta: { requiresAuth: true }
     },
     {
       path: '/register/:id?',
@@ -80,7 +81,8 @@ let router = new Router({
     {
       path: '/mallindex',
       name: 'mallindex',
-      component: MallIndex
+      component: MallIndex,
+      meta: { requiresAuth: true }
     },
     {
       path: '/promotion',
@@ -313,12 +315,15 @@ let router = new Router({
 
 router.beforeEach( (to, from, next) => {
   let tk = getLocalStorage(Constants.TOKEN)
-  console.log("tk === " + tk)
-  console.log(!tk)
-  console.log(to.path)
-  if (!tk && (to.path != '/login' && !to.path.startsWith('/register') && to.path != '/forgetpass')) {
-    return next({ path: '/login' })
-  }else {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!tk) {
+      next({
+        path: '/login'
+      })
+    } else {
+      next()
+    }
+  } else {
     next()
   }
 })

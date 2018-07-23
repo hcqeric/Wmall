@@ -116,6 +116,8 @@ export const getPaySuccInfo = (params, datas) => new Request().require({api: url
 
 export const getReasonList = () => new Request().require({api: url.returnReason}); // 获取退货原因列表
 
+export const setDefaultAddress = (params,datas) => new Request().require({api: url.defaultAddress, param: params, data:datas}); // 设置默认地址
+
 
 
 

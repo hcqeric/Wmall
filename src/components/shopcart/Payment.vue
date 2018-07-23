@@ -1,11 +1,14 @@
 <template>
   <div class="container">
-    <mt-header fixed title="确认订单">
+    <mt-header fixed title="确认订单" class="confirm-title">
         <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
-      <div class="address">
-        <Address :address="address"></Address>
+      <div class="no-address" v-if="addressList.length == 0">
+        <button @click="addNewAddress"><span>+</span>添加新的收货地址</button>
+      </div>
+      <div class="address" @click="selectedAdressVisible = true" v-if="address">
+        <Address :address="address" class="default-address"></Address>
         <i class="el-icon-arrow-right"></i>
       </div>
       <div v-for="item in goodsList">
@@ -41,16 +44,22 @@
     </div>
 
     <div class="modal" style="z-index: 2006;"  v-show="dialogShow == true" @click="dialogShow = false" ></div>
-    <!--<vue-pay-keyboard-->
-      <!--ref="pay"-->
-      <!--:is-pay='isPay'-->
-      <!--@pas-end='pasEnd'-->
-      <!--@close='isPay=false'>-->
-      <!--&lt;!&ndash;&lt;!&ndash; 自定义支付动画 &ndash;&gt;&ndash;&gt;-->
-      <!--&lt;!&ndash;<div slot="loading-ani">&ndash;&gt;-->
-        <!--&lt;!&ndash;<svg></svg>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--</vue-pay-keyboard>-->
+
+    <mt-popup v-model="selectedAdressVisible" :closeOnClickModal="true" :modal="true" position="right" class="modal-popup">
+      <div class="select-container">
+        <mt-header fixed title="选择收货地址" class="select-title">
+          <mt-button icon="back" slot="left" @click="selectedAdressVisible=false">返回</mt-button>
+        </mt-header>
+        <div class="select-content">
+          <div class="info" v-for="item in addressList" @click="selectedAddress(item)">
+            <AddressWithEditor class="select-address" :address="item"></AddressWithEditor>
+          </div>
+        </div>
+        <div class="select-goto">
+          <button @click="addNewAddress">新增地址</button>
+        </div>
+      </div>
+    </mt-popup>
     <PayKeyBoard :isPay="isPay" @pas-end='pasEnd' @close='isPay=false'></PayKeyBoard>
   </div>
 </template>
@@ -58,8 +67,9 @@
 <script>
   import OrderGoods from '@/components/view/OrderConfirmGoods'
   import Address from '@/components/view/Address'
+  import AddressWithEditor from '@/components/view/AddressWithEditor'
   import PayKeyBoard from '@/components/view/PayKeyBoard'
-  import {getDefaultAddress, orderSave, wxPay, pointPay} from "../../http/getData";
+  import {getDefaultAddress, orderSave, wxPay, pointPay, getAdsList} from "../../http/getData";
   import {mapActions} from 'vuex'
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
@@ -81,7 +91,9 @@
         payPassword:'',
         payType: 0,
         buyType: 0,
-        isPay:false
+        isPay:false,
+        selectedAdressVisible:false,
+        addressList:[]
       }
     },
     mounted() {
@@ -91,12 +103,20 @@
     components: {
       OrderGoods,
       Address,
-      PayKeyBoard
+      PayKeyBoard,
+      AddressWithEditor
     },
     methods:{
       ...mapActions({
         setPaySuccOrderId:'setPaySuccOrderId'
       }),
+      addNewAddress(){
+        this.$router.push('/editAddress/1')
+      },
+      selectedAddress(item){
+        this.selectedAdressVisible = false
+        this.address = item
+      },
       pasEnd(val) {
         console.log(val);
         console.log(typeof val);
@@ -140,9 +160,22 @@
           wxPay({
             orderId: this.orderId
           }).then(response=>{
-            window.location.href = response.result.mweb_url + `&redirect_url=` + redirUrl
+            window.location.href = response.result.mweb_url
             setTimeout(()=>{
+              MessageBox({
+                title: '删除商品',
+                message: '亲，确定要删除选中商品吗？',
+                showCancelButton: true,
+                confirmButtonText:'删除',
+                cancelButtonText:'再想想',
+                closeOnClickModal: false
+              }).then(action=>{
+                if (action === 'confirm'){
 
+                }else{
+                  console.log("quxiaole")
+                }
+              });
             },5000)
           })
         }else if(this.radio == 2){
@@ -181,12 +214,20 @@
       })
       let tk = getLocalStorage(Constants.TOKEN)
       this.token = tk
+      getAdsList({
+        token: tk
+      }).then(response=>{
+        console.log(response)
+        this.addressList = response.result
+      }).catch(error=>{})
+
       getDefaultAddress({
         token: tk
       }).then(response=>{
         console.log(response)
         this.address = response.result
       })
+
     }
   }
 </script>
@@ -201,8 +242,8 @@
   background-color: #efefef;
   overflow: scroll;
 }
-.mint-header{
-  background-color: #bf54f9;
+.confirm-title.mint-header{
+  background-color: #000;
   height: 48px;
 }
 .content{
@@ -279,6 +320,10 @@
     padding: 8px 16px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+  }
+  .default-address{
+    flex:1;
   }
 .address i{
   font-size: 20px;
@@ -329,6 +374,84 @@
     color: #000;
     font-size:16px;
   }
+
+  .no-address{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 0;
+    background: #fff;
+  }
+  .no-address button{
+    background: transparent;
+    outline: none;
+    border: 1px dashed #eee;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+  }
+  .no-address button span{
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    color: #000;
+    font-weight: 700;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+
+  }
+
+
+  .modal-popup{
+    width: 100%;
+    height: 100vh;
+    background-color: #efefef;
+  }
+  .select-container{
+    height: 100vh;
+    position: relative;
+  }
+  .select-content{
+    position: absolute;
+    top: 48px;
+    width: 100%;
+    overflow-y: scroll;
+    bottom: 68px;
+  }
+  .select-title.mint-header{
+    background: #000;
+  }
+  .select-address{
+    background-color: #fff;
+    padding: 8px 16px;
+    margin-top: 8px;
+  }
+.select-goto{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 16px 0;
+  width: 100%;
+  background-color: #fff;
+  text-align: center;
+}
+.select-goto button{
+  border: none;
+  outline: none;
+  height: 35px;
+  line-height: 35px;
+  border-radius: 17px;
+  background-color: transparent;
+  background-image: url("../../assets/img/button-bg.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 290px;
+  text-align: center;
+  color: #fff;
+  margin: 0 auto;
+}
 </style>
 <style>
   .pay-item .el-radio__inner{

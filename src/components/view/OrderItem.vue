@@ -13,14 +13,14 @@
         </div>
         <div v-if="orderItem.orderDetailList.length == 1">
           <p>{{orderItem.orderDetailList[0].goodsName}}</p>
-          <p>单价：{{orderItem.orderDetailList[0].sellPrice}}/{{orderItem.orderDetailList[0].unit}}</p>
+          <p>单价：{{orderItem.orderDetailList[0].sellPrice|moneyFormat}}/{{orderItem.orderDetailList[0].unit}}</p>
         </div>
       </div>
       <div class="item-bottom">
         <div class="order-price">
           <div class="count" v-if="orderItem.orderDetailList != undefined">
             <p>数量：x {{orderItem.orderDetailList.length}}</p>
-            <p>{{orderItem.totalAmt}}</p>
+            <p>{{orderItem.payAmt|moneyFormat}}</p>
           </div>
         </div>
         <div class="order-state">
