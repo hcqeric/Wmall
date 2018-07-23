@@ -74,6 +74,7 @@
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
   import {Toast} from 'mint-ui'
+  import {getOrderByOrderNum} from "../../http/getData";
 
   export default {
     name: "Payment",
@@ -93,7 +94,8 @@
         buyType: 0,
         isPay:false,
         selectedAdressVisible:false,
-        addressList:[]
+        addressList:[],
+        orderState:0
       }
     },
     mounted() {
@@ -163,17 +165,26 @@
             window.location.href = response.result.mweb_url
             setTimeout(()=>{
               MessageBox({
-                title: '删除商品',
-                message: '亲，确定要删除选中商品吗？',
+                title: '支付结果确认',
+                message: '请确认微信支付是否已完成',
                 showCancelButton: true,
-                confirmButtonText:'删除',
-                cancelButtonText:'再想想',
+                confirmButtonText:'已完成支付',
+                cancelButtonText:'支付遇到问题',
                 closeOnClickModal: false
               }).then(action=>{
-                if (action === 'confirm'){
-
+                getOrderByOrderNum({
+                  token: this.token
+                },{
+                  orderNum: this.orderId
+                }).then(response=>{
+                  console.log(response)
+                  this.orderState = response.result.tradeStatus
+                })
+                if(this.orderState == 1){
+                  this.setPaySuccOrderId(this.orderId.toString())
+                  this.$router.push('paymentsucc')
                 }else{
-                  console.log("quxiaole")
+                  this.$router.push('/orderdetail/'+ this.orderId)
                 }
               });
             },5000)

@@ -87,9 +87,6 @@
         postEvaluation(orderItem){
           this.setBackRefunds(orderItem)
           this.$router.push('postevaluation')
-        },
-        gotoPay(){
-
         }
       },
     mounted(){
