@@ -2,11 +2,14 @@
   <div class="page-infinite">
     <div class="page-infinite-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
       <ul class="page-infinite-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
-        <li v-for="item in newsList" class="page-infinite-listitem">
-          <div class="news-item">
-            <img v-if="item.fileList != undefined" :src="item.fileList[0].url" alt="">
-            <p>{{item.title}}</p>
-          </div>
+        <li v-for="item in newsList" class="page-infinite-listitem news-list">
+            <div class="news-item">
+              <div class="news-title">
+                <p>{{item.title}}</p>
+                <p>{{item.updateTime|DateFormat("yyyy-MM-dd hh:mm")}}</p>
+              </div>
+              <img v-if="item.fileList != undefined" :src="item.fileList[0].url" alt="">
+            </div>
         </li>
       </ul>
       <p v-show="loading" class="page-infinite-loading">
@@ -115,23 +118,39 @@
   }
 
   .news-item {
+    position: relative;
+    display: flex;
     box-sizing: border-box;
-    margin: 0 24px;
-    padding-top: 16px;
-    border-bottom: 1px solid #ccc;
+    padding: 16px 0;
   }
+  .news-item:after{
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    content: '';
+    background: #eee;
+    bottom: 0;
+  }
+  /*li:last-child>.news-item::after{*/
+    /*height: 0;*/
+  /*}*/
 
   .news-item img {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-    object-position: center;
+    height: 80px;
   }
-
-  .news-item p {
+  .news-title{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .news-title p{
+    font-size: 14px;
+    color: #999;
+  }
+  .news-title p:first-child {
     font-size: 18px;
-    color: #666;
-    text-align: center;
+    color: #000;
   }
 
   .nolist{
@@ -158,5 +177,9 @@
   .nodata{
     padding:16px 0;
     text-align: center;
+  }
+  .news-list{
+    margin: 0 16px;
+    list-style: none;
   }
 </style>

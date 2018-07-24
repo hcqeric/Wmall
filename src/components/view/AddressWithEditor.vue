@@ -6,7 +6,7 @@
     <div class="middle">
       <div class="recipient">
         <p>{{address.consignee}}<span>{{address.mobile}}</span></p>
-        <button v-show="address.defaultFlag === 0">默认</button>
+        <button v-show="address.defaultFlag == 1">默认</button>
       </div>
       <div class="address" @click="setDefaultAddress(address.id)">
         <p>收货地址：<span>{{address.fullAddress}}</span></p>

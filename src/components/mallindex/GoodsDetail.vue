@@ -6,20 +6,20 @@
     </mt-header>
     <div class="content" v-if="goodsInfo">
       <mt-swipe :auto="0" class="swipe">
-        <mt-swipe-item v-for="item in items"><img :src="item.picUrl" alt=""></mt-swipe-item>
+        <mt-swipe-item v-for="item in goodsInfo.sowingUrl"><img :src="item" alt=""></mt-swipe-item>
       </mt-swipe>
       <div class="goods-info">
         <p>{{goodsInfo.name}}</p>
         <p>{{goodsInfo.introduce}}</p>
         <div class="price-info">
-          <p><span>会员价{{goodsInfo.sellPrice|moneyFormat}}/瓶</span> <span>原价：<s>{{goodsInfo.bdanPrice|moneyFormat}}/瓶</s></span></p><button>包邮</button>
+          <p><span v-if="goodsInfo.type == 1">会员价{{goodsInfo.sellPrice|moneyFormat}}/瓶</span><span v-if="goodsInfo.type == 2">会员价{{goodsInfo.bonusPrice}}积分/瓶</span> <span>原价：<s>{{goodsInfo.bdanPrice|moneyFormat}}/瓶</s></span></p><button>包邮</button>
         </div>
       </div>
-      <div class="goods-ad">
-        <img src="http://p90m90efq.bkt.clouddn.com/goods-ad.png" alt=""/>
-      </div>
-      <div class="goods-intro">
-        <img src="http://p90m90efq.bkt.clouddn.com/goods-intro.png" alt=""/>
+      <!--<div class="goods-ad">-->
+        <!--<img src="http://p90m90efq.bkt.clouddn.com/goods-ad.png" alt=""/>-->
+      <!--</div>-->
+      <div class="goods-intro" v-for="item in goodsInfo.detailsUrl">
+        <img :src="item" alt=""/>
       </div>
     </div>
     <div class="goto">

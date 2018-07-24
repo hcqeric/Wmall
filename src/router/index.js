@@ -314,9 +314,11 @@ let router = new Router({
 })
 
 router.beforeEach( (to, from, next) => {
-  let tk = getLocalStorage(Constants.TOKEN)
+  // let tk = getLocalStorage(Constants.TOKEN)
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!tk) {
+    // alert(!localStorage.token)
+    if (!localStorage.token) {
+      alert(!localStorage.token)
       next({
         path: '/login'
       })

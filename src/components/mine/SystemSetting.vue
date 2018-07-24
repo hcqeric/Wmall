@@ -25,11 +25,17 @@
           </div>
         </div>
       </div>
+      <div class="quit">
+        <button @click="quitLogin">退出登录</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+    import {removeLocalStorage} from "../../custom/mixin";
+    import * as Constants from '../../custom/constants'
+
     export default {
         name: "SystemSetting",
       methods: {
@@ -41,6 +47,10 @@
         },
         turnToSystemNotification(){
           this.$router.push('/sysnotice')
+        },
+        quitLogin(){
+          removeLocalStorage(Constants.TOKEN)
+          this.$router.push('login')
         }
       }
     }
@@ -139,5 +149,18 @@
   }
   .el-icon-bell{
     color: #bf54f9;
+  }
+  .quit{
+    margin-top: 40px;
+    text-align: center;
+  }
+  .quit button{
+    outline: none;
+    border: none;
+    width: 80vw;
+    height: 40px;
+    border-radius: 8px;
+    background: #bf54f9;
+    color: #fff;
   }
 </style>

@@ -150,10 +150,6 @@
           this.radio = response.result.order.buyType
           this.orderId = response.result.order.id
           this.$refs.btnConfirm.disabled=true;
-          Toast({
-            message:"订单提交成功",
-            position: 'bottom'
-          })
           this.dialogShow = true
         })
       },
@@ -238,7 +234,6 @@
         console.log(response)
         this.address = response.result
       })
-
     }
   }
 </script>

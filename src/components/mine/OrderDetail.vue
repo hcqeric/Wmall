@@ -3,9 +3,9 @@
     <mt-header fixed title="订单详情">
         <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
         <mt-button slot="right" v-if="orderState == 0"></mt-button>
-        <mt-button slot="right" v-else-if="orderState == 1" @click="turnToRefunds(orderInfo, 5)">退款</mt-button>
+        <mt-button slot="right" v-else-if="orderState == 1 && orderInfo.buyType != 2" @click="turnToRefunds(orderInfo, 5)">退款</mt-button>
         <mt-button slot="right" v-else-if="orderState == 2" @click="viewLogisticsTracing(orderInfo.id)">查看物流</mt-button>
-        <mt-button slot="right" v-else-if="orderState == 3" @click="turnToRefunds(orderInfo, 6)">退货退款</mt-button>
+        <mt-button slot="right" v-else-if="orderState == 3 && orderInfo.buyType != 2" @click="turnToRefunds(orderInfo, 6)">退货退款</mt-button>
     </mt-header>
     <div class="content">
       <div class="order-state">
@@ -46,9 +46,13 @@
             <p>交易流水号</p>
             <p>{{orderInfo.upOrderNum}}</p>
           </div>
-          <div class="payment-item" v-if="orderInfo.payAmt != undefined && orderInfo.payAmt">
+          <div class="payment-item" v-if="orderInfo.buyType == 0 && orderInfo.payAmt != undefined && orderInfo.payAmt">
             <p>实际金额合计</p>
-            <p class="total-amount">¥ {{orderInfo.payAmt}}</p>
+            <p class="total-amount">{{orderInfo.payAmt|moneyFormat}}</p>
+          </div>
+          <div class="payment-item" v-if="orderInfo.buyType == 2 && orderInfo.payBonus != undefined && orderInfo.payBonus">
+            <p>实际积分合计</p>
+            <p class="total-amount">{{orderInfo.payBonus}}</p>
           </div>
         </div>
       </div>
@@ -94,7 +98,8 @@
   import Address from '@/components/view/Address'
   import OrderGoods from '@/components/view/OrderDetailGoods'
   import OrderEvaluationGoods from '@/components/view/OrderEvaluationGoods'
-  import {getOrderByOrderNum} from "../../http/getData"
+  import PayKeyBoard from '@/components/view/PayKeyBoard'
+  import {getOrderByOrderNum,wxPay,pointPay} from "../../http/getData"
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
   import {mapActions} from 'vuex'
@@ -107,13 +112,15 @@
           buyType: 0,
           radio:0,
           dialogShow: false,
-          isPay:false
+          isPay:false,
+          orderId:''
         }
       },
       components:{
         Address,
         OrderGoods,
-        OrderEvaluationGoods
+        OrderEvaluationGoods,
+        PayKeyBoard
       },
     methods: {
       ...mapActions({
@@ -121,6 +128,18 @@
       }),
       goBack() {
         this.$router.back()
+      },
+      pasEnd(val) {
+        console.log(val);
+        console.log(typeof val);
+        pointPay({
+          orderId: this.orderId.toString(),
+          payPassword: val
+        }).then(response=>{
+          this.setPaySuccOrderId(response.orderId)
+          this.$router.push('paymentsucc')
+        })
+        this.isPay = false
       },
       viewLogisticsTracing(orderNum){
         this.$router.push('/logistics/'+ orderNum)
@@ -139,6 +158,7 @@
       },
       gotoPay(){
         if(this.radio == 0){
+          console.log(this.orderId)
           wxPay({
             orderId: this.orderId
           }).then(response=>{
@@ -178,6 +198,7 @@
     },
     mounted(){
         let {orderid} = this.$route.params
+        this.orderId = orderid
         let tk = getLocalStorage(Constants.TOKEN)
         getOrderByOrderNum({token: tk},{orderNum: orderid}).then(response=>{
           this.orderInfo = response.result

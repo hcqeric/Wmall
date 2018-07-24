@@ -13,18 +13,20 @@
         </div>
         <div v-if="orderItem.orderDetailList.length == 1">
           <p>{{orderItem.orderDetailList[0].goodsName}}</p>
-          <p>单价：{{orderItem.orderDetailList[0].sellPrice|moneyFormat}}/{{orderItem.orderDetailList[0].unit}}</p>
+          <p v-if="orderItem.buyType == 0">单价：{{orderItem.orderDetailList[0].sellPrice|moneyFormat}}/{{orderItem.orderDetailList[0].unit}}</p>
+          <p v-if="orderItem.buyType == 2">单价：{{orderItem.orderDetailList[0].bonusPrice}}积分/{{orderItem.orderDetailList[0].unit}}</p>
         </div>
       </div>
       <div class="item-bottom">
         <div class="order-price">
           <div class="count" v-if="orderItem.orderDetailList != undefined">
             <p>数量：x {{orderItem.orderDetailList.length}}</p>
-            <p>{{orderItem.payAmt|moneyFormat}}</p>
+            <p v-if="orderItem.buyType == 0">{{orderItem.payAmt|moneyFormat}}</p>
+            <p v-if="orderItem.buyType == 2">{{orderItem.payBonus}}积分</p>
           </div>
         </div>
         <div class="order-state">
-          <p v-if="orderItem.tradeStatus == 0">订单10分钟后即将关闭</p>
+          <p v-if="orderItem.tradeStatus == 0"></p>
           <p v-if="orderItem.tradeStatus == 1">亲,你的商品正在配货中，请耐心等待~</p>
           <p v-if="orderItem.tradeStatus == 2">亲,你的商品正在配送中，请耐心等待~</p>
           <p v-if="orderItem.tradeStatus == 3"></p>

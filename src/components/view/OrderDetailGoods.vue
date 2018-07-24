@@ -6,7 +6,7 @@
       <div class="goods-price">
         <p v-if="goods.buyType == 0">{{goods.sellPrice | moneyFormat}}</p>
         <p v-if="goods.buyType == 2">{{goods.bonusPrice}}积分</p>
-        <p>×{{goods.goodsNum}}</p>
+        <p>×{{goods.number}}</p>
       </div>
     </div>
   </div>

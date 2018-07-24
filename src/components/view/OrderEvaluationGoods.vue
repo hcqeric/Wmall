@@ -6,7 +6,8 @@
     <div>
       <p>{{orderItem.orderDetailList[goodsIndex].goodsName}}</p>
       <p>数量：x {{orderItem.orderDetailList[goodsIndex].number}}</p>
-      <p>单价：{{orderItem.orderDetailList[goodsIndex].sellPrice| moneyFormat}}/{{orderItem.orderDetailList[goodsIndex].unit}}</p>
+      <p v-if="orderItem.buyType == 0">单价：{{orderItem.orderDetailList[goodsIndex].sellPrice| moneyFormat}}/{{orderItem.orderDetailList[goodsIndex].unit}}</p>
+      <p v-if="orderItem.buyType == 2">单价：{{orderItem.orderDetailList[0].bonusPrice}}积分/{{orderItem.orderDetailList[0].unit}}</p>
     </div>
     <div class="order-price">
       <button v-if="orderItem.orderDetailList[goodsIndex].evaluateStatus == 0" @click.stop="postEvaluation(orderItem)">去评价</button>

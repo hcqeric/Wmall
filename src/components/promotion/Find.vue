@@ -14,6 +14,7 @@
       <!--</div>-->
       <div class="introduction">
         <div v-for="(item, index) in arr" :key="index" @click="gotoDetail(index)">
+          <img :src="item.url" alt="">
           <span>{{item.name}}</span>
         </div>
       </div>
@@ -30,28 +31,37 @@
             banners:[],
             arr: [
               {
-                name: "品牌介绍"
+                name: "品牌介绍",
+                url: '/static/img/find1.png'
               },
               {
-                name: "品牌荣誉"
+                name: "品牌荣誉",
+                url:'/static/img/find2.png'
               },
               {
-                name: "科研实力"
+                name: "科研实力",
+                url:'/static/img/find3.png'
               },
               {
-                name: "公司资质"
+                name: "公司资质",
+                url:'/static/img/find4.png'
               },{
-                name: "精彩视频"
+                name: "精彩视频",
+                url:'/static/img/find5.png'
               },
               {
-                name: "代理加盟"
+                name: "代理加盟",
+                url:'/static/img/find6.png'
               },{
-                name: "产品介绍A"
+                name: "产品介绍A",
+                url:'/static/img/find7.png'
               },
               {
-                name: "产品介绍B"
+                name: "产品介绍B",
+                url:'/static/img/find8.png'
               },{
-                name: "代理风采"
+                name: "代理风采",
+                url:'/static//img/find9.png'
               }
             ]
           }
@@ -62,7 +72,6 @@
           if(index == 4){
             this.$router.push('/company/'+ index)
           }
-
         }
       }
     }
@@ -86,10 +95,11 @@
     position: absolute;
     width: 100%;
     top: 48px;
-    bottom: 0;
+    bottom: 50px;
     display: flex;
     flex-direction: column;
     background: #fff;
+    overflow-y: scroll;
   }
   .tags{
     flex: 1;
@@ -118,6 +128,9 @@
     border-left: 1px solid rgba(153,153,153,0.5);
   }
   .introduction>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 17px 0;
     text-align: center;
     border-top: 1px solid rgba(153,153,153,0.5);
@@ -127,16 +140,19 @@
     border-right: 1px solid rgba(153,153,153,0.5);
   }
   .introduction>div>span {
-    display: block;
-    border-radius: 50%;
-    height: 60px;
-    width: 60px;
-    color: #bf54f9;
-    border: 1px solid #bf54f9;
-    margin: 0 auto;
-    line-height: 60px;
-    text-align: center;
+    margin-top: 4px;
+    /*display: block;*/
+    /*border-radius: 50%;*/
+    /*height: 60px;*/
+    /*width: 60px;*/
+    /*color: #bf54f9;*/
+    /*border: 1px solid #bf54f9;*/
+    /*margin: 0 auto;*/
+    /*line-height: 60px;*/
+    /*text-align: center;*/
   }
-
+  .introduction>div>img{
+    width: 50px;
+  }
 
 </style>

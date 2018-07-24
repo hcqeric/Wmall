@@ -10,10 +10,6 @@
                         :playsinline="true"
                         @ready="playerReadied($event)"></video-player>
         </div>
-        <div class="copyright">
-          <p>	Copyright&copy;2018-2019</p>
-          <p>由好乐付提供技术支持</p>
-        </div>
       </div>
     </div>
 </template>
@@ -116,15 +112,5 @@
   .mvideo .video-js.vjs-v6 {
     width: 100%;
     height: 180px;
-  }
-  .copyright{
-    display: flex;
-    margin-top: 40px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .copyright p{
-    padding: 2px 0;
   }
 </style>

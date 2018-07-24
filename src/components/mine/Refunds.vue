@@ -110,7 +110,7 @@
   .item{
     margin-top: 8px;
   }
-  .page-infinite-list{
+  .page-infinite-wrapper{
     background: #efefef;
   }
 </style>

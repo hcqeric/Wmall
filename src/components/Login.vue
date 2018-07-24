@@ -94,8 +94,7 @@
                 let token = response.data.result.token
                 console.log("sdfasdf")
                 this.storeState(token).then(()=>{
-                  this.$router.replace('/mallindex')
-                  console.log("redirectto")
+                  this.$router.push('/mallindex')
                 })
               }else if(response.data.code === 500){
                 Toast(response.data.msg);

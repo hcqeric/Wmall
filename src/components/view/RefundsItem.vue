@@ -5,7 +5,7 @@
       <img :src="item.goodsImg" alt="">
       <div class="goods">
         <p>{{item.goodsName}}</p>
-        <p>单价：{{item.sellPrice| moneyFormat}}/{{item.unit}}</p>
+        <p v-if="item.buyType == 0">单价：{{item.sellPrice| moneyFormat}}/{{item.unit}}</p>
         <p>数量：x {{item.number}}</p>
       </div>
     </div>

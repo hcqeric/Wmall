@@ -8,7 +8,7 @@
       <i class="iconfont icon-leimupinleifenleileibie2"></i>
       分类
     </div>
-    <div :class="$route.name==='promotion'?'active':''"  @click="$router.replace('/promotion')">
+    <div :class="$route.name == 'promotion'  ? 'active':''"  @click="$router.replace('/promotion')">
       <i class="iconfont icon-fenxiang"></i>
       推广
     </div>

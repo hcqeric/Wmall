@@ -104,6 +104,7 @@
         if(this.type == tab){
           return
         }
+        this.isNoList = false
         this.type = tab
         this.page = 1
         this.orderList = []
@@ -145,6 +146,7 @@
         }
       },
       loadData(datas){
+        this.info = ''
         getOrderList({
           token: this.tk
         },datas).then(response=>{
@@ -166,6 +168,10 @@
           })
           this.page++
           this.datas.page = this.page.toString()
+        }).catch(error=>{
+          this.loading = false
+          this.allLoaded = true
+          this.info = "~~数据加载异常，请稍后再试~~"
         })
       },
       loadMore() {
@@ -187,7 +193,6 @@
       OrderEvaluationItem
     },
     mounted() {
-
       let tk = getLocalStorage(Constants.TOKEN)
       console.log(tk)
       this.tk = tk

@@ -23,9 +23,11 @@
                         <p v-if="item.goods.type == 2">{{item.goods.bonusPrice}}积分</p>
                       </div>
                       <div class="goods-counter">
+                        <!--<el-input-number size="small" v-model="item.goodsNum" @change="handleCounterChange(item,item.goodsNum)" :min="1" label="描述文字"></el-input-number>-->
                         <span :class="item.goodsNum <= 1 ? 'btn-disable' : ''" @click="minusGoodsCount(item)">-</span>
                         <input type="text" module="goodsCount" v-model="item.goodsNum">
                         <span @click="addGoodsCount(item)">+</span>
+
                       </div>
                     </div>
                     <div class="price">
@@ -89,7 +91,8 @@
           isNoList:false,
           cartList:[],
           scoreGoodsCount:0,
-          moneyGoodsCount:0
+          moneyGoodsCount:0,
+          count: 1
         }
       },
       components:{
@@ -99,6 +102,16 @@
         ...mapActions({
           setConfirmGoods: 'setConfirmGoods'
         }),
+        handleCounterChange(item, value){
+          console.log(item, value)
+          let count = 1
+          if (item.goodsNum > this.count){
+            count = 1
+          } else{
+            count = -1
+          }
+          this.count = item.goodsNum
+        },
         computedTotalFee() {
           let computedFee = 0, computeScore = 0,
             selectedMoneyCounter = 0, selectedScoreCounter = 0;
