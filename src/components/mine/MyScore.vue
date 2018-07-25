@@ -65,7 +65,8 @@
     name: "MyScore",
     data(){
       return {
-        scores:null
+        scores:null,
+        isSetPass:false
       }
     },
     computed:{
@@ -87,12 +88,12 @@
         this.$router.push('/scoretrans')
       },
       turnToExchangeScore(){
-        if(this.payPass == null || getLocalStorage(Constants.SETUPPAYPASS) != 'false'){
+        if(this.isSetPass){
           this.setPayPass(true)
           this.$router.push('/exchangescore')
         }else{
           this.setPayPass(false)
-          setLocalStorage(Constants.SETUPPAYPASS, false)
+          setLocalStorage(Constants.SETUPPAYPASS, 1)
           this.$router.push('/setpaypass')
         }
       },
@@ -110,9 +111,11 @@
       }).then(response=>{
         console.log(response)
         this.scores = response.result
-        // if(response.result.cardNo == ''){
-        //   this.setPayPass(false)
-        // }
+        if (response.result.boolean == 0) {
+          this.isSetPass = true
+        }else{
+          this.isSetPass = false
+        }
         this.setAbleScore(response.result.scoreValid)
         this.setUnpackScore(response.result.scoreUnsettled)
         this.setRechargeScore(response.result.scoreRepeat)

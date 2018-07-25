@@ -53,7 +53,7 @@
     mounted(){
       localStorage.getItem(Constants.TOKEN)
       this.axios.post(url.banners, {
-        type: "0"
+        type: "sowingMapIndex"
       }).then( response=> {
         let imgs = response.data.result
         imgs.forEach((item)=>{

@@ -14,7 +14,7 @@
             <i class="el-icon-arrow-right"></i>
           </div>
         </div>
-        <div class="input-cell" @click="updateTransPass" v-if="setPayPass||hasPayPass">
+        <div class="input-cell" @click="updateTransPass" v-if="hasPayPass">
           <div class="cell-left">
             <i class="iconfont icon-jinbiduihuan"></i>
             <p>兑换密码</p>
@@ -58,7 +58,7 @@
     },
     mounted(){
       let paypass = getLocalStorage(Constants.SETUPPAYPASS)
-      if (paypass == 'true'){
+      if (paypass == 0){
         this.hasPayPass = true
       }
     }

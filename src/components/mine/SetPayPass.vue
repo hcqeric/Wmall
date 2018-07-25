@@ -76,6 +76,7 @@
           payPassword: this.payPassword
         }).then(response=>{
           this.setPayPass(true)
+          setLocalStorage(Constants.SETUPPAYPASS, 0)
           Toast({
             message: "设置成功",
             position: 'middle'

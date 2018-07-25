@@ -135,11 +135,11 @@
               this.allLoaded = true
               return
             }else if(response.result.currPage == 1 && response.result.totalCount < response.result.currPage * 10){
-              this.info = "~~数据已全部加载完毕了~~"
+              // this.info = "~~数据已全部加载完毕了~~"
               this.allLoaded = true
             }
             else if (response.result.currPage != 1 && response.result.totalPage < response.result.currPage) {
-              this.info = "~~数据已全部加载完毕了~~"
+              // this.info = "~~数据已全部加载完毕了~~"
               this.allLoaded = true
               return
             }else{
