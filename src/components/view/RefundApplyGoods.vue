@@ -15,7 +15,7 @@
       <div class="order-price">
         <div class="count" v-if="orderItem.orderDetailList != undefined">
           <p>数量：x {{orderItem.orderDetailList.length}}</p>
-          <p><span>应退金额：</span>{{orderItem.totalAmt}}</p>
+          <p><span>应退金额：</span>{{orderItem.totalAmt|moneyFormat}}</p>
         </div>
       </div>
     </div>
@@ -109,7 +109,7 @@
   }
   .order-price .count{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
   }
   .order-price .count p:first-child{

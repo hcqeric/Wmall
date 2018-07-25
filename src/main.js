@@ -16,6 +16,9 @@ import store from './store'
 import * as filters from './custom/filters'
 import axios from 'axios'
 import url from './http/url.js'
+import FastClick from 'fastclick'
+
+
 
 Vue.use(ElementUI)
 Vue.use(MintUI)
@@ -27,7 +30,7 @@ Vue.prototype.axios = axios.create({
   timeout:5000
 });
 Vue.config.devtools = true;
-
+FastClick.attach(document.body);
 new Vue({
   el: '#app',
   router,

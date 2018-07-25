@@ -40,7 +40,6 @@
     box-sizing: border-box;
     overflow: hidden;
     display: flex;
-    width: 100%;
     padding: 8px 0;
     position: relative;
   }
@@ -49,7 +48,7 @@
     height: 1px;
     width: 100%;
     content: '';
-    background: #ececec;
+    background: #eee;
     bottom: 0;
   }
   .info img{
@@ -58,12 +57,13 @@
     margin-right: 8px;
   }
 
-  .info .goods{
+  .info .rec-goods{
     display: flex;
     flex: 1;
     width: 100%;
     flex-direction: column;
     justify-content: space-between;
+    margin: 8px 0;
   }
   .rec-goods .intro p:first-child{
     font-size: 14px;

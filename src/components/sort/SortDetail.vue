@@ -90,11 +90,15 @@
         this.$router.push('/cart')
       },
       changeItem(n){
+        console.log("aaa")
         this.selected = n
         if(this.serials[n].proId != undefined){
           this.categoryId = this.serials[n].id
         }
+        console.log("bbb")
         this.loading = true
+        this.page = 1
+        this.info=''
         this.oddGoodsList = []
         this.evenGoodsList = []
         this.getCategoryGoods()
@@ -105,7 +109,6 @@
             projectId: this.proId,
             parentId: this.parentId
           }).then(response => {
-            console.log(response)
             if(response.result.length == 0){
               this.isNoList = true
             }
@@ -118,16 +121,17 @@
           })
         })
       },
-      async getCategoryGoods() {
+      getCategoryGoods() {
+        console.log("getCategoryGoods")
         if (this.serials.length > 0) {
-          await getSerialGoods({
+          getSerialGoods({
             page: this.page.toString(),
             limit: this.limit,
             goodsTypeId: this.categoryId.toString()
           }).then(response => {
+            console.log(response)
             this.loading = false;
             if(response.result.currPage == 1 && response.result.totalPage < response.result.currPage) {
-              this.isNoList = true
               this.allLoaded = true
               return
             }else if(response.result.currPage == 1 && response.result.totalCount < response.result.currPage * 10){
@@ -160,6 +164,7 @@
       this.serialName = name
       console.log(this.proId, this.parentId)
       this.getSerialList().then(response=>{
+        console.log(response)
         if(this.serials.length > 0){
           this.changeItem(0)
         }

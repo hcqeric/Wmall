@@ -49,8 +49,9 @@ import SearchList from '@/components/home/SearchList'
 import RefundApply from '@/components/mine/RefundApply'
 import News from '@/components/promotion/News'
 import CompanyIntro from '@/components/promotion/CompanyIntro'
+import PaymentFail from '@/components/shopcart/PaymentFail'
 
-import {getLocalStorage} from "../custom/mixin"
+import {getLocalStorage,removeLocalStorage} from "../custom/mixin"
 import * as Constants from '../custom/constants'
 
 Vue.use(Router)
@@ -309,16 +310,24 @@ let router = new Router({
       path: '/company/:id',
       name: 'company',
       component: CompanyIntro
+    },
+    {
+      path: '/payfail/:id',
+      name: 'payfail',
+      component: PaymentFail
     }
   ]
 })
 
 router.beforeEach( (to, from, next) => {
-  // let tk = getLocalStorage(Constants.TOKEN)
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    // alert(!localStorage.token)
+  let tk = getLocalStorage(Constants.TOKEN)
+  if (to.path == '/login' || to.path.startsWith('/register')){
+    if (localStorage.token){
+      removeLocalStorage(Constants.TOKEN)
+    }
+    next()
+  } else if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!localStorage.token) {
-      alert(!localStorage.token)
       next({
         path: '/login'
       })

@@ -18,6 +18,8 @@
 <script>
   import RecommendGoods from "@/components/view/RecommendGoods";
   import {getAllGoods} from "../../http/getData";
+  import {getLocalStorage} from "../../custom/mixin";
+  import * as Constants from '../../custom/constants'
 
   export default {
     name: "AllGoodsList",
@@ -29,7 +31,8 @@
         wrapperHeight: 0,
         page: 1,
         limit: '10',
-        info:''
+        info:'',
+        token:''
       }
     },
     components:{
@@ -38,6 +41,7 @@
     mounted(){
       this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top;
       this.allGoodsList = []
+      this.token = getLocalStorage(Constants.TOKEN)
       // this.loadData()
     },
     methods:{
@@ -49,6 +53,8 @@
       },
       loadData(){
         getAllGoods({
+          token: this.token
+        },{
           page: this.page.toString(),
           limit: this.limit
         }).then(response=>{

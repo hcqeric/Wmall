@@ -69,7 +69,7 @@
   import Address from '@/components/view/Address'
   import AddressWithEditor from '@/components/view/AddressWithEditor'
   import PayKeyBoard from '@/components/view/PayKeyBoard'
-  import {getDefaultAddress, orderSave, wxPay, pointPay, getAdsList} from "../../http/getData";
+  import {getDefaultAddress, orderSave, wxPay, pointPay, getAdsList,wxJsPay} from "../../http/getData";
   import {mapActions} from 'vuex'
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
@@ -108,14 +108,14 @@
       PayKeyBoard,
       AddressWithEditor
     },
-    methods:{
+    methods: {
       ...mapActions({
-        setPaySuccOrderId:'setPaySuccOrderId'
+        setPaySuccOrderId: 'setPaySuccOrderId'
       }),
-      addNewAddress(){
+      addNewAddress() {
         this.$router.push('/editAddress/1')
       },
-      selectedAddress(item){
+      selectedAddress(item) {
         this.selectedAdressVisible = false
         this.address = item
       },
@@ -125,67 +125,80 @@
         pointPay({
           orderId: this.orderId.toString(),
           payPassword: val
-        }).then(response=>{
+        }).then(response => {
           this.setPaySuccOrderId(response.orderId)
           this.$router.push('paymentsucc')
         })
         this.isPay = false
       },
-      createOrder(){
-        if(this.buyType == 3){
+      createOrder() {
+        if (this.buyType == 3) {
           Toast({
-            message:"订单创建失败,请确认列表中是否只有金额商品或积分商品",
+            message: "订单创建失败,请确认列表中是否只有金额商品或积分商品",
             position: 'middle',
             duration: 500
           })
           return
         }
         orderSave({
-          token:this.token
-        },{
-          id:this.address.id,
-          ids:this.ids,
+          token: this.token
+        }, {
+          id: this.address.id,
+          ids: this.ids,
           buyType: this.buyType
-        }).then(response=>{
+        }).then(response => {
           this.radio = response.result.order.buyType
           this.orderId = response.result.order.id
-          this.$refs.btnConfirm.disabled=true;
+          this.$refs.btnConfirm.disabled = true;
           this.dialogShow = true
         })
       },
-      gotoPay(){
-        if(this.radio == 0){
-          wxPay({
-            orderId: this.orderId
-          }).then(response=>{
-            window.location.href = response.result.mweb_url
-            setTimeout(()=>{
-              MessageBox({
-                title: '支付结果确认',
-                message: '请确认微信支付是否已完成',
-                showCancelButton: true,
-                confirmButtonText:'已完成支付',
-                cancelButtonText:'支付遇到问题',
-                closeOnClickModal: false
-              }).then(action=>{
-                getOrderByOrderNum({
-                  token: this.token
-                },{
-                  orderNum: this.orderId
-                }).then(response=>{
-                  console.log(response)
-                  this.orderState = response.result.tradeStatus
-                })
-                if(this.orderState == 1){
-                  this.setPaySuccOrderId(this.orderId.toString())
-                  this.$router.push('paymentsucc')
-                }else{
-                  this.$router.push('/orderdetail/'+ this.orderId)
-                }
-              });
-            },5000)
-          })
-        }else if(this.radio == 2){
+      gotoPay() {
+        if (this.radio == 0) {
+          if (this.isWeiXin()) {
+            console.log("微信支付")
+            wxJsPay({
+              token: this.token
+            },{
+              orderId: this.orderId
+            }).then(response => {
+              console.log(response)
+              this.payWeixin(response.result)
+            })
+          } else {
+            console.log("H5微信支付")
+            wxPay({
+              orderId: this.orderId
+            }).then(response => {
+              window.open(response.result.mweb_url)
+              setTimeout(() => {
+                MessageBox({
+                  title: '支付结果确认',
+                  message: '请确认微信支付是否已完成',
+                  showCancelButton: true,
+                  confirmButtonText: '已完成支付',
+                  cancelButtonText: '支付遇到问题',
+                  closeOnClickModal: false
+                }).then(action => {
+                  getOrderByOrderNum({
+                    token: this.token
+                  }, {
+                    orderNum: this.orderId.toString()
+                  }).then(response => {
+                    console.log(response)
+                    this.orderState = response.result.tradeStatus
+                  })
+                  if (this.orderState == 1) {
+                    this.setPaySuccOrderId(this.orderId.toString())
+                    this.$router.push('/paymentsucc')
+                  } else {
+                    this.$router.push('/orderdetail/' + this.orderId)
+                  }
+                });
+              }, 2000)
+            })
+          }
+        } else if (this.radio == 2) {
           this.dialogShow = false
           this.isPay = true
         }
@@ -193,32 +206,69 @@
       },
       goBack() {
         this.$router.back()
+      },
+      onBridgeReady(response) {
+        WeixinJSBridge.invoke(
+          'getBrandWCPayRequest', response.jsInfo,
+          function (res) {
+            if (res.err_msg == "get_brand_wcpay_request:ok") {// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+              this.setPaySuccOrderId(this.orderId.toString())
+              this.$router.push('/paymentsucc')
+            } else if (res.err_msg == "get_brand_wcpay_request:fail") {
+              this.$router.push('/payfail/'+ this.orderId )
+            }
+          }
+        );
+      },
+      payWeixin(response) {
+          if (typeof WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+              document.addEventListener('WeixinJSBridgeReady', this.onBridgeReady, false);
+            } else if (document.attachEvent) {
+              document.attachEvent('WeixinJSBridgeReady', this.onBridgeReady);
+              document.attachEvent('onWeixinJSBridgeReady', this.onBridgeReady);
+            }
+          } else {
+            this.onBridgeReady(response);
+          }
+      },
+      isWeiXin() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        console.log(ua)
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+          return true;
+        } else {
+          return false;
+        }
       }
-    },
+    }
+    ,
     mounted(){
-      let {selectedGoodsList} = this.$store.state.shop.confirmGoods
-      console.log(selectedGoodsList)
-      this.goodsList = selectedGoodsList
+      if(this.$store.state.shop.confirmGoods){
+        let {selectedGoodsList} = this.$store.state.shop.confirmGoods
 
-      let  scoreGoodsArr = selectedGoodsList.filter(item=>{
-        return item.goods.type == 2
-      })
+        this.goodsList = selectedGoodsList
 
-      if (scoreGoodsArr.length == 0){
-        this.buyType = 0
-      }else if(scoreGoodsArr.length ==  selectedGoodsList.length){
-        this.buyType = 2
-      }else{
-        this.buyType = 3
+        let  scoreGoodsArr = selectedGoodsList.filter(item=>{
+          return item.goods.type == 2
+        })
+
+        if (scoreGoodsArr.length == 0){
+          this.buyType = 0
+        }else if(scoreGoodsArr.length ==  selectedGoodsList.length){
+          this.buyType = 2
+        }else{
+          this.buyType = 3
+        }
+        console.log(this.buyType)
+        this.totalAmount = 0
+        this.totalScore = 0
+        selectedGoodsList.map(item=>{
+          this.totalAmount +=  item.goodsNum * item.goods.sellPrice
+          this.totalScore +=  item.goodsNum * item.goods.bonusPrice
+          this.ids.push(item.goods.id)
+        })
       }
-      console.log(this.buyType)
-      this.totalAmount = 0
-      this.totalScore = 0
-      selectedGoodsList.map(item=>{
-        this.totalAmount +=  item.goodsNum * item.goods.sellPrice
-        this.totalScore +=  item.goodsNum * item.goods.bonusPrice
-        this.ids.push(item.goods.id)
-      })
       let tk = getLocalStorage(Constants.TOKEN)
       this.token = tk
       getAdsList({

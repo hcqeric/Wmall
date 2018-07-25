@@ -17,7 +17,7 @@
           <span>联系人</span><input placeholder="联系人姓名" type="text" v-model="addressInfo.consignee">
         </div>
         <div class="info-item">
-          <span>手机号码</span><input placeholder="联系人电话" type="text" v-model="addressInfo.mobile">
+          <span>手机号码</span><input placeholder="联系人电话" type="number" v-model.number="addressInfo.mobile">
         </div>
       </div>
       <div class="goto" v-if="id == 2">
@@ -83,9 +83,9 @@
         addressInfo: {
           id: '',
           consignee: '',
-          province: '110000000000',
-          city: '110100000000',
-          district: '110101000000',
+          province: '',
+          city: '',
+          district: '',
           address: '',
           mobile: ''
         },
@@ -178,6 +178,7 @@
       },
       choiceArea() {
         this.popupAddressVisible = true
+        console.log(this.addressInfo)
         if (this.addressInfo.province != '' && this.addressInfo.city != '' && this.addressInfo.district != '') {
           let proItem = this.getCurrProvince(this.addressInfo.province)
           let cityItem = this.getCurrCity(this.addressInfo.province, this.addressInfo.city)
@@ -241,6 +242,16 @@
         })
       },
       saveAddress() {
+        if (this.addressInfo.mobile === '') {
+          Toast({
+            message: '手机号不能为空',
+            position: 'middle',
+            duration: 1000})
+            return
+        } else if(!(/^1(3|4|5|7|8)\d{9}$/.test(this.addressInfo.mobile))) {
+          Toast('手机号码格式不正确')
+          return
+        }
         if (this.id == 1) {
           addAddress({
             token: this.token
@@ -372,7 +383,7 @@
   }
 
   .goto {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     padding: 44px 0;

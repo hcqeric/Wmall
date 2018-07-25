@@ -63,6 +63,7 @@
         <button v-else-if="orderState == 2">确认收货</button>
         <!--<button v-else-if="orderState == 3" @click="turnToPostEva">发表评价</button>-->
       </div>
+
     </div>
 
     <div class="msgbox-wrapper" style="position: absolute; z-index: 2011;display: block;" v-show="dialogShow == true"  ref="msgbox">

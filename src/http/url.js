@@ -4,8 +4,10 @@
 // 开发地址
 // const url = 'http://120.79.16.221:8777';
 
+const url = 'http://api.cnzha.com/';
+
 //强哥本地IP
-const url = 'http://192.168.0.138:8080';
+// const url = 'http://192.168.0.138:8080';
 
 export default {
   baseUrl: url,
@@ -70,5 +72,7 @@ export default {
   getFileByType:'/app/file/getFileByType',
   orderPaySucc:'/app/order/getById',
   returnReason:'app/order/returnReasonList',
-  defaultAddress: 'app/userAds/updateDefaultFlag'
+  defaultAddress: 'app/userAds/updateDefaultFlag',
+  wxJsPay:'app/pay/wxJsPay',
+  wxAuth:'http://api.cnzha.com/app/wx/authorization?userId='
 }

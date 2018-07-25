@@ -30,6 +30,9 @@
 <script>
     import RecommendGoods from "@/components/view/RecommendGoods";
     import {getSearchList} from "../../http/getData";
+    import {Toast} from 'mint-ui'
+    import {getLocalStorage} from "../../custom/mixin";
+    import * as Constants from '../../custom/constants'
 
     export default {
       name: "SearchList",
@@ -41,7 +44,8 @@
           keywords:'',
           info:'',
           page:1,
-          limit:'10'
+          limit:'10',
+          token:''
         }
       },
       methods:{
@@ -49,6 +53,12 @@
           this.$router.back()
         },
         searchContent(){
+          if(this.keywords === ''){
+            Toast({
+              message: '请输入关键词',
+              position: 'middle'
+            })
+          }
           this.loading = true;
           this.loadData()
         },
@@ -60,6 +70,8 @@
         },
         loadData(){
           getSearchList({
+            token:this.token
+          },{
             query:this.keywords,
             page: this.page.toString(),
             limit: this.limit
@@ -86,6 +98,9 @@
       },
       components:{
         RecommendGoods
+      },
+      mounted(){
+        this.token = getLocalStorage(Constants.TOKEN)
       }
     }
 </script>

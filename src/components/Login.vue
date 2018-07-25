@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="content">
-      <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-position="left" label-width="100px" :show-message="false" class="demo-ruleForm">
+      <el-form :model="ruleForm" ref="ruleForm" label-position="left" label-width="100px" :show-message="false" class="demo-ruleForm">
         <el-form-item prop="username" class="item">
           <div slot="label" class="labels">
             <img src="../assets/img/shouj.png" alt="" class="phone">
@@ -39,37 +39,10 @@
   export default {
     name: "Login",
     data() {
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(Toast('密码不能为空'));
-        } else {
-          callback();
-        }
-      };
-      var validateUsername = (rule, value, callback) => {
-        if (value === '') {
-          callback(Toast({
-            message: '手机号不能为空',
-            position: 'middle',
-            duration: 1000}));
-        } else if(!(/^1(3|4|5|7|8)\d{9}$/.test(value))) {
-          callback(Toast('手机号码格式不正确'));
-        } else {
-          callback();
-        }
-      };
       return {
         ruleForm: {
           username: '',
           password: ''
-        },
-        rules: {
-          password: [
-            { validator: validatePass, trigger: 'blur' }
-          ],
-          username: [
-            { validator: validateUsername, trigger: 'blur' }
-          ]
         }
       };
     },
@@ -78,34 +51,53 @@
         'loginState',
         'setToken'
       ]),
+      isWeiXin() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+          return true;
+        } else {
+          return false;
+        }
+      },
       goBack() {
         this.$router.back()
       },
       submitForm(formName) {
-        console.log("denglu")
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.axios.post(url.login,{
-              mobile: this.ruleForm.username,
-              password: this.ruleForm.password
-            }).then( response=> {
-              console.log(response)
-              if (response.data.code === 0){
-                let token = response.data.result.token
-                console.log("sdfasdf")
-                this.storeState(token).then(()=>{
-                  this.$router.push('/mallindex')
-                })
-              }else if(response.data.code === 500){
-                Toast(response.data.msg);
+        if(this.ruleForm.username === ''){
+          Toast({
+            message: '手机号不能为空',
+            position: 'middle',
+            duration: 1000})
+          return
+        }else if(!(/^1(3|4|5|7|8)\d{9}$/.test(this.ruleForm.username))) {
+          Toast('手机号码格式不正确')
+          return
+        }
+        if (this.ruleForm.username.password === '') {
+          Toast('密码不能为空')
+          return
+        }
+        this.axios.post(url.login, {
+          mobile: this.ruleForm.username,
+          password: this.ruleForm.password
+        }).then(response => {
+          console.log(response)
+          if (response.data.code === 0) {
+            let token = response.data.result.token
+            let userId = response.data.result.userId
+            this.storeState(token).then(() => {
+              if(this.isWeiXin()){
+                let authUrl = url.wxAuth + userId
+                window.location.href = authUrl
+              }else{
+                this.$router.push('/mallindex')
               }
-            }).catch(function (error) {
-              console.log(error);
-            });
-          } else {
-            console.log('error submit!!');
-            return false;
+            })
+          } else if (response.data.code === 500) {
+            Toast(response.data.msg);
           }
+        }).catch(function (error) {
+          console.log(error);
         });
       },
       async storeState(token){
@@ -120,13 +112,13 @@
 </script>
 
 <style scoped>
-  .mint-header{
-    background-color: #000;
-    height: 48px;
+  .container{
+    width: 100%;
+    height: 100vh;
+    background: #fff;
   }
   .content{
-    padding: 0 30px;
-    margin-top: 40%;
+    padding: 24px;
   }
   .item{
     position: relative;
@@ -177,6 +169,9 @@
     display: flex;
     justify-content: space-between;
     margin-top: 16px;
+  }
+  .el-form{
+    margin-top: 40%;
   }
 </style>
 <style>

@@ -51,17 +51,15 @@
       };
     },
     mounted(){
-      console.log(localStorage.getItem(Constants.TOKEN))
+      localStorage.getItem(Constants.TOKEN)
       this.axios.post(url.banners, {
         type: "0"
       }).then( response=> {
-        console.log(response.data)
         let imgs = response.data.result
         imgs.forEach((item)=>{
           this.banner.push(item)
         })
       }).catch(function (error) {
-        console.log(error);
       });
     },
     methods:{

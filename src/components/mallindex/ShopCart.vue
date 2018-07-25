@@ -25,7 +25,7 @@
                       <div class="goods-counter">
                         <!--<el-input-number size="small" v-model="item.goodsNum" @change="handleCounterChange(item,item.goodsNum)" :min="1" label="描述文字"></el-input-number>-->
                         <span :class="item.goodsNum <= 1 ? 'btn-disable' : ''" @click="minusGoodsCount(item)">-</span>
-                        <input type="text" module="goodsCount" v-model="item.goodsNum">
+                        <input type="number"  v-model.number="item.goodsNum" @input="handleInput(item)"  @focus="handlefocus(item)" @blur="handleBlur(item)">
                         <span @click="addGoodsCount(item)">+</span>
 
                       </div>
@@ -92,7 +92,9 @@
           cartList:[],
           scoreGoodsCount:0,
           moneyGoodsCount:0,
-          count: 1
+          count: 1,
+          focusItemGoodsNum:0,
+          isFirstFocus: true
         }
       },
       components:{
@@ -102,6 +104,42 @@
         ...mapActions({
           setConfirmGoods: 'setConfirmGoods'
         }),
+        handleInput(item){
+          console.log(item.goodsNum)
+        },
+        handlefocus(item){
+          console.log(this.isFirstFocus)
+          if(this.isFirstFocus){
+            this.focusItemGoodsNum = item.goodsNum
+            this.isFirstFocus = false
+            console.log("firstFocus")
+          }
+
+          console.log(this.focusItemGoodsNum)
+        },
+        handleBlur(item){
+          console.log(item.goodsNum)
+          if (item.goodsNum == '' || item.goodsNum < 1){
+            item.goodsNum = this.focusItemGoodsNum
+          } else if(item.goodsNum != this.focusItemGoodsNum){
+            let count = item.goodsNum - this.focusItemGoodsNum
+            let tk = getLocalStorage(Constants.TOKEN)
+            addCart({
+              token: tk
+            }, {
+              goodsId: item.goodsId,
+              goodsNum: count
+            }).then(response => {
+              item.goodsNum = this.focusItemGoodsNum + count
+              this.computedTotalFee()
+            }).catch(error=>{
+              if (this.focusItemGoodsNum >= 1){
+                item.goodsNum = this.focusItemGoodsNum
+              }
+            })
+          }
+          this.isFirstFocus = true
+        },
         handleCounterChange(item, value){
           console.log(item, value)
           let count = 1
@@ -130,8 +168,6 @@
           })
           this.scoreGoodsCount = selectedScoreCounter
           this.moneyGoodsCount = selectedMoneyCounter
-          console.log(this.scoreGoodsCount)
-          console.log(this.moneyGoodsCount)
           this.totalScore = computeScore
           this.totalFee = computedFee
         },
@@ -179,6 +215,13 @@
         },
 
         gotoPayment(){
+          if(this.scoreGoodsCount > 0 && this.moneyGoodsCount > 0){
+            Toast({
+              message: '亲，积分商品和金额商品不能同时进行结算哦~',
+              position:'middle'
+            })
+            return
+          }
           let selectedGoodsList = [];
           this.cartList.map(item => {
             if (item.checked) {
@@ -259,9 +302,11 @@
           this.computedTotalFee();
         },
         addGoodsCount(item) {
+          console.log(item.goodsNum)
           this.newGoodsCount(item, 1)
         },
         minusGoodsCount(item) {
+          console.log(item.goodsNum)
           if (item.goodsNum <= 1) {
             item.goodsNum = 1
           } else {
@@ -279,6 +324,10 @@
             console.log(response)
             item.goodsNum = item.goodsNum + count
             this.computedTotalFee()
+          }).catch(error=>{
+            if (this.focusItemGoodsNum >= 1){
+              item.goodsNum = this.focusItemGoodsNum
+            }
           })
         }
       //  goods

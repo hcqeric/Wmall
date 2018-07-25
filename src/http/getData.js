@@ -54,11 +54,11 @@ export const getOrderByOrderNum = (params, datas) => new Request().require({api:
 
 export const cancelOrder = (params, datas) => new Request().require({api: url.cancelOrder,param: params, data:datas}); //商品详情
 
-export const getRecGoods = (datas) => new Request().require({api: url.recGoodsList, data:datas}); //推荐商品
+export const getRecGoods = (params, datas) => new Request().require({api: url.recGoodsList,param: params, data:datas}); //推荐商品
 
-export const getAllGoods = (datas) => new Request().require({api: url.allGoodsList, data:datas}); //所有商品
+export const getAllGoods = (params, datas) => new Request().require({api: url.allGoodsList, param: params, data:datas}); //所有商品
 
-export const getBonusGoods = (datas) => new Request().require({api: url.bonusGoodsList, data:datas}); //积分商品
+export const getBonusGoods = (params, datas) => new Request().require({api: url.bonusGoodsList,param: params, data:datas}); //积分商品
 
 export const transBonus = (params, datas) => new Request().require({api: url.transBonus,param: params, data:datas}); //积分转赠
 
@@ -90,7 +90,7 @@ export const getRefundList = (params, datas) => new Request().require({api: url.
 
 export const getNotificationList = (datas) => new Request().require({api: url.notification,  data:datas}); // 系统通知
 
-export const getSearchList = (datas) => new Request().require({api: url.searchList,  data:datas}); // 搜索
+export const getSearchList = (params, datas) => new Request().require({api: url.searchList,  param: params, data:datas}); // 搜索
 
 export const orderReceipt = (params, datas) => new Request().require({api: url.orderReceipt, param: params, data:datas}); // 确认收货
 
@@ -117,6 +117,8 @@ export const getPaySuccInfo = (params, datas) => new Request().require({api: url
 export const getReasonList = () => new Request().require({api: url.returnReason}); // 获取退货原因列表
 
 export const setDefaultAddress = (params,datas) => new Request().require({api: url.defaultAddress, param: params, data:datas}); // 设置默认地址
+
+export const wxJsPay = (params, datas) => new Request().require({api: url.wxJsPay, param: params, data:datas}); // 微信公众号支付
 
 
 

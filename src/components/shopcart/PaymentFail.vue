@@ -1,14 +1,17 @@
 <template>
   <div class="container">
-    <mt-header fixed title="支付成功">
+    <mt-header fixed title="支付失败">
     </mt-header>
     <div class="content">
-      <img src="../../assets/img/pay-succ.png" alt="">
+      <div class="pay-state">
+        <img src="../../assets/img/pay-fail.png" alt="">
+        <span>支付失败</span>
+      </div>
       <div class="payment-info">
         <Address :address="address"></Address>
         <div class="amount">
-          <p v-if="totalAmt != 0">{{totalAmt | moneyFormat}}</p>
-          <p v-if="totalAmt == 0">{{payBonus}}积分</p>
+          <p v-if="totalAmt != 0">待付金额：{{totalAmt | moneyFormat}}</p>
+          <p v-if="totalAmt == 0">待付积分：{{payBonus}}积分</p>
           <p>{{orderState}}</p>
         </div>
         <div class="links">
@@ -34,12 +37,13 @@
       data(){
           return {
             amount: 599.00,
-            orderState:"支付成功",
+            orderState:"支付失败",
             orderId:'',
             address: {},
             totalAmt: 0,
             shareImg:'',
-            payBonus:0
+            payBonus:0,
+            orderNum: ''
           }
       },
       methods:{
@@ -54,8 +58,8 @@
         Address
       },
       mounted(){
-        this.orderId = this.$store.state.shop.paySuccOrderId
-        console.log(this.orderId)
+        let {id} = this.$route.params
+        this.orderId = id
         let tk = getLocalStorage(Constants.TOKEN)
 
         getPaySuccInfo({
@@ -66,7 +70,7 @@
           console.log(response)
           this.address = response.result.userAds
           this.totalAmt = response.result.payAmt
-          this.orderNum = respones.result.orderNum
+          this.orderNum = response.result.orderNum
           this.shareImg = response.result.shareImg
           this.payBonus = response.result.payBonus
         })
@@ -145,5 +149,14 @@
   .promotion{
     margin: 8px 16px 0 16px;
   }
-
+  .pay-state{
+    position: relative;
+  }
+  .pay-state span{
+    position: absolute;
+    color: #fff;
+    font-size: 24px;
+    top: 50px;
+    left: 40px;
+  }
 </style>

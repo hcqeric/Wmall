@@ -46,6 +46,7 @@
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
   import {cancelOrder,orderReceipt} from "../../http/getData";
+  import {Message} from 'mint-ui'
 
   export default {
       name: "OrderItem",
@@ -67,6 +68,7 @@
           this.$router.push('/orderdetail/'+ orderNum)
         },
         cancelOrder(id){
+
           cancelOrder({
             token:this.token
           },{

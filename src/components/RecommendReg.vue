@@ -1,56 +1,60 @@
 <template>
   <div class="container">
-    <el-row class="avatar">
-      <img src="../assets/img/register-logo.png" alt="avatar">
-    </el-row>
-    <div class="content">
-      <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-position="left" label-width="100px" :show-message="false" class="demo-ruleForm">
-        <el-form-item prop="recommender" class="item">
-          <div slot="label" class="labels">
-            <img src="../assets/img/tuij.png" alt="">
-            <span>推荐人：{{recommender.nickname}}</span>
+    <div class="form-container">
+      <el-row class="avatar">
+        <img src="../assets/img/register-logo.png" alt="avatar">
+      </el-row>
+      <div class="content">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="100px"
+                 :show-message="false" class="demo-ruleForm">
+          <el-form-item prop="recommender" class="item">
+            <div slot="label" class="labels">
+              <img src="../assets/img/tuij.png" alt="">
+              <span>推荐人：{{recommender.nickname}}</span>
+            </div>
+          </el-form-item>
+          <el-form-item prop="mobile" class="item">
+            <div slot="label" class="labels">
+              <img src="../assets/img/shouj.png" alt="" class="phone">
+              <span>手机号码</span>
+            </div>
+            <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" ref="mobile"></el-input>
+          </el-form-item>
+          <el-form-item prop="verify" class="item">
+            <div slot="label" class="labels">
+              <img src="../assets/img/duanx.png" alt="">
+              <span>短信验证</span>
+            </div>
+            <div class="form-content">
+              <el-input v-model="ruleForm.verify" auto-complete="off" placeholder="请输入验证码"></el-input>
+              <button type="text" @click="sendCode('ruleForm')" ref="btnCode">发送验证码</button>
+            </div>
+          </el-form-item>
+          <el-form-item prop="password" class="item">
+            <div slot="label" class="labels">
+              <img src="../assets/img/yaos.png" alt="">
+              <span>设置密码</span>
+            </div>
+            <div class="form-content">
+              <el-input :type="delivery ?  'text' : 'password'" v-model="ruleForm.password"
+                        placeholder="请输入密码"></el-input>
+              <el-switch v-model="delivery"></el-switch>
+            </div>
+          </el-form-item>
+          <div class="agreement">
+            <el-checkbox v-model="ruleForm.checked"></el-checkbox>
+            <span>已阅读并同意《用户服务协议》</span>
           </div>
-        </el-form-item>
-        <el-form-item prop="mobile" class="item">
-          <div slot="label" class="labels">
-            <img src="../assets/img/shouj.png" alt="" class="phone">
-            <span>手机号码</span>
+          <div class="goto">
+            <button type="primary" @click="submitForm('ruleForm')">注册</button>
           </div>
-          <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" ref="mobile"></el-input>
-        </el-form-item>
-        <el-form-item prop="verify" class="item">
-          <div slot="label" class="labels">
-            <img src="../assets/img/duanx.png" alt="">
-            <span>短信验证</span>
+          <div class="behavior">
+            <router-link to="/login">
+              <p>已有账户， <span>直接登录>></span></p>
+            </router-link>
           </div>
-          <div class="form-content">
-            <el-input v-model="ruleForm.verify" auto-complete="off" placeholder="请输入验证码"></el-input>
-            <button type="text" @click="sendCode('ruleForm')" ref="btnCode">发送验证码</button>
-          </div>
-        </el-form-item>
-        <el-form-item prop="password" class="item">
-          <div slot="label" class="labels">
-            <img src="../assets/img/yaos.png" alt="">
-            <span>设置密码</span>
-          </div>
-          <div class="form-content">
-            <el-input :type="delivery ?  'text' : 'password'" v-model="ruleForm.password" placeholder="请输入密码"></el-input>
-            <el-switch v-model="delivery"></el-switch>
-          </div>
-        </el-form-item>
-        <div class="agreement">
-          <el-checkbox v-model="ruleForm.checked"></el-checkbox>
-          <span>已阅读并同意《用户服务协议》</span>
-        </div>
-        <div class="goto">
-          <button type="primary" @click="submitForm('ruleForm')">注册</button>
-        </div>
-        <div class="behavior">
-          <router-link to="/login">
-            <p>已有账户， <span>直接登录>></span></p>
-          </router-link>
-        </div>
-      </el-form>
+        </el-form>
+      </div>
     </div>
   </div>
 </template>
@@ -85,7 +89,7 @@
           mobile: '',
           verify: '',
           password: '',
-          checked:false
+          checked:true
         },
         rules: {
           mobile: [
@@ -136,59 +140,66 @@
         });
       },
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            if (this.ruleForm.password === ''){
-              Toast({
-                message: '密码不能为空',
-                position: 'middle',
-                duration: 1000});
-              return false
-            }else{
-              if (!(/^[\w.]{6,20}$/.test(this.ruleForm.password))){
-                Toast({
-                  message: '密码长度需为6-20位',
-                  position: 'middle',
-                  duration: 1000});
-                return false
-              }
-            }
-            if(!this.ruleForm.checked){
-              Toast({
-                message: '您尚未同意用户服务协议',
-                position: 'middle',
-                duration: 1000});
-              return false
-            }
-            this.axios.post(url.reg,{
-              mobile: this.ruleForm.mobile,
-              password:this.ruleForm.password,
-              code:this.ruleForm.verify,
-              recommendUserId:this.recommendUserId,
-              selected: this.ruleForm.checked ? "0" : "1"
-            }).then( response=> {
-              console.log(response)
-              if (response.data.code === 0){
-                let data = response.data
-                console.log("sdfasdf")
-                localStorage.setItem(Constants.TOKEN, data.result.token)
-                this.$router.replace('/mallindex')
-                console.log("redirectto")
-              }else if(response.data.code === 500){
-                Toast(response.data.msg);
-              }
-            }).catch(function (error) {
-              console.log(error);
+        if (this.ruleForm.username === ''){
+          Toast({
+            message: '手机号不能为空',
+            position: 'middle',
+            duration: 1000})
+          return
+        }else if(!(/^1(3|4|5|7|8)\d{9}$/.test(this.ruleForm.username))){
+          Toast('手机号码格式不正确')
+          return
+        }
+        if (this.ruleForm.password === '') {
+          Toast({
+            message: '密码不能为空',
+            position: 'middle',
+            duration: 1000
+          });
+          return false
+        } else {
+          if (!(/^[\w.]{6,20}$/.test(this.ruleForm.password))) {
+            Toast({
+              message: '密码长度需为6-20位',
+              position: 'middle',
+              duration: 1000
             });
-          } else {
-            console.log('error submit!!');
-            return false;
+            return false
           }
+        }
+        if (!this.ruleForm.checked) {
+          Toast({
+            message: '您尚未同意用户服务协议',
+            position: 'middle',
+            duration: 1000
+          });
+          return false
+        }
+        this.axios.post(url.reg, {
+          mobile: this.ruleForm.mobile,
+          password: this.ruleForm.password,
+          code: this.ruleForm.verify,
+          recommendUserId: this.recommendUserId,
+          selected: this.ruleForm.checked ? "0" : "1"
+        }).then(response => {
+          console.log(response)
+          if (response.data.code === 0) {
+            let data = response.data
+            console.log("sdfasdf")
+            localStorage.setItem(Constants.TOKEN, data.result.token)
+            this.$router.replace('/mallindex')
+            console.log("redirectto")
+          } else if (response.data.code === 500) {
+            Toast(response.data.msg);
+          }
+        }).catch(function (error) {
+          console.log(error);
         });
       }
     },
     mounted(){
       let {id} = this.$route.params
+      console.log(id)
       this.recommendUserId = id
       getUserInfoById({
         id: id
@@ -201,13 +212,17 @@
 </script>
 
 <style scoped>
-  .mint-header{
-    background-color: #000;
-    height: 48px;
+  .container{
+    width: 100%;
+    height: 100vh;
+    background: #fff;
+  }
+  .form-container{
+    padding-top: 50px;
   }
   .avatar{
-    margin: 50px 0;
     text-align: center;
+    margin-bottom: 50px;
   }
   .avatar img{
     width: 80px;

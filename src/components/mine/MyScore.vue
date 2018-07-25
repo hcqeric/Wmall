@@ -87,9 +87,7 @@
         this.$router.push('/scoretrans')
       },
       turnToExchangeScore(){
-        console.log(this.payPass)
-        console.log(getLocalStorage(Constants.SETUPPAYPASS))
-        if(this.payPass || getLocalStorage(Constants.SETUPPAYPASS) != 'false'){
+        if(this.payPass == null || getLocalStorage(Constants.SETUPPAYPASS) != 'false'){
           this.setPayPass(true)
           this.$router.push('/exchangescore')
         }else{

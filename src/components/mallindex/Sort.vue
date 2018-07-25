@@ -30,7 +30,6 @@
       },
       mounted(){
         let tk = getLocalStorage(Constants.TOKEN)
-        console.log(tk)
         getSorts({
             token: tk
         }).then(response=>{

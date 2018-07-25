@@ -4,7 +4,7 @@
       <i class="iconfont icon-shouye"></i>
       首页
     </div>
-    <div :class="$route.name==='sort'?'active':''" @click="$router.push('/sort')">
+    <div :class="$route.name==='sort'?'active':''" @click="$router.replace('/sort')">
       <i class="iconfont icon-leimupinleifenleileibie2"></i>
       分类
     </div>
