@@ -45,7 +45,6 @@
         } else {
           item.checked = !item.checked
         }
-        console.log(item)
       },
       addGoodsCount() {
         this.newGoodsCount(this.cartGoodsItem.goodsNum + 1)
@@ -65,7 +64,7 @@
           goodsId: this.cartGoodsItem.goodsId,
           goodsNum: count
         }).then(response => {
-          console.log(response)
+
           this.cartGoodsItem.goodsNum = count
         })
       }
@@ -76,7 +75,6 @@
           // this.checked = true
           return true
         } else {
-          console.log(this.cartGoodsItem.checked + "  sdfdsfsdfdsfa")
           // this.checked = this.cartGoodsItem.checked
           return this.cartGoodsItem.checked
         }

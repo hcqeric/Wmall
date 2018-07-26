@@ -9,7 +9,6 @@
         <div class="amount">
           <p v-if="totalAmt != 0">{{totalAmt | moneyFormat}}</p>
           <p v-if="totalAmt == 0">{{payBonus}}积分</p>
-          <p>{{orderState}}</p>
         </div>
         <div class="links">
           <button @click="gotoHomePage">返回首页</button>
@@ -33,13 +32,13 @@
         name: "PaymentSucc",
       data(){
           return {
-            amount: 599.00,
-            orderState:"支付成功",
+            amount: 0,
             orderId:'',
             address: {},
             totalAmt: 0,
             shareImg:'',
-            payBonus:0
+            payBonus:0,
+            orderNum:''
           }
       },
       methods:{
@@ -47,15 +46,16 @@
             this.$router.push('/mallindex')
           },
           gotoOrderDetail(){
-            this.$router.push('/orderdetail'+ this.orderNum)
+            this.$router.push('/orderdetail/'+ this.orderNum)
           }
       },
       components:{
         Address
       },
       mounted(){
-        this.orderId = this.$store.state.shop.paySuccOrderId
-        console.log(this.orderId)
+        let {id} = this.$route.params
+        this.orderId = id
+
         let tk = getLocalStorage(Constants.TOKEN)
 
         getPaySuccInfo({
@@ -63,10 +63,9 @@
         },{
           id: this.orderId.toString(),
         }).then(response=>{
-          console.log(response)
           this.address = response.result.userAds
           this.totalAmt = response.result.payAmt
-          this.orderNum = respones.result.orderNum
+          this.orderNum = response.result.orderNum
           this.shareImg = response.result.shareImg
           this.payBonus = response.result.payBonus
         })
@@ -109,7 +108,7 @@
     border-top: 1px solid rgba(239,239,239,0.9);
   }
   .amount p:first-child{
-    font-size: 30px;
+    font-size: 24px;
     color: #bf54f9;
   }
   .amount p:last-child{

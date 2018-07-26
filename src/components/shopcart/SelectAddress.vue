@@ -44,7 +44,6 @@
       getAdsList({
         token: tk
       }).then(response=>{
-        console.log(response)
         this.addressList = response.result
       }).catch(error=>{})
     }

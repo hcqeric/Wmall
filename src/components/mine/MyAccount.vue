@@ -76,7 +76,6 @@
               },{
                 deleteType:'1'
               }).then(response=>{
-                console.log(response)
                 this.myAccount.cardNo = ''
                 this.myAccount.accountName = ''
                 this.myAccount.bankName = ''
@@ -100,7 +99,6 @@
               },{
                 deleteType:'2'
               }).then(response=>{
-                console.log(response)
                 this.myAccount.aliPay = ''
                 this.myAccount.aliPayName = ''
                 Toast({
@@ -120,7 +118,6 @@
         getAccountList({
           token: tk
         }).then(response=>{
-          console.log(response)
           this.myAccount = response.result
           if(isEmptyObject(this.myAccount)){
             this.showText = true

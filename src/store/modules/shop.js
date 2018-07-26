@@ -4,7 +4,8 @@ const app = {
     orderNum:'',
     backRefunds:null,
     confirmGoods:null,
-    paySuccOrderId:''
+    paySuccOrderId:'',
+    hasCreatedOrder:false
   },
   mutations: {
     [types.SET_ORDER_NUM](state, orderNum){
@@ -18,6 +19,9 @@ const app = {
     },
     [types.SET_PAY_SUCE_ORDER_ID](state, orderId){
       state.paySuccOrderId = orderId
+    },
+    [types.HAS_CREATED_ORDER](state, created){
+      state.hasCreatedOrder = created
     }
   },
   actions: {
@@ -32,6 +36,9 @@ const app = {
     },
     setPaySuccOrderId({state, commit}, orderId){
       commit(types.SET_PAY_SUCE_ORDER_ID, orderId)
+    },
+    setHasCreatedOrder({state, commit}, created){
+      commit(types.HAS_CREATED_ORDER, created)
     }
   }
 }

@@ -69,7 +69,7 @@
             this.$router.back()
           },
           playerReadied(player) {
-            console.log('the player is readied', player)
+            // console.log('the player is readied', player)
           }
         },
         created(){
@@ -79,10 +79,7 @@
             getFileByType({
               type:'video'
             }).then(response=>{
-              console.log(response)
-              console.log(response.result.url)
               this.playerOptions.sources[0].src = response.result[0].url
-              console.log(this.playerOptions)
             })
           }
         },

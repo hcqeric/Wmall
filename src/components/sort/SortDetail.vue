@@ -90,12 +90,12 @@
         this.$router.push('/cart')
       },
       changeItem(n){
-        console.log("aaa")
+
         this.selected = n
         if(this.serials[n].proId != undefined){
           this.categoryId = this.serials[n].id
         }
-        console.log("bbb")
+
         this.loading = true
         this.page = 1
         this.info=''
@@ -129,7 +129,7 @@
             limit: this.limit,
             goodsTypeId: this.categoryId.toString()
           }).then(response => {
-            console.log(response)
+
             this.loading = false;
             if(response.result.currPage == 1 && response.result.totalPage < response.result.currPage) {
               this.allLoaded = true
@@ -162,9 +162,9 @@
       this.proId = proid
       this.parentId = id
       this.serialName = name
-      console.log(this.proId, this.parentId)
+
       this.getSerialList().then(response=>{
-        console.log(response)
+
         if(this.serials.length > 0){
           this.changeItem(0)
         }

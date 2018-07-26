@@ -64,7 +64,7 @@
     },
     methods: {
       handleChange(value){
-        console.log(value)
+
         this.id = value
       },
       goBack() {
@@ -79,7 +79,6 @@
           cardNo: this.cardNo,
           id: this.id
         }).then(response => {
-          console.log(response)
           Toast({
             message: "添加成功",
             position: 'middle'
@@ -89,7 +88,6 @@
     },
     mounted(){
       getBankList().then(response=>{
-        console.log(response)
         response.result.map(item=>{
           this.bankOptions.push(item)
         })

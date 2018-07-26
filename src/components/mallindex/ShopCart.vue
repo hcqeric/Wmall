@@ -102,23 +102,20 @@
       },
       methods:{
         ...mapActions({
-          setConfirmGoods: 'setConfirmGoods'
+          setConfirmGoods: 'setConfirmGoods',
+          setHasCreatedOrder: 'setHasCreatedOrder'
         }),
         handleInput(item){
-          console.log(item.goodsNum)
+
         },
         handlefocus(item){
-          console.log(this.isFirstFocus)
           if(this.isFirstFocus){
             this.focusItemGoodsNum = item.goodsNum
             this.isFirstFocus = false
-            console.log("firstFocus")
           }
-
-          console.log(this.focusItemGoodsNum)
         },
         handleBlur(item){
-          console.log(item.goodsNum)
+
           if (item.goodsNum == '' || item.goodsNum < 1){
             item.goodsNum = this.focusItemGoodsNum
           } else if(item.goodsNum != this.focusItemGoodsNum){
@@ -141,7 +138,7 @@
           this.isFirstFocus = true
         },
         handleCounterChange(item, value){
-          console.log(item, value)
+
           let count = 1
           if (item.goodsNum > this.count){
             count = 1
@@ -191,7 +188,6 @@
               checkedList.map(item=>{
                 ids.push(item.id)
               })
-              console.log(ids)
               deleteCart({
                 token: this.token
               },ids).then(response=>{
@@ -202,7 +198,7 @@
                     }
                   })
                 })
-                console.log(this.cartList)
+
                 if(this.cartList.length == 0){
                   this.isNoList = true
                 }
@@ -235,6 +231,7 @@
           this.setConfirmGoods({
             selectedGoodsList: selectedGoodsList
           })
+          this.setHasCreatedOrder(false)
           this.$router.push('/payment')
         },
         loadMore() {
@@ -250,7 +247,7 @@
             page: this.page.toString(),
             limit: this.limit
           }).then(response=>{
-            console.log(response)
+
             this.loading = false;
             if(response.result.currPage == 1 && response.result.totalPage < response.result.currPage) {
               this.isNoList = true
@@ -289,7 +286,6 @@
       //  goods
         handleCheckItem(item) {
           item.checked = item.checked
-          console.log(item)
           let count = 0;
           this.cartList.map(item => {
             if (item.checked) return count++;
@@ -302,11 +298,9 @@
           this.computedTotalFee();
         },
         addGoodsCount(item) {
-          console.log(item.goodsNum)
           this.newGoodsCount(item, 1)
         },
         minusGoodsCount(item) {
-          console.log(item.goodsNum)
           if (item.goodsNum <= 1) {
             item.goodsNum = 1
           } else {
@@ -321,7 +315,6 @@
             goodsId: item.goodsId,
             goodsNum: count
           }).then(response => {
-            console.log(response)
             item.goodsNum = item.goodsNum + count
             this.computedTotalFee()
           }).catch(error=>{

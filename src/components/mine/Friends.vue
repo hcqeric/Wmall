@@ -86,9 +86,7 @@
         this.userList1 = response.result.userList1
         this.userList2 = response.result.userList2
         this.userList3 = response.result.userList3
-        console.log(this.userList1)
-        console.log(this.userList2)
-        console.log(this.userList3)
+
       })
     }
   }

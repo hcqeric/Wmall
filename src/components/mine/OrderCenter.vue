@@ -194,7 +194,6 @@
     },
     mounted() {
       let tk = getLocalStorage(Constants.TOKEN)
-      console.log(tk)
       this.tk = tk
       let {type} = this.$route.params
       this.changeTab(type)

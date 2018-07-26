@@ -39,7 +39,8 @@ class Request {
                 return resolve(response.data)
             }else{
                 if(response.data.code === 401){ //TOKEN失效
-                  // removeLocalStorage(Constants.TOKEN)
+                  removeLocalStorage(Constants.TOKEN)
+                  this.$router.push('/login')
                 }
                 Toast({
                     message: response.data.msg,
@@ -50,7 +51,7 @@ class Request {
         },error => {
             Indicator.close();
             Toast({
-                message: error,
+                message: error.msg,
                 position: 'middle'
             });
             return reject()

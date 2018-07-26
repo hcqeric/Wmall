@@ -68,7 +68,7 @@
       },
       methods:{
         gotoDetail(index){
-          console.log(index)
+
           if(index == 4){
             this.$router.push('/company/'+ index)
           }

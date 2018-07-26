@@ -40,7 +40,6 @@
       },{
         id: this.id
       }).then(response=>{
-        console.log(response)
         this.imgUrl = response.result.url
       })
     }

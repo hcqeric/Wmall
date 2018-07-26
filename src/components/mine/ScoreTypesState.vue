@@ -110,7 +110,6 @@
             this.orderScoreList.push(item)
           })
           this.page++
-          console.log(response)
         }).catch(error=>{
           console.log(error);
           this.loading = false

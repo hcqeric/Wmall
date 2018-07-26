@@ -76,7 +76,6 @@
           goodsId:this.goodsInfo.id,
           goodsNum: '1'
         }).then(response=>{
-          console.log(response)
           Toast({
             message: "添加购物车成功"
           })
@@ -89,7 +88,7 @@
       getGoodsByGoodsNum({
         goodsNum: this.id
       }).then(response=>{
-        console.log(response)
+
         this.goodsInfo = response.result
       }).catch(error=>{})
     }

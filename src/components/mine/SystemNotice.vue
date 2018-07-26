@@ -35,7 +35,7 @@
         getNotificationList({
           notificationType:'1'
         }).then(response=>{
-          console.log(response)
+
           response.result.map(item=>{
             this.notificationList.push(item)
           })

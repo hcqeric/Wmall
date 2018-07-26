@@ -12,7 +12,6 @@
         <div class="amount">
           <p v-if="totalAmt != 0">待付金额：{{totalAmt | moneyFormat}}</p>
           <p v-if="totalAmt == 0">待付积分：{{payBonus}}积分</p>
-          <p>{{orderState}}</p>
         </div>
         <div class="links">
           <button @click="gotoHomePage">返回首页</button>
@@ -36,8 +35,7 @@
         name: "PaymentSucc",
       data(){
           return {
-            amount: 599.00,
-            orderState:"支付失败",
+            amount: 0,
             orderId:'',
             address: {},
             totalAmt: 0,
@@ -51,7 +49,7 @@
             this.$router.push('/mallindex')
           },
           gotoOrderDetail(){
-            this.$router.push('/orderdetail'+ this.orderNum)
+            this.$router.push('/orderdetail/'+ this.orderNum)
           }
       },
       components:{
@@ -67,7 +65,7 @@
         },{
           id: this.orderId.toString(),
         }).then(response=>{
-          console.log(response)
+
           this.address = response.result.userAds
           this.totalAmt = response.result.payAmt
           this.orderNum = response.result.orderNum

@@ -19,6 +19,7 @@
       </div>
       <div class="item-bottom">
         <div class="order-price">
+          <p>下单时间：{{orderItem.createTime|DateFormat('yyyy-MM-dd hh:mm:ss')}}</p>
           <div class="count" v-if="orderItem.orderDetailList != undefined">
             <p>数量：x {{orderItem.orderDetailList.length}}</p>
             <p v-if="orderItem.buyType == 0">{{orderItem.payAmt|moneyFormat}}</p>
@@ -46,7 +47,7 @@
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
   import {cancelOrder,orderReceipt} from "../../http/getData";
-  import {Message} from 'mint-ui'
+  import {MessageBox,Toast} from 'mint-ui'
 
   export default {
       name: "OrderItem",
@@ -68,25 +69,52 @@
           this.$router.push('/orderdetail/'+ orderNum)
         },
         cancelOrder(id){
+          MessageBox({
+            title:'取消订单',
+            message: '亲，确定要执行此操作吗？',
+            showCancelButton: true,
+            confirmButtonText: '确定',
+            cancelButtonText: '取消'
+          }).then(action => {
+            if (action === 'confirm') {
+              cancelOrder({
+                token:this.token
+              },{
+                id:id
+              }).then(response=>{
+                this.$emit('orderItem', this.orderItem)
 
-          cancelOrder({
-            token:this.token
-          },{
-            id:id
-          }).then(response=>{
-            this.$emit('orderItem', this.orderItem)
-            console.log(response)
-          })
+              })
+            } else {
+              console.log("quxiaole")
+            }
+          }).catch(error=>{});
+
         },
         orderReceipt(id){
-          orderReceipt({
-            token: this.token
-          },{
-            id: id
-          }).then(response=>{
-            this.$emit('orderItem', this.orderItem)
-            console.log(response)
-          })
+          MessageBox({
+            title:'确认收货',
+            message: '亲，确认已经收到改商品了吗?',
+            showCancelButton: true,
+            confirmButtonText: '已收货',
+            cancelButtonText: '取消'
+          }).then(action => {
+            if (action === 'confirm') {
+              orderReceipt({
+                token: this.token
+              },{
+                id: id
+              }).then(response=>{
+                this.$emit('orderItem', this.orderItem)
+                Toast({
+                  message:'确认收货成功',
+                  position: 'middle'
+                })
+              })
+            } else {
+              console.log("quxiaole")
+            }
+          }).catch(error=>{});
         },
         postEvaluation(orderItem){
           this.setBackRefunds(orderItem)
@@ -179,9 +207,9 @@
   .order-price{
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    padding:16px 0;
-    align-items: center;
+    justify-content: space-between;
+    padding:8px 0;
+    align-items: flex-end;
     position: relative;
   }
   .order-price:after{
@@ -194,8 +222,8 @@
   }
 .order-price .count{
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
 }
 .order-price .count p:first-child{
   font-size: 13px;

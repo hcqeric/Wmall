@@ -20,7 +20,7 @@
           <span>手机号码</span><input placeholder="联系人电话" type="number" v-model.number="addressInfo.mobile">
         </div>
       </div>
-      <div class="goto" v-if="id == 2">
+      <div class="goto" v-if="id == 2 && showBtn === true">
         <button @click="deleteAddress">删除收货地址</button>
       </div>
     </div>
@@ -50,6 +50,9 @@
     data() {
       return {
         token: null,
+        clientHeight:0,
+        resizeHeight:0,
+        showBtn: true,
         title: null,
         id: null,
         addressPicker:'',
@@ -173,12 +176,12 @@
         let obj = {};
         obj.name = arr[0].name;
         obj.areaCode = arr[0].areaCode;
-        console.log(obj)
+
         return obj
       },
       choiceArea() {
         this.popupAddressVisible = true
-        console.log(this.addressInfo)
+
         if (this.addressInfo.province != '' && this.addressInfo.city != '' && this.addressInfo.district != '') {
           let proItem = this.getCurrProvince(this.addressInfo.province)
           let cityItem = this.getCurrCity(this.addressInfo.province, this.addressInfo.city)
@@ -190,7 +193,6 @@
         }
       },
       cancleaddress: function () {
-
         this.popupAddressVisible = false
       },
       selectaddress() {
@@ -230,7 +232,6 @@
           }, {
             id: this.addressInfo.id
           }).then(response => {
-          console.log(response)
           objectAllEmpty(this.addressCopy)
           this.setAddress(this.addressCopy)
           Toast({
@@ -263,7 +264,6 @@
             address: this.addressInfo.address,
             mobile: this.addressInfo.mobile
           }).then(response => {
-            console.log(response)
             this.$router.go(-1)
             Toast({
               message: "亲，已为您保存收货地址",
@@ -283,7 +283,6 @@
               address: this.addressInfo.address,
               mobile: this.addressInfo.mobile
             }).then(response => {
-              console.log(response)
               Toast({
                 message: "亲，已为您保存收货地址",
                 position: 'middle'
@@ -317,6 +316,15 @@
       }
       let tk = getLocalStorage(Constants.TOKEN)
       this.token = tk
+
+      this.clientHeight = document.documentElement.clientHeight
+      window.onresize = () => {
+        if (document.documentElement.clientHeight < this.clientHeight) {
+          this.showBtn = false
+        } else {
+          this.showBtn = true
+        }
+      }
     }
   }
 </script>

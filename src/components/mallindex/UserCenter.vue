@@ -169,7 +169,6 @@
         'setUserInfo'
       ]),
       contactUs() {
-        console.log("sadfasdfsd")
         MessageBox({
           title: '联系客服',
           message: '亲，有任何疑问都可以联系客服哦！我们都会给您耐心详尽的解答~',
@@ -178,7 +177,7 @@
           cancelButtonText: '取消'
         }).then(action => {
           if (action === 'confirm') {
-            console.log("quedingle")
+
           } else {
             console.log("quxiaole")
           }

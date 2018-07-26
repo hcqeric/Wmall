@@ -230,7 +230,6 @@
           if (this.data.privinceName !== '' && this.data.cityName !== '') {
             this.areaPicker.setSlotValue(0, this.data.privinceName)
             this.areaPicker.setSlotValue(1, this.data.cityName)
-            console.log(this.data.privinceName + '-' + this.data.cityName)
           }
         },
         cancleaddress: function () {

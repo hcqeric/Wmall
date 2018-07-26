@@ -17,6 +17,8 @@ import * as filters from './custom/filters'
 import axios from 'axios'
 import url from './http/url.js'
 import FastClick from 'fastclick'
+import {getLocalStorage, removeLocalStorage} from "./custom/mixin";
+import * as Constants from "./custom/constants";
 
 
 
@@ -31,6 +33,28 @@ Vue.prototype.axios = axios.create({
 });
 Vue.config.devtools = true;
 FastClick.attach(document.body);
+
+router.beforeEach((to, from, next) => {
+  // let tk = getLocalStorage(Constants.TOKEN)
+  // if (to.path == '/login' || to.path.startsWith('/register')){
+  //   if (localStorage.token){
+  //     removeLocalStorage(Constants.TOKEN)
+  //   }
+  //   next()
+  // } else
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!localStorage.token) {
+      next({
+        path: '/login'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
 new Vue({
   el: '#app',
   router,

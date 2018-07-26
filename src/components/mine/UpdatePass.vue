@@ -115,7 +115,6 @@
             password: this.pageInfo.oldPass,
             newPassword: this.pageInfo.newPass
           }).then(response=>{
-            console.log(response)
             Toast({
               message: "修改成功",
               position: 'middle'
@@ -128,7 +127,6 @@
             payPassword: this.pageInfo.oldPass,
             newPayPassword: this.pageInfo.newPass
           }).then(response=>{
-            console.log(response)
             Toast({
               message: "修改成功",
               position: 'middle'

@@ -33,3 +33,7 @@ export const SET_CONFIRM_ORDER_GOODS = 'set_confirm_order_goods'
 
 export const SET_PAY_SUCE_ORDER_ID = 'set_pay_suce_order_id'
 
+export const HAS_CREATED_ORDER = 'has_created_order'
+
+export const SET_CREATED_ORDER_ID = 'set_created_order_id'
+

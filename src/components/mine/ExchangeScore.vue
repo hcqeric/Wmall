@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="goto">
+    <div class="goto" v-if="showBtn">
       <button @click="turnToExchangeStates">立即兑换</button>
     </div>
   </div>
@@ -42,7 +42,9 @@
         token: '',
         score:'',
         ableScore: 0,
-        cardNo: ''
+        cardNo: '',
+        showBtn: true,
+        clientHeight: 0
       }
     },
     methods: {
@@ -94,6 +96,15 @@
         this.cardNo = response.result.cardNo
         console.log(this.cardNo)
       })
+
+      this.clientHeight = document.documentElement.clientHeight
+      window.onresize = () => {
+        if (document.documentElement.clientHeight < this.clientHeight) {
+          this.showBtn = false
+        } else {
+          this.showBtn = true
+        }
+      }
     }
   }
 </script>

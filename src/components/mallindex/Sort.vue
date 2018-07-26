@@ -33,7 +33,6 @@
         getSorts({
             token: tk
         }).then(response=>{
-          console.log(response)
           let imgs = response.result
           imgs.forEach((item)=>{
             this.list.push(item)

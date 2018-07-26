@@ -117,7 +117,7 @@ let router = new Router({
       component: Payment
     },
     {
-      path: '/paymentsucc',
+      path: '/paymentsucc/:id',
       name: 'PaymentSucc',
       component: PaymentSucc
     },
@@ -319,23 +319,23 @@ let router = new Router({
   ]
 })
 
-router.beforeEach( (to, from, next) => {
-  let tk = getLocalStorage(Constants.TOKEN)
-  if (to.path == '/login' || to.path.startsWith('/register')){
-    if (localStorage.token){
-      removeLocalStorage(Constants.TOKEN)
-    }
-    next()
-  } else if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!localStorage.token) {
-      next({
-        path: '/login'
-      })
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
-})
+// router.beforeEach( (to, from, next) => {
+//   let tk = getLocalStorage(Constants.TOKEN)
+//   if (to.path == '/login' || to.path.startsWith('/register')){
+//     if (localStorage.token){
+//       removeLocalStorage(Constants.TOKEN)
+//     }
+//     next()
+//   } else if (to.matched.some(record => record.meta.requiresAuth)) {
+//     if (!localStorage.token) {
+//       next({
+//         path: '/login'
+//       })
+//     } else {
+//       next()
+//     }
+//   } else {
+//     next()
+//   }
+// })
 export default router

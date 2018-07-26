@@ -45,7 +45,6 @@
           id:id
         }).then(response=>{
           this.$emit('orderItem', this.orderItem)
-          console.log(response)
         })
       },
       postEvaluation(orderItem){

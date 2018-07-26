@@ -75,6 +75,11 @@
         };
       },
       methods: {
+        async storeState(token){
+          await localStorage.setItem(Constants.TOKEN, token)
+          await  this.setToken(token)
+          await  this.loginState(true)
+        },
         goBack() {
           this.$router.back()
         },
@@ -86,7 +91,6 @@
                 mobile: this.ruleForm.mobile,
                 codeType: "1"
               }).then( response=> {
-                console.log(response)
                 if (response.data.code === 0){
                   let btnCode = this.$refs.btnCode;
                   let second = 60
@@ -137,14 +141,12 @@
                 recommendUserId:"1",
                 selected: this.ruleForm.checked ? "0" : "1"
               }).then( response=> {
-                console.log(response)
                 if (response.data.code === 0){
                   Toast({
                     message: '密码充值成功',
                     position: 'middle',
                     duration: 1000})
                   this.$router.replace('/login')
-                  console.log("redirectto")
                 }else if(response.data.code === 500){
                   Toast(response.data.msg);
                 }
@@ -162,6 +164,11 @@
 </script>
 
 <style scoped>
+  .container{
+    height: 100vh;
+    width: 100vw;
+    background: #fff;
+  }
   .mint-header{
     background-color: #000;
     height: 48px;

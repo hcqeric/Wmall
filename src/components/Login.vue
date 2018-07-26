@@ -81,7 +81,6 @@
           mobile: this.ruleForm.username,
           password: this.ruleForm.password
         }).then(response => {
-          console.log(response)
           if (response.data.code === 0) {
             let token = response.data.result.token
             let userId = response.data.result.userId
@@ -94,18 +93,22 @@
               }
             })
           } else if (response.data.code === 500) {
-            Toast(response.data.msg);
+            Toast({
+              message:response.data.msg
+            });
           }
-        }).catch(function (error) {
-          console.log(error);
+        }).catch((error) => {
+          Toast({
+            message: "服务器异常，请稍后再试"
+          })
         });
       },
       async storeState(token){
-        console.log('start store');
+
         await localStorage.setItem(Constants.TOKEN, token)
         await  this.setToken(token)
         await  this.loginState(true)
-        console.log('end store');
+
       }
     }
   }

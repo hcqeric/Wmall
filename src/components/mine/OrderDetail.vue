@@ -100,7 +100,7 @@
   import OrderGoods from '@/components/view/OrderDetailGoods'
   import OrderEvaluationGoods from '@/components/view/OrderEvaluationGoods'
   import PayKeyBoard from '@/components/view/PayKeyBoard'
-  import {getOrderByOrderNum,wxPay,pointPay} from "../../http/getData"
+  import {getOrderByOrderNum,wxPay,pointPay, wxJsPay} from "../../http/getData"
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
   import {mapActions} from 'vuex'
@@ -114,7 +114,8 @@
           radio:0,
           dialogShow: false,
           isPay:false,
-          orderId:''
+          orderId:'',
+          token:''
         }
       },
       components:{
@@ -131,10 +132,8 @@
         this.$router.back()
       },
       pasEnd(val) {
-        console.log(val);
-        console.log(typeof val);
         pointPay({
-          orderId: this.orderId.toString(),
+          orderId: this.orderInfo.id.toString(),
           payPassword: val
         }).then(response=>{
           this.setPaySuccOrderId(response.orderId)
@@ -159,54 +158,92 @@
       },
       gotoPay(){
         if(this.radio == 0){
-          console.log(this.orderId)
-          wxPay({
-            orderId: this.orderId
-          }).then(response=>{
-            window.location.href = response.result.mweb_url
-            setTimeout(()=>{
-              MessageBox({
-                title: '支付结果确认',
-                message: '请确认微信支付是否已完成',
-                showCancelButton: true,
-                confirmButtonText:'已完成支付',
-                cancelButtonText:'支付遇到问题',
-                closeOnClickModal: false
-              }).then(action=>{
-                getOrderByOrderNum({
-                  token: this.token
-                },{
-                  orderNum: this.orderId
-                }).then(response=>{
-                  console.log(response)
-                  this.orderState = response.result.tradeStatus
-                })
-                if(this.orderState == 1){
-                  this.setPaySuccOrderId(this.orderId.toString())
-                  this.$router.push('paymentsucc')
-                }else{
-                  this.$router.push('/orderdetail/'+ this.orderId)
-                }
-              });
-            },5000)
-          })
+          if (this.isWeiXin()) {
+            wxJsPay({
+              token: this.token
+            },{
+              orderId: this.orderId
+            }).then(response => {
+              this.payWeixin(response.result)
+            })
+          }else{
+            wxPay({
+              orderId: this.orderInfo.id.toString()
+            }).then(response=>{
+              window.location.href = response.result.mweb_url
+              setTimeout(()=>{
+                MessageBox({
+                  title: '支付结果确认',
+                  message: '请确认微信支付是否已完成',
+                  showCancelButton: true,
+                  confirmButtonText:'已完成支付',
+                  cancelButtonText:'支付遇到问题',
+                  closeOnClickModal: false
+                }).then(action=>{
+                  getOrderByOrderNum({
+                    token: this.token
+                  },{
+                    orderNum: this.orderId
+                  }).then(response=>{
+                    this.orderState = response.result.tradeStatus
+                  })
+                  if(this.orderState == 1){
+                    this.$router.push('/paymentsucc/'+ this.orderInfo.id.toString())
+                  }else{
+                    this.$router.push('/payfail/'+ this.orderInfo.id.toString())
+                  }
+                });
+              },5000)
+            })
+          }
         }else if(this.radio == 2){
           this.dialogShow = false
           this.isPay = true
         }
         this.dialogShow = false
+      },
+      onBridgeReady(response) {
+        WeixinJSBridge.invoke(
+          'getBrandWCPayRequest', response.jsInfo,
+          res=>{
+            if (res.err_msg == "get_brand_wcpay_request:ok") {// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+              this.$router.push('/paymentsucc/'+ this.orderInfo.id.toString())
+            } else{
+              this.$router.push('/payfail/'+ this.orderInfo.id.toString() )
+            }
+          }
+        );
+      },
+      payWeixin(response) {
+        if (typeof WeixinJSBridge == "undefined") {
+          if (document.addEventListener) {
+            document.addEventListener('WeixinJSBridgeReady', this.onBridgeReady, false);
+          } else if (document.attachEvent) {
+            document.attachEvent('WeixinJSBridgeReady', this.onBridgeReady);
+            document.attachEvent('onWeixinJSBridgeReady', this.onBridgeReady);
+          }
+        } else {
+          this.onBridgeReady(response);
+        }
+      },
+      isWeiXin() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+          return true;
+        } else {
+          return false;
+        }
       }
     },
     mounted(){
         let {orderid} = this.$route.params
         this.orderId = orderid
         let tk = getLocalStorage(Constants.TOKEN)
+        this.token = tk
         getOrderByOrderNum({token: tk},{orderNum: orderid}).then(response=>{
           this.orderInfo = response.result
           this.buyType = response.result.buyType
           this.orderState = response.result.tradeStatus
-          console.log(this.orderState)
-          console.log(response)
         })
     }
   }
@@ -222,7 +259,7 @@
     background-color: #efefef;
     overflow: scroll;
   }
-  .mint-header{
+  .mint-header.is-fixed{
     background-color: #000;
     height: 48px;
     z-index: 9999;

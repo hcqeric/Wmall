@@ -55,7 +55,6 @@
         getShareList({
           token: tk
         }).then(response=>{
-          console.log(response)
           response.result.map(item=>{
             this.templateList.push(item)
           })

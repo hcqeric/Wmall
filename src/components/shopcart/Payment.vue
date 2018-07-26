@@ -18,7 +18,7 @@
     <div class="confirm">
       <p v-if="buyType == 0"><span>应付款:</span> {{totalAmount|moneyFormat}}</p>
       <p v-if="buyType == 2"><span>应付积分:</span> {{totalScore}}</p>
-      <button @click="createOrder" ref="btnConfirm">确认订单</button>
+      <button @click="createOrder">确认订单</button>
     </div>
     <div class="msgbox-wrapper" style="position: absolute; z-index: 2011;display: block;" v-show="dialogShow == true"  ref="msgbox">
       <div class="mint-msgbox" style="">
@@ -69,12 +69,11 @@
   import Address from '@/components/view/Address'
   import AddressWithEditor from '@/components/view/AddressWithEditor'
   import PayKeyBoard from '@/components/view/PayKeyBoard'
-  import {getDefaultAddress, orderSave, wxPay, pointPay, getAdsList,wxJsPay} from "../../http/getData";
+  import {getDefaultAddress, orderSave, wxPay, pointPay, getAdsList,wxJsPay,getPaySuccInfo} from "../../http/getData";
   import {mapActions} from 'vuex'
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
-  import {Toast} from 'mint-ui'
-  import {getOrderByOrderNum} from "../../http/getData";
+  import {Toast,MessageBox} from 'mint-ui'
 
   export default {
     name: "Payment",
@@ -89,13 +88,15 @@
         ids:[],
         radio: 0,
         orderId:'',
+        orderNum:'',
         payPassword:'',
         payType: 0,
         buyType: 0,
         isPay:false,
         selectedAdressVisible:false,
         addressList:[],
-        orderState:0
+        orderState:0,
+        hasCreatedOrder:false
       }
     },
     mounted() {
@@ -110,7 +111,8 @@
     },
     methods: {
       ...mapActions({
-        setPaySuccOrderId: 'setPaySuccOrderId'
+        setPaySuccOrderId: 'setPaySuccOrderId',
+        setHasCreatedOrder: 'setHasCreatedOrder'
       }),
       addNewAddress() {
         this.$router.push('/editAddress/1')
@@ -120,14 +122,12 @@
         this.address = item
       },
       pasEnd(val) {
-        console.log(val);
-        console.log(typeof val);
         pointPay({
           orderId: this.orderId.toString(),
           payPassword: val
         }).then(response => {
           this.setPaySuccOrderId(response.orderId)
-          this.$router.push('paymentsucc')
+          this.$router.push('/paymentsucc/' + this.orderId)
         })
         this.isPay = false
       },
@@ -140,6 +140,20 @@
           })
           return
         }
+        if(this.hasCreatedOrder){
+          MessageBox({
+            title:'订单提示',
+            message: '亲，该订单已经下单成功，是否前往订单中心查看',
+            showCancelButton: true,
+            confirmButtonText: '立即前往',
+            cancelButtonText: '稍后前往'
+          }).then(action => {
+            if (action === 'confirm') {
+              this.$router.push('/ordercenter/all')
+            }
+          })
+          return
+        }
         orderSave({
           token: this.token
         }, {
@@ -147,22 +161,24 @@
           ids: this.ids,
           buyType: this.buyType
         }).then(response => {
+          console.log(response)
           this.radio = response.result.order.buyType
           this.orderId = response.result.order.id
-          this.$refs.btnConfirm.disabled = true;
+          this.orderNum = response.result.order.orderNum
+          this.hasCreatedOrder = true
+          this.setHasCreatedOrder(true)
           this.dialogShow = true
         })
       },
       gotoPay() {
         if (this.radio == 0) {
           if (this.isWeiXin()) {
-            console.log("微信支付")
+
             wxJsPay({
               token: this.token
             },{
               orderId: this.orderId
             }).then(response => {
-              console.log(response)
               this.payWeixin(response.result)
             })
           } else {
@@ -180,20 +196,18 @@
                   cancelButtonText: '支付遇到问题',
                   closeOnClickModal: false
                 }).then(action => {
-                  getOrderByOrderNum({
+                  getPaySuccInfo({
                     token: this.token
                   }, {
-                    orderNum: this.orderId.toString()
+                    id: this.orderId.toString()
                   }).then(response => {
-                    console.log(response)
                     this.orderState = response.result.tradeStatus
+                    if (this.orderState == 1) {
+                      this.$router.push('/paymentsucc/' + this.orderId)
+                    } else {
+                      this.$router.push('/payfail/' + this.orderId)
+                    }
                   })
-                  if (this.orderState == 1) {
-                    this.setPaySuccOrderId(this.orderId.toString())
-                    this.$router.push('/paymentsucc')
-                  } else {
-                    this.$router.push('/orderdetail/' + this.orderId)
-                  }
                 });
               }, 2000)
             })
@@ -210,11 +224,10 @@
       onBridgeReady(response) {
         WeixinJSBridge.invoke(
           'getBrandWCPayRequest', response.jsInfo,
-          function (res) {
+          res=>{
             if (res.err_msg == "get_brand_wcpay_request:ok") {// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
-              this.setPaySuccOrderId(this.orderId.toString())
-              this.$router.push('/paymentsucc')
-            } else if (res.err_msg == "get_brand_wcpay_request:fail") {
+              this.$router.push('/paymentsucc/'+ this.orderId )
+            } else{
               this.$router.push('/payfail/'+ this.orderId )
             }
           }
@@ -234,7 +247,6 @@
       },
       isWeiXin() {
         var ua = window.navigator.userAgent.toLowerCase();
-        console.log(ua)
         if (ua.match(/MicroMessenger/i) == 'micromessenger') {
           return true;
         } else {
@@ -244,6 +256,12 @@
     }
     ,
     mounted(){
+
+      if (this.$store.state.shop.hasCreatedOrder != undefined && this.$store.state.shop.hasCreatedOrder){
+        console.log(this.$store.state.shop.hasCreatedOrder)
+        this.hasCreatedOrder = true
+      }
+
       if(this.$store.state.shop.confirmGoods){
         let {selectedGoodsList} = this.$store.state.shop.confirmGoods
 
@@ -260,7 +278,6 @@
         }else{
           this.buyType = 3
         }
-        console.log(this.buyType)
         this.totalAmount = 0
         this.totalScore = 0
         selectedGoodsList.map(item=>{
@@ -274,14 +291,12 @@
       getAdsList({
         token: tk
       }).then(response=>{
-        console.log(response)
         this.addressList = response.result
       }).catch(error=>{})
 
       getDefaultAddress({
         token: tk
       }).then(response=>{
-        console.log(response)
         this.address = response.result
       })
     }

@@ -187,7 +187,6 @@
         },
         getCurrProvince(provinceCode) {
           let arr = threeLevelAddress.filter(item => item.areaCode === provinceCode)
-          console.log(arr)
           let obj = {};
           obj.name = arr[0].name;
           obj.areaCode = arr[0].areaCode;
@@ -218,7 +217,6 @@
           let obj = {};
           obj.name = arr[0].name;
           obj.areaCode = arr[0].areaCode;
-          console.log(obj)
           return obj
         },
         //遍历json，返回县级对象数组
@@ -251,7 +249,7 @@
           let obj = {};
           obj.name = arr[0].name;
           obj.areaCode = arr[0].areaCode;
-          console.log(obj)
+
           return obj
         },
         choiceArea () {
@@ -262,7 +260,6 @@
             let proItem = this.getCurrProvince(this.addressProvinceCode)
             let cityItem = this.getCurrCity(this.addressProvinceCode, this.addressCityCode)
             let countyItem = this.getCurrCounty(this.addressProvinceCode, this.addressCityCode, this.addressCountCode)
-            console.log(proItem, cityItem, countyItem)
             console.log("***********************************************")
             this.addressPicker.setSlotValues(0, this.getProvinceArr())
             this.addressPicker.setSlotValues(1, this.getCityArr(proItem["name"]));
@@ -292,7 +289,7 @@
           this.userinfo.province = this.addressProvinceCode
           this.userinfo.city = this.addressCityCode
           this.userinfo.district =  this.addressCountCode
-          console.log(this.addressProvinceCode,this.addressCityCode,this.addressCountCode)
+
           this.fullLevelAddress = this.addressPicker.getSlotValue(0)["name"] + this.addressPicker.getSlotValue(1)["name"] + this.addressPicker.getSlotValue(2)["name"];
 
           this.popupAddressVisible = false
@@ -305,10 +302,10 @@
 
         },
         handleAvatarSuccess(res,file){
-          console.log(res)
+
           this.imageUrl = URL.createObjectURL(file.raw);
           this.userinfo.logoUrl = res.result.url
-          console.log(this.userinfo.logoUrl)
+
         },
         beforeAvatarUpload(file){
           const isLt2M = file.size / 1024 / 1024 < 2;
@@ -326,7 +323,7 @@
         },
         handleChange(value) {
           this.userbirth = GMTToDateStr(value)
-          console.log()
+
           let timestamp = Date.parse(new Date(value))
           this.userinfo.birthday = timestamp
         },
@@ -362,7 +359,7 @@
               gender:this.userinfo.gender,
               birthday:this.userinfo.birthday
             }).then(response=>{
-              console.log(response)
+
               this.setUserInfo(this.userinfo)
               Toast({
                 message: "信息保存成功",

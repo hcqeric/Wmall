@@ -19,7 +19,7 @@
       },
       methods:{
         gotoSearch(){
-          console.log("ssss")
+
           this.$router.push('/search')
         }
       }

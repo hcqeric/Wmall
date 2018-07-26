@@ -66,14 +66,14 @@
           this.$router.back()
         },
         handleChange(value) {
-          console.log(value);
+
         },
         descInput() {
           var txtVal = this.content.length;
           this.remnant = txtVal;
         },
         handleRemove(file, fileList) {
-          console.log(file, fileList);
+
         },
         handleProgress(event, file, fileList) {
           if(document.getElementsByClassName('.el-progress .el-progress--circle') != undefined) {
@@ -93,14 +93,14 @@
         },
         postAppraises(){
           let fileList = []
-          console.log(this.appraisesImgList)
+
           this.appraisesImgList.forEach(item=>{
             let order = item.order
             let type = item.type
             let url = item.url
             fileList.push({order:order, type: type, url: url})
           })
-          console.log(fileList)
+
           let tk = getLocalStorage(Constants.TOKEN)
           addAppraises({
             token: tk
@@ -111,7 +111,7 @@
             score:this.value,
             fileList: fileList
           }).then(response=>{
-            console.log(response)
+
             Toast({
               message: '评论发表成功',
               position:'middle'

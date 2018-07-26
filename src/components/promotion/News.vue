@@ -59,7 +59,6 @@
             page: this.page.toString(),
             limit: this.limit
           }).then(response=>{
-            console.log(response)
             this.loading = false;
             if(response.result.currPage == 1 && response.result.totalPage < response.result.currPage) {
               this.isNoList = true

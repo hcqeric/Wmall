@@ -50,7 +50,6 @@
           },{
             id:id
           }).then(response=>{
-            console.log(response)
           })
         }
       }

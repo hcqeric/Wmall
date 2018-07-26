@@ -79,7 +79,7 @@
         this.remnant = txtVal;
       },
       handleRemove(file, fileList) {
-        console.log(file, fileList);
+
       },
       handleProgress(event, file, fileList) {
         if(document.getElementsByClassName('.el-progress .el-progress--circle') != undefined) {
@@ -115,7 +115,6 @@
         refundApply({
           token: tk
         },datas).then(response=>{
-          console.log(response)
           Toast({
             message: '提交申请成功',
             position:'middle'
@@ -144,8 +143,6 @@
       }
       this.backRefunds = this.$store.state.shop.backRefunds
       this.id = this.backRefunds.id
-      console.log(this.backRefunds)
-      console.log(this.id)
       // this.$refs.uload.hidePictureCardUpload();
 
     }
