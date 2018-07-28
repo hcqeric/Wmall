@@ -47,7 +47,7 @@
             <span>已阅读并同意《用户服务协议》</span>
           </div>
           <div class="goto">
-            <button type="primary" @click="submitForm('ruleForm')">注册</button>
+            <button @click="doRegister">注册</button>
           </div>
           <div class="behavior">
             <router-link to="/login">
@@ -142,7 +142,7 @@
         }).catch(function (error) {
         });
       },
-      submitForm(formName) {
+      doRegister() {
         if (this.ruleForm.mobile === ''){
           Toast({
             message: '手机号不能为空',

@@ -19,7 +19,7 @@
           </div>
         </el-form-item>
         <div class="goto">
-          <button type="primary" @click="submitForm('ruleForm')" ref="btnLogin">登录</button>
+          <button  @click="doLogin" ref="btnLogin">登录</button>
         </div>
         <div class="behavior">
           <router-link to="/forgetpass">
@@ -62,7 +62,7 @@
       goBack() {
         this.$router.back()
       },
-      submitForm(formName) {
+      doLogin() {
         if(this.ruleForm.username === ''){
           Toast({
             message: '手机号不能为空',
