@@ -10,7 +10,7 @@
             <div class="record-content" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
               <div class="cart-item" v-for="(item,index) in cartList" :key="index">
                 <!--<Goods :ableCheck="true" :cartGoodsItem="item" :cartIndex="index" ref="child"></Goods>-->
-                <div class="goods-item">
+                <div class="shop-goods-item">
                   <div class="item-check">
                     <el-checkbox v-model="item.checked" @change="handleCheckItem(item)"></el-checkbox>
                   </div>
@@ -219,11 +219,14 @@
             return
           }
           let selectedGoodsList = [];
+          let ids = []
           this.cartList.map(item => {
             if (item.checked) {
               selectedGoodsList.push(item)
+              ids.push(item.id)
             }
           })
+          console.log(ids)
           if (selectedGoodsList.length == 0) return Toast({
             message: '请选择商品',
             position: 'middle'
@@ -231,8 +234,11 @@
           this.setConfirmGoods({
             selectedGoodsList: selectedGoodsList
           })
+          let idsString = ids.join('-')
+          idsString = decodeURIComponent(idsString)
+          console.log(idsString)
           this.setHasCreatedOrder(false)
-          this.$router.push('/payment')
+          this.$router.push('/payment/' + idsString)
         },
         loadMore() {
           if(!this.allLoaded){
@@ -441,7 +447,7 @@
   }
 
   /*goods-item*/
-  .goods-item {
+  .shop-goods-item {
     box-sizing: border-box;
     height: 160px;
     width: 100%;

@@ -27,7 +27,7 @@
             <p>开户银行</p>
           </div>
           <div class="cell-right">
-            <el-select v-model="bankName" clearable placeholder="请选择开户银行" @change="handleChange">
+            <el-select v-model="bankName" placeholder="请选择开户银行" @change="handleChange">
               <el-option
                 v-for="item in bankOptions"
                 :key="item.id"
@@ -83,6 +83,7 @@
             message: "添加成功",
             position: 'middle'
           });
+          this.$router.push('/account')
         })
       }
     },
@@ -202,5 +203,10 @@
 <style>
   .cell-right  .el-input__inner{
     border: none;
+    padding: 0 4px;
+    color: #000;
+  }
+  .cell-right .el-input__inner::-webkit-input-placeholder{
+    color: #757575;
   }
 </style>

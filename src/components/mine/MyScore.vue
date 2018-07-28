@@ -109,7 +109,6 @@
       getBonus({
         token: tk
       }).then(response=>{
-        console.log(response)
         this.scores = response.result
         if (response.result.boolean == 0) {
           this.isSetPass = true

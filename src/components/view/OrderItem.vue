@@ -1,5 +1,5 @@
 <template>
-    <div class="order-item" v-if="orderItem"  @click="gotoDetail(orderItem.orderNum.toString())">
+    <div class="order-item" v-if="orderItem"  @click="gotoDetail(orderItem.id.toString())">
       <div class="order-number">
         <p>订单号：{{orderItem.orderNum}}</p>
         <p v-if="orderItem.tradeStatus == 0">待付款</p>

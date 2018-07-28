@@ -16,7 +16,7 @@
           </div>
           <div class="item" v-if="userId">
             <p>受让人名称：</p>
-            <p>{{username}}</p>
+            <p>{{nickname}}</p>
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@
         <CardView countTitle="赠送积分" totalTitle="可赠积分" @changeBonus="getBonus" :scores="ableScore.toString()"></CardView>
         </div>
       </div>
-      <div class="goto">
+      <div class="goto" v-if="showBtn">
         <button @click="turnToExchangeSuccess">立即赠送</button>
       </div>
     </div>
@@ -48,7 +48,9 @@
         token:'',
         userId:'',
         username:'',
-        ableScore: 0
+        ableScore: 0,
+        showBtn:true,
+        clientHeight: 0
       }
     },
     methods: {
@@ -127,6 +129,15 @@
       this.token = tk
       let ableScore = this.$store.state.user.ableScore
       this.ableScore =ableScore
+
+      this.clientHeight = document.documentElement.clientHeight
+      window.onresize = () => {
+        if (document.documentElement.clientHeight < this.clientHeight) {
+          this.showBtn = false
+        } else {
+          this.showBtn = true
+        }
+      }
     }
   }
 </script>

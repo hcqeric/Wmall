@@ -112,7 +112,7 @@ let router = new Router({
       component: CartIndex
     },
     {
-      path: '/payment',
+      path: '/payment/:id',
       name: 'Payment',
       component: Payment
     },

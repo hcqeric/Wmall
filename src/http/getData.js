@@ -120,6 +120,8 @@ export const setDefaultAddress = (params,datas) => new Request().require({api: u
 
 export const wxJsPay = (params, datas) => new Request().require({api: url.wxJsPay, param: params, data:datas}); // 微信公众号支付
 
+export const getAddressAndGoods = (params, datas) => new Request().require({api: url.addressAndGoods, param: params, data:datas}); // 订单确认页面
+
 
 
 

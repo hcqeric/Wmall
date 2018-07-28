@@ -49,7 +49,7 @@
             this.$router.push('/mallindex')
           },
           gotoOrderDetail(){
-            this.$router.push('/orderdetail/'+ this.orderNum)
+            this.$router.push('/orderdetail/'+ this.orderId)
           }
       },
       components:{

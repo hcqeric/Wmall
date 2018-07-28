@@ -94,14 +94,14 @@
           }}
         if(this.pageInfo.oldPass === this.pageInfo.newPass){
           Toast({
-            message: "輸入的原密碼與新密碼一致，請重新輸入",
+            message: "输入的原密码与新密码一致，请重新输入",
             position: 'middle'
           });
           return
         }
         if(this.pageInfo.confirmPass !== this.pageInfo.newPass){
           Toast({
-            message: "輸入的新密碼與確認密碼一致，請重新輸入",
+            message: "输入的新密码与确认密码不一致，请重新输入",
             position: 'middle'
           });
           return

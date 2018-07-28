@@ -143,12 +143,15 @@
               }).then( response=> {
                 if (response.data.code === 0){
                   Toast({
-                    message: '密码充值成功',
+                    message: '密码重置成功',
                     position: 'middle',
                     duration: 1000})
                   this.$router.replace('/login')
                 }else if(response.data.code === 500){
-                  Toast(response.data.msg);
+                  Toast({
+                    message: response.data.msg,
+                    position:'middle'
+                  });
                 }
               }).catch(function (error) {
                 console.log(error);

@@ -74,5 +74,6 @@ export default {
   returnReason:'app/order/returnReasonList',
   defaultAddress: 'app/userAds/updateDefaultFlag',
   wxJsPay:'app/pay/wxJsPay',
+  addressAndGoods:'/app/userAds/getAdsListAndGoods',
   wxAuth:'http://api.cnzha.com/app/wx/authorization?userId='
 }

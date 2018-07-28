@@ -3,7 +3,7 @@
     <div class="count">
       <div class="trans-count">
         <p>{{countTitle}}:</p>
-        <input type="text"  @change="transBonus" v-model="bonus">
+        <input type="number"  @change="transBonus" v-model.number="bonus" min="0">
       </div>
       <img src="http://p90m90efq.bkt.clouddn.com/money.png" alt="">
     </div>
@@ -29,6 +29,14 @@
       methods:{
         transBonus(){
           this.$emit("changeBonus", this.bonus)
+        }
+      },
+      watch:{
+        'bonus': function(newVal,oldVal){
+          const regex = /^([0-9]*[1-9][0-9]*(.[0-9]+)?|[0]+.[0-9]*[1-9][0-9]*)$/
+          if(!regex.test(newVal)) {//如果小于等于零
+            this.bonus = oldVal //恢复原值
+          }
         }
       }
     }

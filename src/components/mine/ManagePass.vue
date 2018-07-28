@@ -8,7 +8,7 @@
         <div class="input-cell" @click="updateLoginPass">
           <div class="cell-left">
             <i class="iconfont icon-suoding"></i>
-            <p>登录密码</p>
+            <p>修改登录密码</p>
           </div>
           <div class="cell-right">
             <i class="el-icon-arrow-right"></i>
@@ -17,7 +17,7 @@
         <div class="input-cell" @click="updateTransPass" v-if="hasPayPass">
           <div class="cell-left">
             <i class="iconfont icon-jinbiduihuan"></i>
-            <p>兑换密码</p>
+            <p>修改兑换密码</p>
           </div>
           <div class="cell-right">
             <i class="el-icon-arrow-right"></i>
@@ -32,6 +32,7 @@
   import {mapGetters} from 'vuex'
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
+  import{getBonus} from "../../http/getData";
 
   export default {
     name: "ManagePass",
@@ -57,10 +58,17 @@
       }
     },
     mounted(){
-      let paypass = getLocalStorage(Constants.SETUPPAYPASS)
-      if (paypass == 0){
-        this.hasPayPass = true
-      }
+      let tk = getLocalStorage(Constants.TOKEN)
+      getBonus({
+        token: tk
+      }).then(response=>{
+        this.scores = response.result
+        if (response.result.boolean == 0) {
+          this.hasPayPass = true
+        }else{
+          this.hasPayPass = false
+        }
+      })
     }
   }
 </script>

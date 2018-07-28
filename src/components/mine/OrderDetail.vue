@@ -37,10 +37,12 @@
             <p>订单编号</p>
             <p>{{orderInfo.orderNum}}</p>
           </div>
-          <div class="payment-item" v-if="orderInfo.payType != undefined && orderInfo.payType">
+          <div class="payment-item" v-if="orderInfo.payType != undefined">
             <p>支付方式</p>
-            <p v-if="orderInfo.payType == 1">微信</p>
+            <p v-if="orderInfo.payType == 0">未支付</p>
+            <p v-else-if="orderInfo.payType == 1">微信</p>
             <p v-else-if="orderInfo.payType == 2">支付宝</p>
+            <p v-else-if="orderInfo.payType == 3">积分支付</p>
           </div>
           <div class="payment-item" v-if="orderInfo.upOrderNum != undefined && orderInfo.upOrderNum">
             <p>交易流水号</p>
@@ -100,7 +102,7 @@
   import OrderGoods from '@/components/view/OrderDetailGoods'
   import OrderEvaluationGoods from '@/components/view/OrderEvaluationGoods'
   import PayKeyBoard from '@/components/view/PayKeyBoard'
-  import {getOrderByOrderNum,wxPay,pointPay, wxJsPay} from "../../http/getData"
+  import {getPaySuccInfo,wxPay,pointPay, wxJsPay} from "../../http/getData"
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
   import {mapActions} from 'vuex'
@@ -136,8 +138,7 @@
           orderId: this.orderInfo.id.toString(),
           payPassword: val
         }).then(response=>{
-          this.setPaySuccOrderId(response.orderId)
-          this.$router.push('paymentsucc')
+          this.$router.push('/paymentsucc/' + this.orderInfo.id.toString())
         })
         this.isPay = false
       },
@@ -152,10 +153,10 @@
         this.radio = this.buyType
         this.dialogShow = true
       },
-      turnToPostEva(){
-        this.setBackRefunds(this.orderInfo)
-        this.$router.push('postevaluation')
-      },
+      // turnToPostEva(){
+      //   this.setBackRefunds(this.orderInfo)
+      //   this.$router.push('/postevaluation')
+      // },
       gotoPay(){
         if(this.radio == 0){
           if (this.isWeiXin()) {
@@ -180,10 +181,10 @@
                   cancelButtonText:'支付遇到问题',
                   closeOnClickModal: false
                 }).then(action=>{
-                  getOrderByOrderNum({
+                  getPaySuccInfo({
                     token: this.token
                   },{
-                    orderNum: this.orderId
+                    id: this.orderId
                   }).then(response=>{
                     this.orderState = response.result.tradeStatus
                   })
@@ -240,7 +241,8 @@
         this.orderId = orderid
         let tk = getLocalStorage(Constants.TOKEN)
         this.token = tk
-        getOrderByOrderNum({token: tk},{orderNum: orderid}).then(response=>{
+        getPaySuccInfo({token: tk},{id: orderid}).then(response=>{
+          console.log(response)
           this.orderInfo = response.result
           this.buyType = response.result.buyType
           this.orderState = response.result.tradeStatus

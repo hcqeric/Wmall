@@ -4,10 +4,10 @@
         <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
-      <div class="no-address" v-if="addressList.length == 0">
+      <div class="no-address" v-if="addressList.length <= 0">
         <button @click="addNewAddress"><span>+</span>添加新的收货地址</button>
       </div>
-      <div class="address" @click="selectedAdressVisible = true" v-if="address">
+      <div class="address" @click="selectedAdressVisible = true" v-else-if="addressList.length > 0">
         <Address :address="address" class="default-address"></Address>
         <i class="el-icon-arrow-right"></i>
       </div>
@@ -69,7 +69,7 @@
   import Address from '@/components/view/Address'
   import AddressWithEditor from '@/components/view/AddressWithEditor'
   import PayKeyBoard from '@/components/view/PayKeyBoard'
-  import {getDefaultAddress, orderSave, wxPay, pointPay, getAdsList,wxJsPay,getPaySuccInfo} from "../../http/getData";
+  import {getDefaultAddress, orderSave, wxPay, pointPay, getAdsList,wxJsPay,getPaySuccInfo,getAddressAndGoods} from "../../http/getData";
   import {mapActions} from 'vuex'
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
@@ -186,7 +186,7 @@
             wxPay({
               orderId: this.orderId
             }).then(response => {
-              window.open(response.result.mweb_url)
+              window.location.href = response.result.mweb_url
               setTimeout(() => {
                 MessageBox({
                   title: '支付结果确认',
@@ -262,30 +262,6 @@
         this.hasCreatedOrder = true
       }
 
-      if(this.$store.state.shop.confirmGoods){
-        let {selectedGoodsList} = this.$store.state.shop.confirmGoods
-
-        this.goodsList = selectedGoodsList
-
-        let  scoreGoodsArr = selectedGoodsList.filter(item=>{
-          return item.goods.type == 2
-        })
-
-        if (scoreGoodsArr.length == 0){
-          this.buyType = 0
-        }else if(scoreGoodsArr.length ==  selectedGoodsList.length){
-          this.buyType = 2
-        }else{
-          this.buyType = 3
-        }
-        this.totalAmount = 0
-        this.totalScore = 0
-        selectedGoodsList.map(item=>{
-          this.totalAmount +=  item.goodsNum * item.goods.sellPrice
-          this.totalScore +=  item.goodsNum * item.goods.bonusPrice
-          this.ids.push(item.goods.id)
-        })
-      }
       let tk = getLocalStorage(Constants.TOKEN)
       this.token = tk
       getAdsList({
@@ -298,6 +274,34 @@
         token: tk
       }).then(response=>{
         this.address = response.result
+      })
+      let {id} = this.$route.params
+      let ids = decodeURIComponent(id).replace('-', ',')
+      getAddressAndGoods({
+        token: tk
+      },{
+        ids:ids
+      }).then(response=>{
+        this.addressList = response.adsList
+        this.goodsList = response.goodsList
+        let  scoreGoodsArr = this.goodsList.filter(item=>{
+          return item.goods.type == 2
+        })
+
+        if (scoreGoodsArr.length == 0){
+          this.buyType = 0
+        }else if(scoreGoodsArr.length ==  this.goodsList.length){
+          this.buyType = 2
+        }else{
+          this.buyType = 3
+        }
+        this.totalAmount = 0
+        this.totalScore = 0
+        this.goodsList.map(item=>{
+          this.totalAmount +=  item.goodsNum * item.goods.sellPrice
+          this.totalScore +=  item.goodsNum * item.goods.bonusPrice
+          this.ids.push(item.goods.id)
+        })
       })
     }
   }

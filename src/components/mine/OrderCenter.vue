@@ -37,31 +37,6 @@
         <img src="../../assets/img/nolist.png" />
         <p>您还没有相关订单</p>
       </div>
-
-      <div class="msgbox-wrapper" style="position: absolute; z-index: 2011;display: block;" v-show="dialogShow == true"  ref="msgbox">
-        <div class="mint-msgbox" style="">
-          <div class="mint-msgbox-header">
-            <div class="mint-msgbox-title">选择支付方式</div>
-          </div>
-          <div class="mint-msgbox-content">
-            <div class="pay-list">
-              <div class="pay-item">
-                <el-radio v-model="radio" :label="1">微信支付</el-radio>
-                <i class="iconfont icon-weixinzhifu"></i>
-              </div>
-              <div class="pay-item">
-                <el-radio v-model="radio" :label="2">积分支付</el-radio>
-                <img src="../../assets/img/jif1.png" alt="">
-              </div>
-            </div>
-          </div>
-          <div class="mint-msgbox-btns">
-            <button class="mint-msgbox-btn mint-msgbox-cancel" @click="gotoPay">去支付</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal" style="z-index: 2006;"  v-show="dialogShow == true" @click="dialogShow = false" ></div>
     </div>
 </template>
 

@@ -122,14 +122,12 @@
         })
       },
       getCategoryGoods() {
-        console.log("getCategoryGoods")
         if (this.serials.length > 0) {
           getSerialGoods({
             page: this.page.toString(),
             limit: this.limit,
             goodsTypeId: this.categoryId.toString()
           }).then(response => {
-
             this.loading = false;
             if(response.result.currPage == 1 && response.result.totalPage < response.result.currPage) {
               this.allLoaded = true
