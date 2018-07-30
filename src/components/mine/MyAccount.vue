@@ -23,7 +23,7 @@
               <p>银行卡号</p>
             </div>
             <div class="cell-right">
-              <input type="text" :value="myAccount.cardNo" disabled>
+              <input type="text" :value="myAccount.cardNo|bankcardFormat" disabled>
               <i class="iconfont icon-lajixiang" @click="deleteBank"></i>
             </div>
           </div>
@@ -33,7 +33,7 @@
               <p>支付宝号</p>
             </div>
             <div class="cell-right">
-              <input type="text" :value="myAccount.aliPay" disabled>
+              <input type="text" :value="myAccount.aliPay | bankcardFormat(2)" disabled>
               <i class="iconfont icon-lajixiang" @click="deleteAlipay"></i>
             </div>
           </div>

@@ -7,9 +7,20 @@
         <img :src="imgUrl" alt="">
         <div class="share">
           <p>分享二维码给好友，好友注册成功并且购物满20元，即可永远成为你的一级好友~</p>
-          <button>推广给好友，一起来赚钱！</button>
+          <button @click="shareToFriends">推广给好友，一起来赚钱！</button>
         </div>
       </div>
+
+      <mt-popup v-model="shareToFriendsVisible" :closeOnClickModal="true" :modal="true" position="bottom" class="modal-popup">
+        <div class="share-container">
+          <div class="share-title"></div>
+          <div class="share-list">
+            <div class="share-item">
+
+            </div>
+          </div>
+        </div>
+      </mt-popup>
     </div>
 </template>
 
@@ -23,10 +34,14 @@
     data(){
       return {
         id:'1',
-        imgUrl:''
+        imgUrl:'',
+        shareToFriendsVisible: false
       }
     },
     methods:{
+      shareToFriends(){
+        this.shareToFriendsVisible = true
+      },
       goBack() {
         this.$router.back()
       }
@@ -66,7 +81,7 @@
   }
   .share{
     position: absolute;
-    bottom:15vh;
+    bottom:10vh;
     display: flex;
     flex-direction: column;
     padding: 0 36px;
@@ -88,5 +103,16 @@
     outline: none;
     text-align: center;
     color: #fff;
+  }
+
+  .modal-popup{
+    width: 100%;
+    height: 100vh;
+    background: transparent;
+  }
+  .share-container{
+    height: 100vh;
+    width: 100%;
+    position: relative;
   }
 </style>

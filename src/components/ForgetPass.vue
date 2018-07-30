@@ -4,15 +4,17 @@
         <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
       </mt-header>
       <div class="content">
-        <el-form :model="ruleForm"  :rules="rules2" ref="ruleForm" label-position="left" label-width="100px" :show-message="false" class="demo-ruleForm">
-          <el-form-item prop="mobile" class="item">
+        <div :model="ruleForm"  :rules="rules2" ref="ruleForm" label-position="left" label-width="100px" :show-message="false" class="demo-ruleForm">
+          <div prop="mobile" class="item">
             <div slot="label" class="labels">
               <img src="../assets/img/shouj.png" alt="" class="phone">
               <span>手机号码</span>
             </div>
+            <div class="form-content">
             <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码"></el-input>
-          </el-form-item>
-          <el-form-item prop="verify" class="item">
+            </div>
+          </div>
+          <div prop="verify" class="item">
             <div slot="label" class="labels">
               <img src="../assets/img/duanx.png" alt="">
               <span>短信验证</span>
@@ -21,8 +23,8 @@
             <el-input v-model="ruleForm.verify" auto-complete="off" placeholder="请输入验证码"></el-input>
             <button type="text" @click="sendCode('ruleForm')" ref="btnCode">发送验证码</button>
             </div>
-          </el-form-item>
-          <el-form-item prop="password" class="item">
+          </div>
+          <div prop="password" class="item">
             <div slot="label" class="labels">
               <img src="../assets/img/yaos.png" alt="">
               <span>设置新密码</span>
@@ -31,12 +33,11 @@
             <el-input :type="delivery ?  'text' : 'password'" v-model.number="ruleForm.password" placeholder="请输入新密码"></el-input>
             <el-switch v-model="delivery"></el-switch>
             </div>
-          </el-form-item>
+          </div>
           <div class="goto">
             <button type="primary" @click="submitForm('ruleForm')">确定</button>
           </div>
-
-        </el-form>
+        </div>
       </div>
     </div>
 </template>
@@ -75,11 +76,7 @@
         };
       },
       methods: {
-        async storeState(token){
-          await localStorage.setItem(Constants.TOKEN, token)
-          await  this.setToken(token)
-          await  this.loginState(true)
-        },
+
         goBack() {
           this.$router.back()
         },
@@ -182,18 +179,22 @@
   }
   .item{
     position: relative;
+    display: flex;
+    height: 46px;
+    align-items: center;
   }
   .item:after{
     position: absolute;
     content: '';
     height: 1px;
-    bottom: -1px;
+    bottom: 0px;
     width: 100%;
     background-color: #eee;
   }
   .labels{
     display: flex;
     align-items: center;
+    width: 100px;
   }
   .labels img{
     width: 20px;
@@ -203,6 +204,7 @@
     width: 16px;
   }
   .form-content{
+    flex: 1;
     display: flex;
     align-items: center;
   }
@@ -239,6 +241,7 @@
   }
   .item .el-input__inner{
     border: none;
+    flex: 1;
   }
   .item .el-button--text{
     color: #999;

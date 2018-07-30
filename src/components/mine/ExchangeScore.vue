@@ -8,7 +8,7 @@
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
         <div class="trans-content" v-if="cardNo">
           <p>兑换账户：</p>
-          <p>{{cardNo}}</p>
+          <p>{{cardNo| bankcardFormat}}</p>
         </div>
       </div>
       <div class="trans-detail">
@@ -167,7 +167,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    margin-bottom: 100px;
+    margin-bottom: 10vh;
     text-align: center;
   }
   .goto button{

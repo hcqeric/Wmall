@@ -64,6 +64,7 @@
     flex-direction: column;
     justify-content: space-between;
     margin: 8px 0;
+    overflow: hidden;
   }
   .rec-goods .intro p:first-child{
     font-size: 14px;
@@ -72,10 +73,11 @@
   .rec-goods .intro p:last-of-type{
     font-size: 12px;
     color: #a7a7a7;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 6rem;
+
+    /*width: 6rem;*/
     padding: 4px 0;
   }
   .rec-goods .rec-price{

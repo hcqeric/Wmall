@@ -47,7 +47,7 @@
         score:'',
         token:'',
         userId:'',
-        username:'',
+        nickname:'',
         ableScore: 0,
         showBtn:true,
         clientHeight: 0
@@ -74,14 +74,13 @@
         },{
           mobile: this.mobile
         }).then(response=>{
-          console.log(response)
           if (response.result == ''){
             Toast({
               message: "该用户不存在"
             })
           }
           this.userId = response.result.userId
-          this.username = response.result.username
+          this.nickname = response.result.nickname
         })
       },
       goBack() {
@@ -94,7 +93,7 @@
           })
           return
         }
-        if (this.score > 6000){
+        if (this.score > this.ableScore){
           Toast({
               message:"您的可转积分不足"
           })
@@ -189,6 +188,7 @@
     width: 100px;
   }
   .item .info input{
+    flex: 1;
     box-sizing: border-box;
     height: 28px;
     padding: 4px;
@@ -197,6 +197,7 @@
     outline: none;
     border: 1px solid #fff;
     color: #fff;
+    margin-right: 30px;
   }
   .item .info button{
     outline: none;

@@ -1,15 +1,17 @@
 <template>
   <div class="container">
     <div class="content">
-      <el-form :model="ruleForm" ref="ruleForm" label-position="left" label-width="100px" :show-message="false" class="demo-ruleForm">
-        <el-form-item prop="username" class="item">
+      <div :model="ruleForm" ref="ruleForm" label-position="left" label-width="100px" :show-message="false" class="demo-ruleForm">
+        <div prop="username" class="item">
           <div slot="label" class="labels">
             <img src="../assets/img/shouj.png" alt="" class="phone">
             <span>手机号码</span>
           </div>
-          <el-input v-model="ruleForm.username" auto-complete="off" placeholder="请输入手机号码"></el-input>
-        </el-form-item>
-        <el-form-item prop="password" class="item">
+          <div class="form-content">
+            <el-input v-model="ruleForm.username" auto-complete="off" placeholder="请输入手机号码"></el-input>
+          </div>
+        </div>
+        <div prop="password" class="item">
           <div slot="label" class="labels">
             <img src="../assets/img/yaos.png" alt="">
             <span>登录密码</span>
@@ -17,7 +19,7 @@
           <div class="form-content">
             <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder="请输入登录密码"></el-input>
           </div>
-        </el-form-item>
+        </div>
         <div class="goto">
           <button  @click="doLogin" ref="btnLogin">登录</button>
         </div>
@@ -26,7 +28,7 @@
             <span>忘记密码</span>
           </router-link>
         </div>
-      </el-form>
+      </div>
     </div>
   </div>
 </template>
@@ -77,6 +79,7 @@
           Toast('密码不能为空')
           return
         }
+
         this.axios.post(url.login, {
           mobile: this.ruleForm.username,
           password: this.ruleForm.password
@@ -125,18 +128,22 @@
   }
   .item{
     position: relative;
+    display: flex;
+    height: 46px;
+    align-items: center;
   }
   .item:after{
     position: absolute;
     content: '';
     height: 1px;
-    bottom: -1px;
+    bottom: 0px;
     width: 100%;
     background-color: #eee;
   }
   .labels{
     display: flex;
     align-items: center;
+    width: 100px;
   }
   .labels img{
     width: 20px;
@@ -146,6 +153,7 @@
     width: 16px;
   }
   .form-content{
+    flex: 1;
     display: flex;
     align-items: center;
   }
@@ -176,18 +184,22 @@
   .el-form{
     margin-top: 40%;
   }
+  .demo-ruleForm{
+    margin-top: 20vh;
+  }
 </style>
 <style>
-  .item .el-form-item__label{
+  .item .div__label{
     padding: 0;
   }
   .item .el-input__inner{
     border: none;
+    flex: 1;
   }
   .item .el-button--text{
     color: #999;
   }
-  .content .el-form-item {
+  .content .div {
     margin-bottom: 8px;
   }
 </style>

@@ -60,6 +60,7 @@
             message: "添加成功",
             position: 'middle'
           });
+          this.$router.push('/account')
         })
       }
     }

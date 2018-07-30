@@ -8,6 +8,7 @@ const url = 'http://api.cnzha.com/';
 
 //强哥本地IP
 // const url = 'http://192.168.0.138:8080';
+// const url = 'http://192.168.0.130:8080';
 
 export default {
   baseUrl: url,
@@ -75,5 +76,6 @@ export default {
   defaultAddress: 'app/userAds/updateDefaultFlag',
   wxJsPay:'app/pay/wxJsPay',
   addressAndGoods:'/app/userAds/getAdsListAndGoods',
-  wxAuth:'http://api.cnzha.com/app/wx/authorization?userId='
+  wxAuth:'http://api.cnzha.com/app/wx/authorization?userId=',
+  wxConfig:'app/share/getWxConfig'
 }

@@ -35,13 +35,11 @@ Vue.config.devtools = true;
 FastClick.attach(document.body);
 
 router.beforeEach((to, from, next) => {
-  // let tk = getLocalStorage(Constants.TOKEN)
-  // if (to.path == '/login' || to.path.startsWith('/register')){
-  //   if (localStorage.token){
-  //     removeLocalStorage(Constants.TOKEN)
-  //   }
+  // alert(store.state.app.isLogin)
+  // if(store.state.app.isLogin){
+  //   alert("qushouye")
   //   next()
-  // } else
+  // }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!localStorage.token) {
       next({

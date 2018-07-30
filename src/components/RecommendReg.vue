@@ -5,23 +5,25 @@
         <img src="../assets/img/register-logo.png" alt="avatar">
       </el-row>
       <div class="content">
-        <el-form :model="ruleForm" ref="ruleForm" label-position="left" label-width="100px"
-                 :show-message="false" class="demo-ruleForm">
-          <el-form-item prop="recommender" class="item">
+        <div :model="ruleForm" ref="ruleForm" label-position="left" label-width="100px"
+             class="demo-ruleForm">
+          <div prop="recommender" class="item">
             <div slot="label" class="labels">
               <img src="../assets/img/tuij.png" alt="">
               <span>推荐人：</span>
             </div>
             <span>{{recommender.nickname}}</span>
-          </el-form-item>
-          <el-form-item prop="mobile" class="item">
+          </div>
+          <div prop="mobile" class="item">
             <div slot="label" class="labels">
               <img src="../assets/img/shouj.png" alt="" class="phone">
               <span>手机号码</span>
             </div>
-            <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" ref="mobile"></el-input>
-          </el-form-item>
-          <el-form-item prop="verify" class="item">
+            <div class="form-content">
+              <el-input v-model="ruleForm.mobile" auto-complete="off" placeholder="请输入手机号码" ref="mobile"></el-input>
+            </div>
+          </div>
+          <div prop="verify" class="item">
             <div slot="label" class="labels">
               <img src="../assets/img/duanx.png" alt="">
               <span>短信验证</span>
@@ -30,8 +32,8 @@
               <el-input v-model="ruleForm.verify" auto-complete="off" placeholder="请输入验证码"></el-input>
               <button type="text" @click="sendCode('ruleForm')" ref="btnCode">发送验证码</button>
             </div>
-          </el-form-item>
-          <el-form-item prop="password" class="item">
+          </div>
+          <div prop="password" class="item">
             <div slot="label" class="labels">
               <img src="../assets/img/yaos.png" alt="">
               <span>设置密码</span>
@@ -41,7 +43,7 @@
                         placeholder="请输入密码"></el-input>
               <el-switch v-model="delivery"></el-switch>
             </div>
-          </el-form-item>
+          </div>
           <div class="agreement">
             <el-checkbox v-model="ruleForm.checked"></el-checkbox>
             <span>已阅读并同意《用户服务协议》</span>
@@ -54,7 +56,7 @@
               <p>已有账户， <span>直接登录>></span></p>
             </router-link>
           </div>
-        </el-form>
+        </div>
       </div>
     </div>
   </div>
@@ -103,6 +105,11 @@
       };
     },
     methods: {
+      async storeState(token){
+        await localStorage.setItem(Constants.TOKEN, token)
+        await  this.setToken(token)
+        await  this.loginState(true)
+      },
       goBack() {
         this.$router.back()
       },
@@ -230,18 +237,22 @@
   }
   .item{
     position: relative;
+    display: flex;
+    height: 46px;
+    align-items: center;
   }
   .item:after{
     position: absolute;
     content: '';
     height: 1px;
-    bottom: -1px;
+    bottom: 0px;
     width: 100%;
     background-color: #eee;
   }
   .labels{
     display: flex;
     align-items: center;
+    width: 100px;
   }
   .labels img{
     width: 20px;
@@ -251,6 +262,7 @@
     width: 16px;
   }
   .form-content{
+    flex: 1;
     display: flex;
     align-items: center;
   }
@@ -299,6 +311,7 @@
   }
   .item .el-input__inner{
     border: none;
+    flex: 1;
   }
   .item .el-button--text{
     color: #000;

@@ -43,13 +43,12 @@
 <script>
   import {Toast} from 'mint-ui';
   import {updatePayPass, updateUserPass} from "../../http/getData"
-  import {getLocalStorage} from "../../custom/mixin"
+  import {getLocalStorage,removeLocalStorage} from "../../custom/mixin"
   import * as Constants from '../../custom/constants'
   const page_msg = [
     {
       type:"login",
       title:"登录密码",
-      postUrl:"www.baiodu.com",
       oldPass:'',
       newPass:'',
       confirmPass:''
@@ -57,7 +56,6 @@
     {
       type:"trans",
       title: "兑换密码",
-      postUrl:"www.baiodu.com",
       oldPass:'',
       newPass:'',
       confirmPass:''
@@ -119,9 +117,14 @@
               message: "修改成功",
               position: 'middle'
             });
+            this.pageInfo.oldPass = ''
+            this.pageInfo.newPass = ''
+            this.pageInfo.confirmPass = ''
+            removeLocalStorage(Constants.TOKEN)
+            this.$router.push('/login')
           }).catch(error=>{})
         }else if(this.type == page_msg[1].type){
-          updateUserPass({
+          updatePayPass({
             token: tk
           },{
             payPassword: this.pageInfo.oldPass,
@@ -131,6 +134,9 @@
               message: "修改成功",
               position: 'middle'
             });
+            this.pageInfo.oldPass = ''
+            this.pageInfo.newPass = ''
+            this.pageInfo.confirmPass = ''
           }).catch(error=>{})
         }
       }
