@@ -13,12 +13,34 @@
 
       <mt-popup v-model="shareToFriendsVisible" :closeOnClickModal="true" :modal="true" position="bottom" class="modal-popup">
         <div class="share-container">
-          <div class="share-title"></div>
+          <div class="share-title">分享给好友</div>
           <div class="share-list">
-            <div class="share-item">
-
+            <div class="share-item" @click="shareToWeChatFriends">
+              <div class="share-img">
+                <img src="../../assets/img/weixin.png" alt="" />
+              </div>
+              <span>微信好友</span>
+            </div>
+            <div class="share-item" @click="shareToWeChatTimeLine">
+              <div class="share-img">
+              <img src="../../assets/img/pengyouquan.png" alt="" />
+              </div>
+              <span>微信朋友圈</span>
+            </div>
+            <div class="share-item" @click="shareToQQ">
+              <div class="share-img">
+              <img src="../../assets/img/QQ.png" alt="" />
+              </div>
+              <span>QQ好友</span>
+            </div>
+            <div class="share-item" @click="shareToSinaWB">
+              <div class="share-img">
+                <img src="../../assets/img/xinlangweibo.png" alt="" />
+              </div>
+              <span>新浪微博</span>
             </div>
           </div>
+          <div class="share-title" @click="shareToFriendsVisible = false">取消</div>
         </div>
       </mt-popup>
     </div>
@@ -39,6 +61,18 @@
       }
     },
     methods:{
+      shareToWeChatFriends(){
+
+      },
+      shareToWeChatTimeLine(){
+
+      },
+      shareToQQ(){
+
+      },
+      shareToSinaWB(){
+
+      },
       shareToFriends(){
         this.shareToFriendsVisible = true
       },
@@ -111,8 +145,59 @@
     background: transparent;
   }
   .share-container{
-    height: 100vh;
+    /*height: 100vh;*/
     width: 100%;
     position: relative;
+    background: #fff;
+    margin-top: 50%;
+    transform: translate(0, 50%);
   }
+  .share-title{
+    height: 46px;
+    line-height: 46px;
+    text-align: center;
+    font-size: 16px;
+    position: relative;
+    width: 100%;
+  }
+  .share-title:after{
+    content: '';
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    bottom: 1px;
+    left: 0;
+    background: #eee;
+  }
+.share-title:before{
+  content: '';
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  top: 1px;
+  left: 0;
+  background: #eee;
+}
+  .share-list{
+    display: flex;
+    padding: 16px 0;
+  }
+  .share-item{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .share-img{
+    border: 1px solid #eee;
+    padding: 8px;
+    border-radius: 5px;
+  }
+  .share-item img{
+    width: 36px;
+  }
+.share-item span{
+  margin-top: 4px;
+}
 </style>

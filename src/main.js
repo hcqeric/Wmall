@@ -17,9 +17,8 @@ import * as filters from './custom/filters'
 import axios from 'axios'
 import url from './http/url.js'
 import FastClick from 'fastclick'
-import {getLocalStorage, removeLocalStorage} from "./custom/mixin";
-import * as Constants from "./custom/constants";
-
+import wxSDK from 'weixin-js-sdk'
+import {getWxConfig} from "./http/getData";
 
 
 Vue.use(ElementUI)
@@ -31,15 +30,26 @@ Vue.prototype.axios = axios.create({
   baseURL:url.baseUrl,
   timeout:5000
 });
+Vue.prototype.wxConfig = getWxConfig().then(response => {
+  let config = {
+    debug: false,
+    appId: '',
+    timestamp: '',
+    nonceStr: '',
+    signature: '',
+    jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage", "onMenuShareQQ"]
+  }
+  console.log(response)
+  config.appId = response.result.appId
+  config.timestamp = response.result.timestamp
+  config.nonceStr = response.result.nonceStr
+  config.signature = response.result.signature
+  return config
+})
 Vue.config.devtools = true;
 FastClick.attach(document.body);
 
 router.beforeEach((to, from, next) => {
-  // alert(store.state.app.isLogin)
-  // if(store.state.app.isLogin){
-  //   alert("qushouye")
-  //   next()
-  // }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!localStorage.token) {
       next({

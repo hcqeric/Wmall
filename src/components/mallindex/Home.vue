@@ -36,7 +36,7 @@
   import RecommendGoodsList from "@/components/home/RecommendGoodsList";
   import AllGoodsList from "../home/AllGoodsList";
   import BonusGoodsList from "../home/BonusGoodsList";
-  import {getWxConfig} from "../../http/getData";
+
 
   export default {
     name: "Home",
@@ -63,9 +63,6 @@
         })
       }).catch(function (error) {
       });
-      getWxConfig().then(response=>{
-        console.log(response)
-      })
     },
     methods:{
       changeTab(tab){
