@@ -80,37 +80,41 @@
         goBack() {
           this.$router.back()
         },
-        sendCode(formName){
-          this.$refs[formName].validate((valid) => {
-            if (valid) {
-              this.$refs.btnCode.disabled=true;
-              this.axios.post(url.verify,{
-                mobile: this.ruleForm.mobile,
-                codeType: "1"
-              }).then( response=> {
-                if (response.data.code === 0){
-                  let btnCode = this.$refs.btnCode;
-                  let second = 60
-                  btnCode.innerHTML =second + 'S后重发'
-                  let timer = setInterval(()=>{
-                    second--
-                    btnCode.innerHTML =second + 'S后重发'
-                    if(second<=0){
-                      clearInterval(timer)
-                      btnCode.innerHTML ='重发验证码'
-                      this.$refs.btnCode.disabled=false
-                    }
-                  },1000)
-                }else if(response.data.code === 500){
-                  Toast(response.data.msg);
+        sendCode(formName) {
+          if (this.ruleForm.mobile === '') {
+            Toast({
+              message: '手机号不能为空',
+              position: 'middle',
+              duration: 1000
+            })
+            return
+          } else if (!(/^1(3|4|5|7|8)\d{9}$/.test(this.ruleForm.mobile))) {
+            Toast('手机号码格式不正确')
+            return
+          }
+          this.$refs.btnCode.disabled = true;
+          this.axios.post(url.verify, {
+            mobile: this.ruleForm.mobile,
+            codeType: "1"
+          }).then(response => {
+            if (response.data.code === 0) {
+              let btnCode = this.$refs.btnCode;
+              let second = 60
+              btnCode.innerHTML = second + 'S后重发'
+              let timer = setInterval(() => {
+                second--
+                btnCode.innerHTML = second + 'S后重发'
+                if (second <= 0) {
+                  clearInterval(timer)
+                  btnCode.innerHTML = '重发验证码'
+                  this.$refs.btnCode.disabled = false
                 }
-              }).catch(function (error) {
-                console.log(error);
-              });
-            } else {
-              console.log('error submit!!');
-              return false;
+              }, 1000)
+            } else if (response.data.code === 500) {
+              Toast(response.data.msg);
             }
+          }).catch(function (error) {
+            console.log(error);
           });
         },
         submitForm(formName) {

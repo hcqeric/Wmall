@@ -77,5 +77,6 @@ export default {
   wxJsPay:'app/pay/wxJsPay',
   addressAndGoods:'/app/userAds/getAdsListAndGoods',
   wxAuth:'http://api.cnzha.com/app/wx/authorization?userId=',
-  wxConfig:'app/share/getWxConfig'
+  wxConfig:'app/share/getWxConfig',
+  feedback:'app/feedback/save'
 }

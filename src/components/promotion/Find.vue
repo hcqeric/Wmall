@@ -57,7 +57,7 @@
                 url:'/static/img/find7.png'
               },
               {
-                name: "产品介绍B",
+                name: "美智学院",
                 url:'/static/img/find8.png'
               },{
                 name: "代理风采",

@@ -5,7 +5,7 @@
       <button   :placeholder="visible ? '输入搜索内容' : ''"></button>
       <span v-show="!visible"><i class="mintui mintui-search"></i>搜索</span>
     </div>
-    <a href="#" class="searchbar-cancel" @click="visible = false" v-show="visible">取消</a>
+    <!--<a href="#" class="searchbar-cancel" @click="visible = false" v-show="visible">取消</a>-->
     </div>
 </template>
 
@@ -58,8 +58,12 @@
   }
   .searchbox span{
     position: absolute;
-    display: flex;
-    align-items: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 30px;
     color: #999;
     font-size: 12px;
   }

@@ -17,7 +17,6 @@ import * as filters from './custom/filters'
 import axios from 'axios'
 import url from './http/url.js'
 import FastClick from 'fastclick'
-import wxSDK from 'weixin-js-sdk'
 import {getWxConfig} from "./http/getData";
 
 
@@ -30,22 +29,29 @@ Vue.prototype.axios = axios.create({
   baseURL:url.baseUrl,
   timeout:5000
 });
-Vue.prototype.wxConfig = getWxConfig().then(response => {
-  let config = {
-    debug: false,
-    appId: '',
-    timestamp: '',
-    nonceStr: '',
-    signature: '',
-    jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage", "onMenuShareQQ"]
-  }
-  console.log(response)
-  config.appId = response.result.appId
-  config.timestamp = response.result.timestamp
-  config.nonceStr = response.result.nonceStr
-  config.signature = response.result.signature
-  return config
-})
+Vue.prototype.wxConfig = () =>{
+  return new Promise((resolve, reject)=>{
+    getWxConfig().then(response => {
+      let config = {
+        debug: true,
+        appId: '',
+        timestamp: '',
+        nonceStr: '',
+        signature: '',
+        jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage", "onMenuShareQQ"]
+      }
+      console.log(response)
+      config.appId = response.result.appId
+      config.timestamp = response.result.timestamp
+      config.nonceStr = response.result.nonceStr
+      config.signature = response.result.signature
+      resolve(config)
+    },error => {
+      reject(error)
+    })
+  })
+}
+
 Vue.config.devtools = true;
 FastClick.attach(document.body);
 

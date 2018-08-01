@@ -124,7 +124,7 @@
           birthday:new Date('1903-03-03'),
           startDate: new Date('1900-01-01'),
           endDate: new Date(),
-          userbirth:new Date(),
+          userbirth:'',
           sexVisible:false,
           uploadUrl:'',
           imageUrl:'',
@@ -380,7 +380,9 @@
             name: '女',
             method: this.selectWoman
           }]
-          this.userbirth = GMTToDateStr(this.userinfo.birthday)
+          if (this.userinfo.birthday){
+            this.userbirth = GMTToDateStr(this.userinfo.birthday)
+          }
           let tk = getLocalStorage(Constants.TOKEN)
           this.uploadUrl = `http://120.79.16.221:8777/app/file/ftpUpload/headImg/0?token=` + tk
           this.imageUrl = this.userinfo.logoUrl
@@ -394,7 +396,6 @@
             let proItem = this.getCurrProvince(this.addressProvinceCode)
             let cityItem = this.getCurrCity(this.addressProvinceCode, this.addressCityCode)
             let countyItem = this.getCurrCounty(this.addressProvinceCode, this.addressCityCode, this.addressCountCode)
-
             this.fullLevelAddress = proItem["name"] + cityItem["name"] + countyItem["name"];
           }
 

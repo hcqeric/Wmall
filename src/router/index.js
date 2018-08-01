@@ -50,9 +50,7 @@ import RefundApply from '@/components/mine/RefundApply'
 import News from '@/components/promotion/News'
 import CompanyIntro from '@/components/promotion/CompanyIntro'
 import PaymentFail from '@/components/shopcart/PaymentFail'
-
-import {getLocalStorage,removeLocalStorage} from "../custom/mixin"
-import * as Constants from '../custom/constants'
+import Feedback from '@/components/mine/Feedback'
 
 Vue.use(Router)
 
@@ -315,27 +313,13 @@ let router = new Router({
       path: '/payfail/:id',
       name: 'payfail',
       component: PaymentFail
+    },
+    {
+      path: '/feedback',
+      name: 'feedback',
+      component: Feedback
     }
   ]
 })
 
-// router.beforeEach( (to, from, next) => {
-//   let tk = getLocalStorage(Constants.TOKEN)
-//   if (to.path == '/login' || to.path.startsWith('/register')){
-//     if (localStorage.token){
-//       removeLocalStorage(Constants.TOKEN)
-//     }
-//     next()
-//   } else if (to.matched.some(record => record.meta.requiresAuth)) {
-//     if (!localStorage.token) {
-//       next({
-//         path: '/login'
-//       })
-//     } else {
-//       next()
-//     }
-//   } else {
-//     next()
-//   }
-// })
 export default router

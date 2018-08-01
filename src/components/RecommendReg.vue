@@ -66,24 +66,12 @@
   import * as Constants from '../custom/constants'
   import { Toast } from 'mint-ui';
   import url from '../http/url.js'
+  import {mapActions} from 'vuex'
   import {getUserInfoById} from "../http/getData";
 
   export default {
     name: "RecommendReg",
     data() {
-
-      var validateMobile = (rule, value, callback) => {
-        if (value === '') {
-          callback(Toast({
-            message: '手机号不能为空',
-            position: 'middle',
-            duration: 1000}));
-        } else if(!(/^1(3|4|5|7|8)\d{9}$/.test(value))) {
-          callback(Toast('手机号码格式不正确'));
-        } else {
-          callback();
-        }
-      };
       return {
         recommendUserId:'',
         recommender:{},
@@ -94,17 +82,13 @@
           password: '',
           checked:true
         }
-        // rules: {
-        //   mobile: [
-        //     { validator: validateMobile, trigger: 'blur' }
-        //   ],
-        //   // password: [
-        //   //   { validator: validatePass, trigger: 'blur' }
-        //   // ]
-        // }
       };
     },
     methods: {
+      ...mapActions([
+        'loginState',
+        'setToken'
+      ]),
       async storeState(token){
         await localStorage.setItem(Constants.TOKEN, token)
         await  this.setToken(token)
@@ -146,8 +130,7 @@
           } else if (response.data.code === 500) {
             Toast(response.data.msg);
           }
-        }).catch(function (error) {
-        });
+        }).catch(function (error) {});
       },
       doRegister() {
         if (this.ruleForm.mobile === ''){
@@ -193,9 +176,16 @@
           selected: this.ruleForm.checked ? "0" : "1"
         }).then(response => {
           if (response.data.code === 0) {
+            console.log(response)
             let data = response.data
+            let userId = response.data.result.userId
             this.storeState(data.result.token).then(() => {
-              this.$router.push('/mallindex')
+              if(this.isWeiXin()){
+                let authUrl = url.wxAuth + userId
+                window.location.href = authUrl
+              }else{
+                this.$router.push('/mallindex')
+              }
             })
           } else if (response.data.code === 500) {
             Toast(response.data.msg);

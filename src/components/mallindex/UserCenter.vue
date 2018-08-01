@@ -4,7 +4,7 @@
       <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
       <div class="userinfo" v-if="userinfo">
         <img :src="userinfo.logoUrl" alt="avatar">
-        <span>{{userinfo.nickname}}</span>
+        <span @click="$router.replace('/userinfo')">{{userinfo.nickname}}</span>
       </div>
     </div>
     <!--我的信息-->
@@ -67,11 +67,11 @@
             <i class="el-icon-arrow-right"></i>
           </div>
         </router-link>
-        <!--我的账户-->
-        <router-link class="item" to="/account">
+        <!--新手教程-->
+        <router-link class="item" to="/tutorial">
           <div class="item-left">
-            <img src="../../assets/img/zhanghu.png" alt="">
-            <span>我的账户</span>
+            <img src="../../assets/img/user-dir.png" alt="">
+            <span>新手教程</span>
           </div>
           <div class="item-right">
             <i class="el-icon-arrow-right"></i>
@@ -110,12 +110,12 @@
         </div>
         <div class="system-service">
           <!--联系客服-->
-          <div class="item" @click="dialogShow = true">
+          <router-link class="item" to="/feedback">
             <div class="item-left">
               <img src="../../assets/img/dianhu.png" alt="">
-              <span>联系客服</span>
+              <span>意见反馈</span>
             </div>
-          </div>
+          </router-link>
           <!--系统设置-->
           <router-link class="item" to="/system">
             <div class="item-left">
@@ -124,27 +124,6 @@
             </div>
           </router-link>
         </div>
-
-        <div class="msgbox-wrapper" style="position: absolute; z-index: 2011;display: block;"
-             v-show="dialogShow == true" ref="msgbox">
-          <div class="mint-msgbox" style="">
-            <div class="mint-msgbox-header">
-              <div class="mint-msgbox-title">联系客服</div>
-            </div>
-            <div class="mint-msgbox-content">
-              <div class="mint-msgbox-message">亲，有任何疑问都可以联系客服哦！我们都会给您耐心详尽的解答~</div>
-              <div class="mint-msgbox-input" style="display: none;"><input placeholder="" type="text">
-                <div class="mint-msgbox-errormsg" style="visibility: hidden;"></div>
-              </div>
-            </div>
-            <div class="mint-msgbox-btns">
-              <button class="mint-msgbox-btn mint-msgbox-cancel" @click="dialogShow = false">取消</button>
-              <button class="mint-msgbox-btn mint-msgbox-cancel" @click="dialogShow = false">确定</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal" style="z-index: 2006;" v-show="dialogShow == true" @click="dialogShow = false"></div>
       </div>
     </div>
   </div>
@@ -167,22 +146,7 @@
     methods: {
       ...mapActions([
         'setUserInfo'
-      ]),
-      contactUs() {
-        MessageBox({
-          title: '联系客服',
-          message: '亲，有任何疑问都可以联系客服哦！我们都会给您耐心详尽的解答~',
-          showCancelButton: true,
-          confirmButtonText: '确定',
-          cancelButtonText: '取消'
-        }).then(action => {
-          if (action === 'confirm') {
-
-          } else {
-            console.log("quxiaole")
-          }
-        });
-      }
+      ])
     },
     mounted(){
       let tk = getLocalStorage(Constants.TOKEN)
@@ -310,11 +274,6 @@
     padding: 8px 10px;
     min-height: 48px;
     width: 100%;
-    /*background-image: linear-gradient(180deg, #d9d9d9, #d9d9d9 50%, transparent 50%);*/
-    /*background-size: 120% 1px;*/
-    /*background-repeat: no-repeat;*/
-    /*background-position: bottom left;*/
-    /*background-origin: border-box;*/
   }
 
   .order-state-item {
@@ -344,36 +303,4 @@
   a {
     text-decoration: none;
   }
-
-  /*联系客服弹框*/
-  .modal {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.5;
-    background: #000;
-  }
-
-  .msgbox {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate3d(-50%, -50%, 0);
-    transform: translate3d(-50%, -50%, 0);
-    background-color: #fff;
-    width: 85%;
-    border-radius: 3px;
-    font-size: 16px;
-    -webkit-user-select: none;
-    overflow: hidden;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-transition: .2s;
-    transition: .2s;
-  }
-
-  /*联系客服弹框*/
-
 </style>

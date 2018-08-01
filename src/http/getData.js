@@ -124,6 +124,8 @@ export const getAddressAndGoods = (params, datas) => new Request().require({api:
 
 export const getWxConfig = () => new Request().require({api: url.wxConfig}); // 获取微信参数配置
 
+export const saveFeedback = (params, datas) => new Request().require({api: url.feedback, param: params, data:datas}); // 问题反馈
+
 
 
 

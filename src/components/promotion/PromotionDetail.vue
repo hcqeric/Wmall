@@ -50,6 +50,8 @@
   import {getShareInfo} from "../../http/getData";
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
+  import {Toast} from 'mint-ui'
+  import wxSDK from 'weixin-js-sdk'
 
   export default {
     name: "PromotionDetail",
@@ -57,24 +59,102 @@
       return {
         id:'1',
         imgUrl:'',
-        shareToFriendsVisible: false
+        shareToFriendsVisible: false,
+        shareData:{
+          title:'',
+          desc:'',
+          link:'',
+          imgUrl:''
+        }
       }
     },
     methods:{
       shareToWeChatFriends(){
+        this.wxConfig().then(config=>{
+          wxSDK.config(config)
+          wxSDK.ready(() => {
+            wxSDK.onMenuShareAppMessage({
+              title: this.shareData.title,
+              desc: this.shareData.desc,
+              link: this.shareData.link,
+              imgUrl: this.shareData.imgUrl,
+              success: () => {
+                Toast({
+                  message: '分享成功',
+                  position: 'middle'
+                })
+
+              },
+              cancel: () => {
+                Toast({
+                  message: '分享失败',
+                  position: 'middle'
+                })
+              }
+            });
+          })
+        })
 
       },
       shareToWeChatTimeLine(){
-
+        this.wxConfig().then(config=>{
+          wxSDK.config(config)
+          wxSDK.ready(() => {
+            wxSDK.onMenuShareTimeline({
+              title: this.shareData.title,
+              desc: this.shareData.desc,
+              link: this.shareData.link,
+              imgUrl: this.shareData.imgUrl,
+              success: () => {
+                Toast({
+                  message: '分享成功',
+                  position: 'middle'
+                })
+              },
+              cancel: () => {
+                Toast({
+                  message: '分享失败',
+                  position: 'middle'
+                })
+              }
+            });
+          })
+        })
       },
       shareToQQ(){
-
+        this.wxConfig().then(config=>{
+          wxSDK.config(config)
+          wxSDK.ready(() => {
+            wxSDK.onMenuShareQQ({
+              title: this.shareData.title,
+              desc: this.shareData.desc,
+              link: this.shareData.link,
+              imgUrl: this.shareData.imgUrl,
+              success: () => {
+                Toast({
+                  message: '分享成功',
+                  position: 'middle'
+                })
+              },
+              cancel: () => {
+                Toast({
+                  message: '分享失败',
+                  position: 'middle'
+                })
+              }
+            });
+          })
+        })
       },
       shareToSinaWB(){
 
       },
       shareToFriends(){
         this.shareToFriendsVisible = true
+        this.shareData.title="美智甄品"
+        this.shareData.link = window.location.href
+        this.shareData.imgUrl = this.imgUrl
+        console.log(this.shareData)
       },
       goBack() {
         this.$router.back()

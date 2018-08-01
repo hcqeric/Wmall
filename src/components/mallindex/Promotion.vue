@@ -3,7 +3,7 @@
     <div class="goods-nav">
       <div :class="selected==1 ? 'is-selected' : ''" @click="changeTab('1')">我要推广</div>
       <div :class="selected==2 ? 'is-selected' : ''" @click="changeTab('2')">发现</div>
-      <div :class="selected==3 ? 'is-selected' : ''" @click="changeTab('3')">新闻动态</div>
+      <div :class="selected==3 ? 'is-selected' : ''" @click="changeTab('3')">资料库</div>
     </div>
     <div v-if="selected==1">
       <div>

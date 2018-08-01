@@ -38,14 +38,14 @@
             <i class="el-icon-arrow-right"></i>
           </div>
         </router-link>
-        <!--<router-link class="score-item" to="/score/recharge">-->
-          <!--<img src="../../assets/img/fugoujif.png" alt="">-->
-          <!--<div class="content-score">-->
-            <!--<p>复购积分</p>-->
-            <!--<p>{{scores.scoreRepeat}}</p>-->
-            <!--<i class="el-icon-arrow-right"></i>-->
-          <!--</div>-->
-        <!--</router-link>-->
+        <router-link class="score-item" to="/account">
+        <img src="../../assets/img/fugoujif.png" alt="">
+        <div class="content-score">
+          <p>我的账户</p>
+          <p></p>
+          <i class="el-icon-arrow-right"></i>
+        </div>
+      </router-link>
       </div>
       <div class="buttons">
         <button @click="turnToScoreTrans">积分转增</button>
@@ -189,14 +189,14 @@
     display: flex;
     flex-direction: row;
     padding: 8px 0;
-    border-bottom: 1px solid rgba(153,153,153,0.2);
+    border-bottom: 1px solid #eee;
     align-items: center;
 
   }
   .score-item img{
     width: 22px;
   }
-  .score-item:last-of-type{
+  .score-items .score-item:last-of-type{
     border-bottom: none;
   }
   .content-total{
@@ -210,7 +210,7 @@
     color: #000;
   }
   .content-total i{
-    color: #efefef;
+    color: #fff;
   }
   .content-score{
     display: flex;

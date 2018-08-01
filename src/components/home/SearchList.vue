@@ -146,8 +146,6 @@
   outline: none;
   border: none;
   flex: 1;
-  text-shadow: 0px 0px 0px #000;
-  -webkit-text-fill-color: transparent;
 }
 
   .search-header button{
