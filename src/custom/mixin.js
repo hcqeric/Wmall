@@ -105,6 +105,12 @@ export function GMTToDateStr(time){
   return Str
 }
 
+export function randomStr(length) {
+  var str = '';
+  for ( ; str.length < length; str += Math.random().toString(36).substr(2) );
+  return str.substr(0, length);
+}
+
 export function checkBankCardLuhn(bankno) {
   var num = /^\d*$/; //全数字
   if (!num.exec(bankno)) {

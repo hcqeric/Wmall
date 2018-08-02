@@ -69,7 +69,7 @@
 <script>
   import Goods from '@/components/view/Goods'
   import {getCartList, deleteCart, addCart} from "../../http/getData";
-  import {getLocalStorage} from "../../custom/mixin";
+  import {getLocalStorage,removeLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
   import { MessageBox, Toast } from 'mint-ui';
   import {mapActions} from 'vuex'
@@ -238,6 +238,7 @@
           idsString = decodeURIComponent(idsString)
           console.log(idsString)
           this.setHasCreatedOrder(false)
+          // removeLocalStorage("SOCKET_ID")
           this.$router.push('/payment/' + idsString)
         },
         loadMore() {

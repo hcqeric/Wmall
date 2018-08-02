@@ -122,7 +122,7 @@ export const wxJsPay = (params, datas) => new Request().require({api: url.wxJsPa
 
 export const getAddressAndGoods = (params, datas) => new Request().require({api: url.addressAndGoods, param: params, data:datas}); // 订单确认页面
 
-export const getWxConfig = () => new Request().require({api: url.wxConfig}); // 获取微信参数配置
+export const getWxConfig = (datas) => new Request().require({api: url.wxConfig, data:datas}); // 获取微信参数配置
 
 export const saveFeedback = (params, datas) => new Request().require({api: url.feedback, param: params, data:datas}); // 问题反馈
 

@@ -32,16 +32,17 @@
       data() {
         return {
           selected: '',
-          templateList:[]
+          templateList:[],
+          token:''
         };
       },
       methods: {
         changeTab(tab) {
           this.selected = tab
           if (tab == 3) {
-            this.$router.push('/promotion/news')
+            this.$router.replace('/promotion/news')
           }else{
-            this.$router.push('/promotion')
+            this.$router.replace('/promotion')
           }
         }
       },
@@ -52,6 +53,8 @@
       },
       mounted(){
         let tk = getLocalStorage(Constants.TOKEN)
+        this.token = tk
+        console.log(this.$router.currentRoute)
         getShareList({
           token: tk
         }).then(response=>{
@@ -60,7 +63,22 @@
           })
           this.changeTab('1')
         })
+      },
+    updated(){
+      if(this.selected == '3'){
+        if(this.$router.currentRoute.path == '/promotion'){
+          console.log("chongxin huidao 1")
+          getShareList({
+            token: this.token
+          }).then(response=>{
+            response.result.map(item=>{
+              this.templateList.push(item)
+            })
+            this.changeTab('1')
+          })
+        }
       }
+    }
     }
 </script>
 

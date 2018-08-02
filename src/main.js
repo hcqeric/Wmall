@@ -16,7 +16,7 @@ import store from './store'
 import * as filters from './custom/filters'
 import axios from 'axios'
 import url from './http/url.js'
-import FastClick from 'fastclick'
+// import FastClick from 'fastclick'
 import {getWxConfig} from "./http/getData";
 
 
@@ -29,11 +29,13 @@ Vue.prototype.axios = axios.create({
   baseURL:url.baseUrl,
   timeout:5000
 });
-Vue.prototype.wxConfig = () =>{
+Vue.prototype.wxConfig = url => {
   return new Promise((resolve, reject)=>{
-    getWxConfig().then(response => {
+    getWxConfig({
+      url:url
+    }).then(response => {
       let config = {
-        debug: true,
+        debug: false,
         appId: '',
         timestamp: '',
         nonceStr: '',
@@ -53,7 +55,7 @@ Vue.prototype.wxConfig = () =>{
 }
 
 Vue.config.devtools = true;
-FastClick.attach(document.body);
+// FastClick.attach(document.body);
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {

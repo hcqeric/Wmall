@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <mt-popup v-model="shareToFriendsVisible" :closeOnClickModal="true" :modal="true" position="bottom" class="modal-popup">
+      <mt-popup v-model="shareToFriendsVisible" @click.native="shareToFriendsVisible = false"  :modal="true" position="bottom" class="modal-popup">
         <div class="share-container">
           <div class="share-title">分享给好友</div>
           <div class="share-list">
@@ -43,6 +43,12 @@
           <div class="share-title" @click="shareToFriendsVisible = false">取消</div>
         </div>
       </mt-popup>
+      <mt-popup v-model="userShareDirVisible" @click.native="userShareDirVisible = false" position="right"
+                class="modal-popup"  >
+        <div class="user-share-dir">
+          <img src="../../assets/img/user-share-dir.png" alt="">
+        </div>
+      </mt-popup>
     </div>
 </template>
 
@@ -60,6 +66,7 @@
         id:'1',
         imgUrl:'',
         shareToFriendsVisible: false,
+        userShareDirVisible: false,
         shareData:{
           title:'',
           desc:'',
@@ -70,7 +77,10 @@
     },
     methods:{
       shareToWeChatFriends(){
-        this.wxConfig().then(config=>{
+        this.shareToFriendsVisible = false
+        this.userShareDirVisible = true
+        this.wxConfig(this.shareData.link).then(config=>{
+          console.log(config)
           wxSDK.config(config)
           wxSDK.ready(() => {
             wxSDK.onMenuShareAppMessage({
@@ -97,7 +107,9 @@
 
       },
       shareToWeChatTimeLine(){
-        this.wxConfig().then(config=>{
+        this.shareToFriendsVisible = false
+        this.userShareDirVisible = true
+        this.wxConfig(this.shareData.link).then(config=>{
           wxSDK.config(config)
           wxSDK.ready(() => {
             wxSDK.onMenuShareTimeline({
@@ -122,37 +134,42 @@
         })
       },
       shareToQQ(){
-        this.wxConfig().then(config=>{
-          wxSDK.config(config)
-          wxSDK.ready(() => {
-            wxSDK.onMenuShareQQ({
-              title: this.shareData.title,
-              desc: this.shareData.desc,
-              link: this.shareData.link,
-              imgUrl: this.shareData.imgUrl,
-              success: () => {
-                Toast({
-                  message: '分享成功',
-                  position: 'middle'
-                })
-              },
-              cancel: () => {
-                Toast({
-                  message: '分享失败',
-                  position: 'middle'
-                })
-              }
-            });
-          })
-        })
+        let shareUrl = 'http://connect.qq.com/widget/shareqq/index.html?url=' + '+ this.shareData.imgUrl' + '&sharesource=qzone&title=' + encodeURIComponent(this.shareData.title) + '&pics=' + this.shareData.imgUrl
+        window.location.href = shareUrl
+        // this.wxConfig(this.shareData.link).then(config=>{
+        //   wxSDK.config(config)
+        //   wxSDK.ready(() => {
+        //     wxSDK.onMenuShareQQ({
+        //       title: this.shareData.title,
+        //       desc: this.shareData.desc,
+        //       link: this.shareData.link,
+        //       imgUrl: this.shareData.imgUrl,
+        //       success: () => {
+        //         Toast({
+        //           message: '分享成功',
+        //           position: 'middle'
+        //         })
+        //       },
+        //       cancel: () => {
+        //         Toast({
+        //           message: '分享失败',
+        //           position: 'middle'
+        //         })
+        //       }
+        //     });
+        //   })
+        // })
       },
       shareToSinaWB(){
-
+        let url = 'http://service.weibo.com/share/share.php?url=' + this.shareData.link + '&title=' + encodeURIComponent(this.shareData.title) + '&pic=' + this.shareData.imgUrl
+        window.location.href = url
       },
       shareToFriends(){
         this.shareToFriendsVisible = true
+        console.log(wxSDK.invoke)
         this.shareData.title="美智甄品"
-        this.shareData.link = window.location.href
+        this.shareData.link = location.href.split("#")[0]
+
         this.shareData.imgUrl = this.imgUrl
         console.log(this.shareData)
       },
@@ -219,7 +236,7 @@
     color: #fff;
   }
 
-  .modal-popup{
+  .mint-popup{
     width: 100%;
     height: 100vh;
     background: transparent;
@@ -280,4 +297,11 @@
 .share-item span{
   margin-top: 4px;
 }
+.user-share-dir{
+  margin: 16px;
+  text-align: right;
+}
+  .user-share-dir img{
+    width: 70vw;
+  }
 </style>

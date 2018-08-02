@@ -71,7 +71,7 @@
   import PayKeyBoard from '@/components/view/PayKeyBoard'
   import {getDefaultAddress, orderSave, wxPay, pointPay, getAdsList,wxJsPay,getPaySuccInfo,getAddressAndGoods} from "../../http/getData";
   import {mapActions} from 'vuex'
-  import {getLocalStorage} from "../../custom/mixin";
+  import {getLocalStorage, randomStr, setLocalStorage,removeLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
   import {Toast,MessageBox} from 'mint-ui'
 
@@ -127,7 +127,7 @@
           payPassword: val
         }).then(response => {
           this.setPaySuccOrderId(response.orderId)
-          this.$router.push('/paymentsucc/' + this.orderId)
+          this.$router.replace('/paymentsucc/' + this.orderId)
         })
         this.isPay = false
       },
@@ -154,12 +154,19 @@
           })
           return
         }
+        removeLocalStorage("SOCKET_ID")
+        // let randomString = new Date().getTime() + randomStr(10)
+        let randomString = randomStr(10)
+        console.log(randomString)
+        setLocalStorage("SOCKET_ID", randomString)
+        this.initWebSocket(randomString)
         orderSave({
           token: this.token
         }, {
           id: this.address.id,
           ids: this.ids,
-          buyType: this.buyType
+          buyType: this.buyType,
+          socketId: randomString
         }).then(response => {
           console.log(response)
           this.radio = response.result.order.buyType
@@ -173,7 +180,6 @@
       gotoPay() {
         if (this.radio == 0) {
           if (this.isWeiXin()) {
-
             wxJsPay({
               token: this.token
             },{
@@ -203,9 +209,9 @@
                   }).then(response => {
                     this.orderState = response.result.tradeStatus
                     if (this.orderState == 1) {
-                      this.$router.push('/paymentsucc/' + this.orderId)
+                      this.$router.replace('/paymentsucc/' + this.orderId)
                     } else {
-                      this.$router.push('/payfail/' + this.orderId)
+                      this.$router.replace('/payfail/' + this.orderId)
                     }
                   })
                 });
@@ -226,9 +232,9 @@
           'getBrandWCPayRequest', response.jsInfo,
           res=>{
             if (res.err_msg == "get_brand_wcpay_request:ok") {// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
-              this.$router.push('/paymentsucc/'+ this.orderId )
+              this.$router.replace('/paymentsucc/'+ this.orderId )
             } else{
-              this.$router.push('/payfail/'+ this.orderId )
+              this.$router.replace('/payfail/'+ this.orderId )
             }
           }
         );
@@ -252,10 +258,55 @@
         } else {
           return false;
         }
+      },
+
+      initWebSocket(socketId){
+        //ws地址
+        const wsuri = "ws://120.79.16.221:8777/socket?"+socketId
+        console.log(wsuri)
+        this.websock = new WebSocket(wsuri);
+        this.websock.onmessage = this.websocketonmessage;
+        this.websock.onclose = this.websocketclose;
+      },
+      websocketonmessage(receive){ //数据接收
+        console.log(receive);
+        if(receive.code == 0){
+          this.$router.replace('/paymentsucc/'+ this.orderId )
+        }else{
+          this.$router.replace('/payfail/'+ this.orderId )
+        }
+      },
+      websocketsend(agentData){
+        this.websock.send("connnect",agentData);
+      },
+      websocketclose(e){  //关闭
+        console.log("connection closed");
       }
     }
     ,
     mounted(){
+
+      // if (getLocalStorage("SOCKET_ID")){
+      //   let soc_url = 'http://api.cnzha.com/app/ws/'+ getLocalStorage("SOCKET_ID") +'/success'
+      //   let soc_url_fail = 'http://api.cnzha.com/app/ws/'+ getLocalStorage("SOCKET_ID") +'/fail'
+      //   console.log(soc_url)
+      //   console.log(soc_url_fail)
+      //   this.axios.get(soc_url).then(response=>{
+      //     console.log(response)
+      //     if (response.data.code === 0) {
+      //       this.$router.replace('/paymentsucc/'+ this.orderId )
+      //     }
+      //   })
+      //
+      //   this.axios.get(soc_url_fail).then(response=>{
+      //     console.log(response)
+      //     if (response.data.code === 0) {
+      //       this.$router.replace('/paymentsucc/'+ this.orderId )
+      //     }
+      //   })
+      //
+      // }
+
 
       if (this.$store.state.shop.hasCreatedOrder != undefined && this.$store.state.shop.hasCreatedOrder){
         console.log(this.$store.state.shop.hasCreatedOrder)

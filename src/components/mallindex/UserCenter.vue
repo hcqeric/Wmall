@@ -3,7 +3,16 @@
     <div class="user-header">
       <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
       <div class="userinfo" v-if="userinfo">
-        <img :src="userinfo.logoUrl" alt="avatar">
+        <el-upload
+          class="avatar-uploader"
+          :action="uploadUrl"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+        <!--<img :src="userinfo.logoUrl" alt="avatar">-->
         <span @click="$router.replace('/userinfo')">{{userinfo.nickname}}</span>
       </div>
     </div>
@@ -130,8 +139,8 @@
 </template>
 
 <script>
-  import {MessageBox} from 'mint-ui';
-  import {getUserInfo} from "../../http/getData";
+  import {Toast} from 'mint-ui';
+  import {getUserInfo,updateUserInfo} from "../../http/getData";
   import { getLocalStorage } from '@/custom/mixin';
   import * as Constants from '../../custom/constants'
   import {mapActions} from 'vuex'
@@ -140,21 +149,49 @@
     data() {
       return {
         dialogShow: false,
-        userinfo: null
+        userinfo: null,
+        uploadUrl:'',
+        imageUrl:'',
+        token:''
       }
     },
     methods: {
+      handleAvatarSuccess(res,file){
+        this.imageUrl = URL.createObjectURL(file.raw);
+
+        updateUserInfo({
+          token: this.token
+        },{
+          logoUrl: res.result.url
+        }).then(response=>{
+          Toast({
+            message: '更换头像成功',
+            position: 'middle',
+            duration: '500'
+          })
+        })
+      },
+      beforeAvatarUpload(file){
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isLt2M;
+      },
       ...mapActions([
         'setUserInfo'
       ])
     },
     mounted(){
       let tk = getLocalStorage(Constants.TOKEN)
+      this.token = tk
+      this.uploadUrl = `http://120.79.16.221:8777/app/file/ftpUpload/headImg/0?token=` + tk
       getUserInfo({
         token: tk
       }).then(response=>{
         this.userinfo = response.result
         this.setUserInfo(this.userinfo)
+        this.imageUrl = this.userinfo.logoUrl
       })
     }
   }

@@ -56,7 +56,7 @@ class Request {
             });
             return reject()
         }).catch(error=>{
-          console.log(error.data)
+          // console.log(error.data)
         })
 
     })

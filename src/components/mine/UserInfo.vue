@@ -302,10 +302,8 @@
 
         },
         handleAvatarSuccess(res,file){
-
           this.imageUrl = URL.createObjectURL(file.raw);
           this.userinfo.logoUrl = res.result.url
-
         },
         beforeAvatarUpload(file){
           const isLt2M = file.size / 1024 / 1024 < 2;
