@@ -69,7 +69,7 @@
   import Address from '@/components/view/Address'
   import AddressWithEditor from '@/components/view/AddressWithEditor'
   import PayKeyBoard from '@/components/view/PayKeyBoard'
-  import {getDefaultAddress, orderSave, wxPay, pointPay, getAdsList,wxJsPay,getPaySuccInfo,getAddressAndGoods} from "../../http/getData";
+  import {getDefaultAddress, orderSave, wxPay, pointPay, wxJsPay,getPaySuccInfo,getAddressAndGoods} from "../../http/getData";
   import {mapActions} from 'vuex'
   import {getLocalStorage, randomStr, setLocalStorage,removeLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
@@ -98,10 +98,6 @@
         orderState:0,
         hasCreatedOrder:false
       }
-    },
-    mounted() {
-      this.totalAmount = 5900
-      this.dialogShow = false
     },
     components: {
       OrderGoods,
@@ -154,23 +150,23 @@
           })
           return
         }
-        removeLocalStorage("SOCKET_ID")
+        removeLocalStorage("ORDER_ID")
         // let randomString = new Date().getTime() + randomStr(10)
-        let randomString = randomStr(10)
-        console.log(randomString)
-        setLocalStorage("SOCKET_ID", randomString)
-        this.initWebSocket(randomString)
+        // let randomString = randomStr(10)
+        // console.log(randomString)
+        // setLocalStorage("SOCKET_ID", randomString)
+        // this.initWebSocket(randomString)
         orderSave({
           token: this.token
         }, {
           id: this.address.id,
           ids: this.ids,
           buyType: this.buyType,
-          socketId: randomString
         }).then(response => {
           console.log(response)
           this.radio = response.result.order.buyType
           this.orderId = response.result.order.id
+          setLocalStorage("ORDER_ID", response.result.order.id)
           this.orderNum = response.result.order.orderNum
           this.hasCreatedOrder = true
           this.setHasCreatedOrder(true)
@@ -193,29 +189,6 @@
               orderId: this.orderId
             }).then(response => {
               window.location.href = response.result.mweb_url
-              setTimeout(() => {
-                MessageBox({
-                  title: '支付结果确认',
-                  message: '请确认微信支付是否已完成',
-                  showCancelButton: true,
-                  confirmButtonText: '已完成支付',
-                  cancelButtonText: '支付遇到问题',
-                  closeOnClickModal: false
-                }).then(action => {
-                  getPaySuccInfo({
-                    token: this.token
-                  }, {
-                    id: this.orderId.toString()
-                  }).then(response => {
-                    this.orderState = response.result.tradeStatus
-                    if (this.orderState == 1) {
-                      this.$router.replace('/paymentsucc/' + this.orderId)
-                    } else {
-                      this.$router.replace('/payfail/' + this.orderId)
-                    }
-                  })
-                });
-              }, 2000)
             })
           }
         } else if (this.radio == 2) {
@@ -258,68 +231,41 @@
         } else {
           return false;
         }
-      },
-
-      initWebSocket(socketId){
-        //ws地址
-        const wsuri = "ws://120.79.16.221:8777/socket?"+socketId
-        console.log(wsuri)
-        this.websock = new WebSocket(wsuri);
-        this.websock.onmessage = this.websocketonmessage;
-        this.websock.onclose = this.websocketclose;
-      },
-      websocketonmessage(receive){ //数据接收
-        console.log(receive);
-        if(receive.code == 0){
-          this.$router.replace('/paymentsucc/'+ this.orderId )
-        }else{
-          this.$router.replace('/payfail/'+ this.orderId )
-        }
-      },
-      websocketsend(agentData){
-        this.websock.send("connnect",agentData);
-      },
-      websocketclose(e){  //关闭
-        console.log("connection closed");
       }
-    }
-    ,
+    },
     mounted(){
-
-      // if (getLocalStorage("SOCKET_ID")){
-      //   let soc_url = 'http://api.cnzha.com/app/ws/'+ getLocalStorage("SOCKET_ID") +'/success'
-      //   let soc_url_fail = 'http://api.cnzha.com/app/ws/'+ getLocalStorage("SOCKET_ID") +'/fail'
-      //   console.log(soc_url)
-      //   console.log(soc_url_fail)
-      //   this.axios.get(soc_url).then(response=>{
-      //     console.log(response)
-      //     if (response.data.code === 0) {
-      //       this.$router.replace('/paymentsucc/'+ this.orderId )
-      //     }
-      //   })
-      //
-      //   this.axios.get(soc_url_fail).then(response=>{
-      //     console.log(response)
-      //     if (response.data.code === 0) {
-      //       this.$router.replace('/paymentsucc/'+ this.orderId )
-      //     }
-      //   })
-      //
-      // }
-
+      this.dialogShow = false
+      let tk = getLocalStorage(Constants.TOKEN)
+      this.token = tk
+      if(localStorage.ORDER_ID != undefined){
+          MessageBox({
+            title: '支付结果确认',
+            message: '请确认微信支付是否已完成',
+            showCancelButton: true,
+            confirmButtonText: '已完成支付',
+            cancelButtonText: '支付遇到问题',
+            closeOnClickModal: false
+          }).then(action => {
+            let id = getLocalStorage("ORDER_ID")
+            getPaySuccInfo({
+              token: this.token
+            }, {
+              id: id
+            }).then(response => {
+              this.orderState = response.result.tradeStatus
+              if (this.orderState == 1) {
+                this.$router.replace('/paymentsucc/' + id)
+              } else {
+                this.$router.replace('/payfail/' + id)
+              }
+            })
+          })
+      }
 
       if (this.$store.state.shop.hasCreatedOrder != undefined && this.$store.state.shop.hasCreatedOrder){
         console.log(this.$store.state.shop.hasCreatedOrder)
         this.hasCreatedOrder = true
       }
-
-      let tk = getLocalStorage(Constants.TOKEN)
-      this.token = tk
-      getAdsList({
-        token: tk
-      }).then(response=>{
-        this.addressList = response.result
-      }).catch(error=>{})
 
       getDefaultAddress({
         token: tk

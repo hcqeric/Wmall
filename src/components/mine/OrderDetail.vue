@@ -242,7 +242,6 @@
         let tk = getLocalStorage(Constants.TOKEN)
         this.token = tk
         getPaySuccInfo({token: tk},{id: orderid}).then(response=>{
-          console.log(response)
           this.orderInfo = response.result
           this.buyType = response.result.buyType
           this.orderState = response.result.tradeStatus

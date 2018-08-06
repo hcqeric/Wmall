@@ -70,7 +70,6 @@
             this.recGoodsList.push(item)
           })
         }).catch(error=>{
-          console.log(error);
           this.loading = false
           this.allLoaded = true
           this.info = "~~数据加载异常，请稍后再试~~"
@@ -82,9 +81,6 @@
 </script>
 
 <style scoped>
-  .page-infinite{
-    background: #fff;
-  }
   .page-infinite-loading {
     display: flex;
     flex-direction: column;

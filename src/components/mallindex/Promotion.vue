@@ -54,7 +54,6 @@
       mounted(){
         let tk = getLocalStorage(Constants.TOKEN)
         this.token = tk
-        console.log(this.$router.currentRoute)
         getShareList({
           token: tk
         }).then(response=>{
@@ -67,7 +66,6 @@
     updated(){
       if(this.selected == '3'){
         if(this.$router.currentRoute.path == '/promotion'){
-          console.log("chongxin huidao 1")
           getShareList({
             token: this.token
           }).then(response=>{

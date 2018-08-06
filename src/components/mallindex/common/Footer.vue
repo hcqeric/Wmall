@@ -57,7 +57,6 @@
   .bottom-nav i{
     display: block;
     font-size: 0.5rem;
-    margin-bottom: 4px;
   }
   div.active {
     background-color: #eaeaea;

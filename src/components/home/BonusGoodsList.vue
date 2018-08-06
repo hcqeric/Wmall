@@ -83,9 +83,6 @@
 </script>
 
 <style scoped>
-  .page-infinite{
-    background: #fff;
-  }
   .page-infinite-loading {
     display: flex;
     flex-direction: column;

@@ -76,40 +76,51 @@
       }
     },
     methods:{
-      shareToWeChatFriends(){
-        this.shareToFriendsVisible = false
-        this.userShareDirVisible = true
-        this.wxConfig(this.shareData.link).then(config=>{
-          console.log(config)
-          wxSDK.config(config)
-          wxSDK.ready(() => {
-            wxSDK.onMenuShareAppMessage({
-              title: this.shareData.title,
-              desc: this.shareData.desc,
-              link: this.shareData.link,
-              imgUrl: this.shareData.imgUrl,
-              success: () => {
-                Toast({
-                  message: '分享成功',
-                  position: 'middle'
-                })
-
-              },
-              cancel: () => {
-                Toast({
-                  message: '分享失败',
-                  position: 'middle'
-                })
-              }
-            });
-          })
-        })
-
+      isWeiXin() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+          return true;
+        } else {
+          return false;
+        }
       },
-      shareToWeChatTimeLine(){
+      shareToWeChatFriends(){
+        if(this.isWeiXin()){
+          this.shareToFriendsVisible = false
+          this.userShareDirVisible = true
+          this.wxConfig(this.shareData.link).then(config=>{
+            console.log(config)
+            wxSDK.config(config)
+            wxSDK.ready(() => {
+              wxSDK.onMenuShareAppMessage({
+                title: this.shareData.title,
+                desc: this.shareData.desc,
+                link: this.shareData.link,
+                imgUrl: this.shareData.imgUrl,
+                success: () => {
+                  Toast({
+                    message: '分享成功',
+                    position: 'middle'
+                  })
+
+                },
+                cancel: () => {
+                  Toast({
+                    message: '分享失败',
+                    position: 'middle'
+                  })
+                }
+              });
+            })
+          })
+        }else{
+          jsCallShare.share("js调用了android中的hello方法");
+        }
+      },
+      shareToWeChatTimeLine() {
         this.shareToFriendsVisible = false
         this.userShareDirVisible = true
-        this.wxConfig(this.shareData.link).then(config=>{
+        this.wxConfig(this.shareData.link).then(config => {
           wxSDK.config(config)
           wxSDK.ready(() => {
             wxSDK.onMenuShareTimeline({
@@ -134,43 +145,48 @@
         })
       },
       shareToQQ(){
-        let shareUrl = 'http://connect.qq.com/widget/shareqq/index.html?url=' + '+ this.shareData.imgUrl' + '&sharesource=qzone&title=' + encodeURIComponent(this.shareData.title) + '&pics=' + this.shareData.imgUrl
-        window.location.href = shareUrl
-        // this.wxConfig(this.shareData.link).then(config=>{
-        //   wxSDK.config(config)
-        //   wxSDK.ready(() => {
-        //     wxSDK.onMenuShareQQ({
-        //       title: this.shareData.title,
-        //       desc: this.shareData.desc,
-        //       link: this.shareData.link,
-        //       imgUrl: this.shareData.imgUrl,
-        //       success: () => {
-        //         Toast({
-        //           message: '分享成功',
-        //           position: 'middle'
-        //         })
-        //       },
-        //       cancel: () => {
-        //         Toast({
-        //           message: '分享失败',
-        //           position: 'middle'
-        //         })
-        //       }
-        //     });
-        //   })
-        // })
+          this.shareToFriendsVisible = false
+          this.userShareDirVisible = true
+          this.wxConfig(this.shareData.link).then(config=>{
+            wxSDK.config(config)
+            wxSDK.ready(() => {
+              wxSDK.onMenuShareQQ({
+                title: this.shareData.title,
+                desc: this.shareData.desc,
+                link: this.shareData.link,
+                imgUrl: this.shareData.imgUrl,
+                success: () => {
+                  Toast({
+                    message: '分享成功',
+                    position: 'middle'
+                  })
+                },
+                cancel: () => {
+                  Toast({
+                    message: '分享失败',
+                    position: 'middle'
+                  })
+                }
+              });
+            })
+          })
+          // let shareUrl = 'http://connect.qq.com/widget/shareqq/index.html?url=' + '+ this.shareData.imgUrl' + '&sharesource=qzone&title=' + encodeURIComponent(this.shareData.title) + '&pics=' + this.shareData.imgUrl
+          // window.location.href = shareUrl
+
       },
       shareToSinaWB(){
         let url = 'http://service.weibo.com/share/share.php?url=' + this.shareData.link + '&title=' + encodeURIComponent(this.shareData.title) + '&pic=' + this.shareData.imgUrl
         window.location.href = url
       },
       shareToFriends(){
-        this.shareToFriendsVisible = true
-        console.log(wxSDK.invoke)
         this.shareData.title="美智甄品"
         this.shareData.link = location.href.split("#")[0]
-
         this.shareData.imgUrl = this.imgUrl
+        if (this.isWeiXin()){
+          this.shareToFriendsVisible = true
+        }else{
+          jsCallShare.share(this.shareData.title,this.shareData.link, this.shareData.imgUrl, this.shareData.desc)
+        }
         console.log(this.shareData)
       },
       goBack() {

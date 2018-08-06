@@ -78,6 +78,7 @@
     height: 100vh;
     overflow-y: scroll;
     margin-bottom: 50px;
+    background: #fff;
   }
   .mint-swipe {
     height: 300px;

@@ -238,7 +238,7 @@
           idsString = decodeURIComponent(idsString)
           console.log(idsString)
           this.setHasCreatedOrder(false)
-          // removeLocalStorage("SOCKET_ID")
+          removeLocalStorage("ORDER_ID")
           this.$router.push('/payment/' + idsString)
         },
         loadMore() {

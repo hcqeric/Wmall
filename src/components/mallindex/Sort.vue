@@ -47,7 +47,10 @@
 
 <style scoped>
   .sort-container{
+    height: 100vh;
     background: #efefef;
+    overflow-y: scroll;
+    margin-bottom: 50px;
   }
   .sort-item{
     margin-top: 8px;
