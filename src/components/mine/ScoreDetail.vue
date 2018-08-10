@@ -7,40 +7,46 @@
       <div class="banner">
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
         <div class="amount">
-          <p>订单积分</p>
-          <p>+60</p>
+          <p v-if="orderScoreDetail.type == 4">订单积分</p>
+          <p v-else>交易积分</p>
+          <p><span v-if="orderScoreDetail.scoreAmount > 0">+</span>{{orderScoreDetail.scoreAmount}}</p>
         </div>
       </div>
     </div>
     <div class="record-list">
       <div class="record-panel">
         <div class="record-tab">
-          <p>订单信息</p>
+          <p v-if="orderScoreDetail.type == 4">订单信息</p>
+          <p v-else>积分信息</p>
         </div>
         <div class="record-content">
           <div class="order-info">
             <div class="input-cell">
               <div class="cell-left">
-                <p>订单金额：</p>
+                <p v-if="orderScoreDetail.type == 4">订单金额：</p>
+                <p v-else>积分数额：</p>
               </div>
               <div class="cell-right">
-                <input type="text" :value="orderScoreDetail.payAmt" disabled>
+                <input v-if="orderScoreDetail.type == 4" type="text" :value="orderScoreDetail.payAmt|moneyFormat" disabled>
+                <input v-else type="text" :value="orderScoreDetail.scoreAmount" disabled>
               </div>
             </div>
             <div class="input-cell">
               <div class="cell-left">
-                <p>购买人：</p>
+                <p v-if="orderScoreDetail.type == 4">购买人：</p>
+                <p v-else>赠送人：</p>
               </div>
               <div class="cell-right">
-                <input type="text" :value="orderScoreDetail.userName" disabled>
+                <input type="text" :value="orderScoreDetail.createNickname" disabled>
               </div>
             </div>
             <div class="input-cell">
               <div class="cell-left">
-                <p>订单类型：</p>
+                <p>商品类型：</p>
               </div>
               <div class="cell-right">
-                <input type="text" value="购买商品" disabled>
+                <input v-if="orderScoreDetail.type == 4" type="text" value="购买商品" disabled>
+                <input v-else type="text" value="积分商品" disabled>
               </div>
             </div>
             <div class="input-cell">
@@ -48,8 +54,8 @@
                 <p>订单状态：</p>
               </div>
               <div class="cell-right">
-                <input v-if="type == 1" type="text" value="确认中" disabled>
-                <input v-if="type == 2" type="text" value="已确认" disabled>
+                <input v-if="orderScoreDetail.status == 1" type="text" value="确认中" disabled>
+                <input v-else type="text" value="已确认" disabled>
               </div>
             </div>
             <div class="input-cell">
@@ -57,23 +63,25 @@
                 <p>下单时间：</p>
               </div>
               <div class="cell-right">
-                <input type="text" :value="orderScoreDetail.createTime" disabled>
+                <input type="text" :value="orderScoreDetail.createTime|DateFormat('yyyy-MM-dd hh:mm:ss')" disabled>
               </div>
-            </div><div class="input-cell">
-            <div class="cell-left">
-              <p>确认时间：</p>
             </div>
-            <div class="cell-right">
-              <input type="text" :value="orderScoreDetail.updateTime" disabled>
+            <div class="input-cell" v-if="orderScoreDetail.finalTime != undefined">
+              <div class="cell-left">
+                <p>确认时间：</p>
+              </div>
+              <div class="cell-right">
+                <input type="text" :value="orderScoreDetail.finalTime|DateFormat('yyyy-MM-dd hh:mm:ss')" disabled>
+              </div>
             </div>
-          </div><div class="input-cell">
-            <div class="cell-left">
-              <p>订单编号：</p>
+            <div class="input-cell" v-if="orderScoreDetail.orderNum != undefined">
+              <div class="cell-left">
+                <p>订单编号：</p>
+              </div>
+              <div class="cell-right">
+                <input type="text" :value="orderScoreDetail.orderNum" disabled>
+              </div>
             </div>
-            <div class="cell-right">
-              <input type="text" :value="orderScoreDetail.orderNum" disabled>
-            </div>
-          </div>
           </div>
         </div>
       </div>
@@ -107,6 +115,7 @@
     mounted(){
       let{type} = this.$route.params
       this.type = type
+      console.log(this.$store.state.user.orderScoreDetail)
     }
   }
 </script>

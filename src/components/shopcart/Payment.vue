@@ -151,11 +151,6 @@
           return
         }
         removeLocalStorage("ORDER_ID")
-        // let randomString = new Date().getTime() + randomStr(10)
-        // let randomString = randomStr(10)
-        // console.log(randomString)
-        // setLocalStorage("SOCKET_ID", randomString)
-        // this.initWebSocket(randomString)
         orderSave({
           token: this.token
         }, {

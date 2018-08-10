@@ -62,7 +62,7 @@
       <div class="goto">
         <button v-if="orderState == 0" @click="toPay">去支付</button>
         <!--<button v-else-if="orderState == 1">提醒发货</button>-->
-        <button v-else-if="orderState == 2">确认收货</button>
+        <button v-else-if="orderState == 2" @click="orderReceipt">确认收货</button>
         <!--<button v-else-if="orderState == 3" @click="turnToPostEva">发表评价</button>-->
       </div>
 
@@ -102,10 +102,11 @@
   import OrderGoods from '@/components/view/OrderDetailGoods'
   import OrderEvaluationGoods from '@/components/view/OrderEvaluationGoods'
   import PayKeyBoard from '@/components/view/PayKeyBoard'
-  import {getPaySuccInfo,wxPay,pointPay, wxJsPay} from "../../http/getData"
+  import {getPaySuccInfo,wxPay,pointPay, wxJsPay,orderReceipt} from "../../http/getData"
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
   import {mapActions} from 'vuex'
+  import { MessageBox, Toast } from 'mint-ui'
   export default {
       name: "OrderDetail",
       data(){
@@ -126,10 +127,35 @@
         OrderEvaluationGoods,
         PayKeyBoard
       },
-    methods: {
+      methods: {
       ...mapActions({
         setBackRefunds:'setBackRefunds'
       }),
+      orderReceipt(){
+        MessageBox({
+          title:'确认收货',
+          message: '亲，确认已经收到改商品了吗?',
+          showCancelButton: true,
+          confirmButtonText: '已收货',
+          cancelButtonText: '取消'
+        }).then(action => {
+          if (action === 'confirm') {
+            orderReceipt({
+              token: this.token
+            },{
+              id: this.orderId
+            }).then(response=>{
+              this.$emit('orderItem', this.orderItem)
+              Toast({
+                message:'确认收货成功',
+                position: 'middle'
+              })
+            })
+          } else {
+            console.log("quxiaole")
+          }
+        }).catch(error=>{});
+      },
       goBack() {
         this.$router.back()
       },

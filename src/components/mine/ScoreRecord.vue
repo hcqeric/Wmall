@@ -8,7 +8,7 @@
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
         <div class="amount">
           <p>已兑换金额 (元)</p>
-          <p>{{score}}</p>
+          <p>{{score|moneyFormat("")}}</p>
         </div>
       </div>
     </div>

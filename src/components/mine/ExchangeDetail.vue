@@ -85,7 +85,7 @@
           this.createTime = response.result.createTime
           this.auditTime = response.result.auditTime
           this.finalTime = response.result.finalTime
-          this.scoreAmount = response.result.scoreAmount
+          this.scoreAmount = response.result.amt
         })
       }
     }

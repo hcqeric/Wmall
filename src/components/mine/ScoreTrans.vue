@@ -197,16 +197,16 @@
     outline: none;
     border: 1px solid #fff;
     color: #fff;
-    margin-right: 30px;
+    margin-right: 16px;
   }
   .item .info button{
     outline: none;
     background-color:transparent;
     background-image: url("../../assets/img/bg-white.png");
-    padding: 0 14px;
     border-radius: 11px;
     font-size: 12px;
     height: 22px;
+    width: 50px;
     line-height: 20px;
     color: #FF659F;
     border: 1px solid #fff;

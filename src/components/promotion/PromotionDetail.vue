@@ -85,7 +85,6 @@
         }
       },
       shareToWeChatFriends(){
-        if(this.isWeiXin()){
           this.shareToFriendsVisible = false
           this.userShareDirVisible = true
           this.wxConfig(this.shareData.link).then(config=>{
@@ -93,9 +92,9 @@
             wxSDK.config(config)
             wxSDK.ready(() => {
               wxSDK.onMenuShareAppMessage({
-                title: this.shareData.title,
-                desc: this.shareData.desc,
-                link: this.shareData.link,
+                // title: this.shareData.title,
+                // desc: this.shareData.desc,
+                // link: this.shareData.link,
                 imgUrl: this.shareData.imgUrl,
                 success: () => {
                   Toast({
@@ -113,9 +112,6 @@
               });
             })
           })
-        }else{
-          jsCallShare.share("js调用了android中的hello方法");
-        }
       },
       shareToWeChatTimeLine() {
         this.shareToFriendsVisible = false
@@ -124,9 +120,9 @@
           wxSDK.config(config)
           wxSDK.ready(() => {
             wxSDK.onMenuShareTimeline({
-              title: this.shareData.title,
-              desc: this.shareData.desc,
-              link: this.shareData.link,
+              // title: this.shareData.title,
+              // desc: this.shareData.desc,
+              // link: this.shareData.link,
               imgUrl: this.shareData.imgUrl,
               success: () => {
                 Toast({
@@ -151,9 +147,9 @@
             wxSDK.config(config)
             wxSDK.ready(() => {
               wxSDK.onMenuShareQQ({
-                title: this.shareData.title,
-                desc: this.shareData.desc,
-                link: this.shareData.link,
+                // title: this.shareData.title,
+                // desc: this.shareData.desc,
+                // link: this.shareData.link,
                 imgUrl: this.shareData.imgUrl,
                 success: () => {
                   Toast({

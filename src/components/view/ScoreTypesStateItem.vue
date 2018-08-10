@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="right">
-        <p>{{exchangeItem.amt|moneyFormat}}</p>
+        <p><span v-if="exchangeItem.scoreAmount >= 0">+ </span>{{exchangeItem.scoreAmount}}</p>
       </div>
       <i class="el-icon-arrow-right"></i>
     </div>

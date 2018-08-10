@@ -23,7 +23,7 @@
             <div class="page-infinite-wrapper" ref="wrapper" >
               <div class="record-content" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
                 <div class="list" v-for="item in orderScoreList">
-                  <ScoreItem class="item" :exchangeItem="item" :type="stateInfo.tradeStatus"></ScoreItem>
+                  <ScoreTypesStateItem class="item" :exchangeItem="item" :type="stateInfo.tradeStatus"></ScoreTypesStateItem>
                 </div>
               </div>
               <p v-show="loading" class="page-infinite-loading">
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-  import ScoreItem from '@/components/view/ScoreItem'
+  import ScoreTypesStateItem from '@/components/view/ScoreTypesStateItem'
   import {getOrderScoreListByType} from "../../http/getData";
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
@@ -109,6 +109,7 @@
           response.result.list.list.map(item=>{
             this.orderScoreList.push(item)
           })
+          console.log(this.orderScoreList)
           this.page++
         }).catch(error=>{
           console.log(error);
@@ -119,7 +120,7 @@
       }
     },
     components:{
-      ScoreItem
+      ScoreTypesStateItem
     },
     mounted(){
       let tk = getLocalStorage(Constants.TOKEN)

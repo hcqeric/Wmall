@@ -13,9 +13,51 @@
         <!--<div class="search">防伪查询</div>-->
       <!--</div>-->
       <div class="introduction">
-        <div v-for="(item, index) in arr" :key="index" @click="gotoDetail(index)">
-          <img :src="item.url" alt="">
-          <span>{{item.name}}</span>
+        <!--<div v-for="(item, index) in arr" :key="index" @click="gotoDetail(index)">-->
+          <!--<img :src="item.url" alt="">-->
+          <!--<span>{{item.name}}</span>-->
+        <!--</div>-->
+        <div class="introduction-row">
+          <div class="introduction-item">
+            <img :src="arr[0].url" alt="" />
+            <span>{{arr[0].name}}</span>
+          </div>
+          <div class="introduction-item">
+            <img :src="arr[1].url" alt="" />
+            <span>{{arr[1].name}}</span>
+          </div>
+          <div class="introduction-item">
+            <img :src="arr[2].url" alt="" />
+            <span>{{arr[2].name}}</span>
+          </div>
+        </div>
+        <div class="introduction-row">
+          <div class="introduction-item">
+            <img :src="arr[3].url" alt="" />
+            <span>{{arr[3].name}}</span>
+          </div>
+          <div class="introduction-item" @click="gotoDetail(4)">
+            <img :src="arr[4].url" alt="" />
+            <span>{{arr[4].name}}</span>
+          </div>
+          <div class="introduction-item">
+            <img :src="arr[5].url" alt="" />
+            <span>{{arr[5].name}}</span>
+          </div>
+        </div>
+        <div class="introduction-row">
+          <div class="introduction-item">
+            <img :src="arr[6].url" alt="" />
+            <span>{{arr[6].name}}</span>
+          </div>
+          <div class="introduction-item">
+            <img :src="arr[7].url" alt="" />
+            <span>{{arr[7].name}}</span>
+          </div>
+          <div class="introduction-item">
+            <img :src="arr[8].url" alt="" />
+            <span>{{arr[8].name}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -107,52 +149,103 @@
   }
 
   .introduction{
-    display:grid;
-    grid-template-columns:repeat(3, auto);
-    grid-template-rows:repeat(3,auto);
+    display: flex;
+    flex-direction: column;
     position: relative;
   }
   .introduction:after{
     position: absolute;
-    bottom: 0;
-    left: 0;
-    content:'';
+    height: 100%;
+    width: 1px;
+    content: '';
+    background: #eee;
+    top: 0px;
+    left: 0px;
+  }
+  .introduction-row{
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+  }
+  .introduction-row:after{
+    position: absolute;
     height: 1px;
     width: 100%;
-    background: rgba(153,153,153,0.5);
+    content: '';
+    background: #eee;
+    bottom: 1px;
   }
-  .introduction>div {
-    padding: 17px 0;
-    text-align: center;
-    border-top: 1px solid rgba(153,153,153,0.5);
-    border-left: 1px solid rgba(153,153,153,0.5);
+.introduction-item{
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  flex-direction: column;
+  padding: 17px 0;
+}
+  .introduction-item:after{
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    content: '';
+    background: #eee;
+    top: 0px;
+    right: 0px;
   }
-  .introduction>div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 17px 0;
-    text-align: center;
-    border-top: 1px solid rgba(153,153,153,0.5);
-    border-left: 1px solid rgba(153,153,153,0.5);
-  }
-  .introduction>div:nth-child(3n+3) {
-    border-right: 1px solid rgba(153,153,153,0.5);
-  }
-  .introduction>div>span {
+  .introduction-item span{
     margin-top: 4px;
-    /*display: block;*/
-    /*border-radius: 50%;*/
-    /*height: 60px;*/
-    /*width: 60px;*/
-    /*color: #bf54f9;*/
-    /*border: 1px solid #bf54f9;*/
-    /*margin: 0 auto;*/
-    /*line-height: 60px;*/
-    /*text-align: center;*/
   }
-  .introduction>div>img{
+  .introduction-item img{
     width: 50px;
   }
+
+  /*.introduction{*/
+    /*display:grid;*/
+    /*grid-template-columns:repeat(3, auto);*/
+    /*grid-template-rows:repeat(3,auto);*/
+    /*position: relative;*/
+  /*}*/
+  /*.introduction:after{*/
+    /*position: absolute;*/
+    /*bottom: 0;*/
+    /*left: 0;*/
+    /*content:'';*/
+    /*height: 1px;*/
+    /*width: 100%;*/
+    /*background: rgba(153,153,153,0.5);*/
+  /*}*/
+  /*.introduction>div {*/
+    /*padding: 17px 0;*/
+    /*text-align: center;*/
+    /*border-top: 1px solid rgba(153,153,153,0.5);*/
+    /*border-left: 1px solid rgba(153,153,153,0.5);*/
+  /*}*/
+  /*.introduction>div {*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center;*/
+    /*padding: 17px 0;*/
+    /*text-align: center;*/
+    /*border-top: 1px solid rgba(153,153,153,0.5);*/
+    /*border-left: 1px solid rgba(153,153,153,0.5);*/
+  /*}*/
+  /*.introduction>div:nth-child(3n+3) {*/
+    /*border-right: 1px solid rgba(153,153,153,0.5);*/
+  /*}*/
+  /*.introduction>div>span {*/
+    /*margin-top: 4px;*/
+    /*!*display: block;*!*/
+    /*!*border-radius: 50%;*!*/
+    /*!*height: 60px;*!*/
+    /*!*width: 60px;*!*/
+    /*!*color: #bf54f9;*!*/
+    /*!*border: 1px solid #bf54f9;*!*/
+    /*!*margin: 0 auto;*!*/
+    /*!*line-height: 60px;*!*/
+    /*!*text-align: center;*!*/
+  /*}*/
+  /*.introduction>div>img{*/
+    /*width: 50px;*/
+  /*}*/
 
 </style>

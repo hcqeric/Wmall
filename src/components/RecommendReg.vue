@@ -89,6 +89,14 @@
         'loginState',
         'setToken'
       ]),
+      isWeiXin() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+          return true;
+        } else {
+          return false;
+        }
+      },
       async storeState(token){
         await localStorage.setItem(Constants.TOKEN, token)
         await  this.setToken(token)
