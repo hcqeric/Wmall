@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <div class="content">
+      <div class="app-logo">
+        <img src="../assets/img/app-logo.png" alt="">
+      </div>
       <div :model="ruleForm" ref="ruleForm" label-position="left" label-width="100px" :show-message="false" class="demo-ruleForm">
         <div prop="username" class="item">
           <div slot="label" class="labels">
@@ -180,12 +183,23 @@
     display: flex;
     justify-content: space-between;
     margin-top: 16px;
+    margin-left: 20px;
   }
   .el-form{
     margin-top: 40%;
   }
-  .demo-ruleForm{
-    margin-top: 20vh;
+  /*.demo-ruleForm{*/
+    /*margin-top: 20vh;*/
+  /*}*/
+  .app-logo{
+    height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .app-logo img{
+    width: 16vh;
+    height: 16vh;
   }
 </style>
 <style>

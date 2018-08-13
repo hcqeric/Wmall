@@ -62,7 +62,7 @@
       <div class="goto">
         <button v-if="orderState == 0" @click="toPay">去支付</button>
         <!--<button v-else-if="orderState == 1">提醒发货</button>-->
-        <button v-else-if="orderState == 2" @click="orderReceipt">确认收货</button>
+        <button v-else-if="orderState == 2" @click="orderConfirm">确认收货</button>
         <!--<button v-else-if="orderState == 3" @click="turnToPostEva">发表评价</button>-->
       </div>
 
@@ -131,7 +131,7 @@
       ...mapActions({
         setBackRefunds:'setBackRefunds'
       }),
-      orderReceipt(){
+      orderConfirm(){
         MessageBox({
           title:'确认收货',
           message: '亲，确认已经收到改商品了吗?',
