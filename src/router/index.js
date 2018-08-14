@@ -97,12 +97,14 @@ let router = new Router({
     {
       path: '/sort',
       name: 'sort',
-      component: SortIndex
+      component: SortIndex,
+      meta: { requiresAuth: true }
     },
     {
       path: '/user',
       name: 'user',
-      component: UserIndex
+      component: UserIndex,
+      meta: { requiresAuth: true }
     },
     {
       path: '/cart',
@@ -157,7 +159,8 @@ let router = new Router({
     {
       path: '/scores',
       name: 'MyScore',
-      component: MyScore
+      component: MyScore,
+      meta: { requiresAuth: true }
     },
     {
       path: '/scoretrans',
@@ -222,7 +225,8 @@ let router = new Router({
     {
       path: '/friends',
       name: 'Friends',
-      component: Friends
+      component: Friends,
+      meta: { requiresAuth: true }
     },
     {
       path: '/system',
