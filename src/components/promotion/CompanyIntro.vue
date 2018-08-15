@@ -10,10 +10,6 @@
                         :playsinline="true"
                         @ready="playerReadied($event)"></video-player>
         </div>
-        <!--<div class="copyright">-->
-          <!--<p>	Copyright&copy;2018-2019</p>-->
-          <!--<p>好乐付版权所有</p>-->
-        <!--</div>-->
       </div>
     </div>
 </template>
@@ -94,7 +90,7 @@
     min-height: 100vh;
   }
   .mint-header{
-    background-color: #bf54f9;
+    background-color: #000;
     height: 48px;
   }
   .content{

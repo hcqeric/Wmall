@@ -3,7 +3,7 @@
     <div class="page-infinite-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
       <ul class="page-infinite-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
         <li v-for="item in newsList" class="page-infinite-listitem news-list">
-            <div class="news-item">
+            <div class="news-item" @click="toNewsDetail(item)">
               <div class="news-title">
                 <p>{{item.title}}</p>
                 <p>{{item.updateTime|DateFormat("yyyy-MM-dd hh:mm")}}</p>
@@ -28,6 +28,7 @@
 
 <script>
   import {getNewsList} from "../../http/getData";
+  import {mapActions} from 'vuex'
 
   export default {
       name: "News",
@@ -48,6 +49,13 @@
         this.loadData()
       },
       methods:{
+        ...mapActions({
+          setNewsContent: 'setNewsContent'
+        }),
+        toNewsDetail(item){
+          this.setNewsContent(item)
+          this.$router.push("/news/" + item.fileList[0].foreignId)
+        },
         loadMore() {
           if(!this.allLoaded){
             this.loading = true;

@@ -3,7 +3,8 @@ const app = {
   state: {
     isLogin: false,
     token: '',
-    setPayPass: false
+    setPayPass: false,
+    newsContent: null
   },
   mutations: {
     [types.SET_LOGIN_STATE](state, isLogin){
@@ -14,6 +15,9 @@ const app = {
     },
     [types.SET_PAY_PASS](state, setPayPass){
       state.setPayPass = setPayPass
+    },
+    [types.SET_NEWS_CONTENT](state, newsContent){
+      state.newsContent = newsContent
     }
   },
   actions: {
@@ -25,6 +29,9 @@ const app = {
     },
     setPayPass({state, commit}, setPayPass){
       commit(types.SET_PAY_PASS, setPayPass)
+    },
+    setNewsContent({state, commit}, newsContent){
+      commit(types.SET_NEWS_CONTENT, newsContent)
     }
   }
 }

@@ -37,3 +37,5 @@ export const HAS_CREATED_ORDER = 'has_created_order'
 
 export const SET_CREATED_ORDER_ID = 'set_created_order_id'
 
+export const SET_NEWS_CONTENT = 'set_news_content'
+

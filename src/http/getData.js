@@ -126,6 +126,8 @@ export const getWxConfig = (datas) => new Request().require({api: url.wxConfig, 
 
 export const saveFeedback = (params, datas) => new Request().require({api: url.feedback, param: params, data:datas}); // 问题反馈
 
+export const getNewsDetail = (datas) => new Request().require({api: url.newsDetail, data:datas}); // 新闻详情
+
 
 
 

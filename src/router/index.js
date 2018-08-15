@@ -51,6 +51,7 @@ import News from '@/components/promotion/News'
 import CompanyIntro from '@/components/promotion/CompanyIntro'
 import PaymentFail from '@/components/shopcart/PaymentFail'
 import Feedback from '@/components/mine/Feedback'
+import NewsDetail from '@/components/promotion/NewsDetail'
 
 Vue.use(Router)
 
@@ -322,6 +323,11 @@ let router = new Router({
       path: '/feedback',
       name: 'feedback',
       component: Feedback
+    },
+    {
+      path: '/news/:id',
+      name: 'newsdetail',
+      component: NewsDetail
     }
   ]
 })
