@@ -95,7 +95,7 @@
                 name: "代理加盟",
                 url:'/static/img/find6.png'
               },{
-                name: "产品介绍A",
+                name: "产品介绍",
                 url:'/static/img/find7.png'
               },
               {

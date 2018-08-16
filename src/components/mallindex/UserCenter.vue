@@ -164,6 +164,8 @@
         },{
           logoUrl: res.result.url
         }).then(response=>{
+          this.userinfo.logoUrl = res.result.url
+          this.setUserInfo(this.userinfo)
           Toast({
             message: '更换头像成功',
             position: 'middle',
