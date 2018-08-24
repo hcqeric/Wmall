@@ -418,6 +418,7 @@
     position: absolute;
     content: '';
     height: 1px;
+    left: 0;
     bottom: 0px;
     width: 100%;
     background-color: #eee;

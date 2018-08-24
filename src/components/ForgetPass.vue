@@ -192,6 +192,7 @@
     content: '';
     height: 1px;
     bottom: 0px;
+    left: 0;
     width: 100%;
     background-color: #eee;
   }

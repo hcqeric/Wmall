@@ -1,6 +1,7 @@
 <template>
   <div class="refunds-item">
     <p>订单号：{{refundInfo.order.orderNum}}</p>
+    <div class="refund-infos">
     <div class="item-info" v-for="item in refundInfo.order.orderDetailList">
       <img :src="item.goodsImg" alt="">
       <div class="goods">
@@ -9,18 +10,31 @@
         <p>数量：x {{item.number}}</p>
       </div>
     </div>
-    <p >{{renderType}}
+    <Address :address="address" v-if="refundInfo.orderReturn != undefined"></Address>
+    </div>
+    <p class="refunds-status-p">{{renderType}}
       <span v-if="refundInfo.refundStatus == 0" class="refund-fail">待申请</span>
       <span v-if="refundInfo.refundStatus == 1" class="refund-fail">申请中</span>
-      <span v-if="refundInfo.refundStatus == 2" class="refund-succ">申请成功</span>
-      <span v-if="refundInfo.refundStatus == 3" class="refund-fail">申请失败</span>
+      <span v-if="refundInfo.refundStatus == 2" class="refund-succ">退款成功</span>
+      <span v-if="refundInfo.refundStatus == 3" class="refund-fail">退款失败</span>
+      <span v-if="refundInfo.refundStatus == 4" class="refund-fail">退款失败</span>
     </p>
   </div>
 </template>
 
 <script>
+    import Address from '@/components/view/Address'
     export default {
       name: "RefundsItem",
+      data(){
+        return {
+          address:{
+            consignee:'',
+            mobile:'',
+            fullAddress:''
+          }
+        }
+      },
       computed:{
         renderType(){
           if (this.refundInfo.order.tradeStatus == 5){
@@ -31,8 +45,18 @@
         }
 
       },
+      components:{
+        Address
+      },
       props: {
           refundInfo:Object
+      },
+      mounted(){
+        if(this.refundInfo.orderReturn != undefined){
+          this.address.consignee = this.refundInfo.orderReturn.shName
+          this.address.mobile = this.refundInfo.orderReturn.shTel
+          this.address.fullAddress = this.refundInfo.orderReturn.shAds
+        }
       }
     }
 </script>
@@ -74,15 +98,15 @@
     padding: 16px 0;
     position: relative;
   }
-.item-info:after{
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  content: '';
-  height: 1px;
-  width: 100%;
-  background-color: rgba(239,239,239,0.9);
-}
+/*.item-info:after{*/
+  /*position: absolute;*/
+  /*bottom: -1px;*/
+  /*left: 0;*/
+  /*content: '';*/
+  /*height: 1px;*/
+  /*width: 100%;*/
+  /*background-color: rgba(239,239,239,0.9);*/
+/*}*/
 .item-info img{
   width: 100px;
   height: 100px;
@@ -102,5 +126,17 @@
   }
   .refund-succ{
     color: #00cc99;
+  }
+  .refund-infos{
+    position: relative;
+  }
+  .refund-infos:after{
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: 100%;
+    background: #eee;
+    bottom: 0;
+    left: 0;
   }
 </style>

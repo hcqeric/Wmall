@@ -183,7 +183,6 @@
         }else{
           jsCallShare.share(this.shareData.title,this.shareData.link, this.shareData.imgUrl, this.shareData.desc)
         }
-        console.log(this.shareData)
       },
       goBack() {
         this.$router.back()
