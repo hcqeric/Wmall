@@ -23,7 +23,6 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    height: 100vh;
   }
   .page-wrap {
     overflow: auto;

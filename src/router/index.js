@@ -52,6 +52,8 @@ import CompanyIntro from '@/components/promotion/CompanyIntro'
 import PaymentFail from '@/components/shopcart/PaymentFail'
 import Feedback from '@/components/mine/Feedback'
 import NewsDetail from '@/components/promotion/NewsDetail'
+import MZCollege from '@/components/promotion/MZCollege'
+import Materials from '@/components/promotion/Materials'
 
 Vue.use(Router)
 
@@ -91,7 +93,7 @@ let router = new Router({
       children: [
         {
           path: ':news',
-          component: News
+          component: Materials
         }
       ]
     },
@@ -328,6 +330,11 @@ let router = new Router({
       path: '/news/:id',
       name: 'newsdetail',
       component: NewsDetail
+    },
+    {
+      path: '/mzcollage',
+      name: 'mzcollage',
+      component: MZCollege
     }
   ]
 })

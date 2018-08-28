@@ -5,7 +5,8 @@
       <div class="intro">
         <div class="confirm-goods-info">
         <p>{{goods.goods.name}}</p>
-        <p>{{goods.goods.introduce}}</p>
+        <p class="confirm-goods-info-intro" v-if="goods.goods.introduce.length > 26">{{goods.goods.introduce.substring(0, 26)}}...</p>
+        <p class="confirm-goods-info-intro" v-else>{{goods.goods.introduce}}</p>
         </div>
         <div class="goods-price">
           <p v-if="goods.goods.type == 1">{{goods.goods.sellPrice | moneyFormat}}</p>
@@ -76,6 +77,7 @@
   }
   .goods-item .intro{
     margin-left: 16px;
+    margin-right: 4px;
     height: 100px;
     display: flex;
     flex: 1;
@@ -88,6 +90,11 @@
   .confirm-goods-info p:last-child{
     font-size: 14px;
     color: #999;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
   }
   .goods-price{
     display: flex;

@@ -18,7 +18,7 @@
           <!--<span>{{item.name}}</span>-->
         <!--</div>-->
         <div class="introduction-row">
-          <div class="introduction-item">
+          <div class="introduction-item" @click="gotoDetail(0)">
             <img :src="arr[0].url" alt="" />
             <span>{{arr[0].name}}</span>
           </div>
@@ -26,13 +26,13 @@
             <img :src="arr[1].url" alt="" />
             <span>{{arr[1].name}}</span>
           </div>
-          <div class="introduction-item">
+          <div class="introduction-item" @click="gotoDetail(2)" >
             <img :src="arr[2].url" alt="" />
             <span>{{arr[2].name}}</span>
           </div>
         </div>
         <div class="introduction-row">
-          <div class="introduction-item">
+          <div class="introduction-item" @click="gotoDetail(3)">
             <img :src="arr[3].url" alt="" />
             <span>{{arr[3].name}}</span>
           </div>
@@ -45,12 +45,12 @@
             <span>{{arr[5].name}}</span>
           </div>
         </div>
-        <div class="introduction-row">
-          <div class="introduction-item">
+        <div class="introduction-row" >
+          <div class="introduction-item" @click="gotoDetail(6)">
             <img :src="arr[6].url" alt="" />
             <span>{{arr[6].name}}</span>
           </div>
-          <div class="introduction-item">
+          <div class="introduction-item"  @click="gotoDetail(7)">
             <img :src="arr[7].url" alt="" />
             <span>{{arr[7].name}}</span>
           </div>
@@ -110,11 +110,12 @@
       },
       methods:{
         gotoDetail(index){
-
-          if(index == 4){
+          if (index != 7){
             this.$router.push('/company/'+ index)
+          } else{
+            this.$router.push('/mzcollage')
           }
-        }
+        },
       }
     }
 </script>

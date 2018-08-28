@@ -1,8 +1,6 @@
 <template>
   <div class="page-tabbar">
-    <div class="page-wrap">
-      <UserCenter/>
-    </div>
+    <UserCenter/>
     <Footer></Footer>
   </div>
 </template>
@@ -23,7 +21,6 @@
 <style>
   .page-tabbar {
     overflow: hidden;
-    height: 100vh;
   }
   .page-wrap {
     overflow: auto;

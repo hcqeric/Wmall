@@ -12,15 +12,16 @@
         <div class="goods-detail-info">
           <div class="goods-detail-intro">
             <p>{{goodsInfo.name}}</p>
-            <p>{{goodsInfo.introduce}}</p>
+            <p v-if="goodsInfo.introduce.length > 100">{{goodsInfo.introduce.substring(0, 100)}}...</p>
+            <p v-else>{{goodsInfo.introduce}}</p>
           </div>
           <div class="goods-share" @click="handleShare">
             <i class="el-icon-share"></i>
           </div>
         </div>
         <div class="price-info">
-          <p><span v-if="goodsInfo.type == 1">会员价{{goodsInfo.sellPrice|moneyFormat}}/瓶</span><span
-            v-if="goodsInfo.type == 2">会员价{{goodsInfo.bonusPrice}}积分/瓶</span> <span>原价：<s>{{goodsInfo.bdanPrice|moneyFormat}}/瓶</s></span>
+          <p><span v-if="goodsInfo.type == 1">会员价{{goodsInfo.sellPrice|moneyFormat}}/{{goodsInfo.unit}}</span><span
+            v-if="goodsInfo.type == 2">会员价{{goodsInfo.bonusPrice}}积分/{{goodsInfo.unit}}</span> <span>原价：<s>{{goodsInfo.bdanPrice|moneyFormat}}/{{goodsInfo.unit}}</s></span>
           </p>
           <button>包邮</button>
         </div>

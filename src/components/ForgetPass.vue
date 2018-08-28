@@ -118,49 +118,46 @@
           });
         },
         submitForm(formName) {
-          this.$refs[formName].validate((valid) => {
-            if (valid) {
-              if (this.ruleForm.password === ''){
-                Toast({
-                  message: '密码不能为空',
-                  position: 'middle',
-                  duration: 1000});
-                return false
-              }else{
-                if (!(/^[\w.]{6,20}$/.test(this.ruleForm.password))){
-                  Toast({
-                    message: '密码长度需为6-20位',
-                    position: 'middle',
-                    duration: 1000});
-                  return false
-                }
-              }
-              this.axios.post(url.forgetpass,{
-                mobile: this.ruleForm.mobile,
-                password:this.ruleForm.password,
-                code:this.ruleForm.verify,
-                recommendUserId:"1",
-                selected: this.ruleForm.checked ? "0" : "1"
-              }).then( response=> {
-                if (response.data.code === 0){
-                  Toast({
-                    message: '密码重置成功',
-                    position: 'middle',
-                    duration: 1000})
-                  this.$router.replace('/login')
-                }else if(response.data.code === 500){
-                  Toast({
-                    message: response.data.msg,
-                    position:'middle'
-                  });
-                }
-              }).catch(function (error) {
-                console.log(error);
+          if (this.ruleForm.password === '') {
+            Toast({
+              message: '密码不能为空',
+              position: 'middle',
+              duration: 1000
+            });
+            return false
+          } else {
+            if (!(/^[\w.]{6,20}$/.test(this.ruleForm.password))) {
+              Toast({
+                message: '密码长度需为6-20位',
+                position: 'middle',
+                duration: 1000
               });
-            } else {
-              console.log('error submit!!');
-              return false;
+              return false
             }
+          }
+          this.axios.post(url.forgetpass, {
+            mobile: this.ruleForm.mobile,
+            password: this.ruleForm.password,
+            code: this.ruleForm.verify,
+            recommendUserId: "1",
+            selected: this.ruleForm.checked ? "0" : "1"
+          }).then(response => {
+            if (response.data.code === 0) {
+              Toast({
+                message: '密码重置成功',
+                position: 'middle',
+                duration: 1000
+              })
+              this.$router.replace('/login')
+            } else if (response.data.code === 500) {
+              Toast({
+                message: response.data.msg,
+                position: 'middle'
+              });
+            }
+          }).catch(function (error) {
+            console.log('error submit!!');
+            return false;
           });
         }
       }

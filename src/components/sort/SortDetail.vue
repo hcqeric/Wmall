@@ -325,3 +325,9 @@
   text-align: center;
 }
 </style>
+<style>
+  .el-input-number{
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+  }
+</style>

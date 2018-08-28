@@ -21,7 +21,6 @@
 <style>
   .page-tabbar {
     overflow: hidden;
-    height: 100vh;
   }
 </style>
 

@@ -92,7 +92,7 @@
             let userId = response.data.result.userId
             this.storeState(token).then(() => {
               if(this.isWeiXin()){
-                let authUrl = url.wxAuth + userId
+                let authUrl = url.baseUrl + url.wxAuth + userId
                 window.location.href = authUrl
               }else{
                 this.$router.push('/mallindex')
@@ -110,11 +110,9 @@
         });
       },
       async storeState(token){
-
         await localStorage.setItem(Constants.TOKEN, token)
         await  this.setToken(token)
         await  this.loginState(true)
-
       }
     }
   }

@@ -75,8 +75,7 @@
 
 <style scoped>
   .container{
-    height: 100vh;
-    overflow-y: scroll;
+    min-height: 100vh;
     margin-bottom: 50px;
     background: #fff;
   }

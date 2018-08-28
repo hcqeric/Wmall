@@ -2,7 +2,7 @@
 // const url = 'http://edu.halopay.cn';
 
 // 开发地址
-// const url = 'http://api.cnzha.com/';
+//  const url = 'http://api.cnzha.com/';
 
 const url = 'http://api.mezhizp.com/';
 
@@ -76,7 +76,7 @@ export default {
   defaultAddress: 'app/userAds/updateDefaultFlag',
   wxJsPay:'app/pay/wxJsPay',
   addressAndGoods:'/app/userAds/getAdsListAndGoods',
-  wxAuth:'http://api.cnzha.com/app/wx/authorization?userId=',
+  wxAuth:'app/wx/authorization?userId=',
   wxConfig:'app/share/getWxConfig',
   feedback:'app/feedback/save',
   newsDetail: '/app/file/getFileByForeignId'
