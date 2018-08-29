@@ -308,7 +308,10 @@
         beforeAvatarUpload(file){
           const isLt2M = file.size / 1024 / 1024 < 2;
           if (!isLt2M) {
-            this.$message.error('上传头像图片大小不能超过 2MB!');
+            Toast({
+              message:'上传头像图片大小不能超过 2MB!',
+              position: 'middle'
+            });
           }
           return isLt2M;
         },
@@ -363,6 +366,7 @@
                 message: "信息保存成功",
                 position: 'middle'
               });
+              this.$router.push('/user')
             })
           }else{
             console.log("meiyougai")

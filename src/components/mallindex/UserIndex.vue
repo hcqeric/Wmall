@@ -19,14 +19,6 @@
 </script>
 
 <style>
-  .page-tabbar {
-    overflow: hidden;
-  }
-  .page-wrap {
-    overflow: auto;
-    height: 100%;
-    padding-bottom: 200px;
-  }
 </style>
 
 

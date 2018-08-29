@@ -17,7 +17,7 @@
       </div>
     </div>
     <!--我的信息-->
-
+    <div class="content">
       <div class="item-list">
         <div class="list-top">
           <!--我的信息-->
@@ -134,6 +134,7 @@
           </router-link>
         </div>
       </div>
+      </div>
     </div>
 </template>
 
@@ -200,8 +201,7 @@
 
 <style scoped>
   .container {
-    min-height: 100vh;
-    margin-bottom: 50px;
+    height: 570px;
   }
 
   .user-header {
@@ -239,9 +239,9 @@
   }
   .item-list{
     position: absolute;
-    top: 90px;
+    left: 0;
+    top: -60px;
     width: 100%;
-    bottom: 50px;
     border-radius: 15px 15px 0 0;
     background-color: #efefef;
   }

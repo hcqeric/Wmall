@@ -229,12 +229,11 @@
     font-weight: 500;
   }
   .buttons{
-    margin: 80px 40px 0 40px;
+    margin: 6vh 8vw 0 8vw;
     text-align: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
   }
 
   .buttons button{

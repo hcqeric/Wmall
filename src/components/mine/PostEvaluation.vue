@@ -19,7 +19,7 @@
         <p class="pay-service-textarea-text"><span>{{remnant}}</span>/{{max}}</p>
       </div>
       <div class="pictures">
-        <el-upload :action="uploadUrl" :file-list="appraisesImgList" :on-error="uploadError" :on-success="uploadSuccess" list-type="picture-card" :on-remove="handleRemove" :on-progress="handleProgress" :limit="3"  ref="upload">
+        <el-upload :action="uploadUrl" :before-upload="handleBeforeUpload" :file-list="appraisesImgList" :on-error="uploadError" :on-success="uploadSuccess" list-type="picture-card" :on-remove="handleRemove" :on-progress="handleProgress" :limit="3" :on-exceed="handleExceed" ref="upload">
           <i class="el-icon-plus"></i>
         </el-upload>
       </div>
@@ -39,7 +39,7 @@
   import {Toast} from 'mint-ui'
 
   export default {
-        name: "PostEvaluation",
+      name: "PostEvaluation",
       data() {
         return {
           uploadUrl:'',
@@ -68,12 +68,31 @@
         handleChange(value) {
 
         },
+        handleExceed(){
+          Toast({
+            message: '上传文件数已达上限',
+            position:'middle'
+          })
+        },
         descInput() {
           var txtVal = this.content.length;
           this.remnant = txtVal;
         },
+        handleBeforeUpload(file){
+          const isLt2M = file.size / 1024 / 1024 < 2;
+          if (!isLt2M) {
+            Toast({
+              message:'上传头像图片大小不能超过 2MB!',
+              position: 'middle'
+            });
+          }
+          return isLt2M;
+        },
         handleRemove(file, fileList) {
-
+          Toast({
+            message: '文件已被移除',
+            position:'middle'
+          })
         },
         handleProgress(event, file, fileList) {
           if(document.getElementsByClassName('.el-progress .el-progress--circle') != undefined) {
@@ -90,6 +109,10 @@
         // 上传错误
         uploadError (response) {
           console.log('上传失败，请重试！',response)
+          Toast({
+            message: '上传失败，请重试！',
+            position:'middle'
+          })
         },
         postAppraises(){
           let fileList = []

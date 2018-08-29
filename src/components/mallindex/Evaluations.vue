@@ -41,7 +41,8 @@
         info:'',
         goodsNum:'',
         appraisesList:[],
-        isNoList:false
+        isNoList:false,
+        appraisesItem:null
       }
     },
     components:{
@@ -78,7 +79,10 @@
             this.allLoaded = false
           }
           response.result.list.map((item)=>{
-            this.appraisesList.push(item)
+            this.appraisesItem = null
+            this.appraisesItem = item
+            this.$set(this.appraisesItem,"goods", response.goods)
+            this.appraisesList.push(this.appraisesItem)
           })
           this.page++
         }).catch(error=>{

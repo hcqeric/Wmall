@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import EvaluationGoods from '@/components/view/EvaluationGoods'
+  import EvaluationGoods from '@/components/view/UserEvaluationGoods'
   const items = [
     {
       picUrl: 'http://p90m90efq.bkt.clouddn.com/commend1.png',

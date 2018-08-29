@@ -40,7 +40,7 @@
         info:'',
         commentList:[],
         limit:'10',
-        page:0,
+        page:1,
         token:'',
         isNoList:false
       }
@@ -80,6 +80,7 @@
             this.allLoaded = false
           }
           response.result.list.map((item)=>{
+            console.log(item)
             this.commentList.push(item)
           })
           this.page++
