@@ -25,7 +25,6 @@
         }).then(response=>{
           response.result.map(item=>{
             this.templateList.push(item)
-            console.log(this.templateList)
           })
         })
       },

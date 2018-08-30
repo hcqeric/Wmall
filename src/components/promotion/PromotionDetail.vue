@@ -228,16 +228,13 @@
 <style scoped>
 .container{
   height: 100vh;
-  display: flex;
-  flex-direction: column;
+  overflow-y: hidden;
 }
 .mint-header {
   background-color: #000;
   height: 48px;
 }
   .content{
-    flex: 1;
-    display: flex;
     position: relative;
   }
   .content img{
