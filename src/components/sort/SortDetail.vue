@@ -258,7 +258,7 @@
   width: calc(100%/2);
 }
 .column .item{
-  padding: 0 0 8px 0;
+  padding: 8px;
   width: 100%;
 }
 

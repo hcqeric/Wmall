@@ -2,9 +2,7 @@
   <div class="find-page">
     <keep-alive>
       <mt-swipe :auto="4000" class="promotion-banner">
-        <mt-swipe-item><img src="../../assets/img/promotion-banner1.jpg" alt=""></mt-swipe-item>
-        <mt-swipe-item><img src="../../assets/img/promotion-banner2.jpg" alt=""></mt-swipe-item>
-        <mt-swipe-item><img src="../../assets/img/promotion-banner3.png" alt=""></mt-swipe-item>
+        <mt-swipe-item v-for="item in banners"><img :src="item.url" alt=""></mt-swipe-item>
       </mt-swipe>
     </keep-alive>
     <div class="tags">
@@ -65,7 +63,7 @@
 </template>
 
 <script>
-
+  import {getFileByType} from "../../http/getData";
     export default {
         name: "Find",
       data(){
@@ -108,6 +106,13 @@
             ]
           }
       },
+      mounted(){
+        getFileByType({
+          type:'sowingMapFind'
+        }).then(response=>{
+          this.banners = response.result
+        })
+      },
       methods:{
         gotoDetail(index){
           if (index != 7){
@@ -132,7 +137,6 @@
   }
   .promotion-banner img{
     width: 100%;
-    height: 200px;
   }
   .find-page{
     position: absolute;

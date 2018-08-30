@@ -75,7 +75,7 @@
         }
       },
       gotoDetail(index){
-        this.$router.push('share/'+ index)
+        this.$router.push('/share/'+ index)
       }
     },
     watch: {
@@ -116,7 +116,7 @@
     justify-content: center;
   }
   .select img{
-    height: 76vh;
+    height: 73vh;
   }
   .select button{
     position:absolute;

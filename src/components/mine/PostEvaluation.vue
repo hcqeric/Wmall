@@ -79,12 +79,16 @@
           this.remnant = txtVal;
         },
         handleBeforeUpload(file){
-          const isLt2M = file.size / 1024 / 1024 < 2;
-          if (!isLt2M) {
-            Toast({
-              message:'上传头像图片大小不能超过 2MB!',
-              position: 'middle'
-            });
+          let isLt2M = true;
+          // let isLt2M = file.size / 1024 / 1024 < 2;
+          // if (!isLt2M) {
+          //   Toast({
+          //     message:'上传头像图片大小不能超过 2MB!',
+          //     position: 'middle'
+          //   });
+          // }
+          if(this.appraisesImgList.length >= 3){
+            isLt2M = false
           }
           return isLt2M;
         },

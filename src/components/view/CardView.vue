@@ -30,15 +30,15 @@
         transBonus(){
           this.$emit("changeBonus", this.bonus)
         }
-      },
-      watch:{
-        'bonus': function(newVal,oldVal){
-          const regex = /^([0-9]*[1-9][0-9]*(.[0-9]+)?|[0]+.[0-9]*[1-9][0-9]*)$/
-          if(!regex.test(newVal)) {//如果小于等于零
-            this.bonus = oldVal //恢复原值
-          }
-        }
       }
+      // watch:{
+      //   'bonus': function(newVal,oldVal){
+      //     const regex = /^([0-9]*[1-9][0-9]*(.[0-9]+)?|[0]+.[0-9]*[1-9][0-9]*)$/
+      //     if(!regex.test(newVal)) {//如果小于等于零
+      //       this.bonus = oldVal //恢复原值
+      //     }
+      //   }
+      // }
     }
 </script>
 

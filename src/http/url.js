@@ -1,9 +1,7 @@
-//线上地址
-// const url = 'http://edu.halopay.cn';
-
 // 开发地址
 //  const url = 'http://api.cnzha.com/';
 
+//线上地址
 const url = 'http://api.mezhizp.com/';
 
 //强哥本地IP

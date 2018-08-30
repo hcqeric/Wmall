@@ -71,7 +71,8 @@
           title:'',
           desc:'',
           link:'',
-          imgUrl:''
+          imgUrl:'',
+          action:"share"
         }
       }
     },
@@ -81,6 +82,22 @@
         if (ua.match(/MicroMessenger/i) == 'micromessenger') {
           return true;
         } else {
+          return false;
+        }
+      },
+      isAndoird(){
+        var u = window.navigator.userAgent;
+        if(u.indexOf('Android') > -1 || u.indexOf('Adr') > -1){
+          return true
+        }else{
+          return false
+        }
+      },
+      isIOS(){
+        var u = window.navigator.userAgent;
+        if(!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)){
+          return true;
+        }else{
           return false;
         }
       },
@@ -178,10 +195,15 @@
         this.shareData.title="美智甄品"
         this.shareData.link = location.href.split("#")[0]
         this.shareData.imgUrl = this.imgUrl
+
         if (this.isWeiXin()){
           this.shareToFriendsVisible = true
-        }else{
+        }else if(this.isAndoird()){
           jsCallShare.share(this.shareData.title,this.shareData.link, this.shareData.imgUrl, this.shareData.desc)
+        }else if(this.isIOS()){
+          var shareJson = JSON.stringify(this.shareData)
+          console.log(shareJson)
+          window.webkit.messageHandlers.hlf_dmall.postMessage(shareJson)
         }
       },
       goBack() {

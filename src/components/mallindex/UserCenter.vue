@@ -201,7 +201,8 @@
 
 <style scoped>
   .container {
-    height: 570px;
+    height: 610px;
+    margin-bottom: 50px;
   }
 
   .user-header {

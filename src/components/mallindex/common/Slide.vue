@@ -126,11 +126,14 @@
         this.children = this.$refs.slideGroup.children
         let width = 0
         let slideWidth = this.$refs.slide.clientWidth
+        console.log(this.children.length)
+        console.log("children.length")
         for (let i = 0; i < this.children.length; i++) {
           let child = this.children[i]
           addClass(child, 'slide-item')
           child.style.width = slideWidth + 'px'
           width += slideWidth
+          console.log(width)
         }
         if (this.loop && !isResize) {
           width += 2 * slideWidth
@@ -210,7 +213,7 @@
     overflow: hidden;
     white-space: nowrap;
     flex: 1;
-    min-height: 76vh;
+    min-height: 73vh;
   }
   .slide  .slide-item {
     float: left;

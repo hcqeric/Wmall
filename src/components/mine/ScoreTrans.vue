@@ -8,7 +8,7 @@
         <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
         <div class="trans-content">
           <div class="item">
-            <p>受让人手机：</p>
+            <div>受让人手机：</div>
             <div class="info">
               <input type="text" v-model="mobile">
               <button @click="getUserInfo">查询</button>
@@ -22,7 +22,19 @@
       </div>
       <div class="trans-detail">
         <div class="card">
-        <CardView countTitle="赠送积分" totalTitle="可赠积分" @changeBonus="getBonus" :scores="ableScore.toString()"></CardView>
+          <el-card shadow="always">
+            <div class="count">
+              <div class="trans-count">
+                <p>赠送积分:</p>
+                <input type="number"   v-model.number="score" min="0">
+              </div>
+              <img src="http://p90m90efq.bkt.clouddn.com/money.png" alt="">
+            </div>
+            <div class="score-total">
+              <p>可赠积分：<span>{{ableScore}}</span></p>
+            </div>
+          </el-card>
+        <!--<CardView countTitle="赠送积分" totalTitle="可赠积分" @changeBonus="getBonus" :scores="ableScore.toString()"></CardView>-->
         </div>
       </div>
       <div class="goto" v-if="showBtn">
@@ -184,9 +196,6 @@
     justify-content: space-between;
     align-items: center;
   }
-  .trans-content .item p:first-child{
-    width: 100px;
-  }
   .item .info input{
     flex: 1;
     box-sizing: border-box;
@@ -198,6 +207,7 @@
     border: 1px solid #fff;
     color: #fff;
     margin-right: 16px;
+    width: 100%;
   }
   .item .info button{
     outline: none;
@@ -243,5 +253,37 @@
     text-align: center;
     color: #fff;
     margin: 0 auto;
+  }
+
+
+  .count{
+    display: flex;
+    justify-content: space-between;
+  }
+  .count img{
+    height: 80px;
+  }
+  .trans-count{
+    color: #000;
+  }
+  .trans-count p{
+    font-size: 14px;
+  }
+  .trans-count input{
+    outline: none;
+    border: none;
+    border-bottom: 1px solid rgba(153,153,153,0.2);
+    width: 100px;
+    padding: 8px 0;
+    font-size: 26px;
+  }
+  .score-total{
+    margin-top: 40px;
+  }
+  .score-total p{
+    font-size: 14px;
+  }
+  .score-total p span{
+    color: #FF659B;
   }
 </style>

@@ -54,6 +54,8 @@ import Feedback from '@/components/mine/Feedback'
 import NewsDetail from '@/components/promotion/NewsDetail'
 import MZCollege from '@/components/promotion/MZCollege'
 import Materials from '@/components/promotion/Materials'
+import Find from '@/components/promotion/Find'
+import MyPromotion from '@/components/promotion/MyPromotion'
 
 Vue.use(Router)
 
@@ -89,10 +91,19 @@ let router = new Router({
     {
       path: '/promotion',
       name: 'promotion',
+      redirect: '/promotion/share',
       component: PromotionIndex,
       children: [
         {
-          path: ':news',
+          path: 'share',
+          component: MyPromotion
+        },
+        {
+          path: 'find',
+          component: Find
+        },
+        {
+          path: 'news',
           component: Materials
         }
       ]

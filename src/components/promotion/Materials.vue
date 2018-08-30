@@ -5,7 +5,7 @@
         <img src="../../assets/img/md-trans-bg.png" alt="">
         <img src="../../assets/img/md-trans-bg.png" alt="">
         <img src="../../assets/img/md-trans-bg.png" alt="">
-        <div class="material-items">
+        <div class="material-items" @click="toNewsDetail">
           <div class="material-item">
             <img src="../../assets/img/md-newest.png" alt="">
             <p>最新素材</p>
@@ -45,8 +45,18 @@
 </template>
 
 <script>
+    import {Toast} from 'mint-ui'
     export default {
-        name: "Materials"
+      name: "Materials",
+      methods:{
+        toNewsDetail(){
+          Toast({
+            message: '当前内容暂未开放中，请耐心等待',
+            position:'middle',
+            duration: 500
+          })
+        }
+      }
     }
 </script>
 

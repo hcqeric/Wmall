@@ -23,15 +23,18 @@
             <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder="请输入登录密码"></el-input>
           </div>
         </div>
-        <div class="goto">
-          <button  @click="doLogin" ref="btnLogin">登录</button>
-        </div>
-        <div class="behavior">
-          <router-link to="/forgetpass">
-            <span>忘记密码</span>
-          </router-link>
-        </div>
+
       </div>
+
+
+    </div>
+    <div class="goto">
+      <button  @click="doLogin" ref="btnLogin">登录</button>
+    </div>
+    <div class="behavior">
+      <router-link to="/forgetpass">
+        <span>忘记密码</span>
+      </router-link>
     </div>
   </div>
 </template>
@@ -182,7 +185,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: 16px;
-    margin-left: 20px;
+    margin-left: 44px;
   }
   .el-form{
     margin-top: 40%;
