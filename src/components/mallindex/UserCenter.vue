@@ -13,7 +13,7 @@
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
         <!--<img :src="userinfo.logoUrl" alt="avatar">-->
-        <span @click="$router.replace('/userinfo')">{{userinfo.nickname}}</span>
+        <span @click="$router.push('/userinfo')">{{userinfo.nickname}}</span>
       </div>
     </div>
     <!--我的信息-->
@@ -77,7 +77,7 @@
           </div>
         </router-link>
         <!--新手教程-->
-        <router-link class="item" to="/tutorial">
+        <div class="item" @click="toTutorial">
           <div class="item-left">
             <img src="../../assets/img/user-dir.png" alt="">
             <span>新手教程</span>
@@ -85,7 +85,7 @@
           <div class="item-right">
             <i class="el-icon-arrow-right"></i>
           </div>
-        </router-link>
+        </div>
         <!--团队业绩-->
         <div class="item" v-if="userinfo">
           <div class="item-left">
@@ -156,6 +156,13 @@
       }
     },
     methods: {
+      toTutorial(){
+        Toast({
+          message: '该功能暂未开放，请耐心等待',
+          position: 'middle',
+          duration: 1000
+        })
+      },
       handleAvatarSuccess(res,file){
         this.imageUrl = URL.createObjectURL(file.raw);
 

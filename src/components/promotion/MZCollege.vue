@@ -177,9 +177,9 @@
     background-color: transparent;
     background-image: url("../../assets/img/bg-white.png");
     border: 1px solid #999;
-    font-size: 13px;
+    font-size: 12px;
     height: 26px;
-    padding: 0 10px;
+    width: 64px;
     border-radius: 13px;
     color: #000;
   }

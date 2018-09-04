@@ -17,6 +17,7 @@ Vue.filter('genderFormat', function (type) { //获取第一个文件路径
 
 Vue.filter('DateFormat', function (date, fmt) { //格式化时间   DateFormat('yyyy-MM-dd hh:mm')
   if (date == undefined || date == null) return;
+  date = date.replace(/-/g,'/')
   date = new Date(date);
   if (/(y+)/.test(fmt)) {
     fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))

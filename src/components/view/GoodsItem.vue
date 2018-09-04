@@ -4,7 +4,8 @@
       <img v-if="goodsType == 1" :src="goodsItem.goodsImg" alt="">
       <img v-if="goodsType == 2" :src="goodsItem.goodsImg" alt="">
       <p>{{goodsItem.name}}</p>
-      <p>{{goodsItem.sellPrice|moneyFormat}}<span v-if="goodsItem.bdanPrice != undefined || goodsItem.bdanPrice != ''"><s>{{goodsItem.bdanPrice | moneyFormat}}</s></span></p>
+      <p>{{goodsItem.sellPrice|moneyFormat}}</p>
+      <div class="bdan-price"><span v-if="goodsItem.bdanPrice != undefined || goodsItem.bdanPrice != ''"><s>{{goodsItem.bdanPrice | moneyFormat}}</s></span></div>
       </div>
       <el-input-number size="small" v-model="goodsItem.buyNum" @change.capture="handleChange" :min="0" label="描述文字"></el-input-number>
     </div>
@@ -76,7 +77,7 @@
     color: #000;
   }
   .goods-item p:last-of-type{
-    font-size: 18px;
+    font-size: 16px;
     color: #c053fa;
   }
 
@@ -87,5 +88,15 @@
   }
   .goods-item img{
     width: 100px;
+  }
+  .bdan-price{
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #999;
+  }
+</style>
+<style>
+  .goods-item .el-input-number--small {
+    width: 120px;
   }
 </style>

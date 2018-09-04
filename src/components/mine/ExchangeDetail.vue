@@ -40,13 +40,22 @@
               <div class="time-state">
                 <p>{{finalTime | DateFormat("hh:mm:ss")}}</p>
                 <p v-if="detailObj.status == 0">兑换成功</p>
+                <p v-if="detailObj.status == 1">兑换中</p>
                 <p v-if="detailObj.status == 2">兑换失败</p>
               </div>
               <p>{{finalTime | DateFormat("yyyy-MM-dd")}}</p>
             </div>
           </el-step>
         </el-steps>
+        <div v-if="detailObj">
+          <p>兑换状态：<span v-if="detailObj.status == 0">兑换成功</span>
+            <span v-if="detailObj.status == 1">兑换中</span>
+            <span v-if="detailObj.status == 2">兑换失败</span></p>
+          <p>备注：<span>{{detailObj.remarks}}</span></p>
+        </div>
       </div>
+
+
     </div>
   </div>
 </template>

@@ -2,7 +2,7 @@
   <div class="container">
     <Header/>
     <keep-alive>
-      <mt-swipe :auto="4000">
+      <mt-swipe :auto="4000" class="home-swipe">
         <mt-swipe-item v-for="item in banner"><img :src="item.url" alt=""></mt-swipe-item>
       </mt-swipe>
     </keep-alive>
@@ -129,5 +129,11 @@
   }
 </style>
 <style>
-
+  .home-swipe .mint-swipe-indicator.is-active {
+    background: #bf54f9;
+  }
+  .home-swipe .mint-swipe-indicator {
+    background: #999;
+    opacity: 1;
+  }
 </style>

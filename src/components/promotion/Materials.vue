@@ -104,7 +104,7 @@
   }
   .material-item{
     width: 25%;
-    height: 115px;
+    height: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;

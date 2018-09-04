@@ -57,12 +57,12 @@
         <!-- 产品介绍 -->
         <div class="brand-intro" v-if="arrIndex == 6">
           <h3>【产品特性】</h3>
-          <p class="need-indent">玖你美美容系列产品是美智实业有限公司旗下的美容品牌，具有以下五种品牌特性。</p>
-          <p class="need-indent">（1）、简单：旅游和外出，不用带多个解决皮肤问题的化妆品。只需要简单的一款或几款产品就可以解决肌肤问题，简单轻松方便，满足十大人性驱动力的懒惰心理。</p>
-          <p class="need-indent">（2）、全效：每个人的皮肤或多或少的存在至少三种以上的问题。例如出油、暗沉、干燥、细纹等等，全效的品牌特性就是一款产品就可以解决多种肌肤问题。</p>
-          <p class="need-indent">（3）、安全：选用纯植物，不含任何有害的化学制剂和防腐剂，不含铅汞激素等有害成分，百分百纯天然中药秘制，天然安全高效优质，使用方便，就算皮肤有伤口也绝对不会刺激、可根治及解决面部各种皮肤问题。</p>
-          <p class="need-indent">（4）、调肤：美肤先调肤，彻底清洁皮肤，可清除化妆品的残留，弥补初步洁肤的不足，为皮肤更好的吸收润肤用品做准备。</p>
-          <p class="need-indent">（5）、修复：提升肌肤水润修复,稳住水肌底。滤净屏障科技,抵御侵害,修护污染、换季、敏感导致的干燥暗哑。</p>
+          <p class="need-indent">玖你美美容系列产品具有以下五种品牌特性。</p>
+          <p class="need-indent">(1).简单：远行、旅游、出差，不用带多个解决皮肤问题的化妆品。轻松方便，给您的行李箱减负，满足十大人性驱动力的懒惰心理。</p>
+          <p class="need-indent">(2) .多效：现代医学表明女性的肌肤至少存在三种以上的问题。例如出油、暗沉、干燥、细纹等等，多效的品牌特性就是一款产品能够解决多种肌肤问题。</p>
+          <p class="need-indent">(3).安全：不含任何有害的化学制剂和防腐剂，不含铅汞激素等有害成分，纯植物萃取，纯天然中药秘制，就算皮肤有小伤口也可直接使用</p>
+          <p class="need-indent">(4).调肤：美肤先调肤，彻底清洁肌肤老化角质层，任何抵抗在它面前都会瓦解，弥补初步洁肤的不足，为皮肤更好的吸收润肤用品做准备。</p>
+          <p class="need-indent">(5).修护：提升肌肤水润修复,稳住水肌底。滤净屏障科技,抵御侵害,修护污染、换季、敏感导致的干燥暗哑。</p>
           <h3>【玖你美•多效调肤面膜】</h3>
           <p class="need-indent">适用于任何肌肤，深层补水，促进代谢，细致毛孔，净白淡斑，修护调肤，弹嫩丰盈，抚淡细纹，温和无刺激，平衡皮肤表层PH值，使皮肤恢复正常的生理环境，全效调肤嫩肤使肌肤焕发光彩犹如新生</p>
           <p class="need-indent">成分： 水、丁二醇、甘油聚醚-26、甘油、甘油聚甲基丙烯酸酯、丙二醇、PVM/MA 共聚物乙酯、北美金缕梅（HAMAMELIS VIRGINIANA）提取物、β-葡聚糖、绿豆（PHASEOLUS RADIATUS）提取物、乳酸杆菌发酵产物、橙皮苷甲基查尔酮、锦葵（MALVA SINENSIS）提取物、欧洲七叶树（AESCULUS HIPPOCASTANUM）籽提取物、北美金缕梅（HAMAMELIS VIRGINIANA）叶提取物、假叶树（RUSCUS ACULEATUS）根提取物、山金车（ARNICA MONTANA）花提取物、黄原胶、甘草酸二钾、岩藻糖、、寡肽-1、芦苇（PHRAGMITES COMMUNIS）提取物、甘草（GLYCYRRHIZA URALENSIS）根提取物、当归（ANGELICA POLYMORPHA SINENSIS）根提取物、丹参（SALVIA MILTIORRHIZA）根提取物、山茱萸（CORNUS OFFICINALIS）果提取物、枸杞（LYCIUM CHINENSE）根提取物、尿囊素、EDTA 二钠</p>
@@ -114,9 +114,9 @@
               height: '360',
               sources: [{
                 type: "video/mp4",
-                src: "http://7xkwa7.media1.z0.glb.clouddn.com/sample_video_L"
+                src: ""
               }],
-              poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-3.jpg"
+              poster: ""
             }
           }
         },

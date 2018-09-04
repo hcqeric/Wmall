@@ -204,12 +204,13 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    height: 48px;
+    background-color: #FFEDF9;
   }
   .order-nav div{
     flex: 1;
     background-color: #FFEDF9;
     text-align: center;
-    padding: 16px;
     text-shadow: 0px 0px 1px #FF659F;
   }
   .order-nav div.is-selected{
@@ -223,7 +224,7 @@
   .order-nav div.is-selected:after{
     position: absolute;
     content: '';
-    bottom: 8px;
+    bottom: -8px;
     left: 50%;
     margin-left: -20px;
     height: 3px;

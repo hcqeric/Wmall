@@ -274,6 +274,7 @@
               this.$set(item, "checked", false)
               this.cartList.push(item)
             })
+            console.log(this.cartList)
             this.id = response.result.list.id
             this.page++
           }).catch(error=>{

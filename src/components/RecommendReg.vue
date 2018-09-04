@@ -364,7 +364,7 @@
             let userId = response.data.result.userId
             this.storeState(data.result.token).then(() => {
               if(this.isWeiXin()){
-                let authUrl = url.wxAuth + userId
+                let authUrl = url.baseUrl + url.wxAuth + userId
                 window.location.href = authUrl
               }else{
                 this.$router.push('/mallindex')

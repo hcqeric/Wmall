@@ -366,7 +366,6 @@
                 message: "信息保存成功",
                 position: 'middle'
               });
-              this.$router.push('/user')
             })
           }else{
             console.log("meiyougai")

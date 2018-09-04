@@ -45,29 +45,45 @@
   import {updatePayPass, updateUserPass} from "../../http/getData"
   import {getLocalStorage,removeLocalStorage} from "../../custom/mixin"
   import * as Constants from '../../custom/constants'
-  const page_msg = [
-    {
-      type:"login",
-      title:"登录密码",
-      oldPass:'',
-      newPass:'',
-      confirmPass:''
-    },
-    {
-      type:"trans",
-      title: "兑换密码",
-      oldPass:'',
-      newPass:'',
-      confirmPass:''
-    }
-  ]
+  // const page_msg = [
+  //   {
+  //     type:"login",
+  //     title:"登录密码",
+  //     oldPass:'',
+  //     newPass:'',
+  //     confirmPass:''
+  //   },
+  //   {
+  //     type:"trans",
+  //     title: "兑换密码",
+  //     oldPass:'',
+  //     newPass:'',
+  //     confirmPass:''
+  //   }
+  // ]
   export default {
 
     name: "UpdatePass",
     data(){
       return {
         type:'',
-        pageInfo: null
+        pageInfo: null,
+        page_msg:[
+          {
+            type:"login",
+            title:"登录密码",
+            oldPass:'',
+            newPass:'',
+            confirmPass:''
+          },
+          {
+            type:"trans",
+            title: "兑换密码",
+            oldPass:'',
+            newPass:'',
+            confirmPass:''
+          }
+        ]
       }
     },
     methods: {
@@ -105,7 +121,7 @@
           return
         }
         let tk = getLocalStorage(Constants.TOKEN)
-        if(this.type === page_msg[0].type){
+        if(this.type === this.page_msg[0].type){
 
           updateUserPass({
             token: tk
@@ -123,7 +139,7 @@
             removeLocalStorage(Constants.TOKEN)
             this.$router.push('/login')
           }).catch(error=>{})
-        }else if(this.type == page_msg[1].type){
+        }else if(this.type == this.page_msg[1].type){
           updatePayPass({
             token: tk
           },{
@@ -144,10 +160,10 @@
     mounted(){
       let {type} = this.$route.params
       this.type = type
-      if (type == page_msg[0].type) {
-        this.pageInfo = page_msg[0]
-      }else if(type == page_msg[1].type){
-        this.pageInfo = page_msg[1]
+      if (type == this.page_msg[0].type) {
+        this.pageInfo = this.page_msg[0]
+      }else if(type == this.page_msg[1].type){
+        this.pageInfo = this.page_msg[1]
       }
     }
   }

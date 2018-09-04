@@ -98,7 +98,7 @@ export function GMTToStr(time){
 }
 
 export function GMTToDateStr(time){
-  let date = new Date(time)
+  let date = new Date(time.replace(/-/g,'/'))
   let Str=date.getFullYear() + '-' +
     (date.getMonth() + 1) + '-' +
     date.getDate()

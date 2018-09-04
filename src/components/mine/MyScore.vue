@@ -38,6 +38,14 @@
             <i class="el-icon-arrow-right"></i>
           </div>
         </router-link>
+        <router-link class="score-item" to="/score/freeze">
+          <img src="../../assets/img/fugoujif.png" alt="">
+          <div class="content-score" >
+            <p>冻结积分</p>
+            <p>{{scores.scoreFreeze}}</p>
+            <i class="el-icon-arrow-right"></i>
+          </div>
+        </router-link>
         <router-link class="score-item" to="/account">
         <img src="../../assets/img/fugoujif.png" alt="">
         <div class="content-score">
