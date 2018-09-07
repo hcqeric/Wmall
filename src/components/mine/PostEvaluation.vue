@@ -65,9 +65,6 @@
         goBack() {
           this.$router.back()
         },
-        handleChange(value) {
-
-        },
         handleExceed(){
           Toast({
             message: '上传文件数已达上限',
@@ -93,10 +90,7 @@
           return isLt2M;
         },
         handleRemove(file, fileList) {
-          Toast({
-            message: '文件已被移除',
-            position:'middle'
-          })
+          this.appraisesImgList = fileList
         },
         handleProgress(event, file, fileList) {
           if(document.getElementsByClassName('.el-progress .el-progress--circle') != undefined) {
@@ -108,7 +102,6 @@
         },
         uploadSuccess (response) {
           this.appraisesImgList.push(response.result)
-          console.log('上传文件', response)
         },
         // 上传错误
         uploadError (response) {

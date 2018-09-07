@@ -5,7 +5,7 @@
       <mt-button slot="right" @click="gotoEvaluation">查看评价</mt-button>
     </mt-header>
     <div class="content" v-if="goodsInfo">
-      <mt-swipe :auto="0" class="swipe">
+      <mt-swipe :auto="4000" class="swipe">
         <mt-swipe-item v-for="item in goodsInfo.sowingUrl"><img :src="item" alt=""></mt-swipe-item>
       </mt-swipe>
       <div class="goods-info">
@@ -289,7 +289,7 @@
   }
 
   .mint-swipe {
-    height: 140px;
+    height: 240px;
     color: #fff;
     font-size: 30px;
     text-align: center;

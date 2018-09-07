@@ -98,6 +98,8 @@ export const getBankList = () => new Request().require({api: url.bankList, metho
 
 export const getNewsList = (datas) => new Request().require({api: url.newsList, data:datas}); // 新闻列表
 
+export const getNewsDetailById = (id) => new Request().require({methods: 'GET', api: url.newsDetailById + id}); // 新闻详情
+
 export const orderSave = (params, datas) => new Request().require({api: url.orderSave, param: params, data:datas}); // 提交订单
 
 export const getDefaultAddress = (params) => new Request().require({api: url.getDefaultAddress, methods: 'GET', param: params}); // 默认地址

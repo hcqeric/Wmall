@@ -64,6 +64,13 @@
       title: "复购积分",
       subTitle:"获得积分",
       postUrl:"www.baiodu.com"
+    },
+    {
+      type:"freeze",
+      tradeStatus: "3",
+      title: "冻结积分",
+      subTitle:"预计可获积分",
+      postUrl:"www.baiodu.com"
     }
   ]
   export default {
@@ -132,6 +139,8 @@
         this.stateInfo = state_msg[1]
       }else if(type == state_msg[2].type){
         this.stateInfo = state_msg[2]
+      }else if(type == state_msg[3].type){
+        this.stateInfo = state_msg[3]
       }
     }
   }

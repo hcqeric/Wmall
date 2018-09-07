@@ -9,7 +9,7 @@
         <div class="amount">
           <p v-if="orderScoreDetail.type == 4">订单积分</p>
           <p v-else>交易积分</p>
-          <p><span v-if="orderScoreDetail.scoreAmount > 0">+</span>{{orderScoreDetail.scoreAmount}}</p>
+          <p><span v-if="orderScoreDetail.type < 8">+</span><span v-else>-</span>{{orderScoreDetail.scoreAmount}}</p>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
             </div>
             <div class="input-cell">
               <div class="cell-left">
-                <p>商品类型：</p>
+                <p>积分类型：</p>
               </div>
               <div class="cell-right">
                 <input v-if="orderScoreDetail.type == 4" type="text" value="购买商品" disabled>

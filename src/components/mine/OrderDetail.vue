@@ -150,6 +150,7 @@
                 message:'确认收货成功',
                 position: 'middle'
               })
+              this.$router.push('/ordercenter/all')
             })
           } else {
             console.log("quxiaole")

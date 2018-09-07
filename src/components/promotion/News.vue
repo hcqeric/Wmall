@@ -1,28 +1,36 @@
 <template>
-  <div class="page-infinite">
-    <div class="page-infinite-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
-      <ul class="page-infinite-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
-        <li v-for="item in newsList" class="page-infinite-listitem news-list">
-            <div class="news-item" @click="toNewsDetail(item)">
-              <div class="news-title">
-                <p>{{item.title}}</p>
-                <p>{{item.updateTime|DateFormat("yyyy-MM-dd hh:mm")}}</p>
+  <div class="news-container">
+    <mt-header fixed :title="title">
+      <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
+    </mt-header>
+    <div class="news-content">
+      <div class="page-infinite">
+        <div class="page-infinite-wrapper" ref="wrapper">
+          <ul class="page-infinite-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
+            <li v-for="item in newsList" class="page-infinite-listitem news-list">
+              <div class="news-item" @click="toNewsDetail(item)">
+                <div class="news-title">
+                  <p>{{item.title}}</p>
+                  <p>{{item.updateTime|DateFormat("yyyy-MM-dd hh:mm")}}</p>
+                </div>
+                <img v-if="item.fileList != undefined" :src="item.fileList[0].url" alt="">
               </div>
-              <img v-if="item.fileList != undefined" :src="item.fileList[0].url" alt="">
-            </div>
-        </li>
-      </ul>
-      <p v-show="loading" class="page-infinite-loading">
-        <mt-spinner type="fading-circle"></mt-spinner>
-        加载中...
-      </p>
-      <p v-show="allLoaded" class="nodata">{{info}}</p>
-    </div>
-    <div class="nolist" v-if="isNoList">
-      <img src="../../assets/img/nolist.png" />
-      <p>暂时还没有新闻动态</p>
+            </li>
+          </ul>
+          <p v-show="loading" class="page-infinite-loading">
+            <mt-spinner type="fading-circle"></mt-spinner>
+            加载中...
+          </p>
+          <p v-show="allLoaded" class="nodata">{{info}}</p>
+        </div>
+        <div class="nolist" v-if="isNoList">
+          <img src="../../assets/img/nolist.png" />
+          <p>暂时还没有{{title}}</p>
+        </div>
+      </div>
     </div>
   </div>
+
 
 </template>
 
@@ -41,17 +49,58 @@
             limit:'10',
             page:1,
             isNoList:false,
-            info:''
+            info:'',
+            type:'',
+            title:'',
+            newsData: [
+              {
+                type: 'newsMaterial',
+                title: '最新素材'
+              },
+              {
+                type: 'newsRecommend',
+                title: '爆款推荐'
+              },
+              {
+                type: 'newsOfficial',
+                title: '官方图'
+              },
+              {
+                type: 'newsSellers',
+                title: '买家秀'
+              },
+              {
+                type: 'newsEncouragement',
+                title: '励志语录'
+              },
+              {
+                type: 'newsMerchants',
+                title: '招商海报'
+              },
+              {
+                type: 'newsEvent',
+                title: '大事件'
+              }
+            ]
           }
       },
       mounted(){
-        // this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top;
+        let {type} = this.$route.params
+        this.type = type
+        this.newsData.forEach(item => {
+          if(this.type == item.type){
+            this.title = item.title
+          }
+        })
         this.loadData()
       },
       methods:{
         ...mapActions({
           setNewsContent: 'setNewsContent'
         }),
+        goBack(){
+          this.$router.back()
+        },
         toNewsDetail(item){
           this.setNewsContent(item)
           this.$router.push("/news/" + item.fileList[0].foreignId)
@@ -65,7 +114,8 @@
         loadData(){
           getNewsList({
             page: this.page.toString(),
-            limit: this.limit
+            limit: this.limit,
+            type: this.type
           }).then(response=>{
             this.loading = false;
             if(response.result.currPage == 1 && response.result.totalPage < response.result.currPage) {
@@ -100,13 +150,24 @@
 </script>
 
 <style scoped>
+  .news-container{
+    width: 100vw;
+    min-height: 100vh;
+  }
+  .mint-header{
+    height: 48px;
+    background: #000;
+  }
+  .news-content{
+    padding-top: 48px;
+  }
   .page-infinite {
-    overflow: scroll;
-    position: absolute;
-    top: 48px;
-    bottom: 48px;
-    width: 100%;
-    background-color: #fff;
+    /*overflow: scroll;*/
+    /*position: absolute;*/
+    /*top: 48px;*/
+    /*bottom: 48px;*/
+    /*width: 100%;*/
+    /*background-color: #fff;*/
   }
 
   .page-infinite-loading {
@@ -143,6 +204,7 @@
   /*}*/
 
   .news-item img {
+    width: 80px;
     height: 80px;
   }
   .news-title{
@@ -164,7 +226,7 @@
     position: fixed;
     top:48px;
     width: 100%;
-    bottom:50px;
+    bottom:0px;
     background-color: #fff;
     display: flex;
     flex-direction: column;

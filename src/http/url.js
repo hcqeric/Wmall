@@ -62,6 +62,7 @@ export default {
   orderReceipt:'app/order/receipt',
   bankList:'app/account/getBankList',
   newsList:'app/news/list',
+  newsDetailById:'app/news/info/',
   orderSave:'/app/order/save',
   getDefaultAddress:'/app/userAds/getAdsByDefaultFlag',
   pointPay:'app/pay/pointPay',

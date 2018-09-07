@@ -80,7 +80,7 @@
     background: #fff;
   }
   .mint-swipe {
-    height: 300px;
+    height: 46vh;
     color: #fff;
     font-size: 30px;
     text-align: center;

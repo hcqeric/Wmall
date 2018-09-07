@@ -1,8 +1,8 @@
 <template>
   <div class="page-tabbar">
-    <div class="page-wrap">
+
       <Promotion/>
-    </div>
+
     <Footer></Footer>
   </div>
 </template>

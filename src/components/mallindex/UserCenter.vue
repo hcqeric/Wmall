@@ -351,4 +351,25 @@
   a {
     text-decoration: none;
   }
+
+  .avatar-uploader {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    height: 36px;
+    width: 36px;
+    line-height: 36px;
+    text-align: center;
+  }
+  .userinfo i{
+    font-size: 16px;
+    color: #fff;
+  }
 </style>

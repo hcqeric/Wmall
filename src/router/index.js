@@ -338,6 +338,11 @@ let router = new Router({
       component: Feedback
     },
     {
+      path: '/newslist/:type',
+      name: 'typenews',
+      component: News
+    },
+    {
       path: '/news/:id',
       name: 'newsdetail',
       component: NewsDetail

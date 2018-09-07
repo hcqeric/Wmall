@@ -39,7 +39,7 @@
           </div>
         </router-link>
         <router-link class="score-item" to="/score/freeze">
-          <img src="../../assets/img/fugoujif.png" alt="">
+          <img src="../../assets/img/score-freeze.jpg" alt="">
           <div class="content-score" >
             <p>冻结积分</p>
             <p>{{scores.scoreFreeze}}</p>

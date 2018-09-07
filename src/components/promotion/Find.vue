@@ -127,13 +127,13 @@
 
 <style scoped>
   .mint-swipe {
-    height: 200px;
+    height: 256px;
     color: #fff;
     font-size: 30px;
     text-align: center;
   }
   .mint-swipe-item {
-    line-height: 200px;
+    line-height: 256px;
   }
   .promotion-banner img{
     width: 100%;
@@ -142,7 +142,6 @@
     position: absolute;
     width: 100%;
     top: 48px;
-    bottom: 50px;
     display: flex;
     flex-direction: column;
     background: #fff;
@@ -151,6 +150,7 @@
   .tags{
     flex: 1;
     background-color: #fff;
+    margin-bottom: 50px;
   }
 
   .introduction{

@@ -21,7 +21,8 @@
         <div class="order-price">
           <p>下单时间：{{orderItem.createTime|DateFormat('yyyy-MM-dd hh:mm:ss')}}</p>
           <div class="count" v-if="orderItem.orderDetailList != undefined">
-            <p>数量：x {{orderItem.orderDetailList.length}}</p>
+            <!--<p>数量：x {{orderItem.orderDetailList.length}}</p>-->
+            <p>数量：x {{totalNumber}}</p>
             <p v-if="orderItem.buyType == 0">{{orderItem.payAmt|moneyFormat}}</p>
             <p v-if="orderItem.buyType == 2">{{orderItem.payBonus}}积分</p>
           </div>
@@ -53,7 +54,8 @@
       name: "OrderItem",
       data(){
           return {
-            token:''
+            token:'',
+            totalNumber: 0
           }
       },
       props:{
@@ -86,7 +88,7 @@
 
               })
             } else {
-              console.log("quxiaole")
+              // console.log("quxiaole")
             }
           }).catch(error=>{});
 
@@ -112,7 +114,7 @@
                 })
               })
             } else {
-              console.log("quxiaole")
+              // console.log("quxiaole")
             }
           }).catch(error=>{});
         },
@@ -121,11 +123,19 @@
           this.$router.push('postevaluation')
         }
       },
-    mounted(){
-        let tk = getLocalStorage(Constants.TOKEN)
+    mounted() {
+      let tk = getLocalStorage(Constants.TOKEN)
       this.token = tk
+
+      let totalNumber = 0
+      if (this.orderItem.orderDetailList != undefined) {
+        this.orderItem.orderDetailList.forEach(item => {
+          totalNumber += item.number
+        })
+      }
+      this.totalNumber = totalNumber
     }
-    }
+  }
 </script>
 
 <style scoped>

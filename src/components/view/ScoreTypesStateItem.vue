@@ -14,7 +14,9 @@
         </div>
       </div>
       <div class="right">
-        <p><span v-if="exchangeItem.scoreAmount >= 0">+ </span>{{exchangeItem.scoreAmount}}</p>
+        <p>
+          <span v-if="exchangeItem.type < 8">+ </span><span v-else>-</span>{{exchangeItem.scoreAmount}}
+        </p>
       </div>
       <i class="el-icon-arrow-right"></i>
     </div>

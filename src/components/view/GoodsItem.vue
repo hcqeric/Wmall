@@ -4,7 +4,8 @@
       <img v-if="goodsType == 1" :src="goodsItem.goodsImg" alt="">
       <img v-if="goodsType == 2" :src="goodsItem.goodsImg" alt="">
       <p>{{goodsItem.name}}</p>
-      <p>{{goodsItem.sellPrice|moneyFormat}}</p>
+      <p v-if="goodsItem.type == 1">{{goodsItem.sellPrice|moneyFormat}}</p>
+      <p v-if="goodsItem.type == 2">{{goodsItem.bonusPrice}}积分</p>
       <div class="bdan-price"><span v-if="goodsItem.bdanPrice != undefined || goodsItem.bdanPrice != ''"><s>{{goodsItem.bdanPrice | moneyFormat}}</s></span></div>
       </div>
       <el-input-number size="small" v-model="goodsItem.buyNum" @change.capture="handleChange" :min="0" label="描述文字"></el-input-number>
@@ -40,9 +41,13 @@
             goodsId:this.goodsItem.id,
             goodsNum: count
           }).then(response=>{
-            Toast({
-              message: "添加购物车成功"
-            })
+            if(count > 0){
+              Toast({
+                message: "添加购物车成功",
+                position: 'bottom',
+                duration: 1000
+              })
+            }
           })
         },
         gotoGoodsDetail(){
@@ -87,7 +92,8 @@
     font-size: 14px;
   }
   .goods-item img{
-    width: 100px;
+    width: 110px;
+    height: 110px;
   }
   .bdan-price{
     font-size: 14px;

@@ -416,7 +416,6 @@
   .mint-header{
     background-color: #000;
     height: 48px;
-    z-index: 9999;
   }
   .content{
     margin-top: 48px;
@@ -484,7 +483,7 @@
   .cell-right input{
     border: none;
     outline: none;
-    padding: 4px;
+    margin: 4px;
     flex: 1;
 
     height: 26px;
@@ -500,17 +499,14 @@
     color: #fff;
   }
 
-
-  .avatar-uploader .el-upload {
+  .avatar-uploader {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
   }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
+
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;

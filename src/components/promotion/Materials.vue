@@ -5,36 +5,36 @@
         <img src="../../assets/img/md-trans-bg.png" alt="">
         <img src="../../assets/img/md-trans-bg.png" alt="">
         <img src="../../assets/img/md-trans-bg.png" alt="">
-        <div class="material-items" @click="toNewsDetail">
-          <div class="material-item">
+        <div class="material-items" >
+          <div class="material-item" @click="toNewsList('newsMaterial')">
             <img src="../../assets/img/md-newest.png" alt="">
             <p>最新素材</p>
           </div>
-          <div class="material-item">
+          <div class="material-item" @click="toNewsList('newsRecommend')">
             <img src="../../assets/img/md-hot.png" alt="">
             <p>爆款推荐</p>
           </div>
-          <div class="material-item">
+          <div class="material-item" @click="toNewsList('newsOfficial')">
             <img src="../../assets/img/md-official.png" alt="">
             <p>官方图</p>
           </div>
-          <div class="material-item">
+          <div class="material-item" @click="toNewsList('newsSellers')">
             <img src="../../assets/img/md-sellshow.png" alt="">
             <p>买家秀</p>
           </div>
-          <div class="material-item">
+          <div class="material-item" @click="toNewsList('newsEncouragement')">
             <img src="../../assets/img/md-poster.png" alt="">
             <p>励志语录</p>
           </div>
-          <div class="material-item">
+          <div class="material-item" @click="toNewsList('newsMerchants')">
             <img src="../../assets/img/md-b-poster.png" alt="">
             <p>招商海报</p>
           </div>
-          <div class="material-item">
+          <div class="material-item" @click="toNewsList('newsEvent')">
             <img src="../../assets/img/md-event.png" alt="">
             <p>大事件</p>
           </div>
-          <div class="material-item">
+          <div class="material-item" @click="toNewsDetail">
             <img src="../../assets/img/md-qa.png" alt="">
             <p>问与答</p>
           </div>
@@ -49,6 +49,9 @@
     export default {
       name: "Materials",
       methods:{
+        toNewsList(type){
+          this.$router.push('/newslist/' + type)
+        },
         toNewsDetail(){
           Toast({
             message: '当前内容暂未开放中，请耐心等待',

@@ -72,16 +72,13 @@
           //     position: 'middle'
           //   });
           // }
-          if(this.appraisesImgList.length >= 3){
+          if(this.appraisesImgList.length >= 4){
             isLt2M = false
           }
           return isLt2M;
         },
         handleRemove(file, fileList) {
-          Toast({
-            message: '文件已被移除',
-            position:'middle'
-          })
+          this.appraisesImgList = fileList
         },
         handleExceed(){
           Toast({
