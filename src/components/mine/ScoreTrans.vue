@@ -26,7 +26,7 @@
             <div class="count">
               <div class="trans-count">
                 <p>赠送积分:</p>
-                <input type="number"   v-model.number="score" min="0">
+                <input type="text"   v-model="_score" min="0" >
               </div>
               <img src="http://p90m90efq.bkt.clouddn.com/money.png" alt="">
             </div>
@@ -130,6 +130,16 @@
           this.$router.push('/exchangesucc')
         })
 
+      }
+    },
+    computed:{
+      _score: {
+        set: function(value) {
+          this.score = value;
+        },
+        get: function() {
+          return this.score.replace(/[^0-9]+/g,'')
+        }
       }
     },
     components:{

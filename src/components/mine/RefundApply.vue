@@ -111,6 +111,9 @@
       },
       uploadSuccess (response) {
         this.appraisesImgList.push(response.result)
+        document.querySelector('.el-upload-list__item>span').remove()
+        document.querySelector('.el-upload-list__item>label').remove()
+        document.querySelector('.el-upload-list--picture-card .el-upload-list__item .el-icon-close').style.display = 'block'
       },
       // 上传错误
       uploadError (response) {
@@ -148,7 +151,7 @@
     },
     mounted(){
       let tk = getLocalStorage(Constants.TOKEN)
-      this.uploadUrl = `http://120.79.16.221:8777/app/file/ftpUpload/appraisesImg/0?token=` + tk
+      this.uploadUrl = `http://api.mezhizp.com/app/file/ftpUpload/appraisesImg/0?token=` + tk
       let {type} = this.$route.params
       this.type = type
       if(type == 5){
@@ -263,8 +266,23 @@
   }
 
   .pictures .el-upload-list__item {
-    height: 100px;
-    width: 100px;
+    height: 27vw;
+    width: 27vw;
+  }
+
+  .pictures .el-upload-list__item img{
+    height: 27vw;
+    width: 27vw;
+  }
+
+  .pictures .el-upload-list--picture-card .el-upload-list__item .el-icon-close {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    /* opacity: .75; */
+    color: red;
   }
   .reasons .el-input__inner{
     border: none;

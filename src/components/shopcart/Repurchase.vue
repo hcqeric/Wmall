@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="goods-list">
-      <GoodsItem v-for="n in 5" class="item"></GoodsItem>
+      <GoodsItem v-for="n in 5" class="item" :key="n"></GoodsItem>
     </div>
     <div class="confirm">
       <p>合计: ¥{{totalAmount}} <span>(免运费)</span></p>

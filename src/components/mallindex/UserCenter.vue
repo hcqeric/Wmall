@@ -4,7 +4,7 @@
       <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
       <div class="userinfo" v-if="userinfo">
         <el-upload
-          class="avatar-uploader"
+          :class="imageUrl == '' ? 'avatar-uploader' : ''"
           :action="uploadUrl"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
@@ -194,7 +194,7 @@
     mounted(){
       let tk = getLocalStorage(Constants.TOKEN)
       this.token = tk
-      this.uploadUrl = `http://120.79.16.221:8777/app/file/ftpUpload/headImg/0?token=` + tk
+      this.uploadUrl = `http://api.mezhizp.com/app/file/ftpUpload/headImg/0?token=` + tk
       getUserInfo({
         token: tk
       }).then(response=>{

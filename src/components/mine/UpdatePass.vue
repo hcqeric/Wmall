@@ -153,6 +153,7 @@
             this.pageInfo.oldPass = ''
             this.pageInfo.newPass = ''
             this.pageInfo.confirmPass = ''
+            this.$router.push('/managepass')
           }).catch(error=>{})
         }
       }

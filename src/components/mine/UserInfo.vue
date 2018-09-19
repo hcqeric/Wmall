@@ -14,7 +14,7 @@
             </div>
             <div class="cell-right">
               <el-upload
-                class="avatar-uploader"
+                :class="imageUrl == '' ? 'avatar-uploader' : ''"
                 :action="uploadUrl"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
@@ -39,7 +39,7 @@
               <p>手机号码</p>
             </div>
             <div class="cell-right">
-              <input type="text" placeholder="输入手机号码" v-model="userinfo.mobile">
+              <input type="text" placeholder="输入手机号码" oninput="if(value.length > 11)value = value.slice(0, 11)" v-model="userinfo.mobile">
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@
             </div>
             <div class="cell-right">
               <div @click="choiceArea">
-                <input type="text" placeholder="选择所在区域" readonly="readonly" v-model="fullLevelAddress">
+                <input class="area-input" type="text" placeholder="选择所在区域" readonly="readonly" v-model="fullLevelAddress">
                 <i class="el-icon-arrow-right"></i>
               </div>
               <mt-popup v-model="popupAddressVisible" position="bottom" class="mint-popup-address">
@@ -260,7 +260,7 @@
             let proItem = this.getCurrProvince(this.addressProvinceCode)
             let cityItem = this.getCurrCity(this.addressProvinceCode, this.addressCityCode)
             let countyItem = this.getCurrCounty(this.addressProvinceCode, this.addressCityCode, this.addressCountCode)
-            console.log("***********************************************")
+
             this.addressPicker.setSlotValues(0, this.getProvinceArr())
             this.addressPicker.setSlotValues(1, this.getCityArr(proItem["name"]));
             this.addressPicker.setSlotValues(2, this.getCountyArr(proItem["name"], cityItem["name"]));
@@ -366,6 +366,7 @@
                 message: "信息保存成功",
                 position: 'middle'
               });
+              this.$router.push('/user')
             })
           }else{
             console.log("meiyougai")
@@ -385,7 +386,7 @@
             this.userbirth = GMTToDateStr(this.userinfo.birthday)
           }
           let tk = getLocalStorage(Constants.TOKEN)
-          this.uploadUrl = `http://120.79.16.221:8777/app/file/ftpUpload/headImg/0?token=` + tk
+          this.uploadUrl = `http://api.mezhizp.com/app/file/ftpUpload/headImg/0?token=` + tk
           this.imageUrl = this.userinfo.logoUrl
 
           if (this.userinfo.province != '' && this.userinfo.city != '' && this.userinfo.district != '') {
@@ -523,5 +524,11 @@
 
   .mint-popup-address{
     width: 100%;
+  }
+
+  .area-input{
+    flex: 1;
+    display: flex;
+    align-items: center;
   }
 </style>

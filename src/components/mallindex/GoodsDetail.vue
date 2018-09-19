@@ -6,7 +6,7 @@
     </mt-header>
     <div class="content" v-if="goodsInfo">
       <mt-swipe :auto="4000" class="swipe">
-        <mt-swipe-item v-for="item in goodsInfo.sowingUrl"><img :src="item" alt=""></mt-swipe-item>
+        <mt-swipe-item v-for="item in goodsInfo.sowingUrl" :key="item.id"><img :src="item" alt=""></mt-swipe-item>
       </mt-swipe>
       <div class="goods-info">
         <div class="goods-detail-info">

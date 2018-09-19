@@ -6,22 +6,23 @@
     <div class="content">
     <div class="posts">
       <div class="comment">
+        <span class="comment-star red-star">*</span>
         <textarea placeholder="提出您的意见和反馈" rows="3" :maxlength="max" @input="descInput"
                 v-model="content"></textarea>
         <p class="pay-service-textarea-text"><span>{{remnant}}</span>/{{max}}</p>
       </div>
       <div class="pictures">
-        <el-upload :action="uploadUrl" :file-list="appraisesImgList" :before-upload="handleBeforeUpload" :on-error="uploadError" :on-success="uploadSuccess" list-type="picture-card" :on-remove="handleRemove" :on-progress="handleProgress" :limit="4" :on-exceed="handleExceed"  ref="upload">
+        <el-upload :action="uploadUrl" :file-list="appraisesImgList" :before-upload="handleBeforeUpload" :on-error="uploadError" :on-success="uploadSuccess" list-type="picture-card" :on-remove="handleRemove" :on-progress="handleProgress" :limit="4" :on-exceed="handleExceed"   ref="upload">
           <i class="el-icon-plus"></i>
         </el-upload>
       </div>
       <div class="contact">
         <div class="input-cell">
           <div class="cell-left">
-            <p>手机号:</p>
+            <p><span class="red-star">*</span>手机号:</p>
           </div>
           <div class="cell-right">
-            <input type="text" placeholder="留下您的手机号，方便我们联系到您" v-model="mobile">
+            <input type="text" placeholder="请留下手机号，方便我们联系您" oninput="if(value.length > 11)value = value.slice(0, 11)" v-model="mobile">
           </div>
         </div>
       </div>
@@ -37,7 +38,7 @@
 
   import {saveFeedback} from "../../http/getData";
   import * as Constants from '../../custom/constants'
-  import {getLocalStorage} from "../../custom/mixin"
+  import {getLocalStorage, photoCompress, canvasDataURL, convertBase64UrlToBlob} from "../../custom/mixin"
   import {Toast} from 'mint-ui'
 
   export default {
@@ -72,11 +73,42 @@
           //     position: 'middle'
           //   });
           // }
+          // let fileSize = file.size / 1024 / 1024
+          // console.log(file.size)
+          // console.log("before upload")
+          // if (fileSize > 1){
+          //   photoCompress(file, {
+          //     quality: 0.2
+          //   }, (base64Codes) => {
+          //     var bl = convertBase64UrlToBlob(base64Codes);
+          //     var form = new FormData(); // FormData 对象
+          //     form.append("file", bl, "file_" + Date.parse(new Date())+".jpg"); // 文件对象
+          //     var xhr = new XMLHttpRequest();  // XMLHttpRequest 对象
+          //     xhr.open("post", this.uploadUrl, true); //post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。
+          //     xhr.onload = this.uploadComplete; //请求完成
+          //     xhr.onerror =  this.uploadFailed; //请求失败
+          //     xhr.send(form); //开始上传，发送form数据
+          //   })
+          //   isLt2M = false
+          // }
+
           if(this.appraisesImgList.length >= 4){
             isLt2M = false
           }
           return isLt2M;
         },
+        // uploadComplete(evt) {
+        //
+        //   var data = JSON.parse(evt.target.responseText);
+        //   if (data.success) {
+        //     alert("上传成功！");
+        //   } else {
+        //     alert("上传失败！");
+        //   }
+        // },
+        // uploadFailed(evt) {
+        //   alert("上传失败！");
+        // },
         handleRemove(file, fileList) {
           this.appraisesImgList = fileList
         },
@@ -87,8 +119,21 @@
           })
         },
         handleProgress(event, file, fileList) {
-          if(document.getElementsByClassName('.el-progress .el-progress--circle') != undefined) {
-            document.getElementsByClassName('.el-progress .el-progress--circle').style = 'display: none';
+          file.status = '';
+          file.percentage = 0
+          if(document.querySelector('.el-upload-list__item>span')){
+            document.querySelector('.el-upload-list__item>span').remove()
+          }
+          if(document.querySelector('.el-upload-list__item>label')){
+            document.querySelector('.el-upload-list__item>label').remove()
+          }
+          console.log(document.querySelector('.el-upload-list__item .el-icon-close-tip'))
+          if(document.querySelector('.el-upload-list__item .el-icon-close-tip')){
+            document.querySelector('.el-upload-list__item .el-icon-close-tip').remove()
+          }
+          if(document.getElementsByClassName('.el-progress.el-progress--circle') != undefined) {
+            // document.getElementsByClassName('.el-progress.el-progress--circle').style = 'display: none';
+            document.querySelector('.el-upload-list__item .el-icon-close-tip').remove()
           }
         },
         hidePictureCardUpload() {
@@ -96,6 +141,17 @@
         },
         uploadSuccess (response) {
           this.appraisesImgList.push(response.result)
+          if(document.querySelector('.el-upload-list__item>span')){
+            document.querySelector('.el-upload-list__item>span').remove()
+          }
+          if(document.querySelector('.el-upload-list__item>label')){
+            document.querySelector('.el-upload-list__item>label').remove()
+          }
+          if(document.querySelector('.el-upload-list__item .el-icon-close-tip')){
+            document.querySelector('.el-upload-list__item .el-icon-close-tip').remove()
+          }
+          document.querySelector('.el-upload-list--picture-card .el-upload-list__item .el-icon-close').style.display = 'block'
+
           console.log('上传文件', response)
         },
         // 上传错误
@@ -107,6 +163,15 @@
           })
         },
         postAppraises(){
+
+          if (!this.content || !this.mobile){
+            Toast({
+              message: '标星项为必填！',
+              position: 'middle',
+              duration: 1000
+            })
+            return false
+          }
           let fileList = []
 
           this.appraisesImgList.forEach(item=>{
@@ -136,7 +201,7 @@
       },
       mounted(){
         let tk = getLocalStorage(Constants.TOKEN)
-        this.uploadUrl = `http://120.79.16.221:8777/app/file/ftpUpload/appraisesImg/0?token=` + tk
+        this.uploadUrl = `http://api.mezhizp.com/app/file/ftpUpload/appraisesImg/0?token=` + tk
       }
     }
 </script>
@@ -269,6 +334,17 @@
     height: 26px;
     font-size: 14px;
   }
+
+  .comment-star{
+    position: absolute;
+    left: -8px;
+    top: 14px;
+  }
+  .red-star{
+    font-size: 14px;
+    color: #f04844;
+    vertical-align: middle;
+  }
 </style>
 <style>
   .rate .el-rate__icon{
@@ -278,13 +354,28 @@
      transform: scale(1);
   }
   .pictures .el-upload--picture-card{
-    height: 100px;
-    width: 100px;
-    line-height: 98px;
+    height: 27vw;
+    width: 27vw;
+    line-height: 27vw;
   }
 
-  .pictures .el-upload-list__item {
-    height: 100px;
-    width: 100px;
+  .pictures .el-upload-list--picture-card .el-upload-list__item {
+    height: 27vw;
+    width: 27vw;
+  }
+
+  .pictures .el-upload-list__item img{
+    height: 27vw;
+    width: 27vw;
+  }
+
+  .pictures .el-upload-list--picture-card .el-upload-list__item .el-icon-close {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    /* opacity: .75; */
+    color: red;
   }
 </style>

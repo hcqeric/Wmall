@@ -2,7 +2,7 @@
   <div class="find-page">
     <keep-alive>
       <mt-swipe :auto="4000" class="promotion-banner">
-        <mt-swipe-item v-for="item in banners"><img :src="item.url" alt=""></mt-swipe-item>
+        <mt-swipe-item v-for="item in banners" :key="item.id"><img :src="item.url" alt=""></mt-swipe-item>
       </mt-swipe>
     </keep-alive>
     <div class="tags">

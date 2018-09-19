@@ -1,6 +1,8 @@
 import axios from 'axios';
 import url from '@/http/url.js'
 import {Indicator, Toast} from 'mint-ui';
+import router from '../router'
+import * as Constants from '../custom/constants'
 import {
   setLocalStorage,
   getLocalStorage,
@@ -40,7 +42,7 @@ class Request {
             }else{
                 if(response.data.code === 401){ //TOKEN失效
                   removeLocalStorage(Constants.TOKEN)
-                  this.$router.push('/login')
+                  router.push('/login')
                 }
                 Toast({
                     message: response.data.msg,
