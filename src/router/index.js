@@ -53,6 +53,8 @@ import PaymentFail from '@/components/shopcart/PaymentFail'
 import Feedback from '@/components/mine/Feedback'
 import NewsDetail from '@/components/promotion/NewsDetail'
 import MZCollege from '@/components/promotion/MZCollege'
+import MZCollegeBranchDocs from '@/components/promotion/MZCollegeBranchDocs'
+import MZCollegeBranchPdfs from '@/components/promotion/MZCollegeBranchPdfs'
 import Materials from '@/components/promotion/Materials'
 import Find from '@/components/promotion/Find'
 import MyPromotion from '@/components/promotion/MyPromotion'
@@ -351,6 +353,16 @@ let router = new Router({
       path: '/mzcollage',
       name: 'mzcollage',
       component: MZCollege
+    },
+    {
+      path: '/mzcolbranchdoc/:id',
+      name: 'mzcolbranchdoc',
+      component: MZCollegeBranchDocs
+    },
+    {
+      path: '/mzcolbranchpdf/:id',
+      name: 'mzcolbranchpdf',
+      component: MZCollegeBranchPdfs
     }
   ]
 })

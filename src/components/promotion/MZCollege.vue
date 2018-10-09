@@ -13,22 +13,22 @@
           <div class="system-sorts">
             <div class="edu-item">
               <div class="edu-sys-name">
-                <button>产品</button>
+                <button @click="toBranchDetail">产品</button>
               </div>
               <div class="edu-sys-name">
-                <button>营销</button>
+                <button @click="toBranchDetail">营销</button>
               </div>
               <div class="edu-sys-name">
-                <button>运营</button>
+                <button @click="toBranchDetail">运营</button>
               </div>
               <div class="edu-sys-name">
-                <button>讲师</button>
+                <a href="http://mezhizp.com/static/docs/领袖财商智慧.docx" download >讲师</a>
               </div>
               <div class="edu-sys-name">
-                <button>商业模式</button>
+                <button @click="toMZCollegeBranchPdfs(3)">商业模式</button>
               </div>
               <div class="edu-sys-name">
-                <button>股权</button>
+                <button @click="toBranchDetail">股权</button>
               </div>
             </div>
           </div>
@@ -42,19 +42,19 @@
         <div class="system-sorts">
           <div class="edu-item">
             <div class="edu-sys-name">
-              <button>情绪管理</button>
+              <button @click="toMZCollegeBranchDocs(2)">情绪管理</button>
             </div>
             <div class="edu-sys-name">
-              <button>亲子教育</button>
+              <button @click="toMZCollegeBranchDocs(0)">亲子教育</button>
             </div>
             <div class="edu-sys-name">
-              <button>情商</button>
+              <button  @click="toMZCollegeBranchDocs(1)">情商</button>
             </div>
             <div class="edu-sys-name">
-              <button>心理咨询</button>
+              <button @click="toMZCollegeBranchPdfs(5)">心理咨询</button>
             </div>
             <div class="edu-sys-name">
-              <button>教练技术</button>
+              <button @click="toMZCollegeBranchPdfs(4)">教练技术</button>
             </div>
           </div>
         </div>
@@ -68,19 +68,20 @@
         <div class="system-sorts">
           <div class="edu-item">
             <div class="edu-sys-name">
-              <button>茶艺</button>
+              <button @click="toMZCollegeBranchPdfs(2)">茶艺</button>
             </div>
             <div class="edu-sys-name">
-              <button>音乐</button>
+              <!--<button @click="downloadFile(1)">音乐</button>-->
+              <a href="http://mezhizp.com/static/docs/音乐基本用语.doc" download >音乐</a>
             </div>
             <div class="edu-sys-name">
-              <button>舞蹈</button>
+              <button @click="toBranchDetail">舞蹈</button>
             </div>
             <div class="edu-sys-name">
-              <button>形象设计</button>
+              <button @click="toMZCollegeBranchPdfs(1)">形象设计</button>
             </div>
             <div class="edu-sys-name">
-              <button>财商</button>
+              <button @click="toMZCollegeBranchPdfs(0)">财商</button>
             </div>
           </div>
         </div>
@@ -90,6 +91,7 @@
 </template>
 
 <script>
+  import {Toast} from 'mint-ui'
   export default {
     name: "MXCollege",
     data() {
@@ -100,6 +102,19 @@
     methods: {
       goBack() {
         this.$router.back()
+      },
+      toMZCollegeBranchDocs(id){
+        this.$router.push('/mzcolbranchdoc/' + id)
+      },
+      toMZCollegeBranchPdfs(id){
+        this.$router.push('/mzcolbranchpdf/' + id)
+      },
+      toBranchDetail(){
+        Toast({
+          message: '当前内容暂未开放中，请耐心等待',
+          position:'middle',
+          duration: 1000
+        })
       }
     }
   }
@@ -180,6 +195,17 @@
     font-size: 12px;
     height: 26px;
     width: 64px;
+    border-radius: 13px;
+    color: #000;
+  }
+  .edu-sys-name>a{
+    background-image: url("../../assets/img/bg-white.png");
+    border: 1px solid #999;
+    font-size: 12px;
+    height: 24px;
+    line-height: 26px;
+    text-align: center;
+    width: 62px;
     border-radius: 13px;
     color: #000;
   }

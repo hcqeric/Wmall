@@ -23,10 +23,7 @@
             <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder="请输入登录密码"></el-input>
           </div>
         </div>
-
       </div>
-
-
     </div>
     <div class="goto">
       <button  @click="doLogin" ref="btnLogin">登录</button>
@@ -36,6 +33,8 @@
         <span>忘记密码</span>
       </router-link>
     </div>
+    <!--<span class="beian" @click="toBeiAn">豫ICP备18029678号-1</span>-->
+    <span class="beian"><a href="http://www.miitbeian.gov.cn/">豫ICP备18029678号-1</a></span>
   </div>
 </template>
 
@@ -202,6 +201,12 @@
   .app-logo img{
     width: 16vh;
     height: 16vh;
+  }
+  .beian{
+    margin-top: 30px;
+    display: block;
+    font-size: 16px;
+    text-align: center;
   }
 </style>
 <style>

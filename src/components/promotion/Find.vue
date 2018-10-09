@@ -20,7 +20,7 @@
             <img :src="arr[0].url" alt="" />
             <span>{{arr[0].name}}</span>
           </div>
-          <div class="introduction-item">
+          <div class="introduction-item"  @click="toFindDetail">
             <img :src="arr[1].url" alt="" />
             <span>{{arr[1].name}}</span>
           </div>
@@ -38,7 +38,7 @@
             <img :src="arr[4].url" alt="" />
             <span>{{arr[4].name}}</span>
           </div>
-          <div class="introduction-item">
+          <div class="introduction-item"  @click="toFindDetail">
             <img :src="arr[5].url" alt="" />
             <span>{{arr[5].name}}</span>
           </div>
@@ -52,7 +52,7 @@
             <img :src="arr[7].url" alt="" />
             <span>{{arr[7].name}}</span>
           </div>
-          <div class="introduction-item">
+          <div class="introduction-item" @click="toFindDetail">
             <img :src="arr[8].url" alt="" />
             <span>{{arr[8].name}}</span>
           </div>
@@ -64,6 +64,7 @@
 
 <script>
   import {getFileByType} from "../../http/getData";
+  import {Toast} from 'mint-ui'
     export default {
         name: "Find",
       data(){
@@ -114,6 +115,13 @@
         })
       },
       methods:{
+          toFindDetail(){
+            Toast({
+              message: '当前内容暂未开放中，请耐心等待',
+              position:'middle',
+              duration: 1000
+            })
+          },
         gotoDetail(index){
           if (index != 7){
             this.$router.push('/company/'+ index)
