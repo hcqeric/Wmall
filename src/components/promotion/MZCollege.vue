@@ -22,7 +22,7 @@
                 <button @click="toBranchDetail">运营</button>
               </div>
               <div class="edu-sys-name">
-                <a href="http://mezhizp.com/static/docs/领袖财商智慧.docx" download >讲师</a>
+                <a href="http://mezhizp.com/download/leader.docx" download >讲师</a>
               </div>
               <div class="edu-sys-name">
                 <button @click="toMZCollegeBranchPdfs(3)">商业模式</button>
@@ -72,7 +72,7 @@
             </div>
             <div class="edu-sys-name">
               <!--<button @click="downloadFile(1)">音乐</button>-->
-              <a href="http://mezhizp.com/static/docs/音乐基本用语.doc" download >音乐</a>
+              <a href="http://mezhizp.com/download/music.doc" download >音乐</a>
             </div>
             <div class="edu-sys-name">
               <button @click="toBranchDetail">舞蹈</button>

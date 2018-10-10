@@ -17,6 +17,25 @@ export const removeLocalStorage = (key) => {
   window.localStorage.removeItem(key);
 }
 
+export const setSessionStorage = (key, value) => {
+  if (!key) return;
+  let val = value;
+  if (typeof value !== 'string') {
+    val = JSON.stringify(value);
+  }
+  window.sessionStorage.setItem(key, val);
+}
+
+export const getSessionStorage = (key) => {
+  if (!key) return;
+  return window.sessionStorage.getItem(key);
+}
+
+export const removeSessionStorage = (key) => {
+  if (!key) return;
+  window.sessionStorage.removeItem(key);
+}
+
 export const search = (key) => {
   if (!key) return;
   var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");

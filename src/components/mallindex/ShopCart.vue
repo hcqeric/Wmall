@@ -69,7 +69,7 @@
 <script>
   import Goods from '@/components/view/Goods'
   import {getCartList, deleteCart, addCart} from "../../http/getData";
-  import {getLocalStorage,removeLocalStorage} from "../../custom/mixin";
+  import {getLocalStorage,removeLocalStorage, getSessionStorage, removeSessionStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
   import { MessageBox, Toast } from 'mint-ui';
   import {mapActions} from 'vuex'
@@ -333,10 +333,23 @@
         }
       //  goods
       },
-      mounted(){
+      async mounted(){
         this.cartList = []
         let tk = getLocalStorage(Constants.TOKEN)
         this.token = tk
+        let goodsInfo = getSessionStorage("goodsInfo")
+        if (goodsInfo) {
+          let goodsInfoJson = JSON.parse(goodsInfo)
+          await addCart({
+            token: tk
+          },{
+            goodsId: goodsInfoJson.goodsId,
+            goodsNum: goodsInfoJson.goodsNo
+          }).then(response=>{
+            removeSessionStorage("goodsInfo")
+            removeSessionStorage("userId")
+          })
+        }
         this.loading = true;
         this.loadData()
       }

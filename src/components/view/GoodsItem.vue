@@ -44,7 +44,7 @@
             if(count > 0){
               Toast({
                 message: "添加购物车成功",
-                position: 'bottom',
+                position: 'middle',
                 duration: 1000
               })
             }

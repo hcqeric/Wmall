@@ -242,6 +242,7 @@
   import url from '../http/url.js'
   import {mapActions} from 'vuex'
   import {getUserInfoById} from "../http/getData";
+  import {getSessionStorage} from "../custom/mixin";
 
   export default {
     name: "RecommendReg",
@@ -256,7 +257,8 @@
           verify: '',
           password: '',
           checked:true
-        }
+        },
+        recommendType: 0
       };
     },
     methods: {
@@ -363,11 +365,15 @@
             let data = response.data
             let userId = response.data.result.userId
             this.storeState(data.result.token).then(() => {
-              if(this.isWeiXin()){
-                let authUrl = url.baseUrl + url.wxAuth + userId
-                window.location.href = authUrl
-              }else{
-                this.$router.push('/mallindex')
+              if (this.recommendType == 0){
+                if(this.isWeiXin()){
+                  let authUrl = url.baseUrl + url.wxAuth + userId
+                  window.location.href = authUrl
+                }else{
+                  this.$router.push('/mallindex')
+                }
+              } else{
+                this.$router.push('/cart')
               }
             })
           } else if (response.data.code === 500) {
@@ -377,10 +383,17 @@
       }
     },
     mounted(){
+
       let {id} = this.$route.params
       this.recommendUserId = id
+      this.recommendType = 0
+      let userId = getSessionStorage("userId")
+      if (userId){
+        this.recommendUserId = userId
+        this.recommendType = 1
+      }
       getUserInfoById({
-        id: id
+        id: this.recommendUserId
       }).then(response=>{
         this.recommender = response.result
       })

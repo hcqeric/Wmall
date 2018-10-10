@@ -130,6 +130,8 @@ export const saveFeedback = (params, datas) => new Request().require({api: url.f
 
 export const getNewsDetail = (datas) => new Request().require({api: url.newsDetail, data:datas}); // 新闻详情
 
+export const getAllSerials = (params) => new Request().require({api: url.getAllSerials, param: params, methods: 'GET'}); // 获取所有分类信息
+
 
 
 

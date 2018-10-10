@@ -67,7 +67,7 @@ Vue.filter('moneyFormat', function (value, currency, decimals) {
 Vue.filter('bankcardFormat', function (value, showlength) {
   showlength = showlength != null ? showlength : 4
   let length = value.toString().length
-  console.log(length)
+
   let replaceString = ''
   for (let index = 0; index < length; index++) {
     if (index > showlength - 1 && index < length - showlength) {

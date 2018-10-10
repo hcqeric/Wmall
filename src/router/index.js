@@ -58,6 +58,7 @@ import MZCollegeBranchPdfs from '@/components/promotion/MZCollegeBranchPdfs'
 import Materials from '@/components/promotion/Materials'
 import Find from '@/components/promotion/Find'
 import MyPromotion from '@/components/promotion/MyPromotion'
+import QrCodeGoodsDetail from '@/components/qrshare/QrCodeGoodsDetail'
 
 Vue.use(Router)
 
@@ -125,7 +126,8 @@ let router = new Router({
     {
       path: '/cart',
       name: 'cart',
-      component: CartIndex
+      component: CartIndex,
+      meta: { requiresAuth: true }
     },
     {
       path: '/payment/:id',
@@ -363,6 +365,11 @@ let router = new Router({
       path: '/mzcolbranchpdf/:id',
       name: 'mzcolbranchpdf',
       component: MZCollegeBranchPdfs
+    },
+    {
+      path: '/goodsdetail/:goodsNum/:userId',
+      name: 'QrGoodsDetail',
+      component: QrCodeGoodsDetail
     }
   ]
 })

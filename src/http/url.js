@@ -78,5 +78,6 @@ export default {
   wxAuth:'app/wx/authorization?userId=',
   wxConfig:'app/share/getWxConfig',
   feedback:'app/feedback/save',
-  newsDetail: '/app/file/getFileByForeignId'
+  newsDetail: '/app/file/getFileByForeignId',
+  getAllSerials: '/app/goods/getGoodsSecondType'
 }
