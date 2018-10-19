@@ -58,7 +58,7 @@
             <img src="../../assets/img/daipingj.png" alt="">
             <span>待评价</span>
           </router-link>
-          <router-link to="refunds" class="order-state-item">
+          <router-link to="/refunds" class="order-state-item">
             <img src="../../assets/img/tuohuo.png" alt="">
             <span>退货退款</span>
           </router-link>

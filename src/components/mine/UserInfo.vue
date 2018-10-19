@@ -317,14 +317,16 @@
         },
         open(picker) {
           if(this.userinfo.birthday){
-            this.birthday = this.userinfo.birthday
-            this.userbirth = GMTToDateStr(this.userinfo.birthday)
+            this.birthday = this.userbirth
+            // this.userbirth = GMTToDateStr(this.userinfo.birthday)
           }
           this.$refs[picker].open();
         },
         handleChange(value) {
+          // console.log(typeof value)
+          // this.userbirth = GMTToDateStr(value)
           this.userbirth = GMTToDateStr(value)
-
+          this.userinfo.birthday = value
           let timestamp = Date.parse(new Date(value))
           this.userinfo.birthday = timestamp
         },
@@ -383,7 +385,7 @@
             method: this.selectWoman
           }]
           if (this.userinfo.birthday){
-            this.userbirth = GMTToDateStr(this.userinfo.birthday)
+            this.userbirth = this.userinfo.birthday.split(" ")[0]
           }
           let tk = getLocalStorage(Constants.TOKEN)
           this.uploadUrl = `http://api.mezhizp.com/app/file/ftpUpload/headImg/0?token=` + tk
@@ -486,7 +488,6 @@
     outline: none;
     margin: 4px;
     flex: 1;
-
     height: 26px;
     font-size: 14px;
     color: #000;
@@ -527,8 +528,8 @@
   }
 
   .area-input{
-    flex: 1;
-    display: flex;
-    align-items: center;
+    /*flex: 1;*/
+    /*display: flex;*/
+    /*align-items: center;*/
   }
 </style>

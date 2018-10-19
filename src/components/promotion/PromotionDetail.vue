@@ -6,7 +6,7 @@
       <div class="content">
         <img :src="imgUrl" alt="">
         <div class="share">
-          <p>分享二维码给好友，好友注册成功并且购物满20元，即可永远成为你的一级好友~</p>
+          <p>人人都是消费者，人人都是消费商</p>
           <button @click="shareToFriends">推广给好友，一起来赚钱！</button>
         </div>
       </div>
@@ -245,16 +245,19 @@
   }
   .share{
     position: absolute;
+    width: 100vw;
     bottom:10vh;
     display: flex;
     flex-direction: column;
-    padding: 0 36px;
+    align-items: center;
   }
   .share p{
     color: #fff;
     font-size: 14px;
-    text-indent: 2em;
+    /*text-indent: 2em;*/
     margin-bottom: 30px;
+    text-align: center;
+
   }
   .share button{
     border: none;
@@ -263,10 +266,11 @@
     border-radius: 5px;
     background-color: transparent;
     background-image: url("../../assets/img/bg-purple.png");
-    width: 100%;
+    width: 80%;
     outline: none;
     text-align: center;
     color: #fff;
+
   }
 
   .mint-popup{

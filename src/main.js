@@ -16,6 +16,9 @@ import store from './store'
 import * as filters from './custom/filters'
 import axios from 'axios'
 import url from './http/url.js'
+import VueClipboard from 'vue-clipboard2'
+
+
 // import FastClick from 'fastclick'
 import {getWxConfig} from "./http/getData";
 
@@ -24,6 +27,7 @@ Vue.use(ElementUI)
 Vue.use(MintUI)
 Vue.use(Lazyload);
 Vue.use(InfiniteScroll);
+Vue.use(VueClipboard)
 Vue.config.productionTip = false
 Vue.prototype.axios = axios.create({
   baseURL:url.baseUrl,

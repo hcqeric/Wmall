@@ -117,11 +117,25 @@ export function GMTToStr(time){
 }
 
 export function GMTToDateStr(time){
-  let date = new Date(time.replace(/-/g,'/'))
+  let date = new Date(time)
   let Str=date.getFullYear() + '-' +
     (date.getMonth() + 1) + '-' +
     date.getDate()
   return Str
+  // if (typeof time != 'object'){
+  //   let date = new Date(time.replace(/-/g,'/'))
+  //   let Str=date.getFullYear() + '-' +
+  //     (date.getMonth() + 1) + '-' +
+  //     date.getDate()
+  //   return Str
+  // } else {
+  //   let date = new Date(time)
+  //   let Str=date.getFullYear() + '-' +
+  //     (date.getMonth() + 1) + '-' +
+  //     date.getDate()
+  //   return Str
+  // }
+
 }
 
 export function randomStr(length) {
@@ -280,6 +294,32 @@ export function convertBase64UrlToBlob(urlData){
   return new Blob([u8arr], {type:mime});
 }
 
+export function isWeiXin() {
+  var ua = window.navigator.userAgent.toLowerCase();
+  if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function isAndoird(){
+  var u = window.navigator.userAgent;
+  if(u.indexOf('Android') > -1 || u.indexOf('Adr') > -1){
+    return true
+  }else{
+    return false
+  }
+}
+
+export function isIOS(){
+  var u = window.navigator.userAgent;
+  if(!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)){
+    return true;
+  }else{
+    return false;
+  }
+}
 /**
  * 显示返回顶部按钮，开始、结束、运动 三个过程中调用函数判断是否达到目标点
  */

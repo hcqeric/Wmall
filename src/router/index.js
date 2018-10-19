@@ -59,6 +59,7 @@ import Materials from '@/components/promotion/Materials'
 import Find from '@/components/promotion/Find'
 import MyPromotion from '@/components/promotion/MyPromotion'
 import QrCodeGoodsDetail from '@/components/qrshare/QrCodeGoodsDetail'
+import ShareGoods from '@/components/qrshare/ShareGoods'
 
 Vue.use(Router)
 
@@ -370,6 +371,11 @@ let router = new Router({
       path: '/goodsdetail/:goodsNum/:userId',
       name: 'QrGoodsDetail',
       component: QrCodeGoodsDetail
+    },
+    {
+      path: '/sharegoods/:id',
+      name: 'ShareGoods',
+      component: ShareGoods
     }
   ]
 })

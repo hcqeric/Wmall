@@ -132,6 +132,8 @@ export const getNewsDetail = (datas) => new Request().require({api: url.newsDeta
 
 export const getAllSerials = (params) => new Request().require({api: url.getAllSerials, param: params, methods: 'GET'}); // 获取所有分类信息
 
+export const shareGoods = (params, id) => new Request().require({api: url.shareGoods + id, param: params, methods: 'GET'}); // 分享商品
+
 
 
 

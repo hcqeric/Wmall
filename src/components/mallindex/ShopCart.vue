@@ -226,7 +226,7 @@
               ids.push(item.id)
             }
           })
-          console.log(ids)
+          // console.log(ids)
           if (selectedGoodsList.length == 0) return Toast({
             message: '请选择商品',
             position: 'middle'
@@ -236,7 +236,7 @@
           })
           let idsString = ids.join('-')
           idsString = decodeURIComponent(idsString)
-          console.log(idsString)
+          // console.log(idsString)
           this.setHasCreatedOrder(false)
           removeLocalStorage("ORDER_ID")
           this.$router.push('/payment/' + idsString)
@@ -274,7 +274,7 @@
               this.$set(item, "checked", false)
               this.cartList.push(item)
             })
-            console.log(this.cartList)
+            // console.log(this.cartList)
             this.id = response.result.list.id
             this.page++
           }).catch(error=>{

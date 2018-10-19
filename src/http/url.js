@@ -79,5 +79,6 @@ export default {
   wxConfig:'app/share/getWxConfig',
   feedback:'app/feedback/save',
   newsDetail: '/app/file/getFileByForeignId',
-  getAllSerials: '/app/goods/getGoodsSecondType'
+  getAllSerials: '/app/goods/getGoodsSecondType',
+  shareGoods: '/app/share/shareGoods/'
 }

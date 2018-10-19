@@ -100,7 +100,8 @@
           action:"share"
         },
         id: "",
-        goodsInfo: null
+        goodsInfo: null,
+        aaa:["http://img.mezhizp.com/pub/201810091430461274431387.jpg", "http://img.mezhizp.com/pub/goodsShare2.png"]
       }
     },
     methods: {
@@ -219,23 +220,27 @@
         window.location.href = url
       },
       handleShare(){
-        this.shareData.title=this.goodsInfo.name
-        this.shareData.link = location.href.split("#")[0]
-        this.shareData.imgUrl = this.goodsInfo.goodsImg
-        if (this.goodsInfo.type == 1){
-          this.shareData.desc = this.goodsInfo.introduce + '\r\n' + "￥" + (this.goodsInfo.sellPrice/100)
-        } else if (this.goodsInfo.type == 2){
-          this.shareData.desc = this.goodsInfo.introduce + '\r\n' + this.goodsInfo.bonusPrice + "积分"
-        }
 
-        if (this.isWeiXin()){
-          this.shareToFriendsVisible = true
-        }else if(this.isAndoird()){
-          jsCallShare.shareGoods(this.shareData.title,this.shareData.link, this.shareData.imgUrl, this.shareData.desc)
-        }else if (this.isIOS()) {
-          var shareJson = JSON.stringify(this.shareData)
-          window.webkit.messageHandlers.hlf_dmall.postMessage(shareJson)
-        }
+        this.$router.push(`/sharegoods/${this.goodsInfo.id}`)
+
+        // this.shareData.title=this.goodsInfo.name
+        // this.shareData.link = location.href.split("#")[0]
+        // this.shareData.imgUrl = this.goodsInfo.goodsImg
+        // if (this.goodsInfo.type == 1){
+        //   this.shareData.desc = this.goodsInfo.introduce + '\r\n' + "￥" + (this.goodsInfo.sellPrice/100)
+        // } else if (this.goodsInfo.type == 2){
+        //   this.shareData.desc = this.goodsInfo.introduce + '\r\n' + this.goodsInfo.bonusPrice + "积分"
+        // }
+        //
+        // if (this.isWeiXin()){
+        //   this.shareToFriendsVisible = true
+        // }else if(this.isAndoird()){
+        //   let a = JSON.stringify(this.aaa)
+        //   jsCallShare.shareGoods(this.shareData.title,this.shareData.link, this.shareData.imgUrl, this.shareData.desc, a)
+        // }else if (this.isIOS()) {
+        //   var shareJson = JSON.stringify(this.shareData)
+        //   window.webkit.messageHandlers.hlf_dmall.postMessage(shareJson)
+        // }
       },
       goBack() {
         this.$router.back()

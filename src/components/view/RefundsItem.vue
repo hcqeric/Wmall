@@ -1,8 +1,8 @@
 <template>
   <div class="refunds-item">
-    <p>订单号：{{refundInfo.order.orderNum}}</p>
+    <p>订单号：{{refundInfo.orderNum}}</p>
     <div class="refund-infos">
-    <div class="item-info" v-for="item in refundInfo.order.orderDetailList">
+    <div class="item-info" v-for="item in refundInfo.orderDetailList">
       <img :src="item.goodsImg" alt="">
       <div class="goods">
         <p>{{item.goodsName}}</p>
@@ -11,19 +11,27 @@
       </div>
     </div>
     <Address :address="address" v-if="refundInfo.orderReturn != undefined"></Address>
+    <p class="refund-remark" v-if="refundInfo.tradeStatus == 6">备注：{{refundInfo.orderReturn.handleRemarks}}</p>
     </div>
-    <p class="refunds-status-p">{{renderType}}
-      <span v-if="refundInfo.refundStatus == 0" class="refund-fail">待申请</span>
-      <span v-if="refundInfo.refundStatus == 1" class="refund-fail">申请中</span>
-      <span v-if="refundInfo.refundStatus == 2" class="refund-succ">退款成功</span>
-      <span v-if="refundInfo.refundStatus == 3" class="refund-fail">退款失败</span>
-      <span v-if="refundInfo.refundStatus == 4" class="refund-fail">退款失败</span>
+    <p class="refunds-status-p" v-if="refundInfo.tradeStatus == 5">{{renderType}}
+      <span v-if="refundInfo.orderRefund.refundStatus == 0" class="refund-fail">待申请</span>
+      <span v-if="refundInfo.orderRefund.refundStatus == 1" class="refund-fail">申请中</span>
+      <span v-if="refundInfo.orderRefund.refundStatus == 2" class="refund-succ">退款成功</span>
+      <span v-if="refundInfo.orderRefund.refundStatus == 3" class="refund-fail">退款失败</span>
+      <span v-if="refundInfo.orderRefund.refundStatus == 4" class="refund-fail">退款失败</span>
+    </p>
+    <p class="refunds-status-p" v-if="refundInfo.tradeStatus == 6">{{renderType}}
+      <span v-if="refundInfo.orderReturn.refundStatus == 0" class="refund-fail">待申请</span>
+      <span v-if="refundInfo.orderReturn.refundStatus == 1" class="refund-fail">退货中</span>
+      <span v-if="refundInfo.orderReturn.refundStatus == 2" class="refund-fail">已收货，待退款</span>
+      <span v-if="refundInfo.orderReturn.refundStatus == 3" class="refund-succ">退货退款成功</span>
+      <span v-if="refundInfo.orderReturn.refundStatus == 4" class="refund-fail">退货退款失败</span>
     </p>
   </div>
 </template>
 
 <script>
-    import Address from '@/components/view/Address'
+    import Address from '@/components/view/RefundAddress'
     export default {
       name: "RefundsItem",
       data(){
@@ -37,9 +45,9 @@
       },
       computed:{
         renderType(){
-          if (this.refundInfo.order.tradeStatus == 5){
+          if (this.refundInfo.tradeStatus == 5){
             return "仅退款"
-          }else if(this.refundInfo.order.tradeStatus == 6){
+          }else if(this.refundInfo.tradeStatus == 6){
             return "退货退款"
           }
         }
@@ -138,5 +146,11 @@
     background: #eee;
     bottom: 0;
     left: 0;
+  }
+
+  .refund-remark{
+    font-size: 14px;
+    color: #999;
+    padding-bottom: 8px;
   }
 </style>
