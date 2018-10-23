@@ -92,7 +92,11 @@
               checked: false,
               url: ''
             },
-            shareUrl:''
+            shareUrl:'',
+            shareData:{
+              advertorial: '',
+              shareImgs:''
+            }
           }
       },
       methods:{
@@ -151,8 +155,50 @@
               })
             }
           }else if (isIOS()) {
-            var shareJson = JSON.stringify(this.shareData)
-            window.webkit.messageHandlers.hlf_dmall.postMessage(shareJson)
+            if (this.shareText && this.count <= 0){
+              if (this.advertorial != ''){
+                this.shareData.advertorial = this.advertorial
+                this.shareData.shareImgs = ''
+                var shareJson = JSON.stringify(this.shareData)
+
+                window.webkit.messageHandlers.hlf_dmall.postMessage(shareJson)
+              } else{
+                Toast({
+                  message: '分享内容不能为空',
+                  position: 'middle',
+                  duration: 1500
+                })
+              }
+            } else if (!this.shareText && this.count > 0 && this.count <= 1){
+              let imgs = []
+              this.shareImgs.map(item=>{
+                if (item.checked){
+                  imgs.push(item.url)
+                }
+              })
+              this.shareData.advertorial = ''
+              this.shareData.shareImgs = imgs[0]
+              var shareJson = JSON.stringify(this.shareData)
+              window.webkit.messageHandlers.hlf_dmall.postMessage(shareJson)
+            } else if (!this.shareText && this.count > 1){
+              Toast({
+                message: "当前系统只支持单张图片分享",
+                position: 'middle',
+                duration: 1500
+              })
+            } else if (this.shareText && this.count > 0){
+              Toast({
+                message: "图案和文字内容不能同时分享",
+                position: 'middle',
+                duration: 1500
+              })
+            }else if (!this.shareText && this.count <= 0){
+              Toast({
+                message: "请选择要分享的内容",
+                position: 'middle',
+                duration: 1500
+              })
+            }
           }
         },
         onCopy: function (e) {
