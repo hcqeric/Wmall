@@ -5,7 +5,7 @@
       <div  class="prom-nav" :class="isFind ? 'is-selected' : ''" @click="$router.replace('/promotion/find')">发现</div>
       <div  class="prom-nav" :class="isNews ? 'is-selected' : ''" @click="$router.replace('/promotion/news')">资料库</div>
     </div>
-    <router-view/>
+    <router-view></router-view>
   </div>
 </template>
 

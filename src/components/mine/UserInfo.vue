@@ -532,4 +532,7 @@
     /*display: flex;*/
     /*align-items: center;*/
   }
+  .picker-toolbar{
+    overflow: hidden;
+  }
 </style>

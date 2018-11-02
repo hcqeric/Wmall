@@ -56,7 +56,7 @@
       </router-link>
       </div>
       <div class="buttons">
-        <button @click="turnToScoreTrans">积分转增</button>
+        <button @click="turnToScoreTrans">积分转赠</button>
         <button @click="turnToExchangeScore">我要兑换</button>
       </div>
     </div>

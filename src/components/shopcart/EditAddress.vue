@@ -11,7 +11,7 @@
                                   readonly="readonly"><span><i class="el-icon-arrow-right"></i></span>
         </div>
         <div class="info-item">
-          <span>详细地址</span><input placeholder="例：6号楼108室" type="text" v-model="addressInfo.address">
+          <span>详细地址</span><input placeholder="例：泰山路51号A栋108室" type="text" v-model="addressInfo.address">
         </div>
         <div class="info-item">
           <span>联系人</span><input placeholder="联系人姓名" type="text" v-model="addressInfo.consignee">
@@ -249,7 +249,7 @@
             position: 'middle',
             duration: 1000})
             return
-        } else if(!(/^1(3|4|5|7|8)\d{9}$/.test(this.addressInfo.mobile))) {
+        } else if(!(/^1(3|4|5|7|8|9)\d{9}$/.test(this.addressInfo.mobile))) {
           Toast('手机号码格式不正确')
           return
         }

@@ -247,6 +247,7 @@
     position: absolute;
     width: 100vw;
     bottom:10vh;
+    left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;

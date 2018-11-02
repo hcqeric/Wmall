@@ -199,7 +199,7 @@
     align-items: center;
     text-align: center;
     height: 12vh;
-    padding: 0 12px;
+    padding: 0 8px;
     /*border-bottom: 2px solid #efefef;*/
   }
   .nav-item.selected{

@@ -35,6 +35,7 @@
     </div>
     <div class="goto">
       <button @click="addToShopCart">加入购物车</button>
+      <button @click="toShopCart">立即购买</button>
     </div>
 
     <mt-popup v-model="shareToFriendsVisible" @click.native="shareToFriendsVisible = false"  :modal="true" position="bottom" class="modal-popup">
@@ -248,6 +249,9 @@
       gotoEvaluation() {
         this.$router.push(`/evaluation/${this.goodsInfo.id}`)
       },
+      toShopCart(){
+        this.$router.push('/cart')
+      },
       addToShopCart(){
         let tk = getLocalStorage(Constants.TOKEN)
         addCart({
@@ -349,17 +353,28 @@
     left: 0;
     width: 100%;
     text-align: center;
+    display: flex;
   }
   .goto button{
+    position: relative;
+    flex: 1;
     border: none;
     height: 44px;
     line-height: 44px;
     background-color: transparent;
     background-image: url("../../assets/img/bg-purple.png");
-    width: 100%;
     outline: none;
     text-align: center;
     color: #fff;
+  }
+  .goto button:first-of-type:after{
+    position: absolute;
+    content: '';
+    height: 42px;
+    width: 1px;
+    background: #ccc;
+    right: 0;
+    top: 1px;
   }
   .goods-detail-info{
     display: flex;

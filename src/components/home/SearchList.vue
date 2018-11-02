@@ -58,6 +58,7 @@
               message: '请输入关键词',
               position: 'middle'
             })
+            return
           }
           this.loading = true;
           this.loadData()

@@ -55,7 +55,7 @@
               message: '手机号不能为空',
               position: 'middle',
               duration: 1000}));
-          } else if(!(/^1(3|4|5|7|8)\d{9}$/.test(value))) {
+          } else if(!(/^1(3|4|5|7|8|9)\d{9}$/.test(value))) {
             callback(Toast('手机号码格式不正确'));
           } else {
             callback();
@@ -88,7 +88,7 @@
               duration: 1000
             })
             return
-          } else if (!(/^1(3|4|5|7|8)\d{9}$/.test(this.ruleForm.mobile))) {
+          } else if (!(/^1(3|4|5|7|8|9)\d{9}$/.test(this.ruleForm.mobile))) {
             Toast('手机号码格式不正确')
             return
           }

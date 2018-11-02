@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <mt-header fixed title="积分转增">
+    <mt-header fixed title="积分转赠">
       <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
     </mt-header>
     <div class="content">
@@ -77,7 +77,7 @@
             position: 'middle',
             duration: 1000})
           return
-        } else if(!(/^1(3|4|5|7|8)\d{9}$/.test(this.mobile))) {
+        } else if(!(/^1(3|4|5|7|8|9)\d{9}$/.test(this.mobile))) {
           Toast('手机号码格式不正确')
           return
         }
