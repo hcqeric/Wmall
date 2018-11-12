@@ -15,7 +15,7 @@
         <div class="card">
           <CardView countTitle="兑换积分" totalTitle="可兑积分" @changeBonus="getBonus" :scores="ableScore.toString()"></CardView>
           <div class="exchange-rules">
-            <p>1积分可以兑换人民币1元，单笔兑换最高限2万分，积分低于5分不可兑换。</p>
+            <p>1积分可以兑换人民币1元，单笔兑换最高限2万分，积分低于100分不可兑换。</p>
             <p>服务费：2分/笔。</p>
           </div>
         </div>

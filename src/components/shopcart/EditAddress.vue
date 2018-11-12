@@ -249,7 +249,7 @@
             position: 'middle',
             duration: 1000})
             return
-        } else if(!(/^1(3|4|5|7|8|9)\d{9}$/.test(this.addressInfo.mobile))) {
+        } else if(!(/^1(2|3|4|5|6|7|8|9)\d{9}$/.test(this.addressInfo.mobile))) {
           Toast('手机号码格式不正确')
           return
         }
