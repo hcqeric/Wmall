@@ -295,6 +295,7 @@
   }
   .content{
     margin-top: 48px;
+    margin-bottom: 44px;
   }
 
   .mint-swipe {
@@ -388,6 +389,19 @@
     font-size: 24px;
     color: #bf54f9;
     padding:8px;
+  }
+
+  .goods-intro{
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+  }
+
+  .goods-intro>img{
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    vertical-align: bottom;
   }
 
   /*share*/
