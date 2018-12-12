@@ -108,6 +108,8 @@ export const pointPay = (datas) => new Request().require({api: url.pointPay,  da
 
 export const wxPay = (datas) => new Request().require({api: url.wxPay,  data:datas}); // 微信支付
 
+export const aliPay = (datas) => new Request().require({api: url.aliPay, data:datas}); // 支付宝支付
+
 export const payResult = (params, datas) => new Request().require({api: url.getDefaultAddress, param: params, data:datas}); // 支付结果
 
 export const getUserInfoById = (datas) => new Request().require({api: url.getUserInfoById, data:datas}); // 获取用户信息

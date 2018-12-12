@@ -31,6 +31,10 @@
               <el-radio v-model="radio" :label="0">微信支付</el-radio>
               <i class="iconfont icon-weixinzhifu"></i>
             </div>
+            <div class="pay-item" v-if="buyType == 0">
+              <el-radio v-model="radio" :label="1">支付宝支付</el-radio>
+              <img class="alipay-icon" src="../../assets/img/alipay.png"></img>
+            </div>
             <div class="pay-item" v-if="buyType == 2">
               <el-radio v-model="radio" :label="2">积分支付</el-radio>
               <img src="../../assets/img/jif1.png" alt="">
@@ -69,7 +73,7 @@
   import Address from '@/components/view/Address'
   import AddressWithEditor from '@/components/view/AddressWithEditor'
   import PayKeyBoard from '@/components/view/PayKeyBoard'
-  import {getDefaultAddress, orderSave, wxPay, pointPay, wxJsPay,getPaySuccInfo,getAddressAndGoods} from "../../http/getData";
+  import {getDefaultAddress, orderSave, wxPay, pointPay, wxJsPay,getPaySuccInfo,getAddressAndGoods, aliPay} from "../../http/getData";
   import {mapActions} from 'vuex'
   import {getLocalStorage, randomStr, setLocalStorage,removeLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
@@ -158,7 +162,6 @@
           ids: this.ids,
           buyType: this.buyType,
         }).then(response => {
-          console.log(response)
           this.radio = response.result.order.buyType
           this.orderId = response.result.order.id
           setLocalStorage("ORDER_ID", response.result.order.id)
@@ -169,6 +172,7 @@
         })
       },
       gotoPay() {
+
         if (this.radio == 0) {
           if (this.isWeiXin()) {
             wxJsPay({
@@ -186,6 +190,12 @@
               window.location.href = response.result.mweb_url
             })
           }
+        }else if(this.radio == 1){
+          aliPay({
+            orderId: this.orderId
+          }).then(response => {
+            window.location.href = response.result
+          })
         } else if (this.radio == 2) {
           this.dialogShow = false
           this.isPay = true

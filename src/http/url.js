@@ -80,5 +80,6 @@ export default {
   feedback:'/app/feedback/save',
   newsDetail: '/app/file/getFileByForeignId',
   getAllSerials: '/app/goods/getGoodsSecondType',
+  aliPay: '/app/pay/aliPay',
   shareGoods: '/app/share/shareGoods/'
 }
