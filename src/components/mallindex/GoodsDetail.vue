@@ -6,7 +6,7 @@
     </mt-header>
     <div class="content" v-if="goodsInfo">
       <mt-swipe :auto="4000" class="swipe">
-        <mt-swipe-item v-for="item in goodsInfo.sowingUrl" :key="item.id"><img :src="item" alt=""></mt-swipe-item>
+        <mt-swipe-item v-for="(item,index) in goodsSwipe" :key="index"><img :src="item" alt=""></mt-swipe-item>
       </mt-swipe>
       <div class="goods-info">
         <div class="goods-detail-info">
@@ -102,7 +102,7 @@
         },
         id: "",
         goodsInfo: null,
-        aaa:["http://img.mezhizp.com/pub/201810091430461274431387.jpg", "http://img.mezhizp.com/pub/goodsShare2.png"]
+        goodsSwipe: []
       }
     },
     methods: {
@@ -272,8 +272,13 @@
       getGoodsByGoodsNum({
         goodsNum: this.id
       }).then(response=>{
-
         this.goodsInfo = response.result
+        let goodsMainImg = response.result.goodsImg
+        response.result.sowingUrl.map((item)=>{
+          if (item != goodsMainImg){
+            this.goodsSwipe.push(item)
+          }
+        })
       }).catch(error=>{})
     }
   }

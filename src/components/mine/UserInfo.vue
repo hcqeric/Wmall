@@ -16,7 +16,9 @@
               <el-upload
                 :class="imageUrl == '' ? 'avatar-uploader' : ''"
                 :action="uploadUrl"
+                webkitdirectory
                 :show-file-list="false"
+                :on-change="fileChange"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload">
                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -61,18 +63,29 @@
               <p>出生日期</p>
             </div>
             <div class="cell-right">
-              <div @click="open('datepicker')">
-                <input type="text" placeholder="选择日期" readonly="readonly" v-model="userbirth">
-                <i class="el-icon-arrow-right"></i>
-              </div>
-              <mt-datetime-picker
-                ref="datepicker"
+              <div class="cell-right-birth">
+              <el-date-picker
+                v-model="value1"
                 type="date"
-                :startDate="startDate"
-                :endDate="endDate"
-                v-model="birthday"
-                @confirm="handleChange">
-              </mt-datetime-picker>
+                :editable="false"
+                prefix-icon="icon-data"
+                clear-icon="icon-clear"
+                placeholder="选择出生日期">
+              </el-date-picker>
+              <i class="el-icon-arrow-right"></i>
+              </div>
+              <!--<div @click="open('datepicker')">-->
+                <!--<input type="text" placeholder="选择日期" readonly="readonly" v-model="userbirth">-->
+                <!--<i class="el-icon-arrow-right"></i>-->
+              <!--</div>-->
+              <!--<mt-datetime-picker-->
+                <!--ref="datepicker"-->
+                <!--type="date"-->
+                <!--:startDate="startDate"-->
+                <!--:endDate="endDate"-->
+                <!--v-model="birthday"-->
+                <!--@confirm="handleChange">-->
+              <!--</mt-datetime-picker>-->
             </div>
           </div>
           <div class="input-cell">
@@ -120,6 +133,7 @@
       name: "UserInfo",
       data(){
         return {
+          value1:'',
           sexs: [],
           birthday:new Date('1903-03-03'),
           startDate: new Date('1900-01-01'),
@@ -305,7 +319,11 @@
           this.imageUrl = URL.createObjectURL(file.raw);
           this.userinfo.logoUrl = res.result.url
         },
+        fileChange(file){
+          console.log(file)
+        },
         beforeAvatarUpload(file){
+          // console.log(file)
           const isLt2M = file.size / 1024 / 1024 < 2;
           if (!isLt2M) {
             Toast({
@@ -345,8 +363,10 @@
         saveInfo(){
           // console.log(this.userinfo.gender)
           // console.log(this.userinfo.birthday)
-          // console.log(this.userinfo.logoUrl)
-          // return
+          if (this.value1){
+            let timestamp = Date.parse(this.value1)
+            this.userinfo.birthday = timestamp
+          }
           if (!isObjectValueEqual(this.userinfo, this.$store.state.user.userInfo)){
             let tk = getLocalStorage(Constants.TOKEN)
             updateUserInfo({
@@ -362,7 +382,6 @@
               gender:this.userinfo.gender,
               birthday:this.userinfo.birthday
             }).then(response=>{
-
               this.setUserInfo(this.userinfo)
               Toast({
                 message: "信息保存成功",
@@ -386,6 +405,7 @@
           }]
           if (this.userinfo.birthday){
             this.userbirth = this.userinfo.birthday.split(" ")[0]
+            this.value1 = this.userinfo.birthday.split(" ")[0]
           }
           let tk = getLocalStorage(Constants.TOKEN)
           this.uploadUrl = `http://api.mezhizp.com/app/file/ftpUpload/headImg/0?token=` + tk
@@ -534,5 +554,28 @@
   }
   .picker-toolbar{
     overflow: hidden;
+  }
+</style>
+<style>
+  .cell-right-birth .el-input>input{
+    border: none;
+    outline: none;
+    text-align: right;
+    padding-left: 0;
+    padding-right: 0;
+    height: 26px;
+    color: #000;
+  }
+  .cell-right-birth .el-date-editor.el-input{
+    width: 153px;
+  }
+  .cell-right-birth .el-input>input::placeholder{
+    color: #757575;
+  }
+  .cell-right-birth .el-input>input::-moz-placeholder{
+    color: #757575;
+  }
+  .cell-right-birth .el-input>input:-ms-placeholder{
+    color: #757575;
   }
 </style>

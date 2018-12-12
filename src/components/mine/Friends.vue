@@ -6,7 +6,7 @@
     <div class="content">
       <Notification title="亲，这是好友推荐须知~" @click.native="toSelectTemplate"></Notification>
       <div class="banner">
-        <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
+        <img src="../../assets/img/header-bg.jpg" alt="">
         <div class="amount">
           <p>好友总人数 (人)</p>
           <p>{{userSum}}</p>

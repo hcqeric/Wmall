@@ -194,6 +194,9 @@
       },
       goBack() {
         this.$router.back()
+        if (dialogShow){
+          this.dialogShow = false
+        }
       },
       onBridgeReady(response) {
         WeixinJSBridge.invoke(
@@ -235,7 +238,7 @@
       if(localStorage.ORDER_ID != undefined){
           MessageBox({
             title: '支付结果确认',
-            message: '请确认微信支付是否已完成',
+            message: '请确认支付是否已完成',
             showCancelButton: true,
             confirmButtonText: '已完成支付',
             cancelButtonText: '支付遇到问题',

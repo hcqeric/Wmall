@@ -79,6 +79,10 @@
               <el-radio v-model="radio" :label="0">微信支付</el-radio>
               <i class="iconfont icon-weixinzhifu"></i>
             </div>
+            <div class="pay-item" v-if="buyType == 0">
+              <el-radio v-model="radio" :label="1">支付宝支付</el-radio>
+              <img class="alipay-icon" src="../../assets/img/alipay.png"/>
+            </div>
             <div class="pay-item" v-if="buyType == 2">
               <el-radio v-model="radio" :label="2">积分支付</el-radio>
               <img src="../../assets/img/jif1.png" alt="">
@@ -102,7 +106,7 @@
   import OrderGoods from '@/components/view/OrderDetailGoods'
   import OrderEvaluationGoods from '@/components/view/OrderEvaluationGoods'
   import PayKeyBoard from '@/components/view/PayKeyBoard'
-  import {getPaySuccInfo,wxPay,pointPay, wxJsPay,orderReceipt} from "../../http/getData"
+  import {getPaySuccInfo,wxPay,pointPay, wxJsPay,orderReceipt, aliPay} from "../../http/getData"
   import {getLocalStorage} from "../../custom/mixin";
   import * as Constants from '../../custom/constants'
   import {mapActions} from 'vuex'
@@ -202,7 +206,7 @@
               setTimeout(()=>{
                 MessageBox({
                   title: '支付结果确认',
-                  message: '请确认微信支付是否已完成',
+                  message: '请确认支付是否已完成',
                   showCancelButton: true,
                   confirmButtonText:'已完成支付',
                   cancelButtonText:'支付遇到问题',
@@ -224,7 +228,13 @@
               },5000)
             })
           }
-        }else if(this.radio == 2){
+        }else if(this.radio == 1){
+          aliPay({
+            orderId: this.orderInfo.id.toString()
+          }).then(response => {
+            window.location.href = response.result
+          })
+        } else if(this.radio == 2){
           this.dialogShow = false
           this.isPay = true
         }

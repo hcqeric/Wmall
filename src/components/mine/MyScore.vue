@@ -6,7 +6,7 @@
     <div class="content" v-if="scores">
       <Notification title="亲，这是兑换积分须知~" @click.native="toSelectTemplate"></Notification>
       <div class="scores">
-        <img src="http://p90m90efq.bkt.clouddn.com/score.jpg" alt="">
+        <img src="../../assets/img/score.jpg" alt="">
         <div class="score">
           <p>可兑换积分</p>
           <p>{{scores.scoreValid}}</p>

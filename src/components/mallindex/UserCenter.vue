@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="user-header">
-      <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
+      <img src="../../assets/img/header-bg.jpg" alt="">
       <div class="userinfo" v-if="userinfo">
         <el-upload
           :class="imageUrl == '' ? 'avatar-uploader' : ''"
@@ -17,8 +17,7 @@
       </div>
     </div>
     <!--我的信息-->
-    <div class="content">
-      <div class="item-list">
+    <div class="item-list">
         <div class="list-top">
           <!--我的信息-->
         <router-link class="item" to="/userinfo">
@@ -134,8 +133,7 @@
           </router-link>
         </div>
       </div>
-      </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -208,16 +206,20 @@
 
 <style scoped>
   .container {
+    position: relative;
     height: 610px;
     margin-bottom: 50px;
   }
 
   .user-header {
     position: relative;
+    width: 100vw;
+    height: 150px;
+    background: linear-gradient(to right, #ab28ff, #dd1b9e);
   }
 
   .user-header img {
-    width: 100%;
+    width: 100vw;
   }
 
   .userinfo {
@@ -248,7 +250,7 @@
   .item-list{
     position: absolute;
     left: 0;
-    top: -60px;
+    top: 90px;
     width: 100%;
     border-radius: 15px 15px 0 0;
     background-color: #efefef;

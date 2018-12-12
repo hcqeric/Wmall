@@ -10,7 +10,8 @@ import {
 } from '@/custom/mixin';
 class Request {
   constructor(){
-    this.Domain = url.baseUrl;
+    // this.Domain = url.baseUrl;
+    this.Domain = '';
   }
   require(options) {
     if (!options.api) throw new Error('api 不能为空');

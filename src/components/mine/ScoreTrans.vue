@@ -5,7 +5,7 @@
     </mt-header>
     <div class="content">
       <div class="trans">
-        <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
+        <img src="../../assets/img/header-bg.jpg" alt="">
         <div class="trans-content">
           <div class="item">
             <div>受让人手机：</div>
@@ -28,7 +28,7 @@
                 <p>赠送积分:</p>
                 <input type="text"   v-model="_score" min="0" >
               </div>
-              <img src="http://p90m90efq.bkt.clouddn.com/money.png" alt="">
+              <img src="../../assets/img/money.png" alt="">
             </div>
             <div class="score-total">
               <p>可赠积分：<span>{{ableScore}}</span></p>

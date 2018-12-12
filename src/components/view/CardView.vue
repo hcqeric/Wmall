@@ -5,7 +5,7 @@
         <p>{{countTitle}}:</p>
         <input type="number"  @change="transBonus" v-model.number="bonus" min="0">
       </div>
-      <img src="http://p90m90efq.bkt.clouddn.com/money.png" alt="">
+      <img src="../../assets/img/money.png" alt="">
     </div>
     <div class="score-total">
       <p>{{totalTitle}}：<span>{{scores}}</span></p>

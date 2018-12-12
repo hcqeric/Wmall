@@ -1,65 +1,67 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import RecommendReg from '@/components/RecommendReg'
-import MallIndex from '@/components/mallindex/MallIndex'
-import CartIndex from '@/components/mallindex/CartIndex'
-import SortIndex from '@/components/mallindex/SortIndex'
-import PromotionIndex from '@/components/mallindex/PromotionIndex'
-import UserIndex from '@/components/mallindex/UserIndex'
-import Payment from '@/components/shopcart/Payment'
-import PaymentSucc from '@/components/shopcart/PaymentSucc'
-import OrderDetail from '@/components/mine/OrderDetail'
-import SelectAddress from '@/components/shopcart/SelectAddress'
-import EditAddress from '@/components/shopcart/EditAddress'
-import GoodsDetail from '@/components/mallindex/GoodsDetail'
-import Evaluations from '@/components/mallindex/Evaluations'
-import PostEvaluation from '@/components/mine/PostEvaluation'
-import LogisticsTracing from '@/components/mine/LogisticsTracing'
-import MyScore from '@/components/mine/MyScore'
-import ScoreTrans from '@/components/mine/ScoreTrans'
-import ExchangeScore from '@/components/mine/ExchangeScore'
-import ScoreDetail from '@/components/mine/ScoreDetail'
-import ExchangeSuccess from '@/components/mine/ExchangeSuccess'
-import ExchangeStates from '@/components/mine/ExchangeStates'
-import ExchangeDetail from '@/components/mine/ExchangeDetail'
-import UserEvaluations from '@/components/mine/UserEvaluations'
-import MyAccount from '@/components/mine/MyAccount'
-import AddCreditCard from '@/components/mine/AddCreditCard'
-import AddAliPay from '@/components/mine/AddAliPay'
-import Friends from '@/components/mine/Friends'
-import SystemSetting from '@/components/mine/SystemSetting'
-import ManagePass from '@/components/mine/ManagePass'
-import SystemNotice from '@/components/mine/SystemNotice'
-import UpdatePass from '@/components/mine/UpdatePass'
-import ScoreTypesState from '@/components/mine/ScoreTypesState'
-import ScoreRecord from '@/components/mine/ScoreRecord'
-import Repurchase from '@/components/shopcart/Repurchase'
-import UserInfo from '@/components/mine/UserInfo'
-import OrderCenter from '@/components/mine/OrderCenter'
-import Refunds from '@/components/mine/Refunds'
-import RefundSuccess from '@/components/mine/RefundSuccess'
-import SetPayPass from '@/components/mine/SetPayPass'
-import SelectTemplate from '@/components/mine/SelectTemplate'
-import Play from '@/components/mine/Play'
-import ForgetPass from '@/components/ForgetPass'
-import Login from '@/components/Login'
-import PromotionDetail from '@/components/promotion/PromotionDetail'
-import SortDetail from '@/components/sort/SortDetail'
-import SearchList from '@/components/home/SearchList'
-import RefundApply from '@/components/mine/RefundApply'
-import News from '@/components/promotion/News'
-import CompanyIntro from '@/components/promotion/CompanyIntro'
-import PaymentFail from '@/components/shopcart/PaymentFail'
-import Feedback from '@/components/mine/Feedback'
-import NewsDetail from '@/components/promotion/NewsDetail'
-import MZCollege from '@/components/promotion/MZCollege'
-import MZCollegeBranchDocs from '@/components/promotion/MZCollegeBranchDocs'
-import MZCollegeBranchPdfs from '@/components/promotion/MZCollegeBranchPdfs'
-import Materials from '@/components/promotion/Materials'
-import Find from '@/components/promotion/Find'
-import MyPromotion from '@/components/promotion/MyPromotion'
-import QrCodeGoodsDetail from '@/components/qrshare/QrCodeGoodsDetail'
-import ShareGoods from '@/components/qrshare/ShareGoods'
+
+const RecommendReg = () => import('@/components/RecommendReg')
+const MallIndex = () => import('@/components/mallindex/MallIndex')
+const CartIndex = () => import('@/components/mallindex/CartIndex')
+const SortIndex = () => import('@/components/mallindex/SortIndex')
+const PromotionIndex = () => import('@/components/mallindex/PromotionIndex')
+const UserIndex = () => import('@/components/mallindex/UserIndex')
+const Payment = () => import('@/components/shopcart/Payment')
+const PaymentSucc = () => import('@/components/shopcart/PaymentSucc')
+const OrderDetail = () => import('@/components/mine/OrderDetail')
+const SelectAddress = () => import('@/components/shopcart/SelectAddress')
+const EditAddress = () => import('@/components/shopcart/EditAddress')
+const GoodsDetail = () => import('@/components/mallindex/GoodsDetail')
+const Evaluations = () => import('@/components/mallindex/Evaluations')
+const PostEvaluation = () => import('@/components/mine/PostEvaluation')
+const LogisticsTracing = () => import('@/components/mine/LogisticsTracing')
+const MyScore = () => import('@/components/mine/MyScore')
+const ScoreTrans = () => import('@/components/mine/ScoreTrans')
+const ExchangeScore = () => import('@/components/mine/ExchangeScore')
+const ScoreDetail = () => import('@/components/mine/ScoreDetail')
+const ExchangeSuccess = () => import('@/components/mine/ExchangeSuccess')
+const ExchangeStates = () => import('@/components/mine/ExchangeStates')
+const ExchangeDetail = () => import('@/components/mine/ExchangeDetail')
+const UserEvaluations = () => import('@/components/mine/UserEvaluations')
+const MyAccount = () => import('@/components/mine/MyAccount')
+const AddCreditCard = () => import('@/components/mine/AddCreditCard')
+const AddAliPay = () => import('@/components/mine/AddAliPay')
+const Friends = () => import('@/components/mine/Friends')
+const SystemSetting = () => import('@/components/mine/SystemSetting')
+const ManagePass = () => import('@/components/mine/ManagePass')
+const SystemNotice = () => import('@/components/mine/SystemNotice')
+const UpdatePass = () => import('@/components/mine/UpdatePass')
+const ScoreTypesState = () => import('@/components/mine/ScoreTypesState')
+const ScoreRecord = () => import('@/components/mine/ScoreRecord')
+const Repurchase = () => import('@/components/shopcart/Repurchase')
+const UserInfo = () => import('@/components/mine/UserInfo')
+const OrderCenter = () => import('@/components/mine/OrderCenter')
+const Refunds = () => import('@/components/mine/Refunds')
+const RefundSuccess = () => import('@/components/mine/RefundSuccess')
+const SetPayPass = () => import('@/components/mine/SetPayPass')
+const SelectTemplate = () => import('@/components/mine/SelectTemplate')
+const Play = () => import('@/components/mine/Play')
+const ForgetPass = () => import('@/components/ForgetPass')
+const Login = () => import('@/components/Login')
+const PromotionDetail = () => import('@/components/promotion/PromotionDetail')
+const SortDetail = () => import('@/components/sort/SortDetail')
+const SearchList = () => import('@/components/home/SearchList')
+const RefundApply = () => import('@/components/mine/RefundApply')
+const News = () => import('@/components/promotion/News')
+const CompanyIntro = () => import('@/components/promotion/CompanyIntro')
+const PaymentFail = () => import('@/components/shopcart/PaymentFail')
+const Feedback = () => import('@/components/mine/Feedback')
+const NewsDetail = () => import('@/components/promotion/NewsDetail')
+const MZCollege = () => import('@/components/promotion/MZCollege')
+const MZCollegeBranchDocs = () => import('@/components/promotion/MZCollegeBranchDocs')
+const MZCollegeBranchPdfs = () => import('@/components/promotion/MZCollegeBranchPdfs')
+const Materials = () => import('@/components/promotion/Materials')
+const Find = () => import('@/components/promotion/Find')
+const MyPromotion = () => import('@/components/promotion/MyPromotion')
+const QrCodeGoodsDetail = () => import('@/components/qrshare/QrCodeGoodsDetail')
+const ShareGoods = () => import('@/components/qrshare/ShareGoods')
+
 
 Vue.use(Router)
 
@@ -131,7 +133,7 @@ let router = new Router({
       meta: { requiresAuth: true }
     },
     {
-      path: '/payment/:id',
+      path: '/payment/:id?',
       name: 'Payment',
       component: Payment
     },

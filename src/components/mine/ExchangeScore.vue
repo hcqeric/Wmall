@@ -5,7 +5,7 @@
     </mt-header>
     <div class="content">
       <div class="trans">
-        <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
+        <img src="../../assets/img/header-bg.jpg" alt="">
         <div class="trans-content" v-if="cardNo">
           <p>兑换账户：</p>
           <p>{{cardNo| bankcardFormat}}</p>

@@ -5,7 +5,7 @@
     </mt-header>
     <div class="content">
       <div class="banner">
-        <img src="http://p90m90efq.bkt.clouddn.com/header-bg.jpg" alt="">
+        <img src="../../assets/img/header-bg.jpg" alt="">
         <div class="amount">
           <p v-if="orderScoreDetail.type == 4">订单积分</p>
           <p v-else>交易积分</p>
