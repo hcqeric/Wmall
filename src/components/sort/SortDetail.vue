@@ -111,6 +111,8 @@
           }).then(response => {
             if(response.result.length == 0){
               this.isNoList = true
+            }else{
+              this.isNoList = false
             }
             response.result.map(item => {
               this.serials.push(item)
@@ -128,6 +130,20 @@
             limit: this.limit,
             goodsTypeId: this.categoryId.toString()
           }).then(response => {
+            console.log("aaaaaaaa")
+            console.log(this.isNoList)
+            console.log("AAAAAAAAAA")
+            console.log(response.result.totalCount)
+            if (response.result.totalCount > 0){
+              console.log("BBBBBB")
+              this.isNoList = false
+            } else{
+              console.log("CCCCCCCCC")
+              this.isNoList = true
+            }
+            console.log("dddddddd")
+            console.log(this.isNoList)
+            console.log("dddddddd")
             this.loading = false;
             if(response.result.currPage == 1 && response.result.totalPage < response.result.currPage) {
               this.allLoaded = true

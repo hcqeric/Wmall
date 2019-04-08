@@ -87,7 +87,7 @@
               limit: this.limit,
               goodsTypeId: this.categoryId.toString()
             }).then(response => {
-              if(response.result.list == undefined){
+              if(response.result.totalCount == 0){
                 this.showNoGoods = true
               }else{
                 this.showNoGoods = false

@@ -3,7 +3,9 @@
       <div  @click="gotoGoodsDetail">
       <img v-if="goodsType == 1" :src="goodsItem.goodsImg" alt="">
       <img v-if="goodsType == 2" :src="goodsItem.goodsImg" alt="">
-      <p>{{goodsItem.name}}</p>
+      <!--<p>{{goodsItem.name}}</p>-->
+      <p v-if="goodsItem.name.length > 8"  class="goods-item-name">{{goodsItem.name.substring(0, 8)}}...</p>
+      <p v-else class="goods-item-name">{{goodsItem.name}}</p>
       <p v-if="goodsItem.type == 1">{{goodsItem.sellPrice|moneyFormat}}</p>
       <p v-if="goodsItem.type == 2">{{goodsItem.bonusPrice}}积分</p>
       <div class="bdan-price"><span v-if="goodsItem.bdanPrice != undefined || goodsItem.bdanPrice != ''"><s>{{goodsItem.bdanPrice | moneyFormat}}</s></span></div>
@@ -77,11 +79,21 @@
   .goods-item p{
     padding: 4px 0;
   }
-  .goods-item p:first-child{
+  .goods-item-name{
+    height: 20px;
+    line-height: 20px;
     font-size: 14px;
     color: #000;
   }
+  /*.goods-item p:first-child{*/
+    /*height: 20px;*/
+    /*line-height: 20px;*/
+    /*font-size: 14px;*/
+    /*color: #000;*/
+  /*}*/
   .goods-item p:last-of-type{
+    height: 24px;
+    line-height: 24px;
     font-size: 16px;
     color: #c053fa;
   }
