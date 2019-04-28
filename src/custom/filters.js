@@ -67,14 +67,13 @@ Vue.filter('moneyFormat', function (value, currency, decimals) {
 Vue.filter('bankcardFormat', function (value, showlength) {
   showlength = showlength != null ? showlength : 4
   let length = value.toString().length
-
-  let replaceString = ''
+  let strArr = value.toString().split("")
   for (let index = 0; index < length; index++) {
     if (index > showlength - 1 && index < length - showlength) {
-      replaceString += '*'
+      strArr[index] = '*'
     }
   }
-  return value.replace(value.substring(showlength, length - showlength), replaceString)
+  return strArr.join("")
 })
 
 Vue.filter('firstFilePath', function (json) { //获取第一个文件路径
